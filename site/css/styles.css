@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #ffffff;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --meta: #64748b;
+  --primary: #3b82f6;
+  --accent: #2563eb;
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-md: 0 10px 25px rgba(0,0,0,0.1);
+  --header-bg: #f8fafc;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.stats {
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.statistic {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 360px !important;          /* Все карточки одинаковые и меньше */
+  display: flex;
+  flex-direction: column;
+}
+
+.statistic:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.statistic-link-wrapper {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.block-header {
+  padding: 14px 20px;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.block-header .subtitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--meta);
+  margin-top: 0.2em;
+  display: block;
+}
+
+.text-hover-effect-1 {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+/* Цвет текста при наведении на ВСЮ карточку */
+.statistic:hover .text-hover-effect-1 {
+  color: var(--primary);
+}
+
+/* Анимация линии при наведении на ВСЮ карточку */
+.statistic:hover .text-hover-effect-1::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+
+.text-hover-effect-1::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.text-hover-effect-1:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.statistic-content {
+  padding: 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.statistic-value-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.4em 0 0.8em;
+  gap: 12px;
+  min-height: 90px;           /* Компактная зона числа */
+}
+
+.statistic-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.statistic-value {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  min-width: 130px;
+  justify-content: flex-start;
+}
+
+.unit {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-left: 0.08em;
+  color: var(--primary);
+}
+
+.statistic-meta {
+  font-size: 0.9rem;
+  color: var(--meta);
+  margin-bottom: 0.4em;
+}
+
+.statistic-meta.highlight {
+  color: #c026d3;
+  font-weight: 600;
+}
+
+.statistic-link-text {
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 500;
+  transition: color 0.2s;
+  align-self: center;
+}
+
+.statistic:hover .statistic-link-text {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* График — такая же высота */
+.chart-card {
+  min-height: 320px;
+}
+
+.chart-content {
+  flex: 1;
+  padding: 16px 20px;
+  position: relative;
+  min-height: 200px;
+}
+
+#chartCanvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.dots {
+  text-align: center;
+  padding: 10px 0;
+  background: var(--header-bg);
+  border-top: 1px solid var(--border);
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  background: #cbd5e1;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dot.active {
+  background: var(--primary);
+  transform: scale(1.3);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (min-width: 992px) {
+  .stats {
+    grid-template-columns: 35% 35% 40%;
+  }
+  .statistic,
+  .chart-card {
+    min-height: 340px;        /* Все одинаковые на десктопе */
+  }
+  .statistic-value { font-size: 3.8rem; }
+  .unit { font-size: 2rem; }
+  .statistic-icon { width: 56px; height: 56px; }
+  .statistic-value-wrapper { min-height: 100px; }
+  .chart-content { min-height: 220px; }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .statistic,
+  .chart-card {
+    min-height: 330px;
+  }
+}
+
+@media (max-width: 576px) {
+  .statistic,
+  .chart-card {
+    min-height: 280px;
+  }
+  .statistic-value { font-size: 2.8rem; }
+  .unit { font-size: 1.6rem; }
+  .statistic-icon { width: 44px; height: 44px; }
+  .block-header { font-size: 1.1rem; padding: 12px 16px; }
+  .block-header .subtitle { font-size: 0.85rem; }
+  .chart-content { min-height: 180px; }
+}
+body{
+margin:0;
+font-family:Arial, sans-serif;
+}
+
+.navbar{
+background:#ffffff;
+border-bottom:1px solid #e5e5e5;
+}
+
+.menu{
+list-style:none;
+margin:0;
+padding:0;
+display:flex;
+}
+
+.menu-item{
+position:relative;
+}
+
+.menu a{
+display:block;
+padding:14px 18px;
+text-decoration:none;
+color:#333;
+font-weight:500;
+}
+
+.menu a:hover{
+color:#0b5ed7;
+}
+
+/* dropdown */
+
+.dropdown-menu{
+position:absolute;
+top:100%;
+left:0;
+background:white;
+list-style:none;
+padding:8px 0;
+margin:0;
+min-width:260px;
+border-radius:6px;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
+opacity:0;
+visibility:hidden;
+transform:translateY(10px);
+transition:0.25s;
+}
+
+.dropdown-menu li a{
+padding:10px 16px;
+color:#444;
+}
+
+.dropdown-menu li a:hover{
+background:#f5f7fb;
+}
+
+/* показать */
+
+.dropdown:hover > .dropdown-menu{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
+}
+
+/* второй уровень */
+
+.dropdown-sub{
+position:relative;
+}
+
+.dropdown-sub .dropdown-menu{
+top:0;
+left:100%;
+}
+.navbar{
+  position: sticky;
+  top:0;
+  z-index:1000;
+}
