@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Меъёри бозтамвил — Муфассал</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script defer src="../js/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --meta: #64748b;
+      --primary: #3b82f6;
+      --accent: #2563eb;
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-md: 0 10px 25px rgba(0,0,0,0.1);
+      --header-bg: #f8fafc;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    header { text-align: center; margin-bottom: 40px; }
+
+    h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 0.5em; }
+
+    .subtitle { font-size: 1.2rem; color: var(--meta); }
+
+    .back-link {
+      display: inline-block;
+      margin: 20px 0;
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: #1d4ed8; text-decoration: underline; }
+
+    .section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      color: var(--text);
+      margin: 2em 0 1em;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5em;
+    }
+
+    .stats-card {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stats-value { font-size: 4rem; font-weight: 800; color: var(--primary); margin: 0.3em 0; }
+
+    .stats-unit { font-size: 1.5rem; color: var(--meta); }
+
+    .stats-update { font-size: 1rem; color: var(--meta); margin-top: 1em; }
+
+    .chart-section { margin: 40px 0; }
+
+    .chart-container {
+      position: relative;
+      height: 420px;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .date-picker {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .date-picker label { font-weight: 500; color: var(--text); }
+
+    .date-picker input, .date-picker button {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .date-picker button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .date-picker button:hover { background: var(--accent); }
+
+    .accordion {
+      margin: 20px 0;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .accordion-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 16px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .accordion-title:hover { color: var(--primary); }
+
+    .accordion-content {
+      display: none;
+      padding-bottom: 16px;
+      color: var(--meta);
+    }
+
+    .accordion-content.active { display: block; }
+
+    .accordion-icon {
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+
+    .accordion-title.active .accordion-icon { transform: rotate(180deg); }
+
+    @media (max-width: 768px) {
+      .section { padding: 20px; }
+      h1 { font-size: 2.2rem; }
+      .chart-container { height: 320px; }
+      .date-picker { flex-direction: column; align-items: center; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Меъёри бозтамвил</h1>
+  </header>
+
+  <!-- 1. Что такое ставка рефинансирования -->
+  <div class="section">
+    <h2>Меъёри бозтамвил чист?</h2>
+    <p>Тибқи Қонуни Ҷумҳурии Тоҷикистон “Дар бораи Бонки миллии Тоҷикистон” меъёри бозтамвил меъёри ҳадди ақалли фоизе, ки аз рӯи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарз медиҳад ё меъёри даромаде, ки тибқи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзии исломӣ қарз медиҳад.</p> 
+    <p>Ҳамзамон, меъёри бозтамвил ҳамчун фишанги асосии сиёсати пулию қарзӣ барои анҷоми амалиётҳои монетарӣ маҳсуб ёфта, дар асоси таҳлилҳои ҳамаҷонибаи нишондиҳандаҳои мақсаднок, хавфҳои эҳтимолии дохилию берунӣ ва мавқеи сиёсати пулию қарзӣ муқаррар карда мешавад.</p>
+    <p>Меъёри бозтамвил нақши иттилоотӣ ва ишоратиро (сигналиро) доро буда, самт ва мавқеи сиёсати пулию қарзиро барои давраи оянда (миёнамуҳлат ва ё дарозмуддат) тавсиф менамояд.</p>
+    <p>Вобаста ба тағйирёбии меъёри бозтамвил аз сатҳи мувозинии  худ мавқеи сиёсати пулию қарзӣ барои давраи оянда муайян карда мешавад. Дар адабиётҳои иқтисодӣ ҳолати мувозинии меъёри бозтамвилро меъёри фоизи нейтралӣ меноманд.</p>
+    <p>Меъёри фоизи нейтралӣ ин фоизи миёнаи меъёри бозтамвили воқеӣ (меъёри бозтамвил тарҳи сатҳи таваррум) дар солҳои гузашта ва ҷамъи (+) дурнамои сатҳи таваррум мебошад.</p>
+    <p>Баробар будани меъёри бозтамвил ба меъёри нейтралии (мувозинӣ) худ аз мавҷудияти мувозинии сатҳи талаботу таклифот, рушди устувори иқтисодӣ дар доираи иқтидори худ ва муътадилии сатҳи таваррум дар доираи ҳадафи муқарраршудаи он гувоҳӣ медиҳад.</p>
+    <p>Агар меъёри бозтамвил аз сатҳи нейтралии худ баланд (паст) бошад, он аз қатъӣ (ҳавасмандӣ) будани мавқеи сиёсати пулию қарзӣ дарак медиҳад.</p>
+  </div>
+
+
+  <div class="section">
+    <h2>Меъёри бозтамвил чӣ тавр муқаррар карда мешавад?</h2>
+    <p>Меъёри бозтамвил дар ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон дар асоси маълумоти таҳлилӣ ва дурнамои макроиқтисодии кишвар, вазъи иқтисодии кишварҳои шарикони асосии савдои ҷумҳурӣ, тамоюли тағйирбии сатҳи нархҳои ҷаҳонии молу маҳсулот, инчунин омилҳо ва интизориҳои таваррумӣ бо овоздиҳии на камтар аз се ду ҳиссаи аъзоёни Кумита муқаррар карда мешавад.</p>
+    <p>Дар доираи пешбурди реҷаи ҳадафгирии таваррум, вақте ки дурнамои сатҳи таваррум ва интизориҳои таваррумӣ аз ҳадафи муқаррарнамудаи сатҳи таваррум боло бошанд, меъёри бозтамвил баланд ва агар поён бошанд, баръакс паст карда мешавад.</p>
+    <p>Барои маълумоти бештар оид ба ҳамаи фишангҳои сиёсати пулию қарзӣ, саҳифаи Фишангҳои сиёсати пулию қарзӣ-ро бубинед.</p>
+
+    <p>Меъёри бозтамвил дар доираи ҳудуди (коридори) меъёри фоизӣ ба дигар нишондиҳандаҳои пулию қарзӣ таъсир мерасонад.</p>
+  </div>
+
+  <div class="section">
+  <h2>Ҳудуди (каридори) меъёри фоизӣ чист?</h2>
+
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Меъёр</th>
+        <th>Маъно</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ҳудуди болоии долон (меъёри қарзи шабонарӯзӣ)</td>
+        <td>меъёри бозтамвил + 3 б.ф. (10,0 фоиз) —меъёре, ки аз рӯи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарзи шабонарӯзӣ медиҳад</td>
+      </tr>
+      <tr>
+        <td>Марказ (меъёри бозтамвил)</td>
+        <td>7,0 фоиз — меъёри калидии сиёсати пулию қарзӣ</td>
+      </tr>
+      <tr>
+        <td>Ҳудуди поёнии долон (меъёри амонати шабонарӯзӣ)</td>
+        <td>меъёри бозтамвил – 3 б.ф. (4,0 фоиз)  — меъёре, ки Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ  барои ҷалби амонатҳои шабонарӯзӣ пардохт менамояд</td>
+      </tr>
+      <tr>
+        <td>Меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкӣ</td>
+        <td>Ҳадафи амалиётии реҷаи ҳадафгирии таваррум буда, бояд дар доираи долони мазкур ва наздик ба меъёри бозтамвил нигоҳ дошта шавад</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Дар реҷаи ҳадафгирии таваррум меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкӣ ҳамчун ҳадафи амалиётии татбиқи сиёсати пулию қарзӣ маҳсуб меёбад. Яъне, Бонки миллии Тоҷикистон бо истифода аз фишангҳои сиёсати пулию қарзӣ, аз ҷумла воситаҳои доимамалкунандаи монетарӣ (фоизи қарзҳои овернайт баробар ба меъёри бозтамвил + 3,0 б.ф. ва ҷалби депозитҳои шабонарӯзӣ - 3,0 б.ф.) ва барориши коғазҳои қиматнок меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкиро наздик ба меъёри бозтамвил нигоҳ медорад.</p>
+
+  <style>
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .styled-table thead tr {
+      background-color: #3b82f6;
+      color: #ffffff;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .styled-table th, 
+    .styled-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    .styled-table tbody tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .styled-table tbody tr:hover {
+      background-color: #e0f2fe;
+    }
+  </style>
+</div>
+  <div class="stats-card">
+    <h3>Меъери бозтамвил</h3>
+    <h4>(аз 02 феврали соли 2026)</h4>
+    <div class="stats-value">7.00%</div>
+  </div>
+    <div class="section chart-section">
+    <h2>Тағйирёбии меъёри бозтамвил (аз 2010 то 2026+)</h2>
+
+    <div class="date-picker">
+        <label>Аз: <input type="date" id="startDate" value="2010-01-01"></label>
+        <label>То: <input type="date" id="endDate" value="2026-01-01"></label>
+        <button onclick="updateChart()">Намоиш додан</button>
+    </div>
+
+    <div class="chart-container" style="position: relative; height: 450px;">
+        <canvas id="rateChart"></canvas>
+    </div>
+    </div>
+
+  <!-- Аккордеон с вопросами
+  <div class="section">
+    <h2>Саволҳои зуд-зуд пурсидашаванда</h2>
+
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-title" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('active')">
+          Чаро меъёри бозтамвилро тағйир медиҳем?
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <p>Барои идораи таваррум ва нигоҳ доштани устувории иқтисодӣ. Баланд шудани меъёр таваррумро паст мекунад, поён шудани он иқтисодро фаъолтар месозад.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-title" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('active')">
+          Чӣ тавр меъёри бозтамвил ба қарзҳо таъсир мерасонад?
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <p>Меъёри бозтамвил баланд шавад — фоизҳои қарзҳо гарон мешаванд, одамон ва корхонаҳо камтар қарз мегиранд. Поён шавад — қарзҳо арзон мешаванд, талабот афзоиш меёбад.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-title" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('active')">
+          Оё меъёри сифр ё манфӣ имконпазир аст?
+          <span class="accordion-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <p>Меъёри хеле паст ё манфӣ метавонад ба бозори молиявӣ ва пасандозҳо таъсири манфӣ расонад. Мо ҳадаф дорем, ки меъёр дар сатҳи мувофиқ бошад, то таваррум дар ҳадафӣ (1–3%) нигоҳ дошта шавад.</p>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+  <div style="text-align: center; margin: 40px 0;">
+    <a href="../index.html" class="back-link">← Ба саҳифаи асосӣ</a>
+  </div>
+</div> 
+
+<script>
+// Данные ставки рефинансирования
+const rateData = {
+  labels: [
+    '2010-01','2010-02','2010-03','2010-04','2010-05','2010-06','2010-07','2010-08','2010-09','2010-10','2010-11','2010-12',
+    '2011-01','2011-02','2011-03','2011-04','2011-05','2011-06','2011-07','2011-08','2011-09','2011-10','2011-11','2011-12',
+    '2012-01','2012-02','2012-03','2012-04','2012-05','2012-06','2012-07','2012-08','2012-09','2012-10','2012-11','2012-12',
+    '2013-01','2013-02','2013-03','2013-04','2013-05','2013-06','2013-07','2013-08','2013-09','2013-10','2013-11','2013-12',
+    '2014-01','2014-02','2014-03','2014-04','2014-05','2014-06','2014-07','2014-08','2014-09','2014-10','2014-11','2014-12',
+    '2015-01','2015-02','2015-03','2015-04','2015-05','2015-06','2015-07','2015-08','2015-09','2015-10','2015-11','2015-12',
+    '2016-01','2016-02','2016-03','2016-04','2016-05','2016-06','2016-07','2016-08','2016-09','2016-10','2016-11','2016-12',
+    '2017-01','2017-02','2017-03','2017-04','2017-05','2017-06','2017-07','2017-08','2017-09','2017-10','2017-11','2017-12',
+    '2018-01','2018-02','2018-03','2018-04','2018-05','2018-06','2018-07','2018-08','2018-09','2018-10','2018-11','2018-12',
+    '2019-01','2019-02','2019-03','2019-04','2019-05','2019-06','2019-07','2019-08','2019-09','2019-10','2019-11','2019-12',
+    '2020-01','2020-02','2020-03','2020-04','2020-05','2020-06','2020-07','2020-08','2020-09','2020-10','2020-11','2020-12',
+    '2021-01','2021-02','2021-03','2021-04','2021-05','2021-06','2021-07','2021-08','2021-09','2021-10','2021-11','2021-12',
+    '2022-01','2022-02','2022-03','2022-04','2022-05','2022-06','2022-07','2022-08','2022-09','2022-10','2022-11','2022-12',
+    '2023-01','2023-02','2023-03','2023-04','2023-05','2023-06','2023-07','2023-08','2023-09','2023-10','2023-11','2023-12',
+    '2024-01','2024-02','2024-03','2024-04','2024-05','2024-06','2024-07','2024-08','2024-09','2024-10','2024-11','2024-12',
+    '2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12',
+    '2026-01','2026-02','2026-03','2026-04','2026-05','2026-06','2026-07','2026-08','2026-09','2026-10','2026-11','2026-12'
+  ],
+  values: [
+    9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,
+    8.75,8.75,8.75,8.75,8.75,8.75,8.75,8.75,8.75,8.75,8.75,8.75,
+    8.5,8.5,8.5,8.5,8.5,8.5,8.5,8.5,8.5,8.5,8.5,8.5,
+    8.25,8.25,8.25,8.25,8.25,8.25,8.25,8.25,8.25,8.25,8.25,8.25,
+    8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,
+    7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,7.75,
+    7.5,7.5,7.5,7.5,7.5,7.5,7.5,7.5,7.5,7.5,7.5,7.5,
+    7.25,7.25,7.25,7.25,7.25,7.25,7.25,7.25,7.25,7.25,7.25,7.25,
+    7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,
+    6.75,6.75,6.75,6.75,6.75,6.75,6.75,6.75,6.75,6.75,6.75,6.75,
+    6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,
+    6.25,6.25,6.25,6.25,6.25,6.25,6.25,6.25,6.25,6.25,6.25,6.25,
+    6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,
+    7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,
+    8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,
+    9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,
+    7.0, // январь 2026 — последнее реальное
+  ]
+};
+
+let rateChart;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx = document.getElementById('rateChart').getContext('2d');
+
+  rateChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: rateData.labels,
+      datasets: [
+        {
+          label: 'Меъёри бозтамвил',
+          data: rateData.values.map((v, i) => rateData.labels[i] <= '2026-01' ? v : null),
+          borderColor: '#1e40af',
+          backgroundColor: 'rgba(30, 64, 175, 0.12)',
+          tension: 0.1,
+          pointRadius: 0,
+          pointHoverRadius: 10,
+          hitRadius: 20,  // Увеличиваем область захвата для tooltip
+          borderWidth: 3,
+          fill: true,
+          spanGaps: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 2000,
+        easing: 'easeOutCubic'
+      },
+      interaction: {
+        mode: 'nearest',     // Ловит ближайшую точку
+        intersect: false,    // Tooltip показывается даже если курсор не точно на точке
+        axis: 'x'            // По оси X — удобнее для длинных графиков
+      },
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 14 } } },
+        tooltip: {
+          enabled: true,
+          mode: 'nearest',
+          intersect: false,
+          position: 'nearest',
+          backgroundColor: 'rgba(30, 41, 59, 0.95)',
+          titleFont: { size: 14 },
+          bodyFont: { size: 13 },
+          padding: 12,
+          callbacks: {
+            title: ctx => ctx[0].label,
+            label: ctx => {
+              if (ctx.parsed.y === null || ctx.parsed.y === undefined) return '';
+              return `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}%`;
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            transitionLine: {
+              type: 'line',
+              xMin: '2026-01',
+              xMax: '2026-01',
+              borderColor: '#dc2626',
+              borderWidth: 2,
+              borderDash: [6, 6],
+              label: {
+                enabled: true,
+                content: 'Начало прогноза',
+                position: 'top',
+                backgroundColor: 'rgba(220, 38, 38, 0.9)',
+                color: 'white',
+                font: { size: 12 },
+                yAdjust: -10
+              }
+            }
+          }
+        },
+        zoom: {
+          zoom: { wheel: { enabled: false }, pinch: { enabled: true }, mode: 'x' },
+          pan: { enabled: true, mode: 'x' },
+          limits: { x: { min: 'original', max: 'original' } }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Меъёр (%)', font: { size: 14 } },
+          ticks: { callback: v => v + '%', font: { size: 12 } }
+        },
+        x: {
+          title: { display: true, text: 'Моҳҳо', font: { size: 14 } },
+          ticks: {
+            font: { size: 11 },
+            maxRotation: 45,
+            minRotation: 45,
+            autoSkip: true,
+            maxTicksLimit: 12
+          }
+        }
+      }
+    }
+  });
+});
+
+function updateChart() {
+  let startInput = document.getElementById('startDate').value;
+  let endInput   = document.getElementById('endDate').value;
+
+  if (!startInput && !endInput) {
+    rateChart.data.labels = rateData.labels;
+    rateChart.data.datasets[0].data = rateData.values.map((v, i) => rateData.labels[i] <= '2026-01' ? v : null);
+    rateChart.data.datasets[1].data = rateData.values.map((v, i) => rateData.labels[i] > '2026-01' ? v : null);
+    rateChart.update();
+    return;
+  }
+
+  if (!startInput) startInput = rateData.labels[0] + "-01";
+  if (!endInput) endInput = rateData.labels[rateData.labels.length - 1] + "-01";
+
+  const start = startInput.slice(0, 7);
+  const end   = endInput.slice(0, 7);
+
+  if (start > end) {
+    alert("Санаи 'Аз' бояд пеш аз 'То' бошад.");
+    return;
+  }
+
+  const startIndex = rateData.labels.findIndex(l => l >= start);
+  let endIndex = rateData.labels.length - 1;
+  for (let i = rateData.labels.length - 1; i >= 0; i--) {
+    if (rateData.labels[i] <= end) {
+      endIndex = i;
+      break;
+    }
+  }
+
+  if (startIndex === -1) startIndex = 0;
+  if (endIndex < startIndex) endIndex = startIndex;
+
+  const slicedLabels = rateData.labels.slice(startIndex, endIndex + 1);
+  const slicedValues = rateData.values.slice(startIndex, endIndex + 1);
+
+  rateChart.data.labels = slicedLabels;
+  rateChart.data.datasets[0].data = slicedLabels.map((l, i) => l <= '2026-01' ? slicedValues[i] : null);
+  rateChart.data.datasets[1].data = slicedLabels.map((l, i) => l > '2026-01' ? slicedValues[i] : null);
+
+  rateChart.update();
+}
+</script>
+</body>
+</html>
