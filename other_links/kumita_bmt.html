@@ -123,10 +123,46 @@
       font-size: 0.95rem;
     }
   }
+
+
+    /* ===== LANGUAGE SWITCHER UI ===== */
+    .lang-switcher {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        gap: 8px;
+        z-index: 9999;
+    }
+
+    .lang-switcher button {
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        background: #ffffff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        transition: 0.2s;
+    }
+
+    .lang-switcher button:hover {
+        transform: scale(1.08);
+    }
+
+    .lang-switcher button.active {
+        background: #005eff30;
+        color: white;
+    }
 </style>
 </head>
 <body>
-
+  <div class="lang-switcher">
+    <button onclick="setLang('tj')" id="btn-tj">🇹🇯</button>
+    <button onclick="setLang('ru')" id="btn-ru">🇷🇺</button>
+    <button onclick="setLang('en')" id="btn-en">🇬🇧</button>
+  </div>
   <h1>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h1>
 
   <p>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ҳамчун мақоми мустақили доимамалкунандаи машваратӣ мутобиқи Қонуни Ҷумҳурии Тоҷикистон “Дар бораи Бонки миллии Тоҷикистон”, Низомномаи Кумита сиёсати пулию қарзии Бонки миллии Тоҷикистон ва дигар санадҳои меъёрии ҳуқуқии Бонки миллии Тоҷикистон таъсис ёфтааст.</p>
@@ -162,10 +198,10 @@
     </thead>
     <tbody>
       <tr><td>1</td><td>Толибзода Фирдавс Назримад</td><td>Раиси Кумита - раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-01</td></tr>
-      <tr><td>2</td><td>Шарифзода Фируз Хомиддин</td><td>Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-03</td></tr>
-      <tr><td>3</td><td>Убайдуллоев Диловар Шамолиддинович</td><td>Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</td><td class="phone">+(992 44) 600-31-43</td></tr>
-      <tr><td>4</td><td>Бояков Зиёратшо Ғуломович</td><td>Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</td><td class="phone">+(992 44) 600-31-82</td></tr>
-      <tr><td>5</td><td>Мамадалиев Фарухруз Сайфиддинович</td><td>Директори пажӯҳишгоҳи илмӣ-тадқиқотӣ</td><td class="phone">+(992 44) 600-31-06</td></tr>
+      <tr><td>2</td><td>Шарифзода Фируз Ҳомиддин</td><td>Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-03</td></tr>
+      <tr><td>3</td><td>Убайдуллоев Диловар Шамолиддинович</td><td>Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</td><td class="phone">+(992 44) 600-31-46</td></tr>
+      <tr><td>4</td><td>Бояков Зиёратшо Ғуломович</td><td>Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</td><td class="phone">+(992 44) 600-31-83</td></tr>
+      <tr><td>5</td><td>Мамадалиев Фарухруз Сайфиддинович</td><td>Директори пажуҳишгоҳи илмӣ-тадқиқотӣ</td><td class="phone">+(992 44) 600-31-06</td></tr>
       <tr><td>6</td><td>Баҳридинов Бахтиёр Амридинович</td><td>Директори департаменти омор ва тавозуни пардохт</td><td class="phone">+(992 44) 600-31-49</td></tr>
       <tr><td>7</td><td>Қурбоналиева Нигина Мардоновна</td><td>Сардори идораи суботи молиявӣ</td><td class="phone">+(992 44) 600-31-66</td></tr>
       <tr><td>8</td><td>Сатторзода Умеда Саймумин</td><td>Сардори идораи бозори молиявӣ</td><td class="phone">+(992 44) 600-31-62</td></tr>
@@ -173,7 +209,7 @@
     </tbody>
   </table>
 
-  <h2>Нақшаи баргузории ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон барои соли 2026</h2>
+  <h2 id="meeting">Нақшаи баргузории ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон барои соли 2026</h2>
  <style>
 /* Таблица */
 .committee-table {
@@ -261,12 +297,11 @@
     </tr>
   </thead>
   <tbody id="tableBody">
-    <!-- Содержимое таблицы будет меняться через JS -->
   </tbody>
 </table>
 
 <!-- Кнопка + выпадающий список -->
-<div class="previous-sessions">
+ <div class="previous-sessions">
   <button>Ҷаласаҳои пешина</button>
   <select id="yearSelector">
     <option value="">Солро интихоб кунед</option>
@@ -274,6 +309,12 @@
     <option value="2025">2025</option>
     <option value="2024">2024</option>
     <option value="2023">2023</option>
+    <option value="2022">2022</option>
+    <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+    <option value="2017">2017</option>
   </select>
 </div>
 
@@ -296,12 +337,32 @@ const meetingsData = {
   "2023": [
     ["12 март с.2023", "Санаи нашр: 12 март с.2023", "Санаи нашр: 12 март с.2023", "Қарори №30"]
   ]
+  ,
+  "2022": [
+    ["12 март с.2022", "Санаи нашр: 12 март с.2022", "Санаи нашр: 12 март с.2022", "Қарори №"]
+  ]
+  ,
+  "2021": [
+    ["12 март с.2021", "Санаи нашр: 12 март с.2021", "Санаи нашр: 12 март с.2021", "Қарори №"]
+  ],
+  "2020": [
+    ["12 март с.2020", "Санаи нашр: 12 март с.2020", "Санаи нашр: 12 март с.2020", "Қарори №"]
+  ],
+  "2019": [
+    ["12 март с.2019", "Санаи нашр: 12 март с.2019", "Санаи нашр: 12 март с.2019", "Қарори №"]
+  ],
+  "2018": [
+    ["12 март с.2018", "Санаи нашр: 12 март с.2018", "Санаи нашр: 12 март с.2018", "Қарори №"]
+  ],
+  "2017": [
+    ["12 март с.2017", "Санаи нашр: 12 март с.2017", "Санаи нашр: 12 март с.2017", "Қарори №"]
+  ]
 };
 
-// Функция для обновления таблицы
+// обновления таблицы
 function updateTable(year) {
   const tbody = document.getElementById("tableBody");
-  tbody.innerHTML = ""; // очищаем таблицу
+  tbody.innerHTML = ""; 
   if (!meetingsData[year]) return;
   meetingsData[year].forEach(row => {
     const tr = document.createElement("tr");
@@ -320,20 +381,49 @@ document.getElementById("yearSelector").addEventListener("change", function() {
   updateTable(this.value);
 });
 
-// Изначально показываем 2026 год
+// 2026 год
 updateTable("2026");
 </script>
 
 
-  <h2>Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон </h2>
+  <a href="../img/Nizomnomai_kumita_2025.pdf"><h2>Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон </h2></a>
 
+<script>
+// ===== LANGUAGE SWITCH =====
+function setLang(lang) {
+    document.body.style.opacity = "0.4";
 
-  <footer>
-    <p style="text-align:center; font-size:0.9em; color:#555; margin-top:40px;">
-    Маълумот аз маводи расмии Бонки миллии Тоҷикистон (2026) омода шудааст.<br>
-    Барои маълумоти актуалӣ: <a href="https://nbt.tj">nbt.tj</a>
-</p>
-  </footer>
+    setTimeout(() => {
+        localStorage.setItem("lang", lang);
 
+        if (lang === "tj") {
+            window.location.href = "../other_links/kumita_bmt.html";          
+        } 
+        else if (lang === "ru") {
+            window.location.href = "../ru/kumita_bmt_ru.html";       
+        } 
+        else if (lang === "en") {
+            window.location.href = "../eng/kumita_bmt_eng.html";   
+        }
+    }, 180);
+}
+
+// ===== INIT - Highlight=====
+document.addEventListener("DOMContentLoaded", () => {
+    const savedLang = localStorage.getItem("lang") || "tj";
+
+    document.querySelectorAll(".lang-switcher button").forEach(btn => {
+        btn.classList.remove("active");
+
+        // берем язык из onclick
+        const match = btn.getAttribute("onclick")?.match(/'(\w+)'/);
+        const btnLang = match ? match[1] : null;
+
+        if (btnLang === savedLang) {
+            btn.classList.add("active");
+        }
+    });
+});
+</script>
 </body>
-</html>
+</html> 

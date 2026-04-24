@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Самтҳои асосии сиёсати пулию қарзӣ</title>
+  <title>Main directions of monetary policy</title>
 
   <style>
     :root {
@@ -159,14 +159,14 @@
 </div>
 <div class="container">
 
-  <h1 class="title">Самтҳои асосии сиёсати пулию қарзии Ҷумҳурии Тоҷикистон</h1>
+  <h1 class="title">Main directions of monetary policy</h1>
 
   <p class="intro">
-    Самтҳои асосии сиёсати пулию қарзии Ҷумҳурии Тоҷикистон мутобиқи моддаҳои 4 ва 14 Қонуни Ҷумҳурии Тоҷикистон “Дар бораи Бонки миллии Тоҷикистон” таҳия гардида, самтҳои асосии сиёсати пулию қарзӣ ва асъории давлат, истифодаи босамари фишангҳои сиёсати пулию қарзӣ ва рушди муътадили нишондиҳандаҳои пулӣ барои расидан ба мақсади асосии нигоҳдории сатҳи муътадили нархҳо дар соли оянда муайян менамояд.
+    The main directions of the monetary policy of the Republic of Tajikistan are developed in accordance with Articles 4 and 14 of the Law of the Republic of Tajikistan "On the National Bank of Tajikistan" and define the main directions of the monetary and foreign exchange policy of the state, the effective use of monetary policy levers and the stable development of monetary indicators to achieve the main goal - maintaining a stable price level in the coming year.
   </p>
 
   <p class="intro" style="margin-top: -1rem;">
-    Бонки миллии Тоҷикистон ҳар сол на дертар аз 1 ноябр лоиҳаи Самтҳои асосии сиёсати пулию қарзии Ҷумҳурии Тоҷикистонро ба баррасии Маҷлиси намояндагони Маҷлиси Олии Ҷумҳурии Тоҷикистон барои тасдиқ пешниҳод менамояд.
+    The National Bank of Tajikistan annually submits the draft “Main Directions of the Monetary Policy of the Republic of Tajikistan” for consideration and approval to the Majlisi Namoyandagon of the Majlisi Oli of the Republic of Tajikistan no later than November 1.
   </p>
 
   <div class="grid">
@@ -244,21 +244,22 @@
 </div>
 
 <script>
-// ===== LANGUAGE SWITCH
+// ===== LANGUAGE SWITCH WITH FILE REDIRECT =====
 function setLang(lang) {
     document.body.style.opacity = "0.4";
 
     setTimeout(() => {
         localStorage.setItem("lang", lang);
 
+        // Меняем файл в зависимости от языка
         if (lang === "tj") {
-            window.location.href = "../other_links/samtho.html";         
+            window.location.href = "../other_links/samtho.html";           // основной файл на таджикском
         } 
         else if (lang === "ru") {
-            window.location.href = "../ru/samtho_ru.html";     
+            window.location.href = "../ru/samtho_ru.html";        // русский вариант
         } 
         else if (lang === "en") {
-            window.location.href = "../eng/samtho_eng.html";   
+            window.location.href = "../eng/samtho_eng.html";        // английский вариант
         }
     }, 180);
 }

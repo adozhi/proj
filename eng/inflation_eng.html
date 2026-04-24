@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Таваррум — Муфассал</title>
+  <title>Inflation</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script defer src="../js/chart.umd.min.js"></script>
   <script src="../js/xlsx.full.min.js"></script>
-
 
   <style>
     :root {
@@ -170,13 +169,13 @@
     }
 
     .expandable-content.active {
-      max-height: 2000px;
+      max-height: 2000px; /* достаточно для всего текста */
       padding-top: 0.5rem;
     }
 
 
 
-/* ===== LANGUAGE===== */
+/* ===== LANGUAGE SWITCHER UI ===== */
 .lang-switcher {
     position: fixed;
     top: 15px;
@@ -216,54 +215,54 @@
 </div>
 <div class="container">
   <header>
-    <h1>Таваррум</h1>
+    <h1>Inflation</h1>
     <p class="subtitle"></p>
   </header>
 
 <div class="container">
 
   <section class="section">
-    <h2>1. Таваррум чист?</h2>
-    <p>Болоравии сатҳи умумии нархи молу маҳсулот ва хизматрасониҳо дар як давраи муайян бо ченаки фоизӣ мебошад (бо истифодаи усули Ласпейрес).</p>
+    <h2>1.	What is inflation?</h2>
+    <p>Increase in the general level of prices for goods and services over a certain period of time, measured in percentage terms (using the Laspeyres method).</p>
+  </section>
   </section>
 
 <section class="section">
-  <h2>2. Таваррум чӣ гуна ҳисоб карда мешавад?</h2>
-  <p>Тағйирёбии умумии нархи молу маҳсулот (хӯрокворӣ ва ғайрихӯрокворӣ) ва хизматрасониҳои давраи ҷорӣ нисбат ба давраи гузашта ҳисоб карда мешавад.
-<p>Барои мисол: агар нархи миёнаи картошка дар моҳи гузашта 5 сомониро барои як кг ташкил медод, пас ин нишондиҳанда дар моҳи ҷорӣ ба 5,5 сомонӣ баробар мешавад, дар ин маврид афзоишёбии нархи он 10,0 фоизро ташкил медиҳад.</p>
-  </p>
-  <span class="show-more">Дар поёни ҳамин қисмат як истинод оид ба шарҳи мухтасари ҳисоб кардани таваррум гузошта шавад</span>
+  <h2>2.	How is inflation calculated?</h2>
+  <p>The change in the general price level of goods (food and non-food) and services in the current period compared to the previous period.</p>
+  <p>For example: if the average price of potatoes was 5 somoni per 1 kg in the previous month and rose to 5.5 somoni per 1 kg in the current month, this represents a 10.0% price increase.</p>
+  <span class="show-more">A brief explanation of inflation calculations</span>
 
   <div class="expandable-content">
     <section>
-      <h2>1. Таҷрибаи дигар кишварҳо оид ба ҳисоб намудани таваррум чӣ гуна аст?</h2>
-      <p>Дар тамоми кишварҳои ҷаҳон таваррум аз рӯйи сабади истеъмолӣ ҳисоб карда мешавад (бо истифодаи усулҳои Ласпейрес, Пааше ва Фишер).</p>
+      <h2>1.	What is the practice of other countries in calculating inflation?</h2>
+      <p>In all countries worldwide, inflation is measured using a consumer basket of goods and services (using the Laspeyres, Paasche, and Fisher index methods).</p>
     </section>
 
     <section>
-      <h2>2. Сабади истеъмолӣ чист?</h2>
-      <p>Маҷмӯи ҳадди ақали молу маҳсулот ва хизматрасониҳо, ки барои нигоҳдории саломатии инсон, таъмини зиндагӣ ва фаъолияти ӯ зарур аст, иборат мебошад.</p>
-      <p>Аз соли 2015 инҷониб сабади истеъмолии кишвар аз 546 номгӯй, аз ҷумла 112 адад маҳсулоти хӯрокворӣ, 335 адад молҳои ғайрихӯрокворӣ ва 99 адад хизматрасониҳои пулӣ иборат мебошад.</p>
-      <p>Дар ҳисоб намудани сатҳи таваррум вазни хоси ҳар як нишондиҳандаи сабади истеъмолӣ низ нақши калидӣ дорад.</p>
+      <h2>2.	What is a consumer basket?</h2>
+      <p>This is a set of the minimum basket of goods and services necessary to maintain human health, ensure life, and support activity.</p>
+      <p>Since 2015, the country's consumer basket has consisted of 546 items, including 112 types of food products, 335 types of non-food goods, and 99 types of paid services.</p>
+      <p>When calculating the inflation rate, the weight (share) of each item in the consumer basket also plays a key role.</p>
     </section>
 
     <section>
-      <h2>3. Вазни хоси молу маҳсулот ва хизматрасонӣ чист ва чӣ гуна муайян карда мешавад?</h2>
-      <p>Ҳиссаи хароҷоти аҳолӣ барои хариди молу маҳсулот ва хизматрасонӣ бо ченаки фоизӣ мебошад.</p>
-      <p>Вазни хос дар асоси хароҷотҳои аҳолӣ барои хариди як воҳиди молу маҳсулот ва хизматрасонӣ нисбат ба ҳаҷми умумии он муайян карда мешавад.</p>
-      <p>Дар соли 2026 барои ҳисоб намудани сатҳи таваррум вазни хоси маҳсулоти хӯрокворӣ 51,7 фоиз, молҳои ғайрихӯрокворӣ 36,0 фоиз ва хизматрасониҳои пулӣ 12,3 фоизи сабади истеъмолиро ташкил медиҳад.</p>
+      <h2>3.	What is the relative weight of goods and services, and how is it determined?</h2>
+      <p>The share of household expenditures on the purchase of goods and services, expressed as a percentage.</p>
+      <p>The specific weight is determined based on household expenditures for the purchase of one unit of a good, product, or service relative to the total volume of these expenditures.</p>
+      <p>In 2026, for the calculation of the inflation rate, the specific weight of food products accounts for 51.7 percent, non-food goods for 36.0 percent, and paid services for 12.3 percent of the consumer basket.</p>
     </section>
   </div>
 </section>
 
 <section class="section">
-    <h2>3. Афзоиш ёфтани сатҳи таваррум дар мамлакат аз кадом омилҳо иборат мебошад?</h2>
-    <p>Омилҳои мавсимӣ – ба итмом расидани захираи маҳсулоти кишоварзии мавсими қаблӣ ва коҳиш ёфтани ҳаҷми истеҳсоли чунин маҳсулотҳо;</p>
-    <p>Омилҳои таклифотӣ – бинобар номусоидии вазъи боду ҳаво ва ба ин васила коҳишёбии назарраси маҳсулоти кишоварзӣ;</p>
-    <p>Омилҳои берунӣ – болоравии нархи молу маҳсулоти воридотӣ дар бозорҳои ҷаҳонӣ ва минтақа;</p>
-    <p>Омилҳои талабот – афзоиш ёфтани талаботи аҳолӣ ба молу маҳсулот ва хизматрасонӣ дар натиҷаи зиёд гардидани даромади пулии онҳо;</p>
-    <p>Тағйирёбии нархҳои маъмуран танзимшаванда – қувваи барқ, обтаъминкунӣ (оби хунук ва гарм), партовбарорӣ ва ғайра;</p>
-    <p>Омилҳои тағйирёбии қурбӣ – ноустувории қурби пули миллӣ нисбат ба асъори хориҷӣ ва таъсири он ба нархи молу маҳсулоти воридотӣ.</p>
+    <h2>3.	What factors cause an increase in the inflation rate in the country?</h2>
+    <p>Seasonal factors — the depletion of agricultural stocks from the previous season and a decrease in the production volumes of such products;</p>
+    <p>Supply-side factors — as a result of unfavorable weather conditions and, consequently, a significant reduction in agricultural production;</p>
+    <p>External factors — price increases for imported goods and products on global and regional markets;</p>
+    <p>Demand factors — an increase in the population’s demand for goods, products, and services as a result of the growth of their monetary income.</p>
+    <p>Changes in prices of administratively regulated goods and services electricity, water supply (cold and hot water), waste collection, etc.</p>
+    <p>Foreign currency factors — instability of the national currency exchange rate against to foreign currencies and its impact on the prices of imported goods and products.</p>
   </section>
 
 
@@ -271,86 +270,88 @@
 
 
 
+
   <section class="section">
-    <h2>4. Таваррум аз ҷониби кадом мақомоти салоҳиятдори давлатӣ ҳисоб карда мешавад?</h2>
-    <p>Дар Ҷумҳурии Тоҷикистон муайян (ҳисоб) намудани сатҳи таваррум аз ҷониби Агентии омори назди Президенти Ҷумҳурии Тоҷикистон ба роҳ монда мешавад.</p>
+    <h2>4.	Which authorized state body calculates inflation?</h2>
+    <p>In the Republic of Tajikistan, the calculation of the inflation rate is carried out by the Agency on Statistics under the President of the Republic of Tajikistan.</p>
   </section>
 
 
   <section class="section">
-    <h2>5. Муътадилии сатҳи таваррум барои чӣ зарур аст?</h2>
+    <h2>5.	Why is stability of the inflation rate necessary?</h2>
     <ul>
-      <li>Рушди устувори иқтисодӣ дар давраи дарозмуддат;</li>
-      <li>Зиёд гардидани эътимоди аҳолӣ, соҳибкорон ва сармоягузорони дохилию хориҷӣ ба пули миллӣ;</li>
-      <li>Аз ҷониби соҳибкорону сармоягузорон амалӣ намудани лоиҳаҳои дарозмуддат;</li>
-      <li>Коҳиш ёфтани хавфу номуайянӣ ва меъёри фоизҳо дар иқтисодиёт.</li>
+      <li>Sustainable economic growth in the long term;</li>
+      <li>Strengthening the confidence of the population, entrepreneurs, and domestic and foreign investors in the national currency;</li>
+      <li>Implementation of long-term projects by entrepreneurs and investors;</li>
+      <li>Reduction of risks and uncertainty, as well as interest rates in the economy.</li>
     </ul>
   </section>
 
 
 
 <section class="section">
-  <h2>6. Ҳадафгирии таваррум чист?</h2>
+  <h2>6.	What is inflation targeting?</h2>
 
   <p>
-   Нишондиҳандаи сатҳи таваррум барои соли оянда ва давраи миёнамуҳлат муайян ва эълон карда мешавад ва дар доираи расидан ба сатҳи муқарраршудаи таваррум тамоми воситаҳои сиёсати монетарӣ истифода карда мешавад.
+   It is a modern monetary policy framework in which target inflation rates for the upcoming year and the medium term are set and announced in advance, and all monetary policy tools are applied to achieve the established inflation targets.
   </p>
 
 
-  <span class="show-more">Дар поёни ҳамин қисмат як истинод оид ба муҳиммияти ҳадафгирии таваррум гузошта шавад.</span>
+  <span class="show-more">On the importance of inflation targeting.</span>
 
   <div class="expandable-content">
-    <h2>1. Сабаби гузариш ба ҳадафгирии таваррум дар чист?</h2>
+    <h2>1.	What is the reason for the shift to inflation targeting?</h2>
     <ul>
-      <li>- Ба зиёд гардидании эътимоднокӣ ба сиёсати монетарӣ ва бонки марказӣ замина мегузорад;</li>
-      <li>- Сатҳи долларикунонии иқтисодиётро коҳиш медиҳад;</li>
-      <li>- Сармоягузориҳои дохилӣ ва хориҷиро ба иқтисодиёт зиёд менамояд;</li>
-      <li>- Дар пешгирии буҳронҳои молиявӣ ва бартарафнамоии таконҳои берунӣ нақши калидӣ дорад.</li>
+      <li>- It helps increase confidence in monetary policy and the central bank;</li>
+      <li>- It reduces the level of dollarization in the economy;</li>
+      <li>- It encourages an increase in both domestic and foreign investment in the economy;</li>
+      <li>- It plays a key role in preventing financial crises and mitigating external shocks.</li>
     </ul>
   </div>
 </section>
 
 
   <section class="section">
-    <h2>7. Барои чӣ ҳадафи таваррум барои давраи миёнамуҳлат пешгӯйӣ карда мешавад?</h2>
-    <p>Таъсири тадбирҳои андешидаи бонкҳои марказӣ (миллӣ) тавассути истифодаи фишангҳои сиёсати пулию қарзӣ ҷиҳати муътадил нигоҳ доштани сатҳи таваррум дарҳол набуда, натиҷаи он ба ҳисоби миёна пас аз 3 то 6 квартал ба амал меояд (аз 9 моҳ то 1,5 сол).</p>
-    <p>Яъне ҳангоми тағйир додани меъёри бозтамвил таъсири пурраи ба сатҳи нархҳо вақти муайянро талаб мекунад.</p>
+    <h2>7.	Why is the target inflation rate forecasted (set) for the medium-term period?</h2>
+    <p>The impact of measures taken by central (national) banks through the use of monetary policy instruments to maintain a stable inflation rate does not occur immediately; on average, their effects are realized after 3–6 quarters (from 9 months to 1.5 years).</p>
+    <p>In other words, a change in the refinancing rate does not immediately affect the price level but takes effect only after a certain period.</p>
   </section>
 
 
+
+
   <section class="section">
-    <h2>8. Интизории таваррум чист?</h2>
-    <p>Гузаронидани назарсанҷӣ байни аҳолии кишвар ҷиҳати муайян намудани тағйирёбии сатҳи нархҳо барои давраи оянда мебошад.</p>
-    <p>Бонки миллии Тоҷикистон ҷиҳати муайян намудани интизории таваррум аз соли 2019 то инҷониб ҳар семоҳа дар байни аҳолӣ назарсанҷии мазкурро амалӣ менамояд.</p>
-    <p>Раванди мазкур ба зиёд гардидани эътимоди аҳолӣ ба сиёсати пулию қарзии Бонки миллии Тоҷикистон, ба роҳ мондани равобит бо ҷомеа ва боло бурдани сатҳи маърифати иқтисодиву молиявии аҳолӣ замина мегузорад.</p>
+    <h2>8.	What are inflation expectations?</h2>
+    <p>Conducting surveys among the population of the country to determine expected changes in the price level for the upcoming period.</p>
+    <p>Since 2019, the National Bank of Tajikistan has been conducting this survey among the population quarterly to determine inflation expectations.</p>
+    <p>This process helps increase public confidence in the monetary policy of the National Bank of Tajikistan, improves communication with society, and increases citizens’ economic and financial literacy.</p>
   </section>
 
 </div>
 
   <!-- Текущие показатели -->
   <div class="stats-card">
-    <h3>Таварруми солона (ҳозира)</h3>
+    <h3>Annual inflation (current)</h3>
     <div class="stats-value">3.4%</div>
   </div>
 
   <!-- График  -->
   <div class="section chart-section">
-    <h2>Тағйирёбии таваррум</h2>
+    <h2>Inflation change</h2>
+  <div class="controls">
+    <label>
+      <input type="radio" name="inflationType" value="yearly" checked onchange="switchInflation('yearly')">
+      Yearly
+    </label>
 
-    <div class="controls">
-      <label>
-        <input type="radio" name="inflationType" value="yearly" checked onchange="switchInflation('yearly')">
-        Солона
-      </label>
-
-      <label>
-        <input type="radio" name="inflationType" value="monthly" onchange="switchInflation('monthly')">
-        Моҳона
-      </label>
-    </div>
+    <label>
+      <input type="radio" name="inflationType" value="monthly" onchange="switchInflation('monthly')">
+      Monthly
+    </label>
+  </div>
     <div class="date-picker">
-      <label>Аз: <input type="month" id="startDate" value="2010-01"></label>
-      <label>То: <input type="month" id="endDate" value="2026-03"></label>
+      <label>From: <input type="month" id="startDate" value="2010-01"></label>
+      <label>To: <input type="month" id="endDate" value="2026-01"></label>
       <button onclick="updateChart()">OK</button>
       <button onclick="resetChart()">Reset</button>
       <button onclick="exportPNG()">PNG</button>
@@ -363,16 +364,18 @@
   </div>
 
 
+  
+
 
   <div style="text-align: center; margin: 40px 0;">
-    <a href="../index.html" class="back-link">← Ба саҳифаи асосӣ</a>
+    <a href="../index.html" class="back-link">← Home page</a>
   </div>
 </div>
 <!-- ------------ -->
 <script>
 let inflationChart;
 let originalData = null;
-let currentMode = "yearly"; // 👈 по умолчанию годовая
+let currentMode = "yearly"; // по умолчанию годовая
 
 // ===== ЗАГРУЗКА EXCEL =====
 async function loadExcelData() {
@@ -433,7 +436,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     data: {
       labels: data.labels,
       datasets: [{
-        label: 'Таварруми солона (%)',
+        label: 'Yearly inflation (%)',
         data: data.values_yearly, // 👈 дефолт годовая
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.12)',
@@ -488,8 +491,8 @@ function switchInflation(type){
   //  меняем подпись
   inflationChart.data.datasets[0].label =
     type === "monthly"
-      ? 'Таварруми моҳона (%)'
-      : 'Таварруми солона (%)';
+      ? 'Monthly inflation (%)'
+      : 'Yearly inflation (%)';
 
   inflationChart.update();
 }
@@ -528,19 +531,19 @@ function updateChart() {
 function resetChart() {
   if (!inflationChart || !originalData) return;
 
-  //  возвращаем дефолт режим
+  //  дефолт режим
   currentMode = "yearly";
 
   inflationChart.data.labels = originalData.labels;
   inflationChart.data.datasets[0].data = originalData.values_yearly;
-  inflationChart.data.datasets[0].label = 'Таварруми солона (%)';
+  inflationChart.data.datasets[0].label = 'Yearly inflation (%)';
 
   inflationChart.update();
 
   document.getElementById('startDate').value = originalData.labels[0];
   document.getElementById('endDate').value = originalData.labels[originalData.labels.length - 1];
 
-  //  сброс radio
+  // сброс radio
   const radios = document.querySelectorAll('input[name="inflationType"]');
   radios.forEach(r => {
     r.checked = (r.value === "yearly");
@@ -624,5 +627,6 @@ document.querySelectorAll('.show-more').forEach(link => {
   });
 });
 </script>
+
 </body>
 </html>

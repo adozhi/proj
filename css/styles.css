@@ -42,7 +42,7 @@ body {
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 360px !important;          /* Все карточки одинаковые и меньше */
+  min-height: 360px !important;         
   display: flex;
   flex-direction: column;
 }
@@ -52,12 +52,7 @@ body {
   box-shadow: var(--shadow-md);
 }
 
-.statistic-link-wrapper {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  height: 100%;
-}
+
 
 .block-header {
   padding: 14px 20px;
@@ -82,12 +77,12 @@ body {
   transition: color 0.3s ease;
 }
 
-/* Цвет текста при наведении на ВСЮ карточку */
+
 .statistic:hover .text-hover-effect-1 {
   color: var(--primary);
 }
 
-/* Анимация линии при наведении на ВСЮ карточку */
+/* Анимация */
 .statistic:hover .text-hover-effect-1::after {
   transform: scaleX(1);
   transform-origin: bottom left;
@@ -127,7 +122,7 @@ body {
   justify-content: center;
   margin: 0.4em 0 0.8em;
   gap: 12px;
-  min-height: 90px;           /* Компактная зона числа */
+  min-height: 90px;        
 }
 
 .statistic-icon {
@@ -138,9 +133,9 @@ body {
 }
 
 .statistic-value {
-  font-size: 3.2rem;
+  font-size: 5.2rem !important;
   font-weight: 800;
-  color: var(--primary);
+  color: #3b82f6;
   line-height: 0.95;
   letter-spacing: -0.02em;
   display: flex;
@@ -180,7 +175,7 @@ body {
   text-decoration: underline;
 }
 
-/* График — такая же высота */
+
 .chart-card {
   min-height: 320px;
 }
@@ -233,7 +228,7 @@ body {
   }
   .statistic,
   .chart-card {
-    min-height: 340px;        /* Все одинаковые на десктопе */
+    min-height: 340px;      
   }
   .statistic-value { font-size: 3.8rem; }
   .unit { font-size: 2rem; }
@@ -325,7 +320,7 @@ color:#444;
 background:#f5f7fb;
 }
 
-/* показать */
+
 
 .dropdown:hover > .dropdown-menu{
 opacity:1;
@@ -333,7 +328,7 @@ visibility:visible;
 transform:translateY(0);
 }
 
-/* второй уровень */
+
 
 .dropdown-sub{
 position:relative;
@@ -353,4 +348,58 @@ left:100%;
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+#chartCanvas {
+  transition: opacity 0.4s ease;
+}
+
+.chart-hidden {
+  opacity: 0;
+}
+#chartCanvas {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 200px; 
+  transition: opacity 0.4s ease;
+}
+.chart-hidden {
+  opacity: 0;
+}
+.lang-switcher{
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 9999;
+}
+
+.lang-switcher button{
+  border: none;
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.lang-switcher button:hover{
+  transform: scale(1.1);
+  background: #e2e8f0;
+}
+
+
+.lang-fade{
+  opacity: 0.5;
+  transition: 0.2s;
+}
+
+.lang-switcher button.active {
+    background: #005eff30;
+    color: white;
+}
+
+a, a:visited, a:hover, a:active {
+  color: inherit;
 }

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Диаграмма</title>
+
+<script src="../js/chart.umd.min.js"></script>
+<script src="../js/xlsx.full.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f8fafc;
+  color:#1e293b;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+.chart-block{
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:40px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+input,button{
+  padding:6px 10px;
+  border-radius:8px;
+  border:1px solid #cbd5e1;
+}
+
+button{
+  background:#3b82f6;
+  color:#fff;
+  cursor:pointer;
+}
+
+canvas{
+  width:100%;
+  height:400px;
+}
+.lang-switcher {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 8px;
+    z-index: 9999;
+}
+
+.lang-switcher button {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
+}
+
+.lang-switcher button:hover {
+    transform: scale(1.08);
+}
+
+.lang-switcher button.active {
+    background: #005eff30;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+  <div class="lang-switcher">
+    <button onclick="setLang('tj')" id="btn-tj">🇹🇯</button>
+    <button onclick="setLang('ru')" id="btn-ru">🇷🇺</button>
+    <button onclick="setLang('en')" id="btn-en">🇬🇧</button>
+</div>
+<div class="container" id="charts"></div>
+  <div style="text-align: center; margin: 40px 0;">
+    <a href="../index.html" class="back-link">← На главную страницу</a>
+  </div>
+
+
+  <script>
+
+// ================= DATASETS =================
+const datasets = [
+  {
+    id:"inflation",
+    title:"Изменение уровня инфляции",
+    color:"#3b82f6",
+    mode:"yearly" // по умолчанию годовая
+  },
+  {id:"rate",title:"Ставка рефинансирования",color:"#64748b"},
+  {id:"bonds",title:"Проценты по ценным бумагам НБТ",color:"#22c55e"},
+  {id:"interbank",title:"Проценты по межбанковским кредитам",color:"#f59e0b"}
+];
+
+const charts = {};
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded",()=>{
+  loadExcel();
+});
+
+// ================= LOAD EXCEL =================
+async function loadExcel(){
+  const res = await fetch("../data/data.xlsx");
+  const buffer = await res.arrayBuffer();
+
+  const wb = XLSX.read(buffer,{type:"array"});
+  const sheet = wb.Sheets[wb.SheetNames[0]];
+  const json = XLSX.utils.sheet_to_json(sheet,{defval:""});
+
+  const parsed={
+    inflation:[],
+    inflation_y:[], // добавили годовую
+    rate:[],
+    bonds:[],
+    interbank:[]
+  };
+
+  const labels=[];
+
+  json.forEach(row=>{
+    const date=row.date;
+    if(!date) return;
+
+    const infl=toNum(row.inflation);
+    const infl_y=toNum(row.inflation_y); // новое поле
+
+    const rate=toNum(row.rate);
+    const bonds=toNum(row.bonds);
+    const interbank=toNum(row.interbank);
+
+    // skip completely empty rows
+    if(infl===0 && infl_y===0 && rate===0 && bonds===0 && interbank===0) return;
+
+    labels.push(date);
+
+    parsed.inflation.push(infl);
+    parsed.inflation_y.push(infl_y);
+
+    parsed.rate.push(rate);
+    parsed.bonds.push(bonds);
+    parsed.interbank.push(interbank);
+  });
+
+  datasets.forEach(ds=>{
+    ds.labels=labels;
+
+    if(ds.id==="inflation"){
+      ds.data_monthly=parsed.inflation;
+      ds.data_yearly=parsed.inflation_y;
+
+      // по умолчанию годовая
+      ds.data = ds.data_yearly;
+    } else {
+      ds.data=parsed[ds.id];
+    }
+  });
+
+  initCharts();
+}
+
+// ================= NUMBER FIX =================
+function toNum(v){
+  if(v===undefined||v===null||v==="") return 0;
+  return parseFloat(String(v).replace(",", "."))||0;
+}
+
+// ================= INIT CHARTS =================
+function initCharts(){
+  const container=document.getElementById("charts");
+  container.innerHTML="";
+
+  datasets.forEach(ds=>{
+    const block=document.createElement("div");
+    block.className="chart-block";
+
+    block.innerHTML=`
+      <h2>${ds.title}</h2>
+
+      ${ds.id==="inflation" ? `
+      <div class="controls">
+        <label>
+          <input type="radio" name="inflationType" value="yearly" checked
+            onchange="switchInflation('yearly')">
+          Годовая
+        </label>
+
+        <label>
+          <input type="radio" name="inflationType" value="monthly"
+            onchange="switchInflation('monthly')">
+          Месячная
+        </label>
+      </div>
+      ` : ""}
+
+      <div class="controls">
+        <input type="month" id="${ds.id}-start">
+        <input type="month" id="${ds.id}-end">
+
+        <button onclick="updateChart('${ds.id}')">OK</button>
+        <button onclick="resetChart('${ds.id}')">Reset</button>
+
+        <button onclick="exportPNG('${ds.id}')">PNG</button>
+        <button onclick="exportCSV('${ds.id}')">CSV</button>
+      </div>
+
+      <canvas id="${ds.id}Chart"></canvas>
+    `;
+
+    container.appendChild(block);
+    createChart(ds);
+  });
+}
+
+// ================= CREATE CHART =================
+function createChart(ds){
+
+  const startIndex = ds.data.findIndex(v => v !== 0);
+  const labels = ds.labels.slice(startIndex);
+  const data = ds.data.slice(startIndex);
+
+  const ctx=document.getElementById(ds.id+"Chart");
+
+  charts[ds.id]=new Chart(ctx,{
+    type:"line",
+    data:{
+      labels,
+      datasets:[{
+        label:ds.title,
+        data,
+        borderColor:ds.color,
+        backgroundColor:ds.color+"33",
+        fill:true,
+        tension:0.4,
+        pointRadius:2,
+        spanGaps:true
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{labels:{color:"#1e293b"}}
+      },
+      scales:{
+        x:{ticks:{color:"#475569"}},
+        y:{ticks:{color:"#475569"}}
+      }
+    }
+  });
+
+  document.getElementById(ds.id+"-start").value=labels[0];
+  document.getElementById(ds.id+"-end").value=labels[labels.length-1];
+}
+
+// ================= SWITCH INFLATION =================
+function switchInflation(type){
+  const ds = datasets.find(d=>d.id==="inflation");
+  const chart = charts["inflation"];
+
+  if(type==="monthly"){
+    ds.mode="monthly";
+    ds.data = ds.data_monthly;
+  } else {
+    ds.mode="yearly";
+    ds.data = ds.data_yearly;
+  }
+
+  chart.data.datasets[0].data = ds.data;
+  chart.update();
+}
+
+// ================= FILTER =================
+function updateChart(id){
+  const chart=charts[id];
+  const ds=datasets.find(d=>d.id===id);
+
+  const start=document.getElementById(id+"-start").value;
+  const end=document.getElementById(id+"-end").value;
+
+  let s=0,e=ds.labels.length;
+
+  if(start){
+    s=ds.labels.findIndex(l=>l>=start);
+    if(s<0) s=0;
+  }
+
+  if(end){
+    e=ds.labels.findIndex(l=>l>end);
+    if(e<0) e=ds.labels.length;
+  }
+
+  let dataSource = ds.data;
+
+  if(id==="inflation"){
+    dataSource = ds.mode==="monthly"
+      ? ds.data_monthly
+      : ds.data_yearly;
+  }
+
+  chart.data.labels=ds.labels.slice(s,e);
+  chart.data.datasets[0].data=dataSource.slice(s,e);
+  chart.update();
+}
+
+// ================= RESET =================
+function resetChart(id){
+  const chart = charts[id];
+  const ds = datasets.find(d=>d.id===id);
+
+  // 👇 полный возврат диапазона
+  chart.data.labels = ds.labels;
+
+  // 👇 сброс дат (UI тоже!)
+  const startInput = document.getElementById(id+"-start");
+  const endInput = document.getElementById(id+"-end");
+
+  if(startInput && endInput){
+    startInput.value = ds.labels[0];
+    endInput.value = ds.labels[ds.labels.length-1];
+  }
+
+  // 👇 логика данных
+  if(id==="inflation"){
+    ds.mode = "yearly";
+    ds.data = ds.data_yearly;
+
+    // сброс radio
+    const radios = document.querySelectorAll('input[name="inflationType"]');
+    radios.forEach(r=>{
+      r.checked = (r.value === "yearly");
+    });
+
+    chart.data.datasets[0].data = ds.data_yearly;
+
+  } else {
+    chart.data.datasets[0].data = ds.data;
+  }
+
+  chart.update();
+}
+
+// ================= EXPORT PNG =================
+function exportPNG(id){
+  const link=document.createElement("a");
+  link.download=id+".png";
+  link.href=charts[id].toBase64Image();
+  link.click();
+}
+
+// ================= EXPORT CSV =================
+function exportCSV(id){
+  const chart=charts[id];
+
+  let csv="Date,Value\n";
+
+  chart.data.labels.forEach((l,i)=>{
+    csv+=`${l},${chart.data.datasets[0].data[i]}\n`;
+  });
+
+  const blob=new Blob([csv],{type:"text/csv"});
+  const link=document.createElement("a");
+
+  link.href=URL.createObjectURL(blob);
+  link.download=id+".csv";
+  link.click();
+}
+
+// ================= LANGUAGE =================
+function setLang(lang) {
+    document.body.style.opacity = "0.4";
+
+    setTimeout(() => {
+        localStorage.setItem("lang", lang);
+
+        if (lang === "tj") {
+            window.location.href = "../other_links/charts.html";    
+        } 
+        else if (lang === "ru") {
+            window.location.href = "../ru/charts_ru.html";    
+        } 
+        else if (lang === "en") {
+            window.location.href = "../eng/charts_eng.html";       
+        }
+    }, 180);
+}
+
+</script>
+
+</body>
+</html>
+

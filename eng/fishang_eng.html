@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monetary policy instruments - National bank of Tajikistan</title>
+  <style>
+    :root {
+      --primary: #0070c0;
+      --primary-dark: #005a9e;
+      --text: #1a1a1a;
+      --text-light: #444;
+      --bg: #f8fbff;
+      --card: #ffffff;
+      --border: #e0efff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Palatino Linotype", Georgia, "Times New Roman", serif;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 20px 16px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      background: var(--card);
+      padding: 32px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: clamp(1.9rem, 5.5vw, 2.8rem);
+      text-align: center;
+      margin: 0 0 1.6em;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    h2.tool {
+      color: var(--primary-dark);
+      font-size: clamp(1.4rem, 4vw, 1.75rem);
+      margin: 2.2em 0 0.9em;
+      padding-bottom: 0.5em;
+      border-bottom: 3px solid var(--primary);
+      font-weight: 700;
+      position: relative;
+    }
+
+    h2.tool::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+
+    p {
+      margin-bottom: 1.3em;
+      font-size: clamp(1.05rem, 2.8vw, 1.18rem);
+      text-align: justify;
+      text-indent: 2.4em;
+      color: var(--text);
+    }
+
+    p.no-indent {
+      text-indent: 0;
+    }
+
+    p.center {
+      text-align: center;
+      text-indent: 0;
+    }
+
+    em.highlight, .highlight {
+      color: var(--primary-dark);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    a:hover,
+    a:focus {
+      color: var(--primary-dark);
+    }
+
+    .section-list {
+      margin: 1.4em 0;
+      padding-left: 0;
+      list-style: none;
+      counter-reset: section;
+    }
+
+    .section-list > li {
+      counter-increment: section;
+      margin: 1.1em 0 1.1em 2.8em;
+      position: relative;
+      font-size: 1.12rem;
+    }
+
+    .section-list > li::before {
+      content: counter(section) ")";
+      position: absolute;
+      left: -2.2em;
+      color: var(--primary);
+      font-weight: bold;
+      width: 2em;
+      text-align: right;
+    }
+
+    .small-note {
+      font-size: 0.92rem;
+      color: #555;
+      text-align: center;
+      margin: 4em 0 2em;
+      padding-top: 1.5em;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        padding: 24px 16px;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+      }
+
+      body {
+        padding: 12px;
+      }
+
+      h1 {
+        margin-bottom: 1.3em;
+      }
+
+      p {
+        text-indent: 2em;
+        font-size: 1.08rem;
+      }
+
+      .section-list > li {
+        margin-left: 2.4em;
+      }
+
+      .section-list > li::before {
+        left: -2em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.95rem;
+      }
+
+      h2.tool {
+        font-size: 1.45rem;
+      }
+    }
+        /* ===== LANGUAGE SWITCHER UI ===== */
+    .lang-switcher {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        gap: 8px;
+        z-index: 9999;
+    }
+
+    .lang-switcher button {
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        background: #ffffff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        transition: 0.2s;
+    }
+
+    .lang-switcher button:hover {
+        transform: scale(1.08);
+    }
+
+    .lang-switcher button.active {
+        background: #005eff30;
+        color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-switcher">
+    <button onclick="setLang('tj')" id="btn-tj">🇹🇯</button>
+    <button onclick="setLang('ru')" id="btn-ru">🇷🇺</button>
+    <button onclick="setLang('en')" id="btn-en">🇬🇧</button>
+  </div>
+<div class="container">
+
+
+  <h1>Monetary policy instruments</h1>
+
+  <p>The National Bank of Tajikistan uses the following levers (instruments) to fulfill its tasks and objectives in the field of monetary policy:</p>
+
+<p><u><em class="highlight">- refinancing rate,</em></u></p>
+
+  <p>According to the Law of the Republic of Tajikistan “On the National Bank of Tajikistan”, the refinancing rate is the minimum interest rate at which the National Bank of Tajikistan provides loans to credit institutions, or the rate of return at which the National Bank of Tajikistan provides loans to Islamic credit institutions.&nbsp;</p>
+
+  <p>At the same time, the refinancing rate is considered the main lever of monetary policy for conducting monetary transactions and is established on the basis of a comprehensive analysis of target indicators, potential internal and external risks, as well as the position of monetary policy.</p>
+
+  <p>The refinancing rate plays an informational and signaling role, describing the direction and position of monetary policy for the future (medium or long term).</p>
+
+  <p>Monetary policy for the next period is determined by the change in the refinancing rate compared to its equilibrium level. In economic literature, the equilibrium state of the refinancing rate is called the neutral interest rate.</p>
+
+  <p>The neutral interest rate is the average of the real refinancing rate (refinancing rate minus the inflation rate) for previous years plus (+) the projected inflation rate.</p>
+
+  <p>The fact that the refinancing rate is equal to its neutral (equilibrium) rate indicates the presence of a balanced level of supply and demand, stable economic growth within its potential and a stable level of inflation within the established target indicator.</p>
+
+  <p>If the refinancing rate is above (below) its neutral level, this indicates a tight (soft) monetary policy.</p>
+
+  <p class="highlight"><u>-open market operations&nbsp;</u></p>
+
+  <p>Open market operations are one of the most active and effective instruments of monetary policy. They involve withdrawing liquidity (free cash in credit institutions' correspondent accounts with the National Bank of Tajikistan) or providing liquidity to the banking system through auctions. An important feature of this instrument is that it allows the National Bank of Tajikistan to actively influence the level of liquidity and short-term interest rates in the market.&nbsp;</p>
+
+  <p class="no-indent"><i>According to modern international practice, the National Bank of Tajikistan's open market operations are generally divided into two groups:&nbsp;</i></p>
+
+  <ol class="section-list">
+    <li>Securities auctions;</li>
+  </ol>
+
+  <p>The issuance of securities is one of the main indirect instruments of monetary policy and allows the National Bank of Tajikistan to attract excess liquidity from the banking system and regulate the money supply through securities auctions. Securities auctions are held regularly according to a schedule through an electronic trading system in real time (online). The interest rate for applications from credit institutions is set by the Monetary Policy Committee of the National Bank of Tajikistan (the structure of the National Bank of Tajikistan's monetary instruments). The legal framework, procedure, and conditions for these operations are governed by Instruction No. 189 "On Securities of the National Bank of Tajikistan."</p>
+
+  <ol start="2" class="section-list">
+    <li>Credit auctions; </li>
+  </ol>
+
+  <p>A credit auction is a short-term loan facility for which credit institutions submit applications to obtain short-term liquidity from the National Bank of Tajikistan. Credit auctions of the National Bank of Tajikistan are held according to a schedule. The interest rate for credit institution applications is set by the Monetary Policy Committee of the National Bank of Tajikistan (the structure of monetary instruments of the National Bank of Tajikistan). The legal framework, procedure, and conditions for these operations are governed by Instruction No. 220 "On Short-Term Refinancing Operations."</p>
+
+  <p class="highlight"><u>- standing Instruments (Overnight)&nbsp;</u></p>
+
+  <p>Standing instruments (overnight) are used by the National Bank of Tajikistan by attracting or providing overnight liquidity to regulate short-term interest rates in the interbank market, develop the money market, ensure the effectiveness of monetary policy, and facilitate the efficient and continuous functioning of the payment system. </p>
+
+  <p class="no-indent">The National Bank of Tajikistan offers two standing short-term (overnight) credit instruments to credit institutions:&nbsp;</p>
+
+  <p class="no-indent"><em class="highlight">1) Overnight Credit;</em></p>
+
+  <p>A loan provided to a credit institution against collateral at a set interest rate during the business day, with the condition of its repayment no later than the next business day. The interest rate for credit institution applications is set by the Monetary Policy Committee of the National Bank of Tajikistan (the structure of monetary instruments of the National Bank of Tajikistan). The legal framework, procedure, and conditions for these operations are governed by Instruction No. 220 "On Short-Term Refinancing Operations."</p>
+
+  <p class="no-indent"><em class="highlight">2) Intraday Credit;</em></p>
+
+  <p>A loan provided against collateral during the business day, with the condition of its repayment at the end of the business day. The legal framework, procedure, and conditions for these operations are governed by Instruction No. 220 "On Short-Term Refinancing Operations."</p>
+
+  <p class="no-indent"><em class="highlight">3) Overnight Deposit;</em></p>
+
+  <p>An overnight deposit is a short-term deposit operation whereby a credit institution places funds in national currency with the National Bank of Tajikistan with the understanding that they will be repaid on the next business day. The interest rate for credit institution requests is set by the Monetary Policy Committee of the National Bank of Tajikistan (the structure of the National Bank of Tajikistan's monetary instruments). The legal framework, procedure, and conditions for these operations are governed by Instruction No. 226 "On Conducting Short-Term Deposit Operations in National Currency by the National Bank of Tajikistan."</p>
+
+  <p class="no-indent"><em class="highlight">Diagnostics. Interest rate of standing instruments and refinancing rate</em></p>
+
+  <p class="no-indent"><em class="highlight">4) Deposit auctions;</em></p>
+
+  <p>An auction during which the National Bank of Tajikistan accepts funds from credit institutions in national currency on terms of repayment, payment of interest, and maturity. Deposit auctions of the National Bank of Tajikistan are conducted according to plan. The interest rate for applications from credit institutions is set by the Monetary Policy Committee of the National Bank of Tajikistan (the structure of the monetary instruments of the National Bank of Tajikistan). The regulatory framework, procedure, and conditions for these operations are governed by Instruction No. 226 "On the Conduct of Short-Term Deposit Operations in National Currency by the National Bank of Tajikistan."</p>
+
+  <p class="highlight"><u>- required reserve ratio;&nbsp;</u></p>
+
+  <p>Required reserves are one of the instruments for implementing the monetary policy of the National Bank of Tajikistan and constitute a mechanism for regulating the overall liquidity of the banking system.</p>
+
+  <p>The amount of required reserves depends on the required reserve ratio and the amount of deposits, as well as other equivalent liabilities attracted by credit institutions.</p>
+
+  <p>The required reserve ratio for national and foreign currencies is determined by the Monetary Policy Committee of the National Bank of Tajikistan. Credit institutions ensure compliance with mandatory reserve requirements in national currency by maintaining funds in a correspondent account opened with the National Bank of Tajikistan in accordance with the mandatory reserve calendar in national currency.</p>
+
+  <p>A credit institution forms mandatory reserves in foreign currency by transferring funds to the corresponding account opened with the National Bank of Tajikistan for these purposes.</p>
+
+
+  <p class="center"><em class="highlight">Required Reserve Ratio Diagram</em></p>
+
+  <p class="highlight"><u>-foreign Currency Operations&nbsp;</u></p>
+
+  <p>Foreign currency operations include the purchase and sale of foreign currency on foreign exchange markets. These operations are carried out within the framework of the National Bank of Tajikistan's foreign exchange policy and generally pursue two main objectives:&nbsp;</p>
+
+  <p>- stabilizing excessive fluctuations in the somoni exchange rate against foreign currencies and the domestic foreign exchange market;&nbsp;</p>
+
+  <p>- increasing international reserves and bringing their volume up to the required level of international reserve stability standards.&nbsp;</p>
+
+  <p>Foreign currency transactions in the interbank foreign exchange market are carried out through foreign currency auctions, spot transactions, and swap/forward transactions through the electronic trading system.&nbsp;</p>
+
+<iframe src="../img/set2.png" width="100%" height="600"></iframe>
+</div>
+<script>
+// ===== LANGUAGE SWITCH WITH FILE REDIRECT =====
+function setLang(lang) {
+    document.body.style.opacity = "0.4";
+
+    setTimeout(() => {
+        localStorage.setItem("lang", lang);
+
+        // Меняем файл в зависимости от языка
+        if (lang === "tj") {
+            window.location.href = "../other_links/fishang.html";           // основной файл на таджикском
+        } 
+        else if (lang === "ru") {
+            window.location.href = "../ru/fishang_ru.html";        // русский вариант
+        } 
+        else if (lang === "en") {
+            window.location.href = "../eng/fishang_eng.html";        // английский вариант
+        }
+    }, 180);
+}
+
+// ===== INIT - Highlight active button on load =====
+document.addEventListener("DOMContentLoaded", () => {
+    const savedLang = localStorage.getItem("lang") || "tj";
+
+    document.querySelectorAll(".lang-switcher button").forEach(btn => {
+        btn.classList.remove("active");
+
+        // берем язык из onclick
+        const match = btn.getAttribute("onclick")?.match(/'(\w+)'/);
+        const btnLang = match ? match[1] : null;
+
+        if (btnLang === savedLang) {
+            btn.classList.add("active");
+        }
+    });
+});
+</script>
+</body>
+</html>
