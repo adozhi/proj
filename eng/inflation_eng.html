@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Inflation</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <script defer src="../js/chart.umd.min.js"></script>
   <script src="../js/xlsx.full.min.js"></script>
 
@@ -29,27 +29,13 @@
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 40px 20px;
+      padding: 0;
       line-height: 1.6;
     }
 
     .container { max-width: 1200px; margin: 0 auto; }
 
-    header { text-align: center; margin-bottom: 40px; }
-
-    h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 0.5em; }
-
     h2 { font-size: 1.8rem; color: var(--text); margin: 2em 0 1em; border-bottom: 2px solid var(--primary); padding-bottom: 0.5em; }
-
-    .back-link {
-      display: inline-block;
-      margin: 20px 0;
-      color: var(--accent);
-      font-weight: 500;
-      text-decoration: none;
-    }
-
-    .back-link:hover { color: #1d4ed8; text-decoration: underline; }
 
     .section {
       background: white;
@@ -61,19 +47,58 @@
     }
 
     .stats-card {
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 24px;
-      text-align: center;
-      margin: 24px 0;
-      box-shadow: var(--shadow-sm);
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 0 0 28px;
+      box-shadow: 0 8px 32px rgba(30,64,175,0.28);
+      position: relative;
+      overflow: hidden;
     }
-
-    .stats-value { font-size: 4rem; font-weight: 800; color: var(--primary); margin: 0.3em 0; }
-
-    .stats-unit { font-size: 1.5rem; color: var(--meta); }
-
-    .stats-update { font-size: 1rem; color: var(--meta); margin-top: 1em; }
+    .stats-card::after {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+    .stats-card h3 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.50);
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      margin: 0 0 3px;
+    }
+    .stats-card h4 {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      margin: 0 0 14px;
+    }
+    .stats-value {
+      font-size: 4.2rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .stats-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(34,197,94,0.18);
+      color: #86efac;
+      border: 1px solid rgba(34,197,94,0.25);
+    }
 
     .chart-section { margin: 40px 0; }
 
@@ -86,80 +111,38 @@
       border: 1px solid var(--border);
     }
 
-    .date-picker {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .date-picker label { font-weight: 500; color: var(--text); }
-
-    .date-picker input, .date-picker button {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-    }
-
-    .date-picker button {
-      background: var(--primary);
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .date-picker button:hover { background: var(--accent); }
-
-    .accordion {
-      margin: 20px 0;
-    }
-
-    .accordion-item {
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-
-    .accordion-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      padding: 16px 0;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: color 0.2s;
-    }
-
-    .accordion-title:hover { color: var(--primary); }
-
-    .accordion-content {
-      display: none;
-      padding-bottom: 16px;
-      color: var(--meta);
-    }
-
-    .accordion-content.active { display: block; }
-
-    .accordion-icon {
-      font-size: 1.5rem;
-      transition: transform 0.3s;
-    }
-
-    .accordion-title.active .accordion-icon { transform: rotate(180deg); }
-
     @media (max-width: 768px) {
       .section { padding: 20px; }
       h1 { font-size: 2.2rem; }
       .chart-container { height: 320px; }
-      .date-picker { flex-direction: column; align-items: center; gap: 12px; }
     }
     .show-more {
-      color: #387CBC;
-      text-decoration: underline;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #2563eb;
       cursor: pointer;
-      display: inline-block;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
+      padding: 8px 14px;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      background: #eff6ff;
+      font-weight: 500;
+      font-size: 0.9rem;
+      user-select: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .show-more:hover {
+      background: #dbeafe;
+      border-color: #93c5fd;
+    }
+    .show-more::after {
+      content: '▾';
+      font-size: 1.1rem;
+      transition: transform 0.3s;
+    }
+    .show-more.active::after {
+      transform: rotate(180deg);
     }
 
     .expandable-content {
@@ -169,62 +152,40 @@
     }
 
     .expandable-content.active {
-      max-height: 2000px; /* достаточно для всего текста */
+      max-height: 2000px;
       padding-top: 0.5rem;
     }
 
 
 
-/* ===== LANGUAGE SWITCHER UI ===== */
-.lang-switcher {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    gap: 8px;
-    z-index: 9999;
-}
-
-.lang-switcher button {
-    width: 44px;
-    height: 44px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    background: #ffffff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-    transition: 0.2s;
-}
-
-.lang-switcher button:hover {
-    transform: scale(1.08);
-}
-
-.lang-switcher button.active {
-    background: #005eff30;
-    color: white;
-}
   </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/detail.css">
 </head>
 <body>
-<div class="lang-switcher">
-    <button onclick="setLang('tj')" id="btn-tj">🇹🇯</button>
-    <button onclick="setLang('ru')" id="btn-ru">🇷🇺</button>
-    <button onclick="setLang('en')" id="btn-en">🇬🇧</button>
-</div>
-<div class="container">
-  <header>
-    <h1>Inflation</h1>
-    <p class="subtitle"></p>
-  </header>
+<header class="page-header">
+  <div class="page-header__inner">
+    <a href="../index.html" class="back-btn">Асосӣ</a>
+    <span class="page-header__title">Inflation</span>
+    <div class="lang-switcher">
+      <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
+      <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
+      <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+    </div>
+  </div>
+</header>
+<div class="page-wrap"><div class="container">
 
-<div class="container">
+  <div class="stats-card">
+    <h3 id="inflation-title">Annual Inflation — March 2026</h3>
+    <div class="stats-value"><span id="val-inflation-detail">3.4</span><span style="font-size:2rem;font-weight:800;color:rgba(255,255,255,0.75);margin-left:3px;">%</span></div>
+    <div id="badge-inflation-detail" class="stats-badge">✓ On target — 5% (±2 pp)</div>
+  </div>
 
   <section class="section">
     <h2>1.	What is inflation?</h2>
     <p>Increase in the general level of prices for goods and services over a certain period of time, measured in percentage terms (using the Laspeyres method).</p>
-  </section>
   </section>
 
 <section class="section">
@@ -327,39 +288,46 @@
     <p>This process helps increase public confidence in the monetary policy of the National Bank of Tajikistan, improves communication with society, and increases citizens’ economic and financial literacy.</p>
   </section>
 
-</div>
-
-  <!-- Текущие показатели -->
-  <div class="stats-card">
-    <h3>Annual inflation (current)</h3>
-    <div class="stats-value">3.4%</div>
-  </div>
-
   <!-- График  -->
-  <div class="section chart-section">
-    <h2>Inflation change</h2>
-  <div class="controls">
-    <label>
-      <input type="radio" name="inflationType" value="yearly" checked onchange="switchInflation('yearly')">
-      Yearly
-    </label>
-
-    <label>
-      <input type="radio" name="inflationType" value="monthly" onchange="switchInflation('monthly')">
-      Monthly
-    </label>
-  </div>
-    <div class="date-picker">
-      <label>From: <input type="month" id="startDate" value="2010-01"></label>
-      <label>To: <input type="month" id="endDate" value="2026-01"></label>
-      <button onclick="updateChart()">OK</button>
-      <button onclick="resetChart()">Reset</button>
-      <button onclick="exportPNG()">PNG</button>
-      <button onclick="exportCSV()">CSV</button>
+  <div class="chart-card">
+    <div class="chart-card__header">
+      <div class="chart-card__header-left">
+        <h2 class="chart-card__title">Inflation Dynamics</h2>
+        <div class="chart-type-toggle">
+          <button class="chart-type-btn active" id="btn-yearly" onclick="switchInflation('yearly')">Annual</button>
+          <button class="chart-type-btn" id="btn-monthly" onclick="switchInflation('monthly')">Monthly</button>
+        </div>
+      </div>
+      <div class="chart-toolbar">
+        <div class="date-range">
+          <span class="date-range__label">From</span>
+          <input type="month" id="startDate" value="2010-01">
+          <span class="date-range-sep">—</span>
+          <span class="date-range__label">To</span>
+          <input type="month" id="endDate" value="2026-01">
+        </div>
+        <button class="btn-chart btn-chart--apply" onclick="updateChart()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Apply
+        </button>
+        <button class="btn-chart" onclick="resetChart()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+        <button class="btn-chart" onclick="exportPNG()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l4 4 4-4"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+          PNG
+        </button>
+        <button class="btn-chart" onclick="exportCSV()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+          CSV
+        </button>
+      </div>
     </div>
-
-    <div class="chart-container">
-      <canvas id="inflationChart"></canvas>
+    <div class="chart-card__body">
+      <div class="chart-canvas-wrap">
+        <canvas id="inflationChart"></canvas>
+      </div>
     </div>
   </div>
 
@@ -367,15 +335,72 @@
   
 
 
-  <div style="text-align: center; margin: 40px 0;">
-    <a href="../index.html" class="back-link">← Home page</a>
-  </div>
-</div>
+</div></div>
 <!-- ------------ -->
 <script>
 let inflationChart;
 let originalData = null;
-let currentMode = "yearly"; // по умолчанию годовая
+let currentMode = "yearly";
+
+const MONTH_FULL_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const PERIODS_TARGET = [
+  { from: '2017-08', to: '2017-12', center: 7, band: 3 },
+  { from: '2018-01', to: '2019-12', center: 7, band: 2 },
+  { from: '2020-01', to: '2024-12', center: 6, band: 2 },
+  { from: '2025-01', to: null,      center: 5, band: 2 },
+];
+
+function getTarget(d) {
+  return PERIODS_TARGET.find(p => d >= p.from && (p.to === null || d <= p.to)) || null;
+}
+
+function buildTargetData(labels) {
+  return {
+    upper:  labels.map(d => { const t = getTarget(d); return t ? t.center + t.band : null; }),
+    lower:  labels.map(d => { const t = getTarget(d); return t ? t.center - t.band : null; }),
+    center: labels.map(d => { const t = getTarget(d); return t ? t.center : null; }),
+  };
+}
+
+function computeRange(vals) {
+  const v = vals.filter(x => x != null && !isNaN(x) && x > 0);
+  if (!v.length) return { min: 0, max: 20, step: 2 };
+  const lo = Math.min(...v), hi = Math.max(...v);
+  const span = hi - lo || 1;
+  const step = span <= 3 ? 1 : span <= 6 ? 2 : 5;
+  const mid = (lo + hi) / 2;
+  const half = Math.ceil((span / 2 + step) / step) * step;
+  return {
+    min: Math.max(0, Math.floor((mid - half) / step) * step),
+    max: Math.ceil((mid + half) / step) * step,
+    step
+  };
+}
+
+function updateInflationCard(values_yearly, dates) {
+  if (!values_yearly.length) return;
+  const n = values_yearly.length;
+  const current = values_yearly[n-1];
+  const lastDate = dates[n-1];
+  const titleEl = document.getElementById('inflation-title');
+  const valEl = document.getElementById('val-inflation-detail');
+  const badgeEl = document.getElementById('badge-inflation-detail');
+  if (titleEl && lastDate) {
+    titleEl.textContent = `Annual Inflation — ${MONTH_FULL_EN[lastDate.month-1]} ${lastDate.year}`;
+  }
+  if (valEl) valEl.textContent = current.toFixed(1);
+  if (badgeEl) {
+    const inTarget = current >= 3 && current <= 7;
+    if (inTarget) {
+      badgeEl.textContent = '✓ On target — 5% (±2 pp)';
+      badgeEl.style.cssText = 'background:rgba(34,197,94,0.18);color:#86efac;border:1px solid rgba(34,197,94,0.25);';
+    } else {
+      badgeEl.textContent = '✗ Off target';
+      badgeEl.style.cssText = 'background:rgba(239,68,68,0.22);color:#fca5a5;border:1px solid rgba(239,68,68,0.35);';
+    }
+  }
+}
 
 // ===== ЗАГРУЗКА EXCEL =====
 async function loadExcelData() {
@@ -396,6 +421,7 @@ async function loadExcelData() {
     const labels = [];
     const values_yearly = [];
     const values_monthly = [];
+    const dates = [];
 
     json.forEach(row => {
       const date = row.date;
@@ -407,13 +433,17 @@ async function loadExcelData() {
       const y = Number(yearly);
       const m = Number(monthly);
 
-      // если обе пустые — пропускаем
       if (isNaN(y) && isNaN(m)) return;
 
-      labels.push(String(date).slice(0, 7));
+      const str = String(date).slice(0, 7);
+      const [yr, mo] = str.split('-');
+      labels.push(str);
       values_yearly.push(isNaN(y) ? 0 : y);
       values_monthly.push(isNaN(m) ? 0 : m);
+      dates.push({ year: parseInt(yr), month: parseInt(mo) });
     });
+
+    updateInflationCard(values_yearly, dates);
 
     return { labels, values_yearly, values_monthly };
 
@@ -428,7 +458,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const data = await loadExcelData();
   originalData = data;
+  originalData.td = buildTargetData(data.labels);
 
+  const yr = computeRange(data.values_yearly);
   const ctx = document.getElementById('inflationChart').getContext('2d');
 
   inflationChart = new Chart(ctx, {
@@ -437,21 +469,54 @@ document.addEventListener('DOMContentLoaded', async () => {
       labels: data.labels,
       datasets: [{
         label: 'Yearly inflation (%)',
-        data: data.values_yearly, // 👈 дефолт годовая
+        data: data.values_yearly,
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.12)',
         tension: 0.4,
         pointRadius: 0,
         borderWidth: 3,
         fill: true
+      }, {
+        label: '_upper',
+        data: originalData.td.upper,
+        borderColor: 'rgba(16,185,129,0.20)',
+        backgroundColor: 'rgba(16,185,129,0.08)',
+        borderWidth: 1,
+        pointRadius: 0,
+        fill: '+1',
+        tension: 0,
+        stepped: true
+      }, {
+        label: '_lower',
+        data: originalData.td.lower,
+        borderColor: 'rgba(16,185,129,0.20)',
+        borderWidth: 1,
+        pointRadius: 0,
+        fill: false,
+        tension: 0,
+        stepped: true
+      }, {
+        label: 'Target — 5% (±2 pp)',
+        data: originalData.td.center,
+        borderColor: 'rgba(5,150,105,0.65)',
+        borderDash: [6, 4],
+        borderWidth: 1.5,
+        pointRadius: 0,
+        fill: false,
+        tension: 0,
+        stepped: true
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'nearest', intersect: false, axis: 'x' },
+      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'top' }
+        legend: { position: 'top', labels: { filter: item => !item.text.startsWith('_') } },
+        tooltip: {
+          filter: item => item.datasetIndex === 0,
+          callbacks: { label: c => ` ${c.parsed.y.toFixed(1)}%` }
+        }
       },
       scales: {
         x: {
@@ -462,10 +527,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         },
         y: {
-          ticks: { callback: v => v + '%', stepSize: 1 }
+          min: yr.min,
+          max: yr.max,
+          ticks: { callback: v => v + '%', stepSize: yr.step }
         }
       }
-    }
+    },
   });
 
   // авто даты
@@ -476,24 +543,49 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
+function updateYAxis(values) {
+  if (currentMode === 'monthly') {
+    inflationChart.options.scales.y.min = undefined;
+    inflationChart.options.scales.y.max = undefined;
+    inflationChart.options.scales.y.ticks.stepSize = undefined;
+  } else {
+    const r = computeRange(values);
+    inflationChart.options.scales.y.min = r.min;
+    inflationChart.options.scales.y.max = r.max;
+    inflationChart.options.scales.y.ticks.stepSize = r.step;
+  }
+}
+
 // ===== SWITCH MODE =====
 function switchInflation(type){
   if (!inflationChart || !originalData) return;
 
   currentMode = type;
 
-  const data = (type === "monthly")
+  const allLabels = originalData.labels;
+  const curLabels = inflationChart.data.labels;
+  const si = allLabels.indexOf(curLabels[0]);
+  const ei = allLabels.indexOf(curLabels[curLabels.length - 1]);
+
+  const allValues = type === "monthly"
     ? originalData.values_monthly
     : originalData.values_yearly;
 
-  inflationChart.data.datasets[0].data = data;
+  inflationChart.data.datasets[0].data =
+    si >= 0 && ei >= 0 ? allValues.slice(si, ei + 1) : allValues;
 
-  //  меняем подпись
   inflationChart.data.datasets[0].label =
     type === "monthly"
       ? 'Monthly inflation (%)'
       : 'Yearly inflation (%)';
 
+  const showTarget = type === 'yearly';
+  [1, 2, 3].forEach(i => inflationChart.data.datasets[i].hidden = !showTarget);
+
+  document.getElementById('btn-yearly').classList.toggle('active', type === 'yearly');
+  document.getElementById('btn-monthly').classList.toggle('active', type === 'monthly');
+
+  updateYAxis(inflationChart.data.datasets[0].data);
   inflationChart.update();
 }
 
@@ -520,9 +612,18 @@ function updateChart() {
   if (startIndex < 0) startIndex = 0;
   if (endIndex < 0) endIndex = labels.length - 1;
 
-  inflationChart.data.labels = labels.slice(startIndex, endIndex + 1);
+  const slicedLabels = labels.slice(startIndex, endIndex + 1);
+  inflationChart.data.labels = slicedLabels;
   inflationChart.data.datasets[0].data = values.slice(startIndex, endIndex + 1);
 
+  if (currentMode === 'yearly') {
+    const td = buildTargetData(slicedLabels);
+    inflationChart.data.datasets[1].data = td.upper;
+    inflationChart.data.datasets[2].data = td.lower;
+    inflationChart.data.datasets[3].data = td.center;
+  }
+
+  updateYAxis(values.slice(startIndex, endIndex + 1));
   inflationChart.update();
 }
 
@@ -538,95 +639,33 @@ function resetChart() {
   inflationChart.data.datasets[0].data = originalData.values_yearly;
   inflationChart.data.datasets[0].label = 'Yearly inflation (%)';
 
+  inflationChart.data.datasets[1].data = originalData.td.upper;
+  inflationChart.data.datasets[2].data = originalData.td.lower;
+  inflationChart.data.datasets[3].data = originalData.td.center;
+  [1, 2, 3].forEach(i => inflationChart.data.datasets[i].hidden = false);
+
+  updateYAxis(originalData.values_yearly);
   inflationChart.update();
 
   document.getElementById('startDate').value = originalData.labels[0];
   document.getElementById('endDate').value = originalData.labels[originalData.labels.length - 1];
 
-  // сброс radio
-  const radios = document.querySelectorAll('input[name="inflationType"]');
-  radios.forEach(r => {
-    r.checked = (r.value === "yearly");
-  });
+  document.getElementById('btn-yearly').classList.add('active');
+  document.getElementById('btn-monthly').classList.remove('active');
 }
 
 
-// ===== EXPORT PNG =====
-function exportPNG() {
-  const link = document.createElement('a');
-  link.href = inflationChart.toBase64Image();
-  link.download = 'inflation.png';
-  link.click();
-}
-
-
-// ===== EXPORT CSV =====
-function exportCSV() {
-  let csv = 'Date,Value\n';
-
-  const labels = inflationChart.data.labels;
-  const values = inflationChart.data.datasets[0].data;
-
-  for (let i = 0; i < labels.length; i++) {
-    csv += `${labels[i]},${values[i]}\n`;
-  }
-
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const link = document.createElement('a');
-
-  link.href = URL.createObjectURL(blob);
-  link.download = 'inflation.csv';
-  link.click();
-}
-
-// ===== LANGUAGE SWITCH WITH FILE REDIRECT =====
-function setLang(lang) {
-    document.body.style.opacity = "0.4";
-
-    setTimeout(() => {
-        localStorage.setItem("lang", lang);
-
-        if (lang === "tj") {
-            window.location.href = "../other_links/inflation.html";           
-        } 
-        else if (lang === "ru") {
-            window.location.href = "../ru/inflation_ru.html";        
-        } 
-        else if (lang === "en") {
-            window.location.href = "../eng/inflation_eng.html";        
-        }
-    }, 180);
-}
-
-// ===== INIT - Highlight active button on load =====
-document.addEventListener("DOMContentLoaded", () => {
-    const savedLang = localStorage.getItem("lang") || "tj";
-
-    document.querySelectorAll(".lang-switcher button").forEach(btn => {
-        btn.classList.remove("active");
-
-        const match = btn.getAttribute("onclick")?.match(/'(\w+)'/);
-        const btnLang = match ? match[1] : null;
-
-        if (btnLang === savedLang) {
-            btn.classList.add("active");
-        }
-    });
-});
+function exportPNG() { exportChartPNG(inflationChart, 'inflation'); }
+function exportCSV() { exportChartCSV(inflationChart, 'inflation', 'Value'); }
 
 document.querySelectorAll('.show-more').forEach(link => {
   link.addEventListener('click', () => {
-    const content = link.nextElementSibling;
-    content.classList.toggle('active');
-
-    if(content.classList.contains('active')) {
-      link.textContent = 'Hide contents';
-    } else {
-      link.textContent = 'Read more';
-    }
+    link.nextElementSibling.classList.toggle('active');
+    link.classList.toggle('active');
   });
 });
 </script>
 
+<script src="../js/common.js"></script>
 </body>
 </html>
