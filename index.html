@@ -1,103 +1,160 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="tj">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>НБТ • Монетарные показатели • Март 2026</title>
+  <title>Бонки Миллии Тоҷикистон — Нишондиҳандаҳои монетарӣ</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script defer src="js/chart.umd.min.js"></script>
+  <script defer src="js/xlsx.full.min.js"></script>
 </head>
 <body>
 
-  <div class="lang-switcher">
-    <button onclick="setLang('tj')">🇹🇯</button>
-    <button onclick="setLang('ru')">🇷🇺</button>
-    <button onclick="setLang('en')">🇬🇧</button>
-  </div>
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="lang-switcher">
+        <button onclick="setLang('tj')" data-lang="tj">🇹🇯 ТҶ</button>
+        <button onclick="setLang('ru')" data-lang="ru">🇷🇺 РУ</button>
+        <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
+      </div>
+    </div>
+  </header>
 
-<nav class="navbar">
-  <ul class="menu">
-    <li class="menu-item dropdown">
-      <a href="#" data-i18n="menu_policy">Сиёсати пулӣ</a>
-      <ul class="dropdown-menu">
-        <li><a href="other_links/maksad.html" data-i18n="menu_goal" class="nav-link">Мақсад ва вазифаҳо</a></li>
-        <li><a href="other_links/fishang.html" data-i18n="menu_tools" class="nav-link">Фишангҳои сиёсати пулӣ</a></li>
-        <li><a href="other_links/kumita_bmt.html" data-i18n="menu_committee" class="nav-link">Кумитаи сиёсати пулию қарзии Бонки Миллии Тоҷикистон</a></li>
-        <li><a href="other_links/samtho.html" data-i18n="menu_strategy" class="nav-link">Самтҳои асосии сиёсати пулию қарзии ҶТ</a></li>
-
-        <li class="dropdown-sub">
-          <a href="#" data-i18n="menu_reports">Шарҳ ва интишорот</a>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container">
+      <ul class="menu">
+        <li class="menu-item dropdown">
+          <a href="#" data-i18n="menu_policy">Сиёсати пулӣ</a>
           <ul class="dropdown-menu">
-            <li><a href="other_links/sharhi_mohonai_tavarrum.html" data-i18n="menu_report_monthly_inflation" class="nav-link">Шарҳи моҳонаи таваррум</a></li>
-            <li><a href="other_links/sharhi_monetary.html" data-i18n="menu_report_monetary" class="nav-link">Шарҳи монетарӣ</a></li>
-            <li><a href="other_links/macroeconomic.html" data-i18n="menu_report_macro" class="nav-link">Шарҳи макроиқтисодӣ</a></li>
-            <li><a href="other_links/shahri-tav.html" data-i18n="menu_report_inflation" class="nav-link">Шарҳи таваррум</a></li>
+            <li><a href="other_links/maksad.html"     data-i18n="menu_goal"      class="nav-link">Мақсад ва вазифаҳо</a></li>
+            <li><a href="other_links/fishang.html"    data-i18n="menu_tools"     class="nav-link">Фишангҳои сиёсати пулӣ</a></li>
+            <li><a href="other_links/kumita_bmt.html" data-i18n="menu_committee" class="nav-link">Кумитаи сиёсати пулию қарзӣ</a></li>
+            <li><a href="other_links/samtho.html"     data-i18n="menu_strategy"  class="nav-link">Самтҳои асосии сиёсати пулию қарзӣ</a></li>
+
+            <li class="dropdown-sub">
+              <a href="#" data-i18n="menu_reports">Шарҳ ва интишорот</a>
+              <ul class="dropdown-menu">
+                <li><a href="other_links/sharhi_mohonai_tavarrum.html" data-i18n="menu_report_monthly_inflation" class="nav-link">Шарҳи моҳонаи таваррум</a></li>
+                <li><a href="other_links/sharhi_monetary.html"         data-i18n="menu_report_monetary"          class="nav-link">Шарҳи монетарӣ</a></li>
+                <li><a href="other_links/macroeconomic.html"           data-i18n="menu_report_macro"             class="nav-link">Шарҳи макроиқтисодӣ</a></li>
+                <li><a href="other_links/shahri-tav.html"              data-i18n="menu_report_inflation"         class="nav-link">Шарҳи таваррум</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
       </ul>
-    </li>
-  </ul>
-</nav>
+    </div>
+  </nav>
 
-<div class="container">
-  <div class="stats">
+  <!-- ===== MAIN ===== -->
+  <main>
 
-    <!-- Карточка 1 -->
-    
-      <article class="statistic nav-link">
-        <div class="block-header">
-          <a href="other_links/policy_rate.html"><span class="text-hover-effect-1" data-i18n="rate_title">Меъёри бозтамвил</span></a>
-          <span class="subtitle" data-i18n="rate_date">(аз 02 феврали соли 2026)</span>
+    <!-- Section intro bar -->
+    <div class="page-intro">
+      <div class="container">
+        <div class="page-intro__inner">
+          <h1 class="section-heading" data-i18n="section_heading">Нишондиҳандаҳои монетарӣ</h1>
+          <span class="section-period" data-i18n="section_period">Март 2026</span>
         </div>
-        <div class="statistic-content">
-          <div class="statistic-value-wrapper">
-            <img src="img/1.png" alt="Down" class="statistic-icon">
-            <div class="statistic-value" style="color: #0098D6;">7,00<span class="unit" style="color: #0098D6;">%</span></div>
-          </div>
-         <p class="statistic-meta" style="font-size: 1.2rem; padding-left:5%; color: #254696;" ><a href="other_links/kumita_bmt.html#meeting" data-i18n="next_meeting">Ҷаласаи навбатии Кумита: 30.04.2026</a></p>
-        </div>
-      </article>
-  
-
-    <!-- Карточка 2 -->
-    
-      <article class="statistic nav-link">
-        <div class="block-header">
-          <a href="other_links/inflation.html"><span class="text-hover-effect-1" data-i18n="inflation_title">Таварруми солона</span></a>
-          <span class="subtitle" data-i18n="inflation_month">(Март 2026)</span>
-        </div>
-        <div class="statistic-content">
-          <div class="statistic-value-wrapper">
-            <img src="img/2.png" alt="Up" class="statistic-icon">
-            <div class="statistic-value" style="color: #0098D6;">3,4<span class="unit" style="color: #0098D6;">%</span></div>
-          </div>
-          <p class="statistic-meta" style="color: #254696; font-size: 1.2rem; padding-left:13%;"><a href="other_links/maksad.html#target" data-i18n="inflation_target">Ҳадафи таваррум: 5% (±2 б.ф.)</a></p>
-        </div>
-      </article>
-
-
-    <!-- График -->
-    <article class="statistic chart-card">
-      <div class="block-header">
-        <a href="other_links/charts.html" class="statistic-link-wrapper nav-link">
-          <span class="text-hover-effect-1" id="chartTitle" data-i18n="chart_title">Тағйирёбии сатҳи таваррум</span>
-        </a>
       </div>
-      <div class="chart-content">
-        <canvas id="chartCanvas"></canvas>
-      </div>
-      <div class="dots">
-        <span class="dot active" data-index="0"></span>
-        <span class="dot" data-index="1"></span>
-        <span class="dot" data-index="2"></span>
-        <span class="dot" data-index="3"></span>
-      </div>
-    </article>
-  </div>
-</div>
-<script src="js/script.js"></script>
+    </div>
+
+    <!-- Stats cards -->
+    <div class="stats-wrap">
+      <div class="container">
+        <div class="stats">
+
+          <!-- Card 1: Refinancing Rate -->
+          <article class="statistic">
+            <div class="block-header">
+              <div class="block-header__left">
+                <a href="other_links/policy_rate.html" class="nav-link">
+                  <span class="text-hover-effect-1" data-i18n="rate_title">Меъёри бозтамвил</span>
+                </a>
+                <span id="rate-since" class="subtitle" data-i18n="rate_date">аз 02 феврали соли 2026</span>
+              </div>
+            </div>
+            <div class="statistic-body">
+              <div class="kpi-row">
+                <div id="stat-rate-icon" class="kpi-icon kpi-icon--down">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="18 14 12 20 6 14"/></svg>
+                </div>
+                <div class="statistic-value"><span id="val-rate">7,00</span><span class="unit">%</span></div>
+              </div>
+              <div id="badge-rate" class="trend-badge trend-down">↓ −0,25 б.ф. аз феврали 2026</div>
+            </div>
+            <div class="statistic-footer">
+              <svg class="meta-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+              <a href="other_links/kumita_bmt.html#meeting" class="nav-link" data-i18n="next_meeting">Ҷаласаи навбатии Кумита: 30.07.2026</a>
+            </div>
+          </article>
+
+          <!-- Card 2: Annual Inflation -->
+          <article class="statistic">
+            <div class="block-header">
+              <div class="block-header__left">
+                <a href="other_links/inflation.html" class="nav-link">
+                  <span class="text-hover-effect-1" data-i18n="inflation_title">Таварруми солона</span>
+                </a>
+                <span class="subtitle" data-i18n="inflation_month">Март 2026</span>
+              </div>
+            </div>
+            <div class="statistic-body">
+              <div class="kpi-row">
+                <div id="stat-inflation-icon" class="kpi-icon kpi-icon--up">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/></svg>
+                </div>
+                <div class="statistic-value"><span id="val-inflation">3,4</span><span class="unit">%</span></div>
+              </div>
+              <div id="badge-inflation" class="trend-badge trend-flat">✓ Дар ҳадаф</div>
+            </div>
+            <div class="statistic-footer">
+              <svg class="meta-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+              <a href="other_links/maksad.html#target" class="nav-link" data-i18n="inflation_target_link">Ҳадафи таваррум: 5% (±2 б.ф.)</a>
+            </div>
+          </article>
+
+          <!-- Card 3: Chart -->
+          <article class="statistic chart-card">
+            <div class="block-header">
+              <div class="block-header__left">
+                <a href="other_links/charts.html" class="nav-link">
+                  <span class="text-hover-effect-1" id="chartTitle" data-i18n="chart_title">Тағйирёбии сатҳи таваррум</span>
+                </a>
+                <span id="chartSubtitle" class="subtitle" data-i18n="chart_subtitle">Март 2025 — Март 2026</span>
+              </div>
+            </div>
+            <div class="chart-content">
+              <canvas id="chartCanvas"></canvas>
+            </div>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-index="0" style="--tab-color:#3b82f6"><span class="chart-tab__dot"></span><span data-i18n="dot_inflation">Таваррум</span></button>
+              <button class="chart-tab" data-index="1" style="--tab-color:#64748b"><span class="chart-tab__dot"></span><span data-i18n="dot_rate">Меъёри бозтамвил</span></button>
+              <button class="chart-tab" data-index="2" style="--tab-color:#22c55e"><span class="chart-tab__dot"></span><span data-i18n="dot_bonds">Қоғазҳои қиматнок</span></button>
+              <button class="chart-tab" data-index="3" style="--tab-color:#f59e0b"><span class="chart-tab__dot"></span><span data-i18n="dot_interbank">Байнибонкӣ</span></button>
+            </div>
+          </article>
+
+        </div><!-- .stats -->
+      </div><!-- .container -->
+    </div><!-- .stats-wrap -->
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© 2026 Бонки Миллии Тоҷикистон</span>
+      <a href="https://nbt.tj" target="_blank" rel="noopener">nbt.tj</a>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
 
 </body>
 </html>
