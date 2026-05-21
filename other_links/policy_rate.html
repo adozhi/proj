@@ -10,260 +10,104 @@
   <script src="../js/xlsx.full.min.js"></script>
 
   <style>
-    :root {
-      --bg: #ffffff;
-      --card: #ffffff;
-      --border: #e2e8f0;
-      --text: #1e293b;
-      --meta: #64748b;
-      --primary: #3b82f6;
-      --accent: #2563eb;
-      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
-      --shadow-md: 0 10px 25px rgba(0,0,0,0.1);
-      --header-bg: #f8fafc;
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 40px 20px;
-      line-height: 1.6;
-    }
-
-    .container { max-width: 1200px; margin: 0 auto; }
-
-    header { text-align: center; margin-bottom: 40px; }
-
-    h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 0.5em; }
-
-    .subtitle { font-size: 1.2rem; color: var(--meta); }
-
-    .back-link {
-      display: inline-block;
-      margin: 20px 0;
-      color: var(--accent);
-      font-weight: 500;
-      text-decoration: none;
-    }
-
-    .back-link:hover { color: #1d4ed8; text-decoration: underline; }
-
     .section {
-      background: white;
-      border: 1px solid var(--border);
+      background: #fff;
+      border: 1px solid #e2e8f0;
       border-radius: 16px;
-      padding: 32px;
-      margin-bottom: 32px;
-      box-shadow: var(--shadow-sm);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
-
     .section h2 {
-      font-size: 1.8rem;
-      color: var(--text);
-      margin: 2em 0 1em;
-      border-bottom: 2px solid var(--primary);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 1em;
       padding-bottom: 0.5em;
+      border-bottom: 2px solid #3b82f6;
     }
+    .section p { margin-bottom: 0.75em; color: #475569; font-size: 0.92rem; line-height: 1.65; }
+    .section p:last-child { margin-bottom: 0; }
 
     .stats-card {
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 24px;
-      text-align: center;
-      margin: 24px 0;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .stats-value { font-size: 4rem; font-weight: 800; color: var(--primary); margin: 0.3em 0; }
-
-    .stats-unit { font-size: 1.5rem; color: var(--meta); }
-
-    .stats-update { font-size: 1rem; color: var(--meta); margin-top: 1em; }
-
-    .chart-section { margin: 40px 0; }
-
-    .chart-container {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 20px 0;
+      box-shadow: 0 8px 32px rgba(30,64,175,0.28);
       position: relative;
-      height: 420px;
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .date-picker {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .date-picker label { font-weight: 500; color: var(--text); }
-
-    .date-picker input, .date-picker button {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-    }
-
-    .date-picker button {
-      background: var(--primary);
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .date-picker button:hover { background: var(--accent); }
-
-    .accordion {
-      margin: 20px 0;
-    }
-
-    .accordion-item {
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-
-    .accordion-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      padding: 16px 0;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: color 0.2s;
-    }
-
-    .accordion-title:hover { color: var(--primary); }
-
-    .accordion-content {
-      display: none;
-      padding-bottom: 16px;
-      color: var(--meta);
-    }
-
-    .accordion-content.active { display: block; }
-
-    .accordion-icon {
-      font-size: 1.5rem;
-      transition: transform 0.3s;
-    }
-
-    .accordion-title.active .accordion-icon { transform: rotate(180deg); }
-
-    @media (max-width: 768px) {
-      .section { padding: 20px; }
-      h1 { font-size: 2.2rem; }
-      .chart-container { height: 320px; }
-      .date-picker { flex-direction: column; align-items: center; gap: 12px; }
-    }
-
-    .styled-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
-      margin: 20px 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      border-radius: 8px;
       overflow: hidden;
     }
-
-    .styled-table thead tr {
-      background-color: #3b82f6;
-      color: #ffffff;
-      text-align: left;
-      font-weight: 600;
+    .stats-card::after {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
     }
+    .stats-card h3 { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.50); text-transform: uppercase; letter-spacing: 0.10em; margin: 0 0 3px; }
+    .stats-card h4 { font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.35); margin: 0 0 14px; }
+    .stats-value { font-size: 4.2rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .stats-badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(34,197,94,0.18); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
 
-    .styled-table th, 
-    .styled-table td {
-      padding: 12px 16px;
-      border-bottom: 1px solid #e2e8f0;
-      vertical-align: top;
-    }
+    .styled-table { width: 100%; border-collapse: collapse; font-size: 0.90rem; margin: 16px 0 0; border-radius: 8px; overflow: hidden; }
+    .styled-table thead tr { background-color: #3b82f6; color: #fff; font-weight: 600; text-align: left; }
+    .styled-table th, .styled-table td { padding: 11px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+    .styled-table tbody tr:nth-child(even) { background-color: #f8fafc; }
+    .styled-table tbody tr:hover { background-color: #e0f2fe; }
 
-    .styled-table tbody tr:nth-child(even) {
-      background-color: #f8fafc;
-    }
-
-    .styled-table tbody tr:hover {
-      background-color: #e0f2fe;
-    }
-    .lang-switcher {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    gap: 8px;
-    z-index: 9999;
-}
-
-  .lang-switcher button {
-      width: 44px;
-      height: 44px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 18px;
-      background: #ffffff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-      transition: 0.2s;
-  }
-
-  .lang-switcher button:hover {
-      transform: scale(1.08);
-  }
-
-  .lang-switcher button.active {
-      background: #005eff30;
-      color: white;
-  }
+    @media (max-width: 768px) { .section { padding: 18px 16px; } }
   </style>
+<link rel="stylesheet" href="../css/detail.css">
 </head>
 <body>
-  <div class="lang-switcher">
-    <button onclick="setLang('tj')" id="btn-tj">🇹🇯</button>
-    <button onclick="setLang('ru')" id="btn-ru">🇷🇺</button>
-    <button onclick="setLang('en')" id="btn-en">🇬🇧</button>
-</div>
+<header class="page-header">
+  <div class="page-header__inner">
+    <a href="../index.html" class="back-btn">Асосӣ</a>
+    <span class="page-header__title">Меъёри бозтамвил</span>
+    <div class="lang-switcher">
+      <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
+      <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
+      <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+    </div>
+  </div>
+</header>
 
 <div class="container">
-  <header>
-    <h1>Меъёри бозтамвил</h1>
-  </header>
+
+  <div class="stats-card">
+    <h3>Меъёри бозтамвил</h3>
+    <h4 id="rate-since-subtitle">аз 02 феврали соли 2026</h4>
+    <div class="stats-value"><span id="val-rate-detail">7,00</span><span style="font-size:2rem;font-weight:800;color:rgba(255,255,255,0.75);margin-left:3px;">%</span></div>
+    <div id="badge-rate-detail" class="stats-badge">−0,25 б.ф. аз феврали 2026</div>
+  </div>
 
   <!-- 1. Что такое ставка рефинансирования -->
   <div class="section">
     <h2>Меъёри бозтамвил чист?</h2>
-    <p>Тибқи Қонуни Ҷумҳурии Тоҷикистон “Дар бораи Бонки миллии Тоҷикистон” меъёри бозтамвил меъёри ҳадди ақалли фоизе, ки аз рӯи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарз медиҳад ё меъёри даромаде, ки тибқи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзии исломӣ қарз медиҳад.</p> 
-    <p>Ҳамзамон, меъёри бозтамвил ҳамчун фишанги асосии сиёсати пулию қарзӣ барои анҷоми амалиётҳои монетарӣ маҳсуб ёфта, дар асоси таҳлилҳои ҳамаҷонибаи нишондиҳандаҳои мақсаднок, хавфҳои эҳтимолии дохилию берунӣ ва мавқеи сиёсати пулию қарзӣ муқаррар карда мешавад.</p>
+    <p>Тибқи Қонуни Ҷумҳурии Тоҷикистон “Дар бораи Бонки миллии Тоҷикистон” , меъёри бозтамвил меъёри ҳадди ақалли фоизе мебошад, ки аз рӯйи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарз медиҳад ё меъёри даромадест, ки тибқи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзии исломӣ қарз медиҳад.</p> 
+    <p>Ҳамзамон, меъёри бозтамвил фишанги асосии сиёсати пулию қарзӣ барои анҷом додани амалиётҳои монетарӣ маҳсуб ёфта, дар асоси таҳлилҳои ҳамаҷонибаи нишондиҳандаҳои мақсаднок, хавфҳои эҳтимолии дохилию берунӣ ва мавқеи сиёсати пулию қарзӣ муқаррар карда мешавад.</p>
     <p>Меъёри бозтамвил нақши иттилоотӣ ва ишоратиро (сигналиро) доро буда, самт ва мавқеи сиёсати пулию қарзиро барои давраи оянда (миёнамуҳлат ва ё дарозмуддат) тавсиф менамояд.</p>
-    <p>Вобаста ба тағйирёбии меъёри бозтамвил аз сатҳи мувозинии  худ мавқеи сиёсати пулию қарзӣ барои давраи оянда муайян карда мешавад. Дар адабиётҳои иқтисодӣ ҳолати мувозинии меъёри бозтамвилро меъёри фоизи нейтралӣ меноманд.</p>
-    <p>Меъёри фоизи нейтралӣ ин фоизи миёнаи меъёри бозтамвили воқеӣ (меъёри бозтамвил тарҳи сатҳи таваррум) дар солҳои гузашта ва ҷамъи (+) дурнамои сатҳи таваррум мебошад.</p>
-    <p>Баробар будани меъёри бозтамвил ба меъёри нейтралии (мувозинӣ) худ аз мавҷудияти мувозинии сатҳи талаботу таклифот, рушди устувори иқтисодӣ дар доираи иқтидори худ ва муътадилии сатҳи таваррум дар доираи ҳадафи муқарраршудаи он гувоҳӣ медиҳад.</p>
-    <p>Агар меъёри бозтамвил аз сатҳи нейтралии худ баланд (паст) бошад, он аз қатъӣ (ҳавасмандӣ) будани мавқеи сиёсати пулию қарзӣ дарак медиҳад.</p>
+    <p>Вобаста ба тағйирёбии меъёри бозтамвил мавқеи сиёсати пулию қарзӣ барои давраи оянда муайян карда мешавад. Дар адабиётҳои иқтисодӣ ҳолати мувозинии меъёри бозтамвилро меъёри фоизи нейтралӣ меноманд.</p>
+    <p>Меъёри фоизи нейтралӣ фоизи миёнаи меъёри бозтамвили воқеӣ (меъёри бозтамвил - тарҳи сатҳи таваррум) дар солҳои гузашта ва ҷамъи (+) дурнамои сатҳи таваррум мебошад.</p>
+    <p>Баробар будани меъёри бозтамвил ба меъёри нейтралӣ (мувозинӣ) аз мавҷудияти сатҳи талаботу таклифот, рушди устувори иқтисодӣ ва муътадилии сатҳи таваррум дар доираи ҳадафи муқарраршудаи он гувоҳӣ медиҳад.</p>
+    <p>Агар меъёри бозтамвил аз сатҳи нейтралӣ баланд (паст) бошад, он аз қатъӣ будани мавқеи сиёсати пулию қарзӣ дарак медиҳад.</p>
   </div>
 
 
   <div class="section">
     <h2>Меъёри бозтамвил чӣ тавр муқаррар карда мешавад?</h2>
-    <p>Меъёри бозтамвил дар ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон дар асоси маълумоти таҳлилӣ ва дурнамои макроиқтисодии кишвар, вазъи иқтисодии кишварҳои шарикони асосии савдои ҷумҳурӣ, тамоюли тағйирбии сатҳи нархҳои ҷаҳонии молу маҳсулот, инчунин омилҳо ва интизориҳои таваррумӣ бо овоздиҳии на камтар аз се ду ҳиссаи аъзоёни Кумита муқаррар карда мешавад.</p>
-    <p>Дар доираи пешбурди реҷаи ҳадафгирии таваррум, вақте ки дурнамои сатҳи таваррум ва интизориҳои таваррумӣ аз ҳадафи муқаррарнамудаи сатҳи таваррум боло бошанд, меъёри бозтамвил баланд ва агар поён бошанд, баръакс паст карда мешавад.</p>
-    <p>Барои маълумоти бештар оид ба ҳамаи фишангҳои сиёсати пулию қарзӣ, саҳифаи <a href="../other_links/fishang.html"><u>Фишангҳои сиёсати пулию қарзӣ</u></a>-ро бубинед.</p>
-    <p>Меъёри бозтамвил дар доираи <strong style="color: #5b9bd5;">ҳудуди (коридори) меъёри фоизӣ</strong> ба дигар нишондиҳандаҳои пулию қарзӣ таъсир мерасонад.</p>
+    <p>Меъёри бозтамвил дар ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон дар асоси маълумоти таҳлилӣ ва дурнамои макроиқтисодии кишвар, вазъи иқтисодии кишварҳои шарикони асосии савдои ҷумҳурӣ, тамоюли тағйирёбии сатҳи нархҳои ҷаҳонии молу маҳсулот, инчунин омилҳо ва интизориҳои таваррумӣ бо овоздиҳии на камтар аз се ду ҳиссаи аъзои Кумита муқаррар карда мешавад.</p>
+    <p>Дар доираи пешбурди реҷаи ҳадафгирии таваррум, вақте ки дурнамои сатҳи таваррум ва интизориҳои таваррумӣ аз ҳадафи муқаррарнамудаи сатҳи таваррум боло бошанд, меъёри бозтамвил баланд ва агар поён бошанд, баръакс, паст карда мешавад.</p>
+    <p>Барои дарёфти маълумоти бештар оид ба фишангҳои сиёсати пулию қарзӣ ба саҳифаи <a href="../other_links/fishang.html"><u>Фишангҳои сиёсати пулию қарзӣ</u></a> муроҷиат намоед.</p>
+    <p>Меъёри бозтамвил дар доираи <strong style="color: #5b9bd5;">ҳудуди долони (коридори) меъёри фоизӣ</strong> ба дигар нишондиҳандаҳои пулию қарзӣ таъсир мерасонад.</p>
 
   </div>
 
   <div class="section">
-  <h2>Ҳудуди (каридори) меъёри фоизӣ чист?</h2>
+  <h2>Ҳудуди долони(коридори) меъёри фоизӣ чист?</h2>
 
   <table class="styled-table">
     <thead>
@@ -275,15 +119,15 @@
     <tbody>
       <tr>
         <td>Ҳудуди болоии долон (меъёри қарзи шабонарӯзӣ)</td>
-        <td>меъёри бозтамвил + 3 б.ф. (10,0 фоиз) —меъёре, ки аз рӯи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарзи шабонарӯзӣ медиҳад</td>
+        <td>меъёри бозтамвил + 3 б.ф. (<span id="corridor-upper">10,0</span> фоиз) — меъёре, ки аз рӯйи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарзи шабонарӯзӣ медиҳад</td>
       </tr>
       <tr>
         <td>Марказ (меъёри бозтамвил)</td>
-        <td>7,0 фоиз — меъёри калидии сиёсати пулию қарзӣ</td>
+        <td><span id="corridor-center">7,0</span> фоиз — меъёри калидии сиёсати пулию қарзӣ</td>
       </tr>
       <tr>
         <td>Ҳудуди поёнии долон (меъёри амонати шабонарӯзӣ)</td>
-        <td>меъёри бозтамвил – 3 б.ф. (4,0 фоиз)  — меъёре, ки Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ  барои ҷалби амонатҳои шабонарӯзӣ пардохт менамояд</td>
+        <td>меъёри бозтамвил – 3 б.ф. (<span id="corridor-lower">4,0</span> фоиз) — меъёре, ки Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ барои ҷалби амонатҳои шабонарӯзӣ маблағ пардохт менамояд</td>
       </tr>
       <tr>
         <td>Меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкӣ</td>
@@ -292,41 +136,110 @@
     </tbody>
   </table>
 
-  <p>Дар реҷаи ҳадафгирии таваррум меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкӣ ҳамчун ҳадафи амалиётии татбиқи сиёсати пулию қарзӣ маҳсуб меёбад. Яъне, Бонки миллии Тоҷикистон бо истифода аз фишангҳои сиёсати пулию қарзӣ, аз ҷумла воситаҳои доимамалкунандаи монетарӣ (фоизи қарзҳои овернайт баробар ба меъёри бозтамвил + 3,0 б.ф. ва ҷалби депозитҳои шабонарӯзӣ - 3,0 б.ф.) ва барориши коғазҳои қиматнок меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкиро наздик ба меъёри бозтамвил нигоҳ медорад.</p>
+  <p>Дар реҷаи ҳадафгирии таваррум меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкӣ ҳадафи амалиётии татбиқи сиёсати пулию қарзӣ маҳсуб меёбад. Яъне, Бонки миллии Тоҷикистон бо истифода аз фишангҳои сиёсати пулию қарзӣ, аз ҷумла воситаҳои доимоамалкунандаи монетарӣ (фоизи қарзҳои овернайт баробар ба меъёри бозтамвил + 3,0 б.ф. ва ҷалби амонатҳои шабонарӯзӣ - 3,0 б.ф.) ва барориши коғазҳои қиматнок меъёри фоизи қарзҳои кӯтоҳмуддати байнибонкиро наздик ба меъёри бозтамвил нигоҳ медорад.</p>
 
 </div>
-  <div class="stats-card">
-    <h3>Меъери бозтамвил</h3>
-    <h4>(аз 02 феврали соли 2026)</h4>
-    <div class="stats-value">7.00%</div>
-  </div>
-    <div class="section chart-section">
-    <h2>Тағйирёбии меъёри бозтамвил (аз 2011 то 2026+)</h2>
-
-    <div class="date-picker">
-        <label>Аз: <input type="month" id="startDate" value="2010-01"></label>
-        <label>То: <input type="month" id="endDate" value="2026-03"></label>
-        <button onclick="updateChart()">OK</button>
-        <button onclick="resetChart()">Reset</button>
-        <button onclick="exportPNG()">PNG</button>
-        <button onclick="exportCSV()">CSV</button>
+    <div class="chart-card">
+      <div class="chart-card__header">
+        <div class="chart-card__header-left">
+          <h2 class="chart-card__title">Тағйирёбии меъёри бозтамвил</h2>
+        </div>
+        <div class="chart-toolbar">
+          <div class="date-range">
+            <span class="date-range__label">Аз</span>
+            <input type="month" id="startDate" value="2010-01">
+            <span class="date-range-sep">—</span>
+            <span class="date-range__label">То</span>
+            <input type="month" id="endDate" value="2026-03">
+          </div>
+          <button class="btn-chart btn-chart--apply" onclick="updateChart()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            OK
+          </button>
+          <button class="btn-chart" onclick="resetChart()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Reset
+          </button>
+          <button class="btn-chart" onclick="exportPNG()" title="PNG">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l4 4 4-4"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
+            PNG
+          </button>
+          <button class="btn-chart" onclick="exportCSV()" title="CSV">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+            CSV
+          </button>
+        </div>
+      </div>
+      <div class="chart-card__body">
+        <div class="chart-canvas-wrap" style="height:440px;">
+          <canvas id="rateChart"></canvas>
+        </div>
+      </div>
     </div>
 
-    <div class="chart-container" style="position: relative; height: 450px;">
-        <canvas id="rateChart"></canvas>
-    </div>
-    </div>
 
 
-  <div style="text-align: center; margin: 40px 0;">
-    <a href="../index.html" class="back-link">← Ба саҳифаи асосӣ</a>
-  </div>
 </div> 
 
 <script>
 
 let rateChart;
 let originalData = null;
+
+const MONTH_GENITIVE_TJ = ['январи','феврали','марти','апрели','майи','июни','июли','августи','сентябри','октябри','ноябри','декабри'];
+
+function computeCardState(arr, dates) {
+  const n = arr.length; if (n < 2) return null;
+  const current = arr[n-1];
+  let changeIdx = n-1;
+  for (let i = n-2; i >= 0; i--) {
+    if (Math.abs(arr[i] - current) > 0.0001) break;
+    changeIdx = i;
+  }
+  const prevValue = changeIdx > 0 ? arr[changeIdx-1] : current;
+  const delta = current - prevValue;
+  const direction = delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0;
+  return { direction, delta: Math.abs(delta), sinceDate: dates[changeIdx], currentValue: current };
+}
+
+function updateCorridorTable(rate) {
+  const fmt = v => v.toFixed(1).replace('.', ',');
+  const u = document.getElementById('corridor-upper');
+  const c = document.getElementById('corridor-center');
+  const l = document.getElementById('corridor-lower');
+  if (u) u.textContent = fmt(rate + 3);
+  if (c) c.textContent = fmt(rate);
+  if (l) l.textContent = fmt(rate - 3);
+}
+
+function updateRateCard(rates, dates) {
+  const state = computeCardState(rates, dates);
+  if (!state) return;
+  const valEl = document.getElementById('val-rate-detail');
+  const badgeEl = document.getElementById('badge-rate-detail');
+  const subtitleEl = document.getElementById('rate-since-subtitle');
+  if (valEl) valEl.textContent = state.currentValue.toFixed(2).replace('.', ',');
+  if (state.sinceDate) {
+    const mn = MONTH_GENITIVE_TJ[state.sinceDate.month - 1];
+    if (subtitleEl) subtitleEl.textContent = `аз ${mn} соли ${state.sinceDate.year}`;
+    if (badgeEl) {
+      if (state.direction === 0) {
+        badgeEl.textContent = 'Бетағйир';
+        badgeEl.style.cssText = 'background:rgba(251,191,36,0.22);color:#fbbf24;border:1px solid rgba(251,191,36,0.35);';
+      } else {
+        const sign = state.direction < 0 ? '−' : '+';
+        const deltaStr = state.delta.toFixed(2).replace('.', ',');
+        badgeEl.textContent = `${sign}${deltaStr} б.ф. аз ${mn} ${state.sinceDate.year}`;
+        if (state.direction < 0) {
+          badgeEl.style.cssText = 'background:rgba(34,197,94,0.18);color:#86efac;border:1px solid rgba(34,197,94,0.25);';
+        } else {
+          badgeEl.style.cssText = 'background:rgba(239,68,68,0.22);color:#fca5a5;border:1px solid rgba(239,68,68,0.35);';
+        }
+      }
+    }
+  }
+  updateCorridorTable(state.currentValue);
+}
 
 // ===== ЗАГРУЗКА EXCEL =====
 async function loadExcelData() {
@@ -344,10 +257,16 @@ async function loadExcelData() {
     const sheet = workbook.Sheets[sheetName];
 
     const json = XLSX.utils.sheet_to_json(sheet);
-    
 
     const labels = json.map(row => String(row.date).slice(0, 7));
     const values = json.map(row => Number(row.rate));
+    const dates = json.map(row => {
+      const str = String(row.date).slice(0, 7);
+      const [y, m] = str.split('-');
+      return { year: parseInt(y), month: parseInt(m) };
+    });
+
+    updateRateCard(values, dates);
 
     return { labels, values };
 
@@ -364,6 +283,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   originalData = data;
 
   const ctx = document.getElementById('rateChart').getContext('2d');
+
+  const validVals = data.values.filter(v => v != null && !isNaN(v) && v > 0);
+  const lo = Math.min(...validVals);
+  const hi = Math.max(...validVals);
+  const span = hi - lo || 1;
+  const yStep = span <= 3 ? 1 : span <= 8 ? 2 : 5;
+  const mid  = (lo + hi) / 2;
+  const half = Math.ceil((span / 2 + yStep) / yStep) * yStep;
+  const yMin = Math.max(0, Math.floor((mid - half) / yStep) * yStep);
+  const yMax = Math.ceil((mid + half) / yStep) * yStep;
 
   rateChart = new Chart(ctx, {
     type: 'line',
@@ -383,13 +312,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'nearest', intersect: false, axis: 'x' },
+      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'top' }
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: { label: c => ` ${c.parsed.y.toFixed(2).replace('.', ',')}%` }
+        }
       },
       scales: {
         y: {
-          ticks: { callback: v => v + '%', stepSize: 1 }
+          min: yMin, max: yMax,
+          ticks: { callback: v => v + '%', stepSize: yStep, color: '#475569' }
         }
       }
     }
@@ -442,58 +375,10 @@ function resetChart() {
 }
 
 
-// ===== EXPORT PNG =====
-function exportPNG() {
-  if (!rateChart) return;
-
-  const link = document.createElement('a');
-  link.href = rateChart.toBase64Image();
-  link.download = 'rateChart.png';
-  link.click();
-}
-
-
-// ===== EXPORT CSV =====
-function exportCSV() {
-  if (!rateChart) return;
-
-  let csv = 'Date,Rate\n';
-
-  const labels = rateChart.data.labels;
-  const data = rateChart.data.datasets[0].data;
-
-  for (let i = 0; i < labels.length; i++) {
-    csv += `${labels[i]},${data[i]}\n`;
-  }
-
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const link = document.createElement('a');
-
-  link.href = URL.createObjectURL(blob);
-  link.download = 'rateChart.csv';
-  link.click();
-}
-
-
-// ===== LANGUAGE SWITCH =====
-function setLang(lang) {
-  document.body.style.opacity = "0.4";
-
-  setTimeout(() => {
-    localStorage.setItem("lang", lang);
-
-    if (lang === "tj") {
-      window.location.href = "../other_links/policy_rate.html";
-    } 
-    else if (lang === "ru") {
-      window.location.href = "../ru/policy_rate_ru.html";
-    } 
-    else if (lang === "en") {
-      window.location.href = "../eng/policy_rate_eng.html";
-    }
-  }, 150);
-}
+function exportPNG() { exportChartPNG(rateChart, 'rateChart'); }
+function exportCSV() { exportChartCSV(rateChart, 'rateChart', 'Rate'); }
 
 </script>
+<script src="../js/common.js"></script>
 </body>
 </html>

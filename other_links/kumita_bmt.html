@@ -1,374 +1,253 @@
 <!DOCTYPE html>
 <html lang="tg">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap&subset=cyrillic" rel="stylesheet" />
-<style>
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: #fafbfc;
-    color: #2e3a59;
-    line-height: 1.55;
-    padding: 30px 15px;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/detail.css">
+  <style>
+    .page-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--navy); margin-bottom: 1.5rem; line-height: 1.25; }
 
-  h1 {
-    font-weight: 600;
-    font-size: 2.2rem;
-    text-align: center;
-    margin-bottom: 1.8rem;
-    color: #1a274f;
-  }
+    .instrument-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.75rem; }
+    .instrument-nav a { display: inline-block; padding: 6px 14px; border-radius: 20px; background: var(--surface-alt); border: 1px solid var(--border); color: var(--navy); font-size: 0.82rem; font-weight: 500; text-decoration: none; transition: background 0.15s, color 0.15s; }
+    .instrument-nav a:hover { background: #1e40af; color: #fff; border-color: #1e40af; }
+    .instrument-nav .nav-num { font-weight: 700; margin-right: 4px; color: #3b82f6; }
 
-  h2 {
-    font-weight: 600;
-    font-size: 1.4rem;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    color: #3a4a7d;
-    border-left: 4px solid #6c8cd5;
-    padding-left: 0.75rem;
-  }
+    .instrument-card { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow-sm); margin-bottom: 1.75rem; overflow: hidden; border: 1px solid var(--border); }
+    .instrument-card__header { display: flex; align-items: flex-start; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--surface-alt); }
+    .instrument-card__header h2 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin: 0; line-height: 1.4; }
+    .instrument-card__body { padding: 20px 24px; }
+    .card--blue   .instrument-card__header { border-left: 4px solid #3b82f6; }
+    .card--slate  .instrument-card__header { border-left: 4px solid #64748b; }
+    .card--indigo .instrument-card__header { border-left: 4px solid #6366f1; }
+    .card--green  .instrument-card__header { border-left: 4px solid #10b981; }
 
-  p {
-    font-size: 1.05rem;
-    margin-bottom: 1.2rem;
-  }
+    .instrument-card__body p { margin-bottom: 0.9rem; }
+    .instrument-card__body ul { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .instrument-card__body li { margin-bottom: 0.4rem; }
+    .instrument-card__body h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin: 1.2rem 0 0.6rem; }
 
-  ul {
-    margin-left: 1.3rem;
-    margin-bottom: 2rem;
-    color: #475978;
-    list-style-type: disc;
-  }
-
-  ul li {
-    margin-bottom: 0.6rem;
-    font-size: 1rem;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 1.2rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 5px rgb(50 70 100 / 0.08);
-  }
-
-  thead tr {
-    background-color: #6c8cd5;
-    color: white;
-    text-align: left;
-  }
-
-  th, td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #dbe2f1;
-  }
-
-  tbody tr:nth-child(even) {
-    background-color: #f3f5fa;
-  }
-
-  tbody tr:hover {
-    background-color: #d4dbf7;
-    transition: background-color 0.25s ease;
-  }
-
-  .phone {
-    color: #466ab3;
-    font-weight: 600;
-    font-family: monospace, monospace;
-  }
-
-  a {
-    color: #466ab3;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  a:hover,
-  a:focus {
-    color: #2e458c;
-    text-decoration: underline;
-    outline: none;
-  }
-
-  footer {
-    text-align: center;
-    margin-top: 4rem;
-    font-size: 0.9rem;
-    color: #a3addf;
-    user-select: none;
-  }
-
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 1.7rem;
+    /* Members table */
+    .members-table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 0.95rem;
     }
-    h2 {
-      font-size: 1.2rem;
-    }
-    th, td {
-      padding: 10px 12px;
-      font-size: 0.95rem;
-    }
-  }
+    .members-table thead tr { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; }
+    .members-table th, .members-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .members-table th { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
+    .members-table tbody tr:nth-child(even) { background: var(--surface-alt); }
+    .members-table tbody tr:hover { background: #eff6ff; }
+    .members-table .num { width: 40px; text-align: center; color: var(--text-muted); font-weight: 600; }
+    .members-table .phone { font-family: monospace; color: var(--blue); font-weight: 600; white-space: nowrap; }
 
-
-    /* ===== LANGUAGE SWITCHER UI ===== */
-    .lang-switcher {
-        position: fixed;
-        top: 15px;
-        right: 15px;
-        display: flex;
-        gap: 8px;
-        z-index: 9999;
+    /* Schedule table */
+    .schedule-table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 0.95rem; margin-top: 1.5rem;
     }
+    .schedule-table thead tr { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; }
+    .schedule-table th, .schedule-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
+    .schedule-table th { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
+    .schedule-table tbody tr:hover { background: #eff6ff; }
 
-    .lang-switcher button {
-        width: 44px;
-        height: 44px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 18px;
-        background: #ffffff;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-        transition: 0.2s;
-    }
+    .row-done   { background: #f0fdf4; }
+    .row-next   { background: #eff6ff; outline: 2px solid #2563eb; outline-offset: -2px; font-weight: 600; }
+    .row-future { background: #fff; }
+    .row-done:hover, .row-next:hover, .row-future:hover { background: #dbeafe; }
 
-    .lang-switcher button:hover {
-        transform: scale(1.08);
+    /* Year selector */
+    .year-section {
+      margin-top: 2.5rem; padding: 20px 24px;
+      background: var(--surface-alt); border-radius: 12px; border: 1px solid var(--border);
     }
+    .year-section h3 { margin: 0 0 14px; font-size: 1rem; font-weight: 600; color: var(--text-2); }
+    .year-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+    .year-btn {
+      padding: 6px 16px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-2); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.15s;
+    }
+    .year-btn:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+    .year-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
 
-    .lang-switcher button.active {
-        background: #005eff30;
-        color: white;
+    /* PDF link */
+    .pdf-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--blue); font-weight: 600; text-decoration: none;
+      transition: all 0.15s; box-shadow: var(--shadow-xs);
     }
-</style>
+    .pdf-link:hover { background: var(--blue-light); border-color: var(--blue); }
+
+    @media (max-width: 640px) {
+      .members-table, .schedule-table { font-size: 0.82rem; }
+      .members-table th, .members-table td,
+      .schedule-table th, .schedule-table td { padding: 9px 8px; }
+    }
+  </style>
 </head>
 <body>
-  <div class="lang-switcher">
-    <button onclick="setLang('tj')" id="btn-tj">🇹🇯</button>
-    <button onclick="setLang('ru')" id="btn-ru">🇷🇺</button>
-    <button onclick="setLang('en')" id="btn-en">🇬🇧</button>
+
+<header class="page-header">
+  <div class="page-header__inner">
+    <a href="../index.html" class="back-btn">Асосӣ</a>
+    <span class="page-header__title">Кумитаи сиёсати пулию қарзии БМТ</span>
+    <div class="lang-switcher">
+      <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
+      <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
+      <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+    </div>
   </div>
-  <h1>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h1>
+</header>
 
-  <p>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ҳамчун мақоми мустақили доимамалкунандаи машваратӣ мутобиқи Қонуни Ҷумҳурии Тоҷикистон “Дар бораи Бонки миллии Тоҷикистон”, Низомномаи Кумита сиёсати пулию қарзии Бонки миллии Тоҷикистон ва дигар санадҳои меъёрии ҳуқуқии Бонки миллии Тоҷикистон таъсис ёфтааст.</p>
+<div class="page-wrap"><div class="container">
 
-  <p>Фаъолияти Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон (Кумита) бо мақсади қабули қарор марбут ба таҳия ва татбиқи сиёсати пулию қарзии кишвар баҳри нигоҳдории муътадилии сатҳи нархҳо дар давраи дарозмуҳлат, муайяннамоии параметрҳо ва афзалиятҳои он ҷиҳати танзими меъёри фоизӣ ва нигоҳдории мувозинати бозори пулӣ равона карда шудааст.</p>
+<h1 class="page-title">Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h1>
 
-  <p>Ҳайати Кумита бо қарори Раёсати Бонки миллии Тоҷикистон бо шумораи тоқ тасдиқ карда мешавад.</p>
+<nav class="instrument-nav">
+  <a href="#about"><span class="nav-num">01</span>Кумита</a>
+  <a href="#members"><span class="nav-num">02</span>Ҳайат</a>
+  <a href="#meeting"><span class="nav-num">03</span>Нақша</a>
+  <a href="#regulation"><span class="nav-num">04</span>Низомнома</a>
+</nav>
 
-  <p>Раиси Бонки миллии Тоҷикистон Раиси Кумита мебошад.</p>
-
-  <p>Кумита ҳар семоҳа ба Раёсати Бонки миллии Тоҷикистон аз натиҷаи фаъолияти худ ҳисобот пешниҳод менамояд.</p>
-
-  <h2>Вазифаҳои асосии Кумита:</h2>
-
-  <ul>
-    <li>Қабули қарор оид ба самтҳои асосии сиёсати пулию қарзӣ бо мақсади таҳия ва татбиқи самараноки сиёсати пулию қарзӣ, ноилгардӣ ва нигоҳдории сатҳи муътадили нархҳои дохилӣ дар давраи дарозмуҳлат;</li>
-    <li>Баррасии нишондиҳандаҳои таҳлилии вазъи макроиқтисодӣ, монетарию қурбӣ, муайян кардани вазифа ва нишондиҳандаҳои назоратии татбиқи сиёсати пулию қарзӣ дар давраҳои кӯтоҳмуҳлат ва миёнамуҳлат;</li>
-    <li>Вобаста ба вазъи ҷории макроиқтисодӣ, вазъи иқтисоди хориҷӣ, омилҳо ва хавфҳои таваррумӣ, инчунин дурнамои нишондиҳандаҳои асосии монетарию макроиқтисодӣ баррасӣ ва қабули қарор оид ба пешбурди ин ё он шакли сиёсати пулию қарзӣ (қатъӣ, муътадил, ҳавасмандона), роҳу усул ва фишангҳои (воситаҳои) татбиқи он;</li>
-    <li>Тибқи моддаи 15 Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон" муайян кардани афзалият, зарурият ва тартиби истифодаи фишангҳои сиёсати пулию қарзӣ бо мақсади пешгирӣ ва бартараф намудани фишорҳои қурбии таваррумӣ, идоракунии нишондиҳандаҳои асосии пулӣ, меъёрҳои фоизӣ, нигоҳдории мувозинатӣ дар бозорҳои пулию асъорӣ ва вазифагузорӣ намудани дигар воҳидҳои сохтории дахлдори Бонки миллии Тоҷикистон ҷиҳати татбиқи онҳо;</li>
-    <li>Ҳамоҳангсозии фаъолияти воҳидҳои сохторӣ ва дар асоси тартиби муқарраршуда риояи қоидаҳо ҷиҳати осон ва шаффоф гардонидани раванди татбиқи сиёсати пулию қарзӣ ва асъорӣ, тасмим гирифтан ва расидан ба мақсади асосии Бонки миллии Тоҷикистон.</li>
-  </ul>
-
-  <h2>Ҳайати Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th>№</th>
-        <th>Ному насаб</th>
-        <th>Вазифа</th>
-        <th>Тамос</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td>Толибзода Фирдавс Назримад</td><td>Раиси Кумита - раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-01</td></tr>
-      <tr><td>2</td><td>Шарифзода Фируз Ҳомиддин</td><td>Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-03</td></tr>
-      <tr><td>3</td><td>Убайдуллоев Диловар Шамолиддинович</td><td>Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</td><td class="phone">+(992 44) 600-31-46</td></tr>
-      <tr><td>4</td><td>Бояков Зиёратшо Ғуломович</td><td>Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</td><td class="phone">+(992 44) 600-31-83</td></tr>
-      <tr><td>5</td><td>Мамадалиев Фарухруз Сайфиддинович</td><td>Директори пажуҳишгоҳи илмӣ-тадқиқотӣ</td><td class="phone">+(992 44) 600-31-06</td></tr>
-      <tr><td>6</td><td>Баҳридинов Бахтиёр Амридинович</td><td>Директори департаменти омор ва тавозуни пардохт</td><td class="phone">+(992 44) 600-31-49</td></tr>
-      <tr><td>7</td><td>Қурбоналиева Нигина Мардоновна</td><td>Сардори идораи суботи молиявӣ</td><td class="phone">+(992 44) 600-31-66</td></tr>
-      <tr><td>8</td><td>Сатторзода Умеда Саймумин</td><td>Сардори идораи бозори молиявӣ</td><td class="phone">+(992 44) 600-31-62</td></tr>
-      <tr><td>9</td><td>Навҷуанова Муниса Навҷуановна</td><td>Сардори шуъбаи таҳлили хавфҳо</td><td class="phone">+(992 44) 600-32-99</td></tr>
-    </tbody>
-  </table>
-
-  <h2 id="meeting">Нақшаи баргузории ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон барои соли 2026</h2>
- <style>
-/* Таблица */
-.committee-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-top: 2rem;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 5px rgb(50 70 100 / 0.08);
-}
-
-.committee-table thead tr {
-  background-color: #507192;
-  color: #fff;
-  text-align: center;
-}
-
-.committee-table th,
-.committee-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #dbe2f1;
-  text-align: center;
-  transition: background 0.3s;
-}
-
-.committee-table tbody tr:nth-child(even) {
-  background-color: #f3f5fa;
-}
-
-.committee-table tbody tr:hover {
-  background-color: #dbe2f1;
-}
-
-/* Блок кнопки + выпадающий список */
-.previous-sessions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 2.5rem;
-  font-family: 'Inter', sans-serif;
-}
-
-.previous-sessions button {
-  background-color: #507192;
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s;
-}
-
-.previous-sessions button:hover {
-  background-color: #3d5c7a;
-}
-
-.previous-sessions select {
-  padding: 10px 14px;
-  border-radius: 6px;
-  border: 1px solid #dbe2f1;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: border 0.3s, background 0.3s;
-}
-
-.previous-sessions select:hover {
-  border-color: #507192;
-  background-color: #f3f5fa;
-}
-</style>
-
-<!-- Таблица -->
-<table class="committee-table" id="committeeTable">
-  <thead>
-    <tr>
-      <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
-      <th>Шарҳи мухтасар</th>
-      <th>Муаррифӣ</th>
-      <th colspan="2">Қарори кумита</th>
-    </tr>
-  </thead>
-  <tbody id="tableBody">
-  </tbody>
-</table>
-
-<!-- Кнопка + выпадающий список -->
- <div class="previous-sessions">
-  <button>Ҷаласаҳои пешина</button>
-  <select id="yearSelector">
-    <option value="">Солро интихоб кунед</option>
-    <option value="2026">2026</option>
-    <option value="2025">2025</option>
-    <option value="2024">2024</option>
-    <option value="2023">2023</option>
-    <option value="2022">2022</option>
-    <option value="2021">2021</option>
-    <option value="2020">2020</option>
-    <option value="2019">2019</option>
-    <option value="2018">2018</option>
-    <option value="2017">2017</option>
-  </select>
+<!-- 01 About -->
+<div id="about" class="instrument-card card--blue">
+  <div class="instrument-card__header"><h2>Дар бораи Кумита</h2></div>
+  <div class="instrument-card__body">
+    <p>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ҳамчун мақоми мустақили доимоамалкунандаи машваратӣ мутобиқи Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон", Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ва дигар санадҳои меъёрии ҳуқуқии Бонки миллии Тоҷикистон таъсис ёфтааст.</p>
+    <p>Фаъолияти Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон (минбаъд Кумита) бо мақсади қабули қарор марбут ба таҳия ва татбиқи сиёсати пулию қарзии кишвар баҳри нигоҳдории муътадилии сатҳи нархҳо дар давраи дарозмуҳлат, муайяннамоии параметрҳо ва афзалиятҳои он ҷиҳати танзими меъёри фоизӣ ва нигоҳдории мувозинати бозори пул ба роҳ монда шудааст.</p>
+    <p>Ҳайати Кумита бо қарори Раёсати Бонки миллии Тоҷикистон бо шумораи тоқ тасдиқ карда мешавад.</p>
+    <p>Раиси Бонки миллии Тоҷикистон раиси Кумита мебошад.</p>
+    <p>Кумита ҳар семоҳа аз натиҷаи фаъолияти худ ба Раёсати Бонки миллии Тоҷикистон ҳисобот пешниҳод менамояд.</p>
+    <h3>Вазифаҳои асосии Кумита:</h3>
+    <ul>
+      <li>қабули қарор оид ба самтҳои асосии сиёсати пулию қарзӣ бо мақсади таҳия ва татбиқи самараноки сиёсати пулию қарзӣ, ноилгардӣ ва нигоҳдории сатҳи муътадили нархҳои дохилӣ дар давраи дарозмуҳлат;</li>
+      <li>баррасии нишондиҳандаҳои таҳлилии вазъи макроиқтисодӣ, монетарию қурбӣ, муайян кардани вазифа ва нишондиҳандаҳои назоратии татбиқи сиёсати пулию қарзӣ дар давраҳои кӯтоҳмуҳлат ва миёнамуҳлат;</li>
+      <li>вобаста ба вазъи ҷории макроиқтисодӣ, вазъи иқтисоди хориҷӣ, омилҳо ва хавфҳои таваррумӣ, инчунин дурнамои нишондиҳандаҳои асосии монетарию макроиқтисодӣ баррасӣ ва қабул кардани қарор оид ба пешбурди ин ё он шакли сиёсати пулию қарзӣ (қатъӣ, муътадил, ҳавасмандона), роҳу усул ва фишангҳои (воситаҳои) татбиқи он;</li>
+      <li>тибқи моддаи 15 Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон" муайян кардани афзалият, зарурат ва тартиби истифодаи фишангҳои сиёсати пулию қарзӣ бо мақсади пешгирӣ ва бартараф намудани фишорҳои қурбии таваррумӣ, идоракунии нишондиҳандаҳои асосии пулӣ, меъёрҳои фоизӣ, нигоҳдории мувозинат дар бозорҳои пулу асъор ва вазифагузорӣ намудани дигар воҳидҳои сохтории дахлдори Бонки миллии Тоҷикистон ҷиҳати татбиқи онҳо;</li>
+      <li>ҳамоҳангсозии фаъолияти воҳидҳои сохторӣ ва дар асоси тартиби муқарраршуда риоя кардани қоидаҳо ҷиҳати осон ва шаффоф гардонидани раванди татбиқи сиёсати пулию қарзӣ ва асъорӣ, тасмим гирифтан ва расидан ба мақсади асосии Бонки миллии Тоҷикистон.</li>
+    </ul>
+  </div>
 </div>
 
+<!-- 02 Members -->
+<div id="members" class="instrument-card card--slate">
+  <div class="instrument-card__header"><h2>Ҳайати Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h2></div>
+  <div class="instrument-card__body">
+    <table class="members-table">
+      <thead>
+        <tr><th class="num">№</th><th>Ному насаб</th><th>Вазифа</th><th>Тамос</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Толибзода Фирдавс Назримад</td><td>Раиси Кумита - раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-01</td></tr>
+        <tr><td class="num">2</td><td>Шарифзода Фируз Ҳомиддин</td><td>Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-03</td></tr>
+        <tr><td class="num">3</td><td>Убайдуллоев Диловар Шамолиддинович</td><td>Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</td><td class="phone">+(992 44) 600-31-46</td></tr>
+        <tr><td class="num">4</td><td>Бояков Зиёратшо Ғуломович</td><td>Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</td><td class="phone">+(992 44) 600-31-83</td></tr>
+        <tr><td class="num">5</td><td>Мамадалиев Фарухруз Сайфиддинович</td><td>Директори пажуҳишгоҳи илмӣ-тадқиқотӣ</td><td class="phone">+(992 44) 600-31-06</td></tr>
+        <tr><td class="num">6</td><td>Баҳридинов Бахтиёр Амридинович</td><td>Директори департаменти омор ва тавозуни пардохт</td><td class="phone">+(992 44) 600-31-49</td></tr>
+        <tr><td class="num">7</td><td>Қурбоналиева Нигина Мардоновна</td><td>Сардори идораи суботи молиявӣ</td><td class="phone">+(992 44) 600-31-66</td></tr>
+        <tr><td class="num">8</td><td>Сатторзода Умеда Саймумин</td><td>Сардори идораи бозори молиявӣ</td><td class="phone">+(992 44) 600-31-62</td></tr>
+        <tr><td class="num">9</td><td>Навҷуанова Муниса Навҷуановна</td><td>Сардори шуъбаи таҳлили хавфҳо</td><td class="phone">+(992 44) 600-32-99</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 03 Schedule -->
+<div id="meeting" class="instrument-card card--indigo">
+  <div class="instrument-card__header"><h2>Нақшаи баргузории ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон барои соли 2026</h2></div>
+  <div class="instrument-card__body">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
+          <th>Шарҳи мухтасар</th>
+          <th>Муаррифӣ</th>
+          <th colspan="2">Қарори кумита</th>
+        </tr>
+      </thead>
+      <tbody id="scheduleBody"></tbody>
+    </table>
+
+    <div class="year-section">
+      <h3>Ҷаласаҳои пешина</h3>
+      <div class="year-buttons" id="yearButtons"></div>
+      <table class="schedule-table" id="historyTable" style="display:none; margin-top:1.2rem;">
+        <thead>
+          <tr>
+            <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
+            <th>Шарҳи мухтасар</th>
+            <th>Муаррифӣ</th>
+            <th colspan="2">Қарори кумита</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 04 Regulation -->
+<div id="regulation" class="instrument-card card--green">
+  <div class="instrument-card__header"><h2>Низомнома</h2></div>
+  <div class="instrument-card__body">
+    <a href="../img/Nizomnomai_kumita_2025.pdf" class="pdf-link" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон
+    </a>
+  </div>
+</div>
+
+</div></div>
+
 <script>
-// Данные заседаний по годам
-const meetingsData = {
+const MEETINGS = {
   "2026": [
-    ["29 январи с.2026", "Санаи нашр: 29 январи с.2026", "Санаи нашр: 29 январи с.2026", "Қарори №46"],
-    ["30 апрел с.2026", "Санаи нашр: 30 апрел с.2026", "Санаи нашр: 30 апрел с.2026", "Қарори №"],
-    ["30 июл с.2026", "Санаи нашр: 30 июл с.2026", "Санаи нашр: 30 июл с.2026", "Қарори №"],
-    ["29 октябр с.2026", "Санаи нашр: 29 октябр с.2026", "Санаи нашр: 29 октябр с.2026", "Қарори №"]
+    { iso: "2026-01-29", cols: ["29 январи с.2026", "Санаи нашр: 29 январи с.2026", "Санаи нашр: 29 январи с.2026", "Қарори №46"] },
+    { iso: "2026-04-30", cols: ["30 апрел с.2026",  "Санаи нашр: 30 апрел с.2026",  "Санаи нашр: 30 апрел с.2026",  "Қарори №"]   },
+    { iso: "2026-07-30", cols: ["30 июл с.2026",     "Санаи нашр: 30 июл с.2026",     "Санаи нашр: 30 июл с.2026",     "Қарори №"]   },
+    { iso: "2026-10-29", cols: ["29 октябр с.2026",  "Санаи нашр: 29 октябр с.2026",  "Санаи нашр: 29 октябр с.2026",  "Қарори №"]   },
   ],
   "2025": [
-    ["15 январи с.2025", "Санаи нашр: 15 январи с.2025", "Санаи нашр: 15 январи с.2025", "Қарори №40"],
-    ["20 апрел с.2025", "Санаи нашр: 20 апрел с.2025", "Санаи нашр: 20 апрел с.2025", "Қарори №41"]
+    { iso: "2025-01-15", cols: ["15 январи с.2025", "Санаи нашр: 15 январи с.2025", "Санаи нашр: 15 январи с.2025", "Қарори №40"] },
+    { iso: "2025-04-20", cols: ["20 апрел с.2025",  "Санаи нашр: 20 апрел с.2025",  "Санаи нашр: 20 апрел с.2025",  "Қарори №41"] },
   ],
   "2024": [
-    ["10 феврал с.2024", "Санаи нашр: 10 феврал с.2024", "Санаи нашр: 10 феврал с.2024", "Қарори №35"]
+    { iso: "2024-02-10", cols: ["10 феврал с.2024", "Санаи нашр: 10 феврал с.2024", "Санаи нашр: 10 феврал с.2024", "Қарори №35"] },
   ],
   "2023": [
-    ["12 март с.2023", "Санаи нашр: 12 март с.2023", "Санаи нашр: 12 март с.2023", "Қарори №30"]
-  ]
-  ,
-  "2022": [
-    ["12 март с.2022", "Санаи нашр: 12 март с.2022", "Санаи нашр: 12 март с.2022", "Қарори №"]
-  ]
-  ,
-  "2021": [
-    ["12 март с.2021", "Санаи нашр: 12 март с.2021", "Санаи нашр: 12 март с.2021", "Қарори №"]
+    { iso: "2023-03-12", cols: ["12 март с.2023", "Санаи нашр: 12 март с.2023", "Санаи нашр: 12 март с.2023", "Қарори №30"] },
   ],
-  "2020": [
-    ["12 март с.2020", "Санаи нашр: 12 март с.2020", "Санаи нашр: 12 март с.2020", "Қарори №"]
-  ],
-  "2019": [
-    ["12 март с.2019", "Санаи нашр: 12 март с.2019", "Санаи нашр: 12 март с.2019", "Қарори №"]
-  ],
-  "2018": [
-    ["12 март с.2018", "Санаи нашр: 12 март с.2018", "Санаи нашр: 12 март с.2018", "Қарори №"]
-  ],
-  "2017": [
-    ["12 март с.2017", "Санаи нашр: 12 март с.2017", "Санаи нашр: 12 март с.2017", "Қарори №"]
-  ]
+  "2022": [{ iso: "2022-03-12", cols: ["12 март с.2022", "Санаи нашр: 12 март с.2022", "Санаи нашр: 12 март с.2022", "Қарори №"] }],
+  "2021": [{ iso: "2021-03-12", cols: ["12 март с.2021", "Санаи нашр: 12 март с.2021", "Санаи нашр: 12 март с.2021", "Қарори №"] }],
+  "2020": [{ iso: "2020-03-12", cols: ["12 март с.2020", "Санаи нашр: 12 март с.2020", "Санаи нашр: 12 март с.2020", "Қарори №"] }],
+  "2019": [{ iso: "2019-03-12", cols: ["12 март с.2019", "Санаи нашр: 12 март с.2019", "Санаи нашр: 12 март с.2019", "Қарори №"] }],
+  "2018": [{ iso: "2018-03-12", cols: ["12 март с.2018", "Санаи нашр: 12 март с.2018", "Санаи нашр: 12 март с.2018", "Қарори №"] }],
+  "2017": [{ iso: "2017-03-12", cols: ["12 март с.2017", "Санаи нашр: 12 март с.2017", "Санаи нашр: 12 март с.2017", "Қарори №"] }],
 };
 
-// обновления таблицы
-function updateTable(year) {
-  const tbody = document.getElementById("tableBody");
-  tbody.innerHTML = ""; 
-  if (!meetingsData[year]) return;
-  meetingsData[year].forEach(row => {
-    const tr = document.createElement("tr");
-    row.forEach((cell, index) => {
-      const td = document.createElement("td");
-      td.colSpan = index === 3 ? 2 : 1; // последняя колонка colspan=2
+const today = new Date(); today.setHours(0,0,0,0);
+
+function buildRows(year, tbody, autoNext) {
+  const rows = MEETINGS[year] || [];
+  tbody.innerHTML = '';
+  let nextIdx = -1;
+  if (autoNext) {
+    for (let i = 0; i < rows.length; i++) {
+      const d = new Date(rows[i].iso); d.setHours(0,0,0,0);
+      if (d >= today) { nextIdx = i; break; }
+    }
+  }
+  rows.forEach((m, i) => {
+    const d = new Date(m.iso); d.setHours(0,0,0,0);
+    const status = i === nextIdx ? 'next' : d < today ? 'done' : 'future';
+    const tr = document.createElement('tr');
+    tr.className = `row-${status}`;
+    m.cols.forEach((cell, idx) => {
+      const td = document.createElement('td');
+      if (idx === 3) td.colSpan = 2;
       td.textContent = cell;
       tr.appendChild(td);
     });
@@ -376,54 +255,27 @@ function updateTable(year) {
   });
 }
 
-// Событие изменения селектора года
-document.getElementById("yearSelector").addEventListener("change", function() {
-  updateTable(this.value);
-});
+buildRows('2026', document.getElementById('scheduleBody'), true);
 
-// 2026 год
-updateTable("2026");
-</script>
-
-
-  <a href="../img/Nizomnomai_kumita_2025.pdf"><h2>Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон </h2></a>
-
-<script>
-// ===== LANGUAGE SWITCH =====
-function setLang(lang) {
-    document.body.style.opacity = "0.4";
-
-    setTimeout(() => {
-        localStorage.setItem("lang", lang);
-
-        if (lang === "tj") {
-            window.location.href = "../other_links/kumita_bmt.html";          
-        } 
-        else if (lang === "ru") {
-            window.location.href = "../ru/kumita_bmt_ru.html";       
-        } 
-        else if (lang === "en") {
-            window.location.href = "../eng/kumita_bmt_eng.html";   
-        }
-    }, 180);
-}
-
-// ===== INIT - Highlight=====
-document.addEventListener("DOMContentLoaded", () => {
-    const savedLang = localStorage.getItem("lang") || "tj";
-
-    document.querySelectorAll(".lang-switcher button").forEach(btn => {
-        btn.classList.remove("active");
-
-        // берем язык из onclick
-        const match = btn.getAttribute("onclick")?.match(/'(\w+)'/);
-        const btnLang = match ? match[1] : null;
-
-        if (btnLang === savedLang) {
-            btn.classList.add("active");
-        }
-    });
+const historyYears = Object.keys(MEETINGS).filter(y => y !== '2026').sort((a,b) => b - a);
+let activeYear = null;
+historyYears.forEach(year => {
+  const btn = document.createElement('button');
+  btn.className = 'year-btn';
+  btn.textContent = year;
+  btn.addEventListener('click', () => {
+    if (activeYear === year) {
+      activeYear = null; btn.classList.remove('active');
+      document.getElementById('historyTable').style.display = 'none'; return;
+    }
+    document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active'); activeYear = year;
+    buildRows(year, document.getElementById('historyBody'), false);
+    document.getElementById('historyTable').style.display = '';
+  });
+  document.getElementById('yearButtons').appendChild(btn);
 });
 </script>
+<script src="../js/common.js"></script>
 </body>
-</html> 
+</html>
