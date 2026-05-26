@@ -81,6 +81,8 @@
       font-weight: 700;
       color: var(--navy);
       margin: 0;
+      padding-bottom: 0;
+      border-bottom: none;
     }
     .instrument-card__body {
       padding: 20px 24px;
@@ -207,10 +209,133 @@
       .instrument-card__header { padding: 14px 16px; }
       .instrument-card__body { padding: 16px; }
     }
+    .moc-section-title { font-size:1rem; font-weight:700; color:var(--navy); margin:1.75rem 0 1rem; }
+    .moc-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:1.75rem; }
+    @media (max-width:900px) { .moc-grid { grid-template-columns:1fr; } }
+    .moc-block { background:var(--surface); border-radius:14px; overflow:hidden; border:1px solid var(--border); box-shadow:var(--shadow-sm); border-top:5px solid; }
+    .moc-block.absorb { border-top-color:#1a365d; }
+    .moc-block.provide { border-top-color:#1c4532; }
+    .moc-block__header { padding:16px 20px; border-bottom:1px solid var(--border); background:var(--surface-alt); }
+    .moc-block__title { font-size:1rem; font-weight:700; margin:0 0 3px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .moc-block.absorb .moc-block__title { color:#1a365d; }
+    .moc-block.provide .moc-block__title { color:#1c4532; }
+    .moc-block__sub { font-size:0.75rem; color:var(--text-2); font-weight:400; }
+    .moc-block__body { padding:14px; }
+    .moc-row { border:1px solid var(--border); border-radius:10px; padding:13px 15px; margin-bottom:10px; background:var(--surface); transition:border-color 0.15s,box-shadow 0.15s; display:flex; flex-direction:column; align-items:flex-start; gap:3px; }
+    .moc-row:last-child { margin-bottom:0; }
+    .moc-row:hover { border-color:#cbd5e0; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+    .moc-row > * { width:100%; }
+    .moc-row__name { font-weight:700; font-size:0.97rem; color:var(--navy); margin:2px 0 4px; }
+    .moc-badge { font-size:0.62rem; font-weight:600; padding:2px 9px; border-radius:20px; text-transform:uppercase; letter-spacing:0.05em; width:fit-content !important; flex-shrink:0; }
+    .moc-badge--deposit { background:#f1f5f9; color:#475569; }
+    .moc-badge--omo { background:#d1fae5; color:#065f46; }
+    .moc-badge--credit { background:#fee2e2; color:#991b1b; }
+    .moc-initiator { font-size:0.73rem; color:var(--text-2); margin-bottom:6px; }
+    .moc-params { display:grid; grid-template-columns:78px 1fr; gap:5px 12px; font-size:0.79rem; background:var(--surface-alt); padding:10px 12px; border-radius:6px; }
+    .moc-params__label { color:var(--text-2); font-weight:500; padding-top:1px; }
+    .moc-params__value { font-weight:600; color:var(--navy); }
+    .moc-params__value.collateral { font-weight:400; font-size:0.75rem; color:#276749; }
+    .moc-params__value.empty { font-weight:400; color:var(--text-2); }
+    .moc-params__value.regular { font-weight:400; }
+    .moc-params__value.free { color:#2563eb; font-weight:700; }
+    .moc-note {
+      margin-top: 9px; padding: 9px 12px;
+      background: var(--surface-alt);
+      border-left: 3px solid #3b82f6;
+      font-size: 0.73rem; color: var(--text-2);
+      border-radius: 0 5px 5px 0; line-height: 1.5;
+      transition: border-left-width 0.2s, border-left-color 0.2s,
+                  background 0.2s, box-shadow 0.2s, padding-left 0.2s;
+    }
+    .moc-note:hover {
+      border-left-width: 5px; border-left-color: #6366f1;
+      background: linear-gradient(90deg, #eff6ff 0%, var(--surface-alt) 100%);
+      box-shadow: 0 2px 12px rgba(99,102,241,0.13);
+      padding-left: 15px;
+    }
+    .moc-note a { color: inherit; text-decoration: none; display: block; }
+    .moc-note a:hover { color: #4f46e5; text-decoration: none; }
+
+    /* ul/ol inside cards */
+    .instrument-card__body ul,
+    .instrument-card__body ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+    .instrument-card__body li { margin-bottom: 0.45rem; line-height: 1.65; }
+
+    /* Reading progress bar */
+    .read-progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #6366f1);
+      width: 0%; z-index: 9999;
+      transition: width 0.08s linear;
+      pointer-events: none;
+    }
+
+    /* Accordion */
+    .instrument-card__header { cursor: pointer; }
+    .card-toggle {
+      margin-left: auto; flex-shrink: 0;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border);
+      border-radius: 50%; width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s; padding: 0;
+    }
+    .card-toggle:hover { background: #fff; }
+    .card-toggle svg { transition: transform 0.25s ease; display: block; }
+    .instrument-card--collapsed .card-toggle svg { transform: rotate(-90deg); }
+    .instrument-card--collapsed .instrument-card__body { display: none; }
+
+    /* 2x2 grid for overnight sub-cards */
+    .sub-cards--grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 640px) {
+      .sub-cards--grid { grid-template-columns: 1fr; }
+    }
+
+    /* Smooth scroll */
+    html { scroll-behavior: smooth; }
+
+    /* Active nav pill */
+    .instrument-nav a.nav--active {
+      background: #eff6ff; border-color: #3b82f6;
+      color: #2563eb; font-weight: 600;
+    }
+
+    /* Zebra rows in moc-params */
+    .moc-params > div:nth-child(4n+3),
+    .moc-params > div:nth-child(4n+4) {
+      background: rgba(255,255,255,0.55); border-radius: 3px;
+    }
+    /* Row separators in moc-params */
+    .moc-params > div:nth-child(n+3) {
+      border-top: 1px solid rgba(0,0,0,0.07);
+      padding-top: 4px;
+    }
+
+    /* No underlines on hover */
+    .instrument-nav a:hover { text-decoration: none; }
+    .doc-link:hover { text-decoration: none; }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed; bottom: 28px; right: 24px;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: #3b82f6; color: #fff; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(59,130,246,0.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.25s, transform 0.25s, background 0.2s;
+      pointer-events: none; z-index: 9998;
+    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
   </style>
   <link rel="stylesheet" href="../css/detail.css">
 </head>
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 <header class="page-header">
   <div class="page-header__inner">
     <a href="../index.html" class="back-btn">Асосӣ</a>
@@ -229,17 +354,17 @@
   <p class="page-lead">The National Bank of Tajikistan uses the following levers (instruments) to fulfill its tasks and objectives in the field of monetary policy:</p>
 
   <nav class="instrument-nav">
-    <a href="#rate">01 · Refinancing Rate</a>
-    <a href="#omo">02 · Open Market</a>
-    <a href="#overnight">03 · Overnight</a>
-    <a href="#reserve">04 · Required Reserves</a>
-    <a href="#forex">05 · Foreign Currency</a>
+    <a href="#rate">Refinancing Rate</a>
+    <a href="#omo">Open Market</a>
+    <a href="#overnight">Overnight</a>
+    <a href="#reserve">Required Reserves</a>
+    <a href="#forex">Foreign Currency</a>
   </nav>
 
   <!-- 01 Refinancing Rate -->
   <div class="instrument-card card--blue" id="rate">
     <div class="instrument-card__header">
-      <span class="instrument-num">01</span>
+      <span class="instrument-num"></span>
       <h2>Refinancing Rate</h2>
     </div>
     <div class="instrument-card__body">
@@ -260,7 +385,7 @@
   <!-- 02 Open Market Operations -->
   <div class="instrument-card card--slate" id="omo">
     <div class="instrument-card__header">
-      <span class="instrument-num">02</span>
+      <span class="instrument-num"></span>
       <h2>Open Market Operations</h2>
     </div>
     <div class="instrument-card__body">
@@ -273,11 +398,11 @@
           <div class="sub-card__title">Securities Auctions</div>
           <p>The issuance of securities is one of the main indirect instruments of monetary policy and allows the National Bank of Tajikistan to attract excess liquidity from the banking system and regulate the money supply through securities auctions. Securities auctions are held regularly according to a schedule through an electronic trading system in real time (online). The interest rate for applications from credit institutions is set by the Monetary Policy Committee of the National Bank of Tajikistan. The legal framework, procedure, and conditions for these operations are governed by Instruction No. 189 "On Securities of the National Bank of Tajikistan."</p>
           <div class="doc-links">
-            <a href="https://nbt.tj/tj/statistics/kalendar1.php?print=Y" target="_blank" class="doc-link">
+            <a href="https://nbt.tj/files/monetary_policy/2026/tj/eng_%D0%BD%D0%B0%D2%9B%D1%88%D0%B0%D0%B8_%D0%BC%D0%BE%D2%B3%D0%B8_%D0%BC%D0%B0%D0%B9_2026.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               Auction Schedule
             </a>
-            <a href="https://nbt.tj/upload/iblock/4f8/Dasturamal%20189_%20tj.pdf" target="_blank" class="doc-link">
+            <a href="" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               Instruction No. 189
             </a>
@@ -287,11 +412,11 @@
           <div class="sub-card__title">Credit Auctions</div>
           <p>A credit auction is a short-term loan facility for which credit institutions submit applications to obtain short-term liquidity from the National Bank of Tajikistan. Credit auctions of the National Bank of Tajikistan are held according to a schedule. The interest rate for credit institution applications is set by the Monetary Policy Committee of the National Bank of Tajikistan. The legal framework, procedure, and conditions for these operations are governed by Instruction No. 220 "On Short-Term Refinancing Operations."</p>
           <div class="doc-links">
-            <a href="https://nbt.tj/tj/statistics/nakshai_muzoyada_bmt.php" target="_blank" class="doc-link">
+            <a href="https://nbt.tj/files/monetary_policy/2026/tj/eng_%D0%9D%D0%B0%D0%BA%D1%88%D0%B0%D0%B8_%20%D0%BC%D1%83%D0%B7%D0%BE%D1%8F_%D0%BA%D0%B0%D1%80%D0%B7_05.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               Auction Schedule
             </a>
-            <a href="https://nbt.tj/upload/iblock/f37/Dasturamai%20№220.pdf" target="_blank" class="doc-link">
+            <a href="" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               Instruction No. 220
             </a>
@@ -300,7 +425,7 @@
       </div>
 
       <div class="doc-links">
-        <a href="https://nbt.tj/files/monetary_policy/2025/Сохтори%20амалиётҳои%20монетарӣ%20(тағйироти%20Кумита%2030.04.2025).pdf" target="_blank" class="doc-link">
+        <a href="../img/set2.png" target="_blank" class="doc-link" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           NBT Monetary Instruments Structure
         </a>
@@ -311,7 +436,7 @@
   <!-- 03 Overnight -->
   <div class="instrument-card card--indigo" id="overnight">
     <div class="instrument-card__header">
-      <span class="instrument-num">03</span>
+      <span class="instrument-num"></span>
       <h2>Standing Instruments (Overnight)</h2>
     </div>
     <div class="instrument-card__body">
@@ -319,12 +444,12 @@
 
       <p>The National Bank of Tajikistan offers credit institutions several standing overnight instruments:</p>
 
-      <div class="sub-cards">
+      <div class="sub-cards sub-cards--grid">
         <div class="sub-card">
           <div class="sub-card__title">Overnight Credit</div>
           <p>A loan provided to a credit institution against collateral at a set interest rate during the business day, with the condition of its repayment no later than the next business day. The interest rate for credit institution applications is set by the Monetary Policy Committee of the National Bank of Tajikistan. The legal framework, procedure, and conditions for these operations are governed by Instruction No. 220 "On Short-Term Refinancing Operations."</p>
           <div class="doc-links">
-            <a href="https://nbt.tj/upload/iblock/f37/Dasturamai%20№220.pdf" target="_blank" class="doc-link">
+            <a href="" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               Instruction No. 220
             </a>
@@ -334,7 +459,7 @@
           <div class="sub-card__title">Intraday Credit</div>
           <p>A loan provided against collateral during the business day, with the condition of its repayment at the end of the business day. The legal framework, procedure, and conditions for these operations are governed by Instruction No. 220 "On Short-Term Refinancing Operations."</p>
           <div class="doc-links">
-            <a href="https://nbt.tj/upload/iblock/f37/Dasturamai%20№220.pdf" target="_blank" class="doc-link">
+            <a href="" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               Instruction No. 220
             </a>
@@ -344,7 +469,7 @@
           <div class="sub-card__title">Overnight Deposit</div>
           <p>An overnight deposit is a short-term deposit operation whereby a credit institution places funds in national currency with the National Bank of Tajikistan with the understanding that they will be repaid on the next business day. The interest rate for credit institution requests is set by the Monetary Policy Committee of the National Bank of Tajikistan. The legal framework, procedure, and conditions for these operations are governed by Instruction No. 226 "On Conducting Short-Term Deposit Operations in National Currency by the National Bank of Tajikistan."</p>
           <div class="doc-links">
-            <a href="https://nbt.tj/upload/iblock/f37/Dasturamai%20№220.pdf" target="_blank" class="doc-link">
+            <a href="" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               Instruction No. 226
             </a>
@@ -354,7 +479,7 @@
           <div class="sub-card__title">Deposit Auctions</div>
           <p>An auction during which the National Bank of Tajikistan accepts funds from credit institutions in national currency on terms of repayment, payment of interest, and maturity. Deposit auctions of the National Bank of Tajikistan are conducted according to plan. The interest rate for applications from credit institutions is set by the Monetary Policy Committee of the National Bank of Tajikistan. The regulatory framework, procedure, and conditions for these operations are governed by Instruction No. 226 "On the Conduct of Short-Term Deposit Operations in National Currency by the National Bank of Tajikistan."</p>
           <div class="doc-links">
-            <a href="https://nbt.tj/upload/iblock/f37/Dasturamai%20№220.pdf" target="_blank" class="doc-link">
+            <a href="" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               Instruction No. 226
             </a>
@@ -363,7 +488,7 @@
       </div>
 
       <div class="doc-links">
-        <a href="https://nbt.tj/files/monetary_policy/2025/Сохтори%20амалиётҳои%20монетарӣ%20(тағйироти%20Кумита%2030.04.2025).pdf" target="_blank" class="doc-link">
+        <a href="../img/set2.png" target="_blank" class="doc-link" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           NBT Monetary Instruments Structure
         </a>
@@ -374,7 +499,7 @@
   <!-- 04 Required Reserves -->
   <div class="instrument-card card--green" id="reserve">
     <div class="instrument-card__header">
-      <span class="instrument-num">04</span>
+      <span class="instrument-num"></span>
       <h2>Required Reserve Ratio</h2>
     </div>
     <div class="instrument-card__body">
@@ -386,13 +511,19 @@
 
       <p>Credit institutions ensure compliance with mandatory reserve requirements in national currency by maintaining funds in a correspondent account opened with the National Bank of Tajikistan in accordance with the mandatory reserve calendar.</p>
       <p>A credit institution forms mandatory reserves in foreign currency by transferring funds to the corresponding account opened with the National Bank of Tajikistan for these purposes.</p>
+              <div class="doc-links">
+            <a href="" target="_blank" class="doc-link" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Instruction No. 262
+            </a>
+          </div>
     </div>
   </div>
 
   <!-- 05 Foreign Currency Operations -->
   <div class="instrument-card card--amber" id="forex">
     <div class="instrument-card__header">
-      <span class="instrument-num">05</span>
+      <span class="instrument-num"></span>
       <h2>Foreign Currency Operations</h2>
     </div>
     <div class="instrument-card__body">
@@ -406,6 +537,7 @@
         <div class="sub-card">
           <div class="sub-card__title">Increasing International Reserves</div>
           <p>Increasing international reserves and bringing their volume up to the required level of international reserve stability standards.</p>
+        
         </div>
       </div>
 
@@ -413,13 +545,181 @@
     </div>
   </div>
 
-  <!-- Interest rate corridor diagram -->
-  <figure class="img-figure">
-    <div class="img-figure__label">Interest rate diagram of standing instruments and refinancing rate</div>
-    <img src="../img/set2.png" alt="Interest rate diagram of standing instruments and refinancing rate">
-  </figure>
+  <!-- Monetary Operations Structure Cards (EN) -->
+  <p class="moc-section-title">Structure of Monetary Operation Instruments of the National Bank of Tajikistan</p>
+
+  <div class="moc-grid">
+
+    <!-- ── ABSORB ── -->
+    <div class="moc-block absorb">
+      <div class="moc-block__header">
+        <div class="moc-block__title">
+          <span>Absorbtion of somoni liquidity</span>
+        </div>
+      </div>
+      <div class="moc-block__body">
+
+        <div class="moc-row">
+          <div class="moc-badge moc-badge--deposit">Standing Deposit Facilities</div>
+          <div class="moc-initiator">by initiative of credit institutions</div>
+          <h3 class="moc-row__name">Overnight Deposit</h3>
+          <div class="moc-params">
+            <div class="moc-params__label">Maturity:</div><div class="moc-params__value">1 day</div>
+            <div class="moc-params__label">Rate (%):</div><div class="moc-params__value">Refinancing rate − 3.0 p.p.</div>
+            <div class="moc-params__label">Collateral:</div><div class="moc-params__value empty">-</div>
+            <div class="moc-params__label">Procedure:</div><div class="moc-params__value regular">At the request of credit institutions, any operational day</div>
+          </div>
+          <div class="moc-note"><a href="" target="_blank" rel="noopener noreferrer"><strong>Instruction No. 226:</strong> "On Conducting Short-Term Deposit Operations in National Currency by the National Bank of Tajikistan"</a></div>
+        </div>
+
+        <div class="moc-row">
+          <div class="moc-badge moc-badge--deposit">Standing Deposit Facilities</div>
+          <div class="moc-initiator">by initiative of credit institutions</div>
+          <h3 class="moc-row__name">Deposit auctions</h3>
+          <div class="moc-params">
+            <div class="moc-params__label">Maturity:</div><div class="moc-params__value">365 days</div>
+            <div class="moc-params__label">Rate (%):</div><div class="moc-params__value">Maximum rate = Refinancing rate + 2.0 p.p.</div>
+            <div class="moc-params__label">Collateral:</div><div class="moc-params__value empty">-</div>
+            <div class="moc-params__label">Procedure:</div><div class="moc-params__value regular">According to schedule of deposit auctions by NBT</div>
+          </div>
+          <div class="moc-note"><a href="" target="_blank" rel="noopener noreferrer"><strong>Instruction No. 226:</strong> "On Conducting Short-Term Deposit Operations in National Currency by the National Bank of Tajikistan"</a></div>
+        </div>
+
+        <div class="moc-row">
+          <div class="moc-badge moc-badge--omo">Open market operations</div>
+          <div class="moc-initiator">by initiative of NBT</div>
+          <h3 class="moc-row__name">Securities auctions</h3>
+          <div class="moc-params">
+            <div class="moc-params__label">Maturity / Rate (%):</div>
+            <div class="moc-params__value" style="font-weight:400;font-size:0.77rem;line-height:1.6">
+              <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">7 days</span> — Maximum rate = Refinancing rate<br>
+              <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">91 days</span> — Maximum rate = Refinancing rate + 0.5 p.p.<br>
+              <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">182 days</span> — Auction
+            </div>
+            <div class="moc-params__label">Collateral:</div><div class="moc-params__value empty">-</div>
+            <div class="moc-params__label">Procedure:</div><div class="moc-params__value regular">To be defined by auction, according to schedule of securities issuance</div>
+          </div>
+          <div class="moc-note"><a href="" target="_blank" rel="noopener noreferrer"><strong>Instruction No. 189:</strong> "On securities of the National Bank of Tajikistan"</a></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── PROVIDE ── -->
+    <div class="moc-block provide">
+      <div class="moc-block__header">
+        <div class="moc-block__title">
+          <span>Provision of somoni liquidity</span>
+        </div>
+      </div>
+      <div class="moc-block__body">
+
+        <div class="moc-row">
+          <div class="moc-badge moc-badge--credit">Standing Credit Facility</div>
+          <div class="moc-initiator">by initiative of credit institutions</div>
+          <h3 class="moc-row__name">Intraday loan</h3>
+          <div class="moc-params">
+            <div class="moc-params__label">Maturity:</div><div class="moc-params__value">Every working day</div>
+            <div class="moc-params__label">Rate (%):</div><div class="moc-params__value free">Free interest</div>
+            <div class="moc-params__label">Collateral:</div><div class="moc-params__value collateral">Government securities, NBT securities, FX and deposits in NBT</div>
+            <div class="moc-params__label">Procedure:</div><div class="moc-params__value regular">Regularly</div>
+          </div>
+          <div class="moc-note"><a href="" target="_blank" rel="noopener noreferrer"><strong>Instruction No. 220:</strong> "On Short-Term Refinancing Operations"</a></div>
+        </div>
+
+        <div class="moc-row">
+          <div class="moc-badge moc-badge--credit">Standing Credit Facility</div>
+          <div class="moc-initiator">by initiative of credit institutions</div>
+          <h3 class="moc-row__name">Overnight Loan</h3>
+          <div class="moc-params">
+            <div class="moc-params__label">Maturity:</div><div class="moc-params__value">1 day</div>
+            <div class="moc-params__label">Rate (%):</div><div class="moc-params__value">Refinancing rate + 3.0 b.p.</div>
+            <div class="moc-params__label">Collateral:</div><div class="moc-params__value collateral">Government securities, NBT securities, FX and deposits in NBT</div>
+            <div class="moc-params__label">Procedure:</div><div class="moc-params__value regular">At the request of credit institutions, any operational day</div>
+          </div>
+          <div class="moc-note"><a href="" target="_blank" rel="noopener noreferrer"><strong>Instruction No. 220:</strong> "On Short-Term Refinancing Operations"</a></div>
+        </div>
+
+        <div class="moc-row">
+          <div class="moc-badge moc-badge--omo">Open market operations</div>
+          <div class="moc-initiator">by initiative of NBT</div>
+          <h3 class="moc-row__name">Credit Auctions</h3>
+          <div class="moc-params">
+            <div class="moc-params__label">Maturity:</div><div class="moc-params__value">14 / 28 days</div>
+            <div class="moc-params__label">Rate (%):</div><div class="moc-params__value">Starting rate = refinancing rate</div>
+            <div class="moc-params__label">Collateral:</div><div class="moc-params__value collateral">Government securities, NBT securities, FX and deposits in NBT</div>
+            <div class="moc-params__label">Procedure:</div><div class="moc-params__value regular">To be defined by auction, according to schedule of credit auctions</div>
+          </div>
+          <div class="moc-note"><a href="" target="_blank" rel="noopener noreferrer"><strong>Instruction No. 220:</strong> On Short-Term Refinancing Operations</a></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 
 </div></div><!-- /.page-wrap -->
 <script src="../js/common.js"></script>
+<script>
+(function () {
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+  document.querySelectorAll('.instrument-num').forEach(function (el, i) {
+    el.textContent = String(i + 1).padStart(2, '0');
+  });
+  var chevron = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.querySelectorAll('.instrument-card__header').forEach(function (header) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'card-toggle';
+    btn.innerHTML = chevron;
+    header.appendChild(btn);
+    function toggle(e) {
+      e.stopPropagation();
+      header.closest('.instrument-card').classList.toggle('instrument-card--collapsed');
+    }
+    btn.addEventListener('click', toggle);
+    header.addEventListener('click', toggle);
+  });
+  var hash = window.location.hash;
+  if (hash) {
+    var target = document.querySelector(hash + '.instrument-card--collapsed');
+    if (target) target.classList.remove('instrument-card--collapsed');
+  }
+  var cards = Array.from(document.querySelectorAll('.instrument-card[id]'));
+  var navLinks = {};
+  document.querySelectorAll('.instrument-nav a').forEach(function (a) {
+    var id = a.getAttribute('href').replace('#', '');
+    navLinks[id] = a;
+  });
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          Object.values(navLinks).forEach(function (a) { a.classList.remove('nav--active'); });
+          var link = navLinks[entry.target.id];
+          if (link) link.classList.add('nav--active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+    cards.forEach(function (card) { io.observe(card); });
+  }
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
+</script>
 </body>
 </html>

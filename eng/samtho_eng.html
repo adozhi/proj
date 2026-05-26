@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tg">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,127 +7,103 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/detail.css">
   <style>
-    .content-section { margin-bottom: 2.5rem; }
-    .page-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--navy); margin-bottom: 1.2rem; line-height: 1.25; }
+    .doc-intro { border: 1px solid var(--border, #e2e8f0); border-radius: 14px; overflow: hidden; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .doc-intro__header { padding: 26px 30px 22px; background: var(--surface-alt, #f8fafc); border-bottom: 1px solid var(--border, #e2e8f0); border-top: 4px solid #2563eb; }
+    .doc-intro__tag { display: block; font-size: 0.68rem; font-weight: 700; color: #2563eb; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .doc-intro__title { font-size: clamp(1.05rem, 2.2vw, 1.45rem); font-weight: 800; color: var(--navy, #0f172a); line-height: 1.3; }
+    .doc-intro__body { padding: 22px 30px; background: #fff; }
+    .doc-intro__body p { font-size: 0.9rem; color: #374151; line-height: 1.72; margin-bottom: 12px; }
+    .doc-intro__body p:last-child { margin-bottom: 0; }
 
-    .styled-table {
-      width: 100%; border-collapse: separate; border-spacing: 0;
-      border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 0.95rem;
-      margin: 1.5rem 0;
-    }
-    .styled-table thead tr { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; }
-    .styled-table th, .styled-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-    .styled-table th { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
-    .styled-table tbody tr:nth-child(even) { background: var(--surface-alt); }
-    .styled-table tbody tr:hover { background: #eff6ff; }
-
-    .content-section h2 { font-size: 1.2rem; font-weight: 700; color: var(--navy); margin: 0 0 1rem; }
-    .content-section h3 { font-size: 1.05rem; font-weight: 600; color: var(--navy); margin: 1.2rem 0 0.6rem; }
-    .content-section p { margin-bottom: 0.9rem; }
-    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1rem; }
-    .content-section li { margin-bottom: 0.4rem; }
-
-    .info-box {
-      background: var(--blue-light, #eff6ff); border: 1px solid var(--blue, #2563eb);
-      border-radius: 10px; padding: 16px 20px; margin: 1.2rem 0;
-    }
-    .highlight { color: var(--blue, #2563eb); font-weight: 600; }
-
-    img.content-img { width: 100%; border-radius: 10px; margin: 1.2rem 0; }
-
-    @media (max-width: 640px) {
-      .styled-table { font-size: 0.82rem; }
-      .styled-table th, .styled-table td { padding: 9px 8px; }
-    }
-
-    .intro {
-      font-size: 0.94rem;
-      color: var(--text-light);
-      text-align: justify;
-      max-width: 820px;
-      margin: 0 auto 2rem;
-      line-height: 1.65;
-    }
-
-    .grid {
+    /* Grid */
+    .doc-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.2rem;
+      gap: 1.25rem;
     }
 
-    .card {
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      transition: all 0.28s ease;
-      border: 1px solid #e5e7eb;
+    /* Card base — whole card is a link */
+    .doc-card {
+      display: block;
+      text-decoration: none;
+      background: var(--surface, #fff);
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm, 0 1px 4px rgba(0,0,0,0.08));
+      border: 1px solid var(--border, #e5e7eb);
+      overflow: hidden;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      cursor: pointer;
+    }
+    .doc-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(59,130,246,0.16);
+      text-decoration: none;
     }
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-hover);
+    /* Card header */
+    .doc-card__header {
+      padding: 20px 20px 20px;
+      background: var(--surface-alt, #f8fafc);
+      border-left: 4px solid var(--border, #e5e7eb);
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
+    .doc-card--current .doc-card__header { border-left: 4px solid #3b82f6; }
 
-    .card-inner {
-      padding: 1.3rem 1.4rem;
+    .doc-card__year {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--navy, #0f172a);
+    }
+    .doc-card--current .doc-card__year { color: #2563eb; }
+    .doc-card__info {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
+      gap: 4px;
     }
-
-    .year-label {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    /* SVG иконка PDF */
-    .pdf-icon {
-      width: 24px;
-      height: 24px;
-      fill: #e74c3c;
-    }
-
-    .download-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      text-decoration: none;
-      color: var(--text);
-      font-size: 0.92rem;
+    .doc-card__subtitle {
+      font-size: 0.72rem;
       font-weight: 500;
-      transition: color 0.22s;
-      margin-top: auto;
+      color: var(--text-muted, #94a3b8);
+      line-height: 1.3;
     }
 
-    .download-link:hover {
-      color: var(--primary);
+    /* Progress bar */
+    .read-progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #6366f1);
+      width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none;
     }
 
-    /* стрелка */
-    .arrow-icon {
-      font-size: 18px;
-      transition: transform 0.3s;
+    /* Back to top */
+    .back-to-top {
+      position: fixed; bottom: 28px; right: 24px;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: #3b82f6; color: #fff; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(59,130,246,0.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.25s, transform 0.25s, background 0.2s;
+      pointer-events: none; z-index: 9998;
     }
-
-    .download-link:hover .arrow-icon {
-      transform: translateX(5px);
-    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
   </style>
-  <link rel="stylesheet" href="../css/detail.css">
 </head>
 
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
 <header class="page-header">
   <div class="page-header__inner">
-    <a href="../index.html" class="back-btn">Асосӣ</a>
+    <a href="../index.html" class="back-btn">Home</a>
     <span class="page-header__title">Main Directions</span>
     <div class="lang-switcher">
       <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
@@ -139,91 +115,68 @@
 
 <div class="page-wrap"><div class="container">
 
-  <h1 class="page-title">Main directions of monetary policy</h1>
-
-  <p class="intro">
-    The main directions of the monetary policy of the Republic of Tajikistan are developed in accordance with Articles 4 and 14 of the Law of the Republic of Tajikistan "On the National Bank of Tajikistan" and define the main directions of the monetary and foreign exchange policy of the state, the effective use of monetary policy levers and the stable development of monetary indicators to achieve the main goal - maintaining a stable price level in the coming year.
-  </p>
-
-  <p class="intro" style="margin-top: -1rem;">
-    The National Bank of Tajikistan annually submits the draft "Main Directions of the Monetary Policy of the Republic of Tajikistan" for consideration and approval to the Majlisi Namoyandagon of the Majlisi Oli of the Republic of Tajikistan no later than November 1.
-  </p>
-
-  <div class="grid">
-
-    <!-- 2026 -->
-    <div class="card">
-      <div class="card-inner">
-        <div class="year-label">
-          <svg class="pdf-icon" viewBox="0 0 24 24">
-            <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
-            <text x="6" y="18" font-size="6" fill="white" font-weight="bold">PDF</text>
-          </svg>
-          2026
-        </div>
-        <a href="#" class="download-link">
-          <span>PDF</span>
-          <span class="arrow-icon">→</span>
-        </a>
-      </div>
+  <div class="doc-intro">
+    <div class="doc-intro__header">
+      <h1 class="doc-intro__title">Main Directions of the Monetary Policy of the Republic of Tajikistan</h1>
     </div>
-
-    <!-- 2025 -->
-    <div class="card">
-      <div class="card-inner">
-        <div class="year-label">
-          <svg class="pdf-icon" viewBox="0 0 24 24">
-            <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
-            <text x="6" y="18" font-size="6" fill="white" font-weight="bold">PDF</text>
-          </svg>
-          2025
-        </div>
-        <a href="#" class="download-link">
-          <span>PDF</span>
-          <span class="arrow-icon">→</span>
-        </a>
-      </div>
+    <div class="doc-intro__body">
+      <p>The main directions of the monetary policy of the Republic of Tajikistan are developed in accordance with Articles 4 and 14 of the Law of the Republic of Tajikistan "On the National Bank of Tajikistan" and define the main directions of the monetary and foreign exchange policy of the state, the effective use of monetary policy levers and the stable development of monetary indicators to achieve the main goal — maintaining a stable price level in the coming year.</p>
+      <p>The National Bank of Tajikistan annually submits the draft "Main Directions of the Monetary Policy of the Republic of Tajikistan" for consideration and approval to the Majlisi Namoyandagon of the Majlisi Oli of the Republic of Tajikistan no later than November 1.</p>
     </div>
-
-    <!-- 2024 -->
-    <div class="card">
-      <div class="card-inner">
-        <div class="year-label">
-          <svg class="pdf-icon" viewBox="0 0 24 24">
-            <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
-            <text x="6" y="18" font-size="6" fill="white" font-weight="bold">PDF</text>
-          </svg>
-          2024
-        </div>
-        <a href="#" class="download-link">
-          <span>PDF</span>
-          <span class="arrow-icon">→</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- 2023 -->
-    <div class="card">
-      <div class="card-inner">
-        <div class="year-label">
-          <svg class="pdf-icon" viewBox="0 0 24 24">
-            <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
-            <text x="6" y="18" font-size="6" fill="white" font-weight="bold">PDF</text>
-          </svg>
-          2023
-        </div>
-        <a href="#" class="download-link">
-          <span>PDF</span>
-          <span class="arrow-icon">→</span>
-        </a>
-      </div>
-    </div>
-
   </div>
+
+  <div class="doc-grid" id="doc-grid"></div>
+
+  <script>
+  (function () {
+    var pdfIcon = '<svg viewBox="0 0 24 24" width="26" height="26" fill="#e74c3c" style="margin-left:auto;opacity:0.75;flex-shrink:0"><path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><text x="6" y="18" font-size="6" fill="white" font-weight="bold">PDF</text></svg>';
+    var grid = document.getElementById('doc-grid');
+    var CURRENT = 2026;
+    for (var y = 2026; y >= 2003; y--) {
+      var a = document.createElement('a');
+      a.href = 'files/' + y + '.pdf';
+      a.className = 'doc-card' + (y === CURRENT ? ' doc-card--current' : '');
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML =
+        '<div class="doc-card__header">' +
+          '<div class="doc-card__info">' +
+            '<span class="doc-card__year">' + y + '</span>' +
+            '<span class="doc-card__subtitle">PDF</span>' +
+          '</div>' +
+          pdfIcon +
+        '</div>';
+      grid.appendChild(a);
+    }
+  })();
+  </script>
 
 </div>
 </div><!-- /.page-wrap -->
 
+<script>
+(function () {
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
+</script>
 <script src="../js/common.js"></script>
+
 </body>
 </html>
