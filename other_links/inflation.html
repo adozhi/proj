@@ -1,50 +1,38 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="tg">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Таваррум — Муфассал</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/detail.css">
   <script defer src="../js/chart.umd.min.js"></script>
   <script src="../js/xlsx.full.min.js"></script>
 
   <style>
-    :root {
-      --bg: #ffffff;
-      --card: #ffffff;
-      --border: #e2e8f0;
-      --text: #1e293b;
-      --meta: #64748b;
-      --primary: #3b82f6;
-      --accent: #2563eb;
-      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
-      --shadow-md: 0 10px 25px rgba(0,0,0,0.1);
-      --header-bg: #f8fafc;
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 0;
-      line-height: 1.6;
-    }
-
-    .container { max-width: 1200px; margin: 0 auto; }
-
-    h2 { font-size: 1.8rem; color: var(--text); margin: 2em 0 1em; border-bottom: 2px solid var(--primary); padding-bottom: 0.5em; }
-
     .section {
-      background: white;
-      border: 1px solid var(--border);
+      background: #fff;
+      border: 1px solid var(--border, #e2e8f0);
       border-radius: 16px;
       padding: 32px;
       margin-bottom: 32px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
+    .section h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0 0 1em;
+      padding-bottom: 0.5em;
+      border-bottom: 2px solid #3b82f6;
+    }
+    .section p { margin-bottom: 0.75em; color: #475569; font-size: 0.92rem; line-height: 1.65; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul { padding-left: 1.4em; margin: 0.5em 0 0; }
+    .section li { margin-bottom: 0.45em; color: #475569; font-size: 0.92rem; line-height: 1.65; }
+    .section li:last-child { margin-bottom: 0; }
+    .expandable-content h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 1em 0 0.6em; padding-bottom: 0.5em; border-bottom: 2px solid #3b82f6; }
 
     .stats-card {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%);
@@ -64,58 +52,11 @@
       background: rgba(255,255,255,0.04);
       pointer-events: none;
     }
-    .stats-card h3 {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.50);
-      text-transform: uppercase;
-      letter-spacing: 0.10em;
-      margin: 0 0 14px;
-    }
-    .stats-card h4 {
-      font-size: 0.72rem;
-      font-weight: 400;
-      color: rgba(255,255,255,0.35);
-      margin: 0 0 14px;
-    }
-    .stats-value {
-      font-size: 4.2rem;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.04em;
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-    }
-    .stats-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 12px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: rgba(34,197,94,0.18);
-      color: #86efac;
-      border: 1px solid rgba(34,197,94,0.25);
-    }
+    .stats-card h3 { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.50); text-transform: uppercase; letter-spacing: 0.10em; margin: 0 0 14px; }
+    .stats-card h4 { font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.35); margin: 0 0 14px; }
+    .stats-value { font-size: 4.2rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .stats-badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(34,197,94,0.18); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
 
-    .chart-section { margin: 40px 0; }
-
-    .chart-container {
-      position: relative;
-      height: 420px;
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid var(--border);
-    }
-
-    @media (max-width: 768px) {
-      .section { padding: 20px; }
-      h1 { font-size: 2.2rem; }
-      .chart-container { height: 320px; }
-    }
     .show-more {
       display: inline-flex;
       align-items: center;
@@ -132,36 +73,44 @@
       user-select: none;
       transition: background 0.2s, border-color 0.2s;
     }
-    .show-more:hover {
-      background: #dbeafe;
-      border-color: #93c5fd;
-    }
-    .show-more::after {
-      content: '▾';
-      font-size: 1.1rem;
-      transition: transform 0.3s;
-    }
-    .show-more.active::after {
-      transform: rotate(180deg);
-    }
+    .show-more:hover { background: #dbeafe; border-color: #93c5fd; }
+    .show-more::after { content: '▾'; font-size: 1.1rem; transition: transform 0.3s; }
+    .show-more.active::after { transform: rotate(180deg); }
 
-    .expandable-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s ease, padding 0.5s ease;
-    }
+    .expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
+    .expandable-content.active { max-height: 2000px; padding-top: 0.5rem; }
 
-    .expandable-content.active {
-      max-height: 2000px;
-      padding-top: 0.5rem;
-    }
+    .read-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #6366f1); width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none; }
+    .back-to-top { position: fixed; bottom: 28px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: #3b82f6; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(59,130,246,0.35); opacity: 0; transform: translateY(12px); transition: opacity 0.25s, transform 0.25s, background 0.2s; pointer-events: none; z-index: 9998; }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
 
+    @media (max-width: 768px) { .section { padding: 20px; } }
 
-
+    .btn-overlay { display:flex; align-items:center; gap:5px; padding:5px 10px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; font-size:0.78rem; color:#64748b; cursor:pointer; white-space:nowrap; font-family:inherit; transition:border-color 0.15s,color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+    .btn-overlay:hover { border-color:#94a3b8; background:#f8fafc; }
+    .btn-overlay-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; transition:transform 0.15s; }
+    .btn-overlay--active .btn-overlay-dot { transform:scale(1.3); }
+    .btn-overlay--active { background:#f8fafc; font-weight:500; }
+    .btn-chart--active { background:#fff7ed !important; border-color:#f59e0b !important; color:#f59e0b !important; }
+    .date-range-wrap { position:relative; }
+    .date-range-btn { display:flex; align-items:center; gap:6px; padding:5px 12px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; font-size:0.8rem; color:#475569; cursor:pointer; white-space:nowrap; font-family:inherit; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+    .date-range-btn:hover { border-color:#94a3b8; background:#f8fafc; }
+    .date-range-btn svg { flex-shrink:0; stroke:#94a3b8; }
+    .date-range-dropdown { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); z-index:200; flex-direction:column; gap:6px; min-width:172px; }
+    .date-range-dropdown.open { display:flex; }
+    .date-range-dropdown input[type="month"] { width:100%; padding:5px 8px; border:1px solid #e2e8f0; border-radius:6px; font-size:0.8rem; font-family:inherit; color:#1e293b; background:#fff; cursor:pointer; outline:none; transition:border-color 0.15s; }
+    .date-range-dropdown input[type="month"]:focus { border-color:#64748b; }
+    .date-range-dropdown .btn-chart--apply { width:100%; justify-content:center; margin-top:2px; padding:6px 0; border-radius:6px; font-size:0.78rem; background:#1e293b; border-color:#1e293b; color:#fff; }
+    .date-range-dropdown .btn-chart--apply:hover { background:#0f172a; border-color:#0f172a; }
+    .chart-source { font-size:0.72rem; color:#94a3b8; padding:5px 0 0; }
   </style>
-<link rel="stylesheet" href="../css/detail.css">
 </head>
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Боло">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 <header class="page-header">
   <div class="page-header__inner">
     <a href="../index.html" class="back-btn">Асосӣ</a>
@@ -171,7 +120,11 @@
       <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
       <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
     </div>
+
+
   </div>
+
+
 </header>
 <div class="page-wrap"><div class="container">
 
@@ -181,32 +134,80 @@
     <div id="badge-inflation-detail" class="stats-badge">✓ Дар ҳадаф — 5% (±2 б.ф.)</div>
   </div>
 
+  <div class="chart-card">
+    <div class="chart-card__header">
+      <div class="chart-card__header-left">
+        <h2 class="chart-card__title">Тағйирёбии таваррум</h2>
+        <div class="chart-type-toggle">
+          <button class="chart-type-btn active" id="btn-yearly" onclick="switchInflation('yearly')">Солона</button>
+          <button class="chart-type-btn" id="btn-monthly" onclick="switchInflation('monthly')">Моҳона</button>
+        </div>
+      </div>
+      <div class="chart-toolbar">
+        <button class="btn-overlay btn-overlay--active" id="btn-corridor" onclick="toggleCorridor()" style="border-color:#059669;color:#059669">
+          <span class="btn-overlay-dot" style="background:#059669"></span>
+          Ҳадаф — 5% (±2 б.ф.)
+        </button>
+        <div class="date-range-wrap" id="inflation-drwrap">
+          <button class="date-range-btn" onclick="toggleDatePicker()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="inflation-range-label"></span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="date-range-dropdown" id="inflation-dropdown">
+            <input type="month" id="startDate">
+            <input type="month" id="endDate">
+            <button class="btn-chart btn-chart--apply" onclick="applyDateRange()">Apply</button>
+          </div>
+        </div>
+        <button class="btn-chart" id="inflation-reset-btn" onclick="resetChart()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+        <button class="btn-chart" onclick="exportXLS()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          xlsx
+        </button>
+      </div>
+    </div>
+    <div class="chart-card__body">
+      <div class="chart-canvas-wrap">
+        <canvas id="inflationChart"></canvas>
+      </div>
+      <div class="chart-source" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px">
+        <span>Манбаъ: Агентии омор назди Президенти Ҷумҳурии Тоҷикистон; Бонки Миллии Тоҷикистон</span>
+        <span>навсозии охирон: <span id="inflation-last-updated">—</span></span>
+      </div>
+    </div>
+  </div>
+
+
   <section class="section">
-    <h2>1. Таваррум чист?</h2>
+    <h2>1. Таваррум</h2>
     <p>Таваррум болоравии сатҳи умумии нархи молу маҳсулот ва хизматрасонӣ дар як давраи муайян бо ченаки фоизӣ мебошад (бо истифодаи усули Ласпейрес).</p>
   </section>
 
 <section class="section">
-  <h2>2. Таваррум чӣ гуна ҳисоб карда мешавад?</h2>
+  <h2>2. Тарзи ҳисоби таваррум</h2>
   <p>Барои муайян намудани сатҳи таваррум тағйирёбии умумии нархи молу маҳсулот (хӯрокворӣ ва ғайрихӯрокворӣ) ва хизматрасониҳои давраи ҷорӣ нисбат ба давраи гузашта ҳисоб карда мешавад.</p>
   <p>Барои мисол: агар нархи миёнаи 1 кг картошка дар моҳи гузашта 5 сомониро ташкил медод ва ин нишондиҳанда дар моҳи ҷорӣ ба 5,5 сомонӣ баробар шавад, дар ин маврид афзоишёбии нархи он 10,0 фоизро ташкил медиҳад.</p>
   <span class="show-more">Шарҳи мухтасари ҳисоб кардани таваррум</span>
 
   <div class="expandable-content">
     <section>
-      <h2>1. Таҷрибаи дигар кишварҳо оид ба ҳисоб намудани таваррум чӣ гуна аст?</h2>
+      <h2>1. Таҷрибаи дигар кишварҳо оид ба ҳисоб намудани таваррум</h2>
       <p>Дар тамоми кишварҳои ҷаҳон таваррум аз рӯйи сабади истеъмолӣ ҳисоб карда мешавад (бо истифодаи усулҳои Ласпейрес, Пааше ва Фишер).</p>
     </section>
 
     <section>
-      <h2>2. Сабади истеъмолӣ чист?</h2>
+      <h2>2. Сабади истеъмолӣ</h2>
       <p>Сабади истеъмолӣ маҷмуи ҳадди ақалли молу маҳсулот ва хизматрасониҳоеро дар бар мегирад, ки барои нигоҳдории саломатии инсон, таъмини зиндагӣ ва фаъолияти ӯ зарур мебошанд.</p>
       <p>Аз соли 2015 инҷониб сабади истеъмолии кишвар аз 546 номгӯй, аз ҷумла 112 адад маҳсулоти хӯрокворӣ, 335 адад молҳои ғайрихӯрокворӣ ва 99 адад хизматрасониҳои пулӣ иборат мебошад.</p>
       <p>Дар ҳисоб намудани сатҳи таваррум вазни хоси ҳар як нишондиҳандаи сабади истеъмолӣ низ нақши калидӣ дорад.</p>
     </section>
 
     <section>
-      <h2>3. Вазни хоси молу маҳсулот ва хизматрасонӣ чист ва чӣ гуна муайян карда мешавад?</h2>
+      <h2>3. Мафҳум ва тарзи муайян кардани вазни хоси молу маҳсулот ва хизматрасонӣ</h2>
       <p>Вазни хоси молу маҳсулот ва хизматрасонӣ ҳиссаи хароҷоти аҳолӣ барои хариди молу маҳсулот ва хизматрасонӣ бо ченаки фоизӣ мебошад.</p>
       <p>Вазни хос дар асоси хароҷоти аҳолӣ барои хариди як воҳиди молу маҳсулот ва хизматрасонӣ нисбат ба ҳаҷми умумии он муайян карда мешавад.</p>
       <p>Дар соли 2026 барои ҳисоб намудани сатҳи таваррум вазни хоси маҳсулоти хӯрокворӣ 51,7 фоиз, молҳои ғайрихӯрокворӣ 36,0 фоиз ва хизматрасониҳои пулӣ 12,3 фоизи сабади истеъмолиро ташкил медиҳад.</p>
@@ -215,14 +216,16 @@
 </section>
 
 <section class="section">
-    <h2>3. Афзоиш ёфтани сатҳи таваррум дар мамлакат аз кадом омилҳо вобаста мебошад?</h2>
+    <h2>3. Омилҳои асосии ба сатҳи таваррум дар мамлакат таъсиррасон</h2>
     <p>Болоравии сатҳи таваррум аз омилҳои зерин вобаста мебошад:</p>
-    <p>омилҳои мавсимӣ – ба итмом расидани захираи маҳсулоти кишоварзии мавсими қаблӣ ва коҳиш ёфтани ҳаҷми истеҳсоли чунин маҳсулот;</p>
-    <p>омилҳои таклифотӣ – номусоидии вазъи боду ҳаво ва ба ин васила коҳишёбии назарраси ҳаҷми маҳсулоти кишоварзӣ;</p>
-    <p>омилҳои берунӣ – болоравии нархи молу маҳсулоти воридотӣ дар бозорҳои ҷаҳонӣ ва минтақа;</p>
-    <p>омилҳои талабот – афзоиш ёфтани талаботи аҳолӣ ба молу маҳсулот ва хизматрасонӣ дар натиҷаи зиёд гардидани даромади пулии он;</p>
-    <p>тағйирёбии нархҳои маъмуран танзимшаванда – қувваи барқ, обрасонӣ (оби хунук ва гарм), партовбарорӣ ва ғайра;</p>
-    <p>омилҳои тағйирёбии қурб – ноустувории қурби пули миллӣ нисбат ба асъори хориҷӣ ва таъсири он ба нархи молу маҳсулоти воридотӣ.</p>
+    <ul>
+      <li>омилҳои мавсимӣ – ба итмом расидани захираи маҳсулоти кишоварзии мавсими қаблӣ ва коҳиш ёфтани ҳаҷми истеҳсоли чунин маҳсулот;</li>
+      <li>омилҳои таклифотӣ – номусоидии вазъи боду ҳаво ва ба ин васила коҳишёбии назарраси ҳаҷми маҳсулоти кишоварзӣ;</li>
+      <li>омилҳои берунӣ – болоравии нархи молу маҳсулоти воридотӣ дар бозорҳои ҷаҳонӣ ва минтақа;</li>
+      <li>омилҳои талабот – афзоиш ёфтани талаботи аҳолӣ ба молу маҳсулот ва хизматрасонӣ дар натиҷаи зиёд гардидани даромади пулии он;</li>
+      <li>тағйирёбии нархҳои маъмуран танзимшаванда – қувваи барқ, обрасонӣ (оби хунук ва гарм), партовбарорӣ ва ғайра;</li>
+      <li>омилҳои тағйирёбии қурб – ноустувории қурби пули миллӣ нисбат ба асъори хориҷӣ ва таъсири он ба нархи молу маҳсулоти воридотӣ.</li>
+    </ul>
   </section>
 
 
@@ -231,13 +234,13 @@
 
 
   <section class="section">
-    <h2>4. Таваррум аз ҷониби кадом мақомоти салоҳиятдори давлатӣ ҳисоб карда мешавад?</h2>
+    <h2>4. Раванди ҳисоби таваррум аз ҷониби мақомоти салоҳиятдори давлатӣ</h2>
     <p>Дар Ҷумҳурии Тоҷикистон сатҳи таваррум аз ҷониби Агентии омори назди Президенти Ҷумҳурии Тоҷикистон муайян (ҳисоб) карда мешавад.</p>
   </section>
 
 
   <section class="section">
-    <h2>5. Муътадилии сатҳи таваррум барои чӣ зарур аст?</h2>
+    <h2>5. Зарурати муътадил нигоҳ доштани сатҳи таваррум</h2>
     <ul>
       <li>Муътадилии сатҳи таваррум ба рушди устувори иқтисодӣ дар давраи дарозмуддат;</li>
       <li>зиёд гардидани эътимоди аҳолӣ, соҳибкорон ва сармоягузорони дохилию хориҷӣ ба пули миллӣ;</li>
@@ -249,7 +252,7 @@
 
 
 <section class="section">
-  <h2>6. Ҳадафгирии таваррум чист?</h2>
+  <h2>6. Ҳадафгирии таваррум</h2>
 
   <p>
    Ҳадафгирии таваррум реҷаи муосири сиёсати пулию қарзӣ (монетарӣ) буда, тавассути он нишондиҳандаи сатҳи таваррум барои соли оянда ва давраи миёнамуҳлат муайян ва эълон карда мешавад, инчунин ҷиҳати расидан ба сатҳи муқарраршудаи таваррум тамоми воситаҳои сиёсати монетарӣ истифода бурда мешаванд.
@@ -259,7 +262,7 @@
   <span class="show-more">Оид ба муҳиммияти ҳадафгирии таваррум</span>
 
   <div class="expandable-content">
-    <h2>1. Сабаби гузариш ба ҳадафгирии таваррум дар чист?</h2>
+    <h2>1. Сабаби гузариш ба ҳадафгирии таваррум</h2>
     <ul>
       <li>Гузариш ба ҳадафгирии таваррум ба зиёд гардидании эътимод ба сиёсати монетарӣ ва бонки марказӣ замина мегузорад;</li>
       <li>сатҳи долларикунонии иқтисодиётро коҳиш медиҳад;</li>
@@ -271,60 +274,19 @@
 
 
   <section class="section">
-    <h2>7. Чаро ҳадафи таваррум барои давраи миёнамуҳлат пешгӯйӣ карда мешавад?</h2>
+    <h2>7. Пешгӯйӣ ҳадафи таваррум барои давраи миёнамуҳлат</h2>
     <p>Таъсири тадбирҳои андешидаи бонкҳои марказӣ (миллӣ) тавассути истифодаи фишангҳои сиёсати пулию қарзӣ ҷиҳати муътадил нигоҳ доштани сатҳи таваррум, ба ҳисоби миёна, пас аз 3 то 6 семоҳа ба мушоҳида мерасад (аз 9 моҳ то 1,5 сол). Яъне, ҳангоми тағйир додани меъёри бозтамвил таъсири пурраи онҳо ба сатҳи нархҳо вақти муайянро талаб мекунад.</p>
   </section>
 
 
   <section class="section">
-    <h2>8. Интизории таваррум чист?</h2>
+    <h2>8. Интизории таваррум</h2>
     <p>Интизории таваррум гузаронидани назарсанҷӣ байни аҳолии кишвар ҷиҳати муайян намудани тағйирёбии сатҳи нархҳо барои давраи ояндаро дар назар дорад.</p>
     <p>Бонки миллии Тоҷикистон ҷиҳати муайян намудани интизории таваррум аз соли 2019 то инҷониб ҳар семоҳа дар байни аҳолӣ назарсанҷӣ доир менамояд.</p>
     <p>Раванди мазкур ба зиёд гардидани эътимоди аҳолӣ ба сиёсати пулию қарзии Бонки миллии Тоҷикистон, ба роҳ мондани равобит бо ҷомеа ва боло бурдани сатҳи маърифати иқтисодиву молиявии аҳолӣ замина мегузорад.</p>
   </section>
 
   <!-- График  -->
-  <div class="chart-card">
-    <div class="chart-card__header">
-      <div class="chart-card__header-left">
-        <h2 class="chart-card__title">Тағйирёбии таваррум</h2>
-        <div class="chart-type-toggle">
-          <button class="chart-type-btn active" id="btn-yearly" onclick="switchInflation('yearly')">Солона</button>
-          <button class="chart-type-btn" id="btn-monthly" onclick="switchInflation('monthly')">Моҳона</button>
-        </div>
-      </div>
-      <div class="chart-toolbar">
-        <div class="date-range">
-          <span class="date-range__label">Аз</span>
-          <input type="month" id="startDate" value="2010-01">
-          <span class="date-range-sep">—</span>
-          <span class="date-range__label">То</span>
-          <input type="month" id="endDate" value="2026-03">
-        </div>
-        <button class="btn-chart btn-chart--apply" onclick="updateChart()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          OK
-        </button>
-        <button class="btn-chart" onclick="resetChart()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-          Reset
-        </button>
-        <button class="btn-chart" onclick="exportPNG()" title="Боргирии PNG">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l4 4 4-4"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
-          PNG
-        </button>
-        <button class="btn-chart" onclick="exportCSV()" title="Боргирии CSV">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-          CSV
-        </button>
-      </div>
-    </div>
-    <div class="chart-card__body">
-      <div class="chart-canvas-wrap">
-        <canvas id="inflationChart"></canvas>
-      </div>
-    </div>
-  </div>
 
 </div></div>
 <!-- ------------ -->
@@ -334,6 +296,8 @@ let originalData = null;
 let currentMode = "yearly";
 
 const MONTH_FULL_TJ = ['Январ','Феврал','Март','Апрел','Май','Июн','Июл','Август','Сентябр','Октябр','Ноябр','Декабр'];
+const TJ_MONTHS_GEN = ['январи','феврали','марти','апрели','майи','июни','июли','августи','сентябри','октябри','ноябри','декабри'];
+function fmtTJDate(d){if(!d)return'—';const[y,m]=d.split('-').map(Number);return TJ_MONTHS_GEN[m-1]+' '+y;}
 
 const PERIODS_TARGET = [
   { from: '2017-08', to: '2017-12', center: 7, band: 3 },
@@ -369,6 +333,15 @@ function computeRange(vals) {
   };
 }
 
+function computeRangeYearly(vals, labels) {
+  const allVals = [...vals];
+  labels.forEach(d => {
+    const t = getTarget(d);
+    if (t) { allVals.push(t.center + t.band); allVals.push(t.center - t.band); }
+  });
+  return computeRange(allVals.filter(v => v !== null));
+}
+
 function updateInflationCard(values_yearly, dates) {
   if (!values_yearly.length) return;
   const n = values_yearly.length;
@@ -393,13 +366,12 @@ function updateInflationCard(values_yearly, dates) {
   }
 }
 
-// ===== ЗАГРУЗКА EXCEL =====
 async function loadExcelData() {
   try {
     const response = await fetch('../data/data.xlsx');
 
     if (!response.ok) {
-      throw new Error('Excel файл не найден');
+      throw new Error('Файл ёфт нашуд');
     }
 
     const arrayBuffer = await response.arrayBuffer();
@@ -439,34 +411,54 @@ async function loadExcelData() {
     return { labels, values_yearly, values_monthly };
 
   } catch (err) {
-    console.error('Ошибка загрузки Excel:', err);
+    console.error('Хато:', err);
     return { labels: [], values_yearly: [], values_monthly: [] };
   }
 }
 
-// ===== INIT CHART =====
 document.addEventListener('DOMContentLoaded', async () => {
 
   const data = await loadExcelData();
   originalData = data;
-  originalData.td = buildTargetData(data.labels);
 
-  const yr = computeRange(data.values_yearly);
+  // Starting from 2010-01 like charts.html
+  const startIdx2010 = data.labels.findIndex(l => l >= '2010-01');
+  const startIdx = startIdx2010 >= 0 ? startIdx2010 : 0;
+  const slicedLabels = data.labels.slice(startIdx);
+  const slicedYearly = data.values_yearly.slice(startIdx);
+  const slicedMonthly = data.values_monthly.slice(startIdx);
+  originalData.td = buildTargetData(slicedLabels);
+  originalData._startIdx = startIdx;
+
+  const bgFill = ctx2 => {
+    const {ctx: c, chartArea} = ctx2.chart;
+    if (!chartArea) return 'rgba(59,130,246,0.12)';
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, 'rgba(59,130,246,0.55)');
+    g.addColorStop(1, 'rgba(59,130,246,0)');
+    return g;
+  };
+
+  const yr = computeRangeYearly(slicedYearly.filter(v => v !== null), slicedLabels);
   const ctx = document.getElementById('inflationChart').getContext('2d');
 
   inflationChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: data.labels,
+      labels: slicedLabels,
       datasets: [{
         label: 'Таварруми солона (%)',
-        data: data.values_yearly,
+        data: slicedYearly,
         borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59, 130, 246, 0.12)',
+        backgroundColor: bgFill,
         tension: 0.4,
         pointRadius: 0,
-        borderWidth: 3,
-        fill: true
+        borderWidth: 2,
+        fill: true,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#3b82f6',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2
       }, {
         label: '_upper',
         data: originalData.td.upper,
@@ -503,10 +495,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'top', labels: { filter: item => !item.text.startsWith('_') } },
+        legend: { display: false },
         tooltip: {
-          filter: item => item.datasetIndex === 0,
-          callbacks: { label: c => ` ${c.parsed.y.toFixed(1).replace('.', ',')}%` }
+          filter: item => item.datasetIndex === 0 || item.datasetIndex === 3,
+          callbacks: {
+            title: () => '',
+            label: c => {
+              if (c.parsed.y === null) return null;
+              const lbl = c.chart.data.labels[c.dataIndex];
+              if (c.datasetIndex === 3) {
+                const t = getTarget(lbl);
+                return t ? `Ҳадаф — ${t.center}% (±${t.band} б.ф.)` : null;
+              }
+              return `${lbl}: ${c.parsed.y.toFixed(1).replace('.', ',')}%`;
+            },
+            labelColor: c => {
+              if (c.datasetIndex === 3) return { borderColor: '#059669', backgroundColor: '#059669' };
+              return { borderColor: '#3b82f6', backgroundColor: '#3b82f6' };
+            }
+          }
         }
       },
       scales: {
@@ -526,28 +533,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     },
   });
 
-  // авто даты
-  if (data.labels.length) {
-    document.getElementById('startDate').value = data.labels[0];
-    document.getElementById('endDate').value = data.labels[data.labels.length - 1];
+  const si = document.getElementById('startDate');
+  const ei = document.getElementById('endDate');
+  const firstDataIdx = data.values_yearly.findIndex(v => v !== null);
+  const firstDataDate = firstDataIdx >= 0 ? data.labels[firstDataIdx] : data.labels[0];
+  si.min = firstDataDate; si.max = data.labels[data.labels.length - 1];
+  ei.min = firstDataDate; ei.max = data.labels[data.labels.length - 1];
+  si.value = slicedLabels[0];
+  ei.value = slicedLabels[slicedLabels.length - 1];
+  updateRangeLabel();
+
+  let lastDate = null;
+  for (let i = data.values_yearly.length - 1; i >= 0; i--) {
+    if (data.values_yearly[i] !== null && data.values_yearly[i] !== 0) { lastDate = data.labels[i]; break; }
   }
+  const lastEl = document.getElementById('inflation-last-updated');
+  if (lastEl) lastEl.textContent = fmtTJDate(lastDate);
 });
 
 
-function updateYAxis(values) {
-  if (currentMode === 'monthly') {
-    inflationChart.options.scales.y.min = undefined;
-    inflationChart.options.scales.y.max = undefined;
-    inflationChart.options.scales.y.ticks.stepSize = undefined;
-  } else {
-    const r = computeRange(values);
-    inflationChart.options.scales.y.min = r.min;
-    inflationChart.options.scales.y.max = r.max;
-    inflationChart.options.scales.y.ticks.stepSize = r.step;
-  }
+function computeRangeZero(nums){
+  if(!nums.length) return {min:-2,max:2,step:1};
+  const lo=Math.min(0,Math.min(...nums)),hi=Math.max(0,Math.max(...nums));
+  const range=hi-lo, step=range<3?0.5:range<8?1:range<20?2:5;
+  return {min:Math.floor((lo-step)/step)*step,max:Math.ceil((hi+step)/step)*step,step};
 }
+function barColors(data){ return data.map(v=>v===null?'transparent':v>=0?'#3b82f680':'#ef444455'); }
+function barBorderColors(data){ return data.map(v=>v===null?'transparent':v>=0?'#3b82f6':'#ef4444'); }
 
-// ===== SWITCH MODE =====
 function switchInflation(type){
   if (!inflationChart || !originalData) return;
 
@@ -557,31 +570,123 @@ function switchInflation(type){
   const curLabels = inflationChart.data.labels;
   const si = allLabels.indexOf(curLabels[0]);
   const ei = allLabels.indexOf(curLabels[curLabels.length - 1]);
+  const allValues = type === 'monthly' ? originalData.values_monthly : originalData.values_yearly;
+  const sliced = si >= 0 && ei >= 0 ? allValues.slice(si, ei + 1) : allValues;
 
-  const allValues = type === "monthly"
-    ? originalData.values_monthly
-    : originalData.values_yearly;
+  inflationChart.data.datasets[0].data = sliced;
+  inflationChart.data.datasets[0].label = type === 'monthly' ? 'Таварруми моҳона (%)' : 'Таварруми солона (%)';
 
-  inflationChart.data.datasets[0].data =
-    si >= 0 && ei >= 0 ? allValues.slice(si, ei + 1) : allValues;
-
-  inflationChart.data.datasets[0].label =
-    type === "monthly"
-      ? 'Таварруми моҳона (%)'
-      : 'Таварруми солона (%)';
+  if (type === 'monthly') {
+    inflationChart.config.type = 'bar';
+    inflationChart.data.datasets[0].backgroundColor = barColors(sliced);
+    inflationChart.data.datasets[0].borderColor = barBorderColors(sliced);
+    inflationChart.data.datasets[0].borderWidth = 1;
+    inflationChart.data.datasets[0].fill = false;
+    inflationChart.data.datasets[0].borderRadius = 4;
+    inflationChart.data.datasets[0].maxBarThickness = 20;
+    inflationChart.options.scales.x.ticks.maxTicksLimit = 8;
+    inflationChart.options.scales.x.ticks.maxRotation = 0;
+    inflationChart.options.scales.x.ticks.minRotation = 0;
+    inflationChart.options.scales.x.offset = true;
+    inflationChart.options.scales.x.grid = { display: false };
+    inflationChart.options.scales.y.grid = { color: ctx => ctx.tick.value === 0 ? '#94a3b8' : '#f1f5f9' };
+    inflationChart.options.plugins.tooltip.callbacks.label = c => {
+      if (c.parsed.y === null) return '';
+      const v = c.parsed.y, a = v >= 0 ? '▲' : '▼', s = v >= 0 ? '+' : '';
+      return `${c.chart.data.labels[c.dataIndex]}: ${a} ${s}${v.toFixed(1).replace('.', ',')}%`;
+    };
+    inflationChart.options.plugins.tooltip.callbacks.labelColor = c => {
+      const color = c.parsed.y >= 0 ? '#3b82f6' : '#ef4444';
+      return { borderColor: color, backgroundColor: color };
+    };
+    const r = computeRangeZero(sliced.filter(v => v !== null));
+    inflationChart.options.scales.y.min = r.min;
+    inflationChart.options.scales.y.max = r.max;
+    inflationChart.options.scales.y.ticks.stepSize = r.step;
+  } else {
+    inflationChart.config.type = 'line';
+    inflationChart.data.datasets[0].backgroundColor = ctx2 => {
+      const {ctx: c, chartArea} = ctx2.chart;
+      if (!chartArea) return 'rgba(59,130,246,0.12)';
+      const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+      g.addColorStop(0, 'rgba(59,130,246,0.55)'); g.addColorStop(1, 'rgba(59,130,246,0)');
+      return g;
+    };
+    inflationChart.data.datasets[0].borderColor = '#3b82f6';
+    inflationChart.data.datasets[0].borderWidth = 2;
+    inflationChart.data.datasets[0].fill = true;
+    inflationChart.data.datasets[0].tension = 0.4;
+    inflationChart.data.datasets[0].pointRadius = 0;
+    inflationChart.data.datasets[0].pointHoverRadius = 5;
+    inflationChart.data.datasets[0].borderRadius = undefined;
+    inflationChart.data.datasets[0].maxBarThickness = undefined;
+    inflationChart.options.scales.x.ticks.maxTicksLimit = 12;
+    inflationChart.options.scales.x.ticks.maxRotation = 45;
+    inflationChart.options.scales.x.ticks.minRotation = 45;
+    inflationChart.options.scales.x.offset = false;
+    inflationChart.options.scales.x.grid = { color: '#e6e6e6' };
+    inflationChart.options.scales.y.grid = { color: '#e6e6e6' };
+    inflationChart.options.plugins.tooltip.callbacks.title = () => '';
+    inflationChart.options.plugins.tooltip.callbacks.label = c => {
+      if (c.parsed.y === null) return null;
+      const lbl = c.chart.data.labels[c.dataIndex];
+      if (c.datasetIndex === 3) { const t = getTarget(lbl); return t ? `Ҳадаф — ${t.center}% (±${t.band} б.ф.)` : null; }
+      return `${lbl}: ${c.parsed.y.toFixed(1).replace('.', ',')}%`;
+    };
+    inflationChart.options.plugins.tooltip.callbacks.labelColor = c => {
+      if (c.datasetIndex === 3) return { borderColor: '#059669', backgroundColor: '#059669' };
+      return { borderColor: '#3b82f6', backgroundColor: '#3b82f6' };
+    };
+    const td2 = buildTargetData(curLabels);
+    inflationChart.data.datasets[1].data = td2.upper;
+    inflationChart.data.datasets[2].data = td2.lower;
+    inflationChart.data.datasets[3].data = td2.center;
+    const r = computeRangeYearly(sliced.filter(v => v !== null), curLabels);
+    inflationChart.options.scales.y.min = r.min;
+    inflationChart.options.scales.y.max = r.max;
+    inflationChart.options.scales.y.ticks.stepSize = r.step;
+  }
 
   const showTarget = type === 'yearly';
-  [1, 2, 3].forEach(i => inflationChart.data.datasets[i].hidden = !showTarget);
+  const corrBtn = document.getElementById('btn-corridor');
+  const corrActive = corrBtn ? corrBtn.classList.contains('btn-overlay--active') : true;
+  [1, 2, 3].forEach(i => inflationChart.data.datasets[i].hidden = !showTarget || !corrActive);
+  if (corrBtn) corrBtn.style.display = showTarget ? '' : 'none';
 
   document.getElementById('btn-yearly').classList.toggle('active', type === 'yearly');
   document.getElementById('btn-monthly').classList.toggle('active', type === 'monthly');
-
-  updateYAxis(inflationChart.data.datasets[0].data);
   inflationChart.update();
 }
 
+function toggleCorridor() {
+  const btn = document.getElementById('btn-corridor');
+  const wasActive = btn.classList.contains('btn-overlay--active');
+  btn.classList.toggle('btn-overlay--active', !wasActive);
+  btn.style.borderColor = !wasActive ? '#059669' : '';
+  btn.style.color = !wasActive ? '#059669' : '';
+  [1, 2, 3].forEach(i => inflationChart.data.datasets[i].hidden = wasActive);
+  inflationChart.update();
+}
 
-// ===== UPDATE CHART =====
+function toggleDatePicker() {
+  document.getElementById('inflation-dropdown').classList.toggle('open');
+}
+
+function applyDateRange() {
+  document.getElementById('inflation-dropdown').classList.remove('open');
+  updateChart();
+  updateRangeLabel();
+}
+
+function updateRangeLabel() {
+  const s = document.getElementById('startDate').value;
+  const e = document.getElementById('endDate').value;
+  const lbl = document.getElementById('inflation-range-label');
+  const fmt = v => v ? v.split('-').reverse().join('.') : '?';
+  if (lbl) lbl.textContent = fmt(s) + ' — ' + fmt(e);
+}
+
+
 function updateChart() {
   if (!inflationChart || !originalData) return;
 
@@ -614,41 +719,110 @@ function updateChart() {
     inflationChart.data.datasets[3].data = td.center;
   }
 
-  updateYAxis(values.slice(startIndex, endIndex + 1));
+  const sliced2 = values.slice(startIndex, endIndex + 1).filter(v => v !== null);
+  if (currentMode === 'monthly') {
+    inflationChart.data.datasets[0].backgroundColor = barColors(values.slice(startIndex, endIndex + 1));
+    inflationChart.data.datasets[0].borderColor = barBorderColors(values.slice(startIndex, endIndex + 1));
+    const r = computeRangeZero(sliced2);
+    inflationChart.options.scales.y.min = r.min; inflationChart.options.scales.y.max = r.max; inflationChart.options.scales.y.ticks.stepSize = r.step;
+  } else {
+    const r = computeRangeYearly(sliced2, slicedLabels);
+    inflationChart.options.scales.y.min = r.min; inflationChart.options.scales.y.max = r.max; inflationChart.options.scales.y.ticks.stepSize = r.step;
+  }
   inflationChart.update();
+  const rb = document.getElementById('inflation-reset-btn');
+  if (rb) rb.classList.add('btn-chart--active');
 }
 
 
-// ===== RESET =====
 function resetChart() {
   if (!inflationChart || !originalData) return;
 
-  //  возвращаем дефолт режим
   currentMode = "yearly";
 
-  inflationChart.data.labels = originalData.labels;
-  inflationChart.data.datasets[0].data = originalData.values_yearly;
+  const si0 = originalData._startIdx || 0;
+  const resetLabels  = originalData.labels.slice(si0);
+  const resetYearly  = originalData.values_yearly.slice(si0);
+  const resetTd = buildTargetData(resetLabels);
+
+  inflationChart.data.labels = resetLabels;
+  inflationChart.data.datasets[0].data = resetYearly;
   inflationChart.data.datasets[0].label = 'Таварруми солона (%)';
 
-  inflationChart.data.datasets[1].data = originalData.td.upper;
-  inflationChart.data.datasets[2].data = originalData.td.lower;
-  inflationChart.data.datasets[3].data = originalData.td.center;
+  inflationChart.data.datasets[1].data = resetTd.upper;
+  inflationChart.data.datasets[2].data = resetTd.lower;
+  inflationChart.data.datasets[3].data = resetTd.center;
   [1, 2, 3].forEach(i => inflationChart.data.datasets[i].hidden = false);
 
-  updateYAxis(originalData.values_yearly);
+  // Restore to yearly line chart state
+  inflationChart.config.type = 'line';
+  inflationChart.data.datasets[0].backgroundColor = ctx2 => {
+    const {ctx: c, chartArea} = ctx2.chart;
+    if (!chartArea) return 'rgba(59,130,246,0.12)';
+    const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    g.addColorStop(0, 'rgba(59,130,246,0.55)'); g.addColorStop(1, 'rgba(59,130,246,0)');
+    return g;
+  };
+  inflationChart.data.datasets[0].borderColor = '#3b82f6';
+  inflationChart.data.datasets[0].borderWidth = 2;
+  inflationChart.data.datasets[0].fill = true;
+  inflationChart.data.datasets[0].tension = 0.4;
+  inflationChart.options.scales.x.ticks.maxTicksLimit = 12;
+  inflationChart.options.scales.x.ticks.maxRotation = 45;
+  inflationChart.options.scales.x.ticks.minRotation = 45;
+  inflationChart.options.scales.x.offset = false;
+  inflationChart.options.scales.x.grid = { color: '#e6e6e6' };
+  inflationChart.options.scales.y.grid = { color: '#e6e6e6' };
+  const r2 = computeRangeYearly(resetYearly.filter(v => v !== null), resetLabels);
+  inflationChart.options.scales.y.min = r2.min; inflationChart.options.scales.y.max = r2.max; inflationChart.options.scales.y.ticks.stepSize = r2.step;
+  inflationChart.options.plugins.tooltip.callbacks.title = () => '';
+  inflationChart.options.plugins.tooltip.callbacks.label = c => {
+    if (c.parsed.y === null) return null;
+    const lbl = c.chart.data.labels[c.dataIndex];
+    if (c.datasetIndex === 3) { const t = getTarget(lbl); return t ? `Ҳадаф — ${t.center}% (±${t.band} б.ф.)` : null; }
+    return `${lbl}: ${c.parsed.y.toFixed(1).replace('.', ',')}%`;
+  };
+  inflationChart.options.plugins.tooltip.callbacks.labelColor = c => {
+    if (c.datasetIndex === 3) return { borderColor: '#059669', backgroundColor: '#059669' };
+    return { borderColor: '#3b82f6', backgroundColor: '#3b82f6' };
+  };
   inflationChart.update();
 
-  document.getElementById('startDate').value = originalData.labels[0];
+  const startIdx2010 = originalData.labels.findIndex(l => l >= '2010-01');
+  const si2 = startIdx2010 >= 0 ? startIdx2010 : 0;
+  document.getElementById('startDate').value = originalData.labels[si2];
   document.getElementById('endDate').value = originalData.labels[originalData.labels.length - 1];
+  updateRangeLabel();
 
   document.getElementById('btn-yearly').classList.add('active');
   document.getElementById('btn-monthly').classList.remove('active');
+  const corrBtn = document.getElementById('btn-corridor');
+  if (corrBtn) { corrBtn.style.display = ''; corrBtn.classList.add('btn-overlay--active'); corrBtn.style.borderColor = '#059669'; corrBtn.style.color = '#059669'; }
+  const rb = document.getElementById('inflation-reset-btn');
+  if (rb) rb.classList.remove('btn-chart--active');
 }
 
 
-function exportPNG() { exportChartPNG(inflationChart, 'inflation'); }
-function exportCSV() { exportChartCSV(inflationChart, 'inflation', 'Value'); }
+function exportXLS() {
+  if (!inflationChart) return;
+  const labels = inflationChart.data.labels;
+  const data = inflationChart.data.datasets[0].data;
+  const label = inflationChart.data.datasets[0].label || 'Таваррум (%)';
+  const rows = [['Сана', label]];
+  labels.forEach((l, i) => { if (data[i] !== null && data[i] !== 0) rows.push([l, data[i]]); });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:10},{wch:22}];
+  const wb2 = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb2, ws, 'inflation');
+  XLSX.writeFile(wb2, 'inflation.xlsx');
+}
 
+document.addEventListener('click', e => {
+  if (!e.target.closest('.date-range-wrap')) {
+    const dd = document.getElementById('inflation-dropdown');
+    if (dd) dd.classList.remove('open');
+  }
+});
 
 document.querySelectorAll('.show-more').forEach(link => {
   link.addEventListener('click', () => {
@@ -656,6 +830,27 @@ document.querySelectorAll('.show-more').forEach(link => {
     link.classList.toggle('active');
   });
 });
+</script>
+<script>
+(function () {
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
 </script>
 <script src="../js/common.js"></script>
 </body>

@@ -103,6 +103,8 @@
   .img-figure { margin: 1.4rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
   .img-figure__label { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; padding: 10px 16px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; }
   .img-figure img { display: block; width: 100%; border-radius: 0; margin: 0; }
+  .tm-diagram { background: #f8fafc; padding: 20px; overflow-x: auto; }
+  .tm-diagram svg { display: block; width: 100%; min-width: 560px; height: auto; }
 
   @media (max-width: 640px) {
     .instrument-card__header { padding: 14px 16px; }
@@ -110,11 +112,135 @@
     .styled-table { font-size: 0.82rem; }
     .styled-table th, .styled-table td { padding: 9px 8px; }
   }
+
+  /* ---- Reading progress bar ---- */
+  .read-progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #6366f1);
+    width: 0%; z-index: 9999;
+    transition: width 0.08s linear;
+    pointer-events: none;
+  }
+
+  /* ---- Accordion ---- */
+  .instrument-card__header { cursor: pointer; }
+  .card-toggle {
+    margin-left: auto;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    padding: 0;
+  }
+  .card-toggle:hover { background: #fff; }
+  .card-toggle svg { transition: transform 0.25s ease; display: block; }
+  .instrument-card--collapsed .card-toggle svg { transform: rotate(-90deg); }
+  .instrument-card--collapsed .instrument-card__body { display: none; }
+
+  /* ---- Timeline (preparation section) ---- */
+  .timeline { position: relative; padding-left: 0; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 52px; top: 20px; bottom: 20px;
+    width: 2px; background: linear-gradient(to bottom, #3b82f6, #e2e8f0);
+  }
+  .timeline-step {
+    display: flex; gap: 18px;
+    margin-bottom: 1.4rem;
+    position: relative;
+  }
+  .timeline-year {
+    flex-shrink: 0; width: 90px;
+    background: linear-gradient(135deg, #0f172a, #1e40af);
+    color: #fff;
+    font-size: 0.76rem; font-weight: 700;
+    border-radius: 8px;
+    padding: 8px 8px;
+    text-align: center;
+    line-height: 1.35;
+    align-self: flex-start;
+    position: relative; z-index: 1;
+    box-shadow: 0 2px 8px #1e40af33;
+  }
+  .timeline-step:last-child .timeline-year {
+    background: linear-gradient(135deg, #064e3b, #10b981);
+    box-shadow: 0 2px 8px #10b98133;
+  }
+  .timeline-body { flex: 1; padding-top: 4px; }
+  .timeline-body > strong {
+    display: block; font-size: 0.88rem;
+    color: var(--navy); margin-bottom: 0.45rem;
+  }
+  .timeline-body ul { padding-left: 1.3rem; margin: 0.4rem 0 0; }
+  .timeline-body li { margin-bottom: 0.35rem; line-height: 1.6; font-size: 0.88rem; }
+  .timeline-body p { font-size: 0.88rem; line-height: 1.65; margin-bottom: 0.4rem; }
+  @media (max-width: 640px) {
+    .timeline::before { left: 44px; }
+    .timeline-year { width: 76px; font-size: 0.7rem; }
+    .timeline-step { gap: 12px; }
+  }
+
+  /* ---- Corridor visual ---- */
+  .corridor-visual {
+    display: flex; flex-direction: column;
+    max-width: 520px;
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.4rem;
+  }
+  .corridor-level {
+    display: flex; align-items: center;
+    padding: 14px 20px; gap: 16px;
+  }
+  .corridor-level--upper  { background: #fef2f2; border-bottom: 2px solid #fca5a5; }
+  .corridor-level--center { background: #eff6ff; border-bottom: 2px solid #93c5fd; }
+  .corridor-level--lower  { background: #f0fdf4; }
+  .corridor-level__rate {
+    font-size: 1.65rem; font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    min-width: 68px; line-height: 1;
+  }
+  .corridor-level--upper  .corridor-level__rate { color: #dc2626; }
+  .corridor-level--center .corridor-level__rate { color: #2563eb; }
+  .corridor-level--lower  .corridor-level__rate { color: #16a34a; }
+  .corridor-level__info { flex: 1; font-size: 0.81rem; color: var(--text-2); line-height: 1.45; }
+  .corridor-level__info strong { display: block; color: var(--text-1,#1e293b); font-size: 0.84rem; }
+  .corridor-level__delta {
+    font-size: 0.8rem; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .corridor-level--upper  .corridor-level__delta { background: #fee2e2; color: #dc2626; }
+  .corridor-level--center .corridor-level__delta { background: #dbeafe; color: #2563eb; }
+  .corridor-level--lower  .corridor-level__delta { background: #dcfce7; color: #16a34a; }
+
+  .back-to-top {
+    position: fixed; bottom: 28px; right: 24px;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: #3b82f6; color: #fff; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.35);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s, background 0.2s;
+    pointer-events: none; z-index: 9998;
+  }
+  .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
 </style>
 <link rel="stylesheet" href="../css/detail.css">
 </head>
 
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Боло">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 <header class="page-header">
   <div class="page-header__inner">
     <a href="../index.html" class="back-btn">Асосӣ</a>
@@ -149,13 +275,14 @@
   </div>
   <div class="instrument-card__body">
     <table class="styled-table kv-table">
-        <tbody>
         <thead>
         <tr>
             <th></th>
             <th></th>
-        <tr>
+        </tr>
         </thead>
+        <tbody>
+        <tr>
             <td><strong>Мақсади асосии Бонки миллии Тоҷикистон</strong></td>
             <td>Ноил шудан ва нигоҳ доштани сатҳи муътадили нархҳои дохилӣ дар давраи дарозмуҳлат</td>
         </tr>
@@ -224,7 +351,7 @@
 <!-- Goal -->
 <div class="instrument-card card--slate" id="goal">
   <div class="instrument-card__header">
-    <h2>Мақсади асосии Бонки миллии Тоҷикистон чист?</h2>
+    <h2>Мақсади асосии Бонки миллии Тоҷикистон</h2>
   </div>
   <div class="instrument-card__body">
     <p>Тибқи моддаи 5 Қонун «Дар бораи Бонки миллии Тоҷикистон» мақсади асосии Бонки миллии Тоҷикистон ноил шудан ва нигоҳ доштани сатҳи муътадили нархҳои дохилӣ (сатҳи таваррум) дар давраи дарозмуҳлат мебошад.</p>
@@ -240,7 +367,7 @@
 <!-- Inflation -->
 <div class="instrument-card card--indigo" id="inflation">
   <div class="instrument-card__header">
-    <h2>Таваррум чист ва барои чӣ мақсади асосии бештари бонкҳои марказӣ (миллӣ) нигоҳдории сатҳи муътадили таваррум мебошад?</h2>
+    <h2>Таварруми муътадил - мақсади асосии бештари бонкҳои марказӣ (миллӣ)</h2>
   </div>
   <div class="instrument-card__body">
     <p>Таваррум болоравии сатҳи умумии нархҳо мебошад.</p>
@@ -264,7 +391,7 @@
 <!-- Monetary policy -->
 <div class="instrument-card card--green" id="policy">
   <div class="instrument-card__header">
-    <h2>Сиёсати пулию қарзӣ чист?</h2>
+    <h2>Сиёсати пулию қарзӣ</h2>
   </div>
   <div class="instrument-card__body" id="target">
     <p>Сиёсати пулию қарзӣ (сиёсати монетарӣ) – яке аз бахшҳои асосии сиёсати макроиқтисодии давлат ба ҳисоб рафта, баҳри ноил шудан ба мақсади асосӣ (яъне таъмини сатҳи муътадили нархҳо дар давраи дарозмуддат) тавассути истифодаи воситаҳои сиёсати пулию қарзӣ (фишангҳои монетарӣ) татбиқ карда мешавад.</p>
@@ -276,7 +403,7 @@
 <!-- Targeting -->
 <div class="instrument-card card--amber" id="targeting">
   <div class="instrument-card__header">
-    <h2>Ҳадафгирии таваррум чист?</h2>
+    <h2>Ҳадафгирии таваррум</h2>
   </div>
   <div class="instrument-card__body">
     <p>Дар иқтисоди бозорӣ ҳадафгирии таваррум яке аз реҷаҳои муосири пешбурди сиёсати пулию қарзӣ барои нигоҳдории сатҳи муътадили нархҳои дохилӣ (таваррум) дар доираи ҳадафи муқарраргардида ба ҳисоб меравад.</p>
@@ -297,7 +424,7 @@
 <!-- Why 5% -->
 <div class="instrument-card card--blue" id="why5">
   <div class="instrument-card__header">
-    <h2>Барои чӣ ҳадафи таваррум 5 фоиз ±2 б.ф. муайян карда шудааст?</h2>
+    <h2>Ҳадафи таваррум 5 фоиз ±2 б.ф.-ро ташкил медиҳад</h2>
   </div>
   <div class="instrument-card__body">
     <p>Тибқи адабиётҳои иқтисодӣ, сатҳи ҷоизи таваррум барои иқтисодиёти кишварҳои рушдёбанда табиӣ ва муҳим мебошад.</p>
@@ -311,7 +438,7 @@
 <!-- Previous regime -->
 <div class="instrument-card card--slate" id="previous">
   <div class="instrument-card__header">
-    <h2>Усули пешина чӣ гуна буд ва аз ҳадафгирии таваррум чӣ фарқ дорад?</h2>
+    <h2>Раванди гузариш аз ҳадафгирии монетарӣ ба ҳадафгирии таваррум ва корҳои дар ин самт анҷомдодашуда</h2>
   </div>
   <div class="instrument-card__body">
     <p>Пеш аз гузариш ба реҷаи ҳадафгирии таваррум (то соли 2025) Бонки миллии Тоҷикистон реҷаи ҳадафгирии монетарии сиёсати пулию қарзиро (тавассути муайян намудани андозаи ҳаҷми пул дар иқтисодиёт) амалӣ менамуд. Бояд қайд намуд, ки мақсади реҷаҳои мазкур (монетарӣ ва таваррум) як буда (муътадилии сатҳи нархҳо), роҳҳои ноил шудан ба он гуногун мебошанд:</p>
@@ -389,44 +516,72 @@
     <p><strong>Чаро усули пешина чандон самаранок набуд?</strong> Ҳадафгирии монетарӣ байни ҳаҷми пул ва сатҳи таваррум вобастагии назаррасро тақозо мекунад. Қаблан дар иқтисодиёти Ҷумҳурии Тоҷикистон ин вобастагӣ нисбатан устувор буд ва дар натиҷаи пешрафти иқтисодиёт, рушди низоми молиявӣ, афзоиши ҳаҷми сармоягузориҳо ва воридоти зиёди асъори хориҷӣ бо мурури замон коҳиш ёфта, ғайрисамаранок гардид. Баъдан назорати ҳаҷми пул дар алоҳидагӣ сатҳи муътадили таваррумро таъмин карда наметавонист.</p>
     <p>Бо ин мақсад, Бонки миллии Тоҷикистон аз соли 2012 тасмим гирифт, ки зина ба зина бо назардошти амалӣ намудани ислоҳоти зарурӣ ба пешбурди реҷаи ҳадафгирии таваррум гузарад.
     Бонки миллии Тоҷикистон ҷиҳати гузариш ба реҷаи мазкур тақрибан <strong style="color: #5b9bd5;"> 14 сол омодагӣ дид </strong> (2012-2025).</p>
-  </div>
-</div>
+      <div class="timeline">
 
-<!-- Preparation -->
-<div class="instrument-card card--indigo" id="preparation">
-  <div class="instrument-card__header">
-    <h2>Бонки миллии Тоҷикистон чӣ тавр барои гузариш ба реҷаи ҳадафгирии таваррум омода шуд?</h2>
-  </div>
-  <div class="instrument-card__body">
-    <ul>
-        <li><strong>2012–2015 — омодашавӣ.</strong> Дар асоси дастуру супоришҳои Асосгузори сулҳу ваҳдати миллӣ – Пешвои миллат, Президенти Ҷумҳурии Тоҷикистон муҳтарам Эмомалӣ Раҳмон Бонки миллии Тоҷикистон ба амалӣ намудани ислоҳоти муҳим дар тамоми бахшҳои низоми бонкии кишвар, хусусан бахши сиёсати пулию қарзӣ, оғоз намуд.</li>
-        <li><strong>2016–2020 — иҷрои принсипҳои реҷаи ҳадафгирии таваррум.</strong> Дар доираи Стратегияи сиёсати пулию қарзӣ ва асъорӣ барои солҳои 2016–2020 Бонки миллии Тоҷикистон чунин чораҳоро амалӣ намуд:</li>
-    <p>-	такмили фишангҳои сиёсати пулию қарзӣ ва ҷорӣ намудани фишангҳои доимоамалкунандаи сиёсати пулию қарзӣ;</p>
-    <p>-	таҳкими иқтидори таҳлилӣ ва ояндабинии кормандон ва таҳияи моделҳои пешгӯйии макроиқтисодӣ ва иқтисодсанҷӣ (эконометрикӣ);</p>
-    <p>-	мусоидат ба рушди низоми бонкӣ ва миёнаравии молиявӣ;</p>
-    <p>-	беҳтар намудани раванди иртибот ва коммуникатсия бо аҳолии кишвар;</p>
-    <p>-	беҳтар намудани идораи захираҳои байналмилалӣ;</p>
-    <p>-	гузариш ба реҷаи шинокунандаи танзимшавандаи сиёсати қурби асъор; </p>
-    <p>-	паст намудани сатҳи долларикунонии иқтисодиёт;</p>
-    <p>-	тақвияти эътимод ба пули миллӣ (сомонӣ) ва ғайра.</p>
-        <li><strong>2021–2025 — омодагиҳои ниҳоӣ.</strong> Дар доираи Стратегияи сиёсати пулию қарзӣ барои солҳои 2021–2025 Бонки миллии Тоҷикистон ислоҳоти муҳимро амалӣ намуд:</li>
-    <p>-	таҳкими механизми трансмиссионии сиёсати пулию қарзӣ;</p>
-    <p>-	ҷорӣ намудани механизми миёнакунии захираҳои ҳатмии ташкилотҳои қарзӣ дар Бонки миллии Тоҷикистон;</p>
-    <p>-	идомаи ҳамкорӣ бо созмонҳои бонуфузи байналмилалӣ дар самти рушди бозори пулӣ ва такмили фишангҳои сиёсати пулию қарзӣ;</p>
-    <p>-	 таҳия ва такмили санадҳои меъёрии ҳуқуқӣ;</p>
-    <p>-	тадриҷан коҳиш додани ҳадафи таваррум то 5 фоиз ±2 б.ф.</p>
-    <p>-	ҷалби кумакҳои техникӣ ҷиҳати тақвият бахшидани иқтидори таҳлилию тадқиқотӣ;</p>
-    <p>-	таҳия ва такмили механизми ояндабинии пардохтпазирии ташкилотҳои қарзӣ ва ғайра.</p>
-        <li><strong>2026 — гузариши расмӣ.</strong> Бонки миллии Тоҷикистон соли 2026 расман гузариш ба реҷаи ҳадафгирии таваррумро эълон намуда, ҳадафи таваррумро дар доираи 5 фоиз (±2 б.ф.) эълон намуд.</li>
-    </ul>
+      <div class="timeline-step">
+        <div class="timeline-year">2012–<br>2015</div>
+        <div class="timeline-body">
+          <strong>омодашавӣ</strong>
+          <p>Дар асоси дастуру супоришҳои Асосгузори сулҳу ваҳдати миллӣ – Пешвои миллат, Президенти Ҷумҳурии Тоҷикистон муҳтарам Эмомалӣ Раҳмон Бонки миллии Тоҷикистон ба амалӣ намудани ислоҳоти муҳим дар тамоми бахшҳои низоми бонкии кишвар, хусусан бахши сиёсати пулию қарзӣ, оғоз намуд.</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2016–<br>2020</div>
+        <div class="timeline-body">
+          <strong>иҷрои принсипҳои реҷаи ҳадафгирии таваррум</strong>
+          <p>Дар доираи Стратегияи сиёсати пулию қарзӣ ва асъорӣ барои солҳои 2016–2020 Бонки миллии Тоҷикистон чунин чораҳоро амалӣ намуд:</p>
+          <ul>
+            <li>такмили фишангҳои сиёсати пулию қарзӣ ва ҷорӣ намудани фишангҳои доимоамалкунандаи сиёсати пулию қарзӣ;</li>
+            <li>таҳкими иқтидори таҳлилӣ ва ояндабинии кормандон ва таҳияи моделҳои пешгӯйии макроиқтисодӣ ва иқтисодсанҷӣ (эконометрикӣ);</li>
+            <li>мусоидат ба рушди низоми бонкӣ ва миёнаравии молиявӣ;</li>
+            <li>беҳтар намудани раванди иртибот ва коммуникатсия бо аҳолии кишвар;</li>
+            <li>беҳтар намудани идораи захираҳои байналмилалӣ;</li>
+            <li>гузариш ба реҷаи шинокунандаи танзимшавандаи сиёсати қурби асъор;</li>
+            <li>паст намудани сатҳи долларикунонии иқтисодиёт;</li>
+            <li>тақвияти эътимод ба пули миллӣ (сомонӣ) ва ғайра.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2021–<br>2025</div>
+        <div class="timeline-body">
+          <strong>омодагиҳои ниҳоӣ</strong>
+          <p>Дар доираи Стратегияи сиёсати пулию қарзӣ барои солҳои 2021–2025 Бонки миллии Тоҷикистон ислоҳоти муҳимро амалӣ намуд:</p>
+          <ul>
+            <li>таҳкими механизми трансмиссионии сиёсати пулию қарзӣ;</li>
+            <li>ҷорӣ намудани механизми миёнакунии захираҳои ҳатмии ташкилотҳои қарзӣ дар Бонки миллии Тоҷикистон;</li>
+            <li>идомаи ҳамкорӣ бо созмонҳои бонуфузи байналмилалӣ дар самти рушди бозори пулӣ ва такмили фишангҳои сиёсати пулию қарзӣ;</li>
+            <li>таҳия ва такмили санадҳои меъёрии ҳуқуқӣ;</li>
+            <li>тадриҷан коҳиш додани ҳадафи таваррум то 5 фоиз ±2 б.ф.</li>
+            <li>ҷалби кумакҳои техникӣ ҷиҳати тақвият бахшидани иқтидори таҳлилию тадқиқотӣ;</li>
+            <li>таҳия ва такмили механизми ояндабинии пардохтпазирии ташкилотҳои қарзӣ ва ғайра.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-body">
+          <strong>гузариши расмӣ</strong>
+          <p>Бонки миллии Тоҷикистон соли 2026 расман гузариш ба реҷаи ҳадафгирии таваррумро эълон намуда, ҳадафи таваррумро дар доираи 5 фоиз (±2 б.ф.) эълон намуд.</p>
+        </div>
+      </div>
+
+    </div>
     <p>Фишанги (воситаи) асосии сиёсати пулию қарзии Бонки миллии Тоҷикистон дар реҷаи ҳадафгирии таваррум <strong style="color: #5b9bd5;">меъёри бозтамвил</strong> ба ҳисоб меравад.</p>
   </div>
 </div>
 
+
+
+
+
 <!-- Refinancing rate what is -->
 <div class="instrument-card card--green" id="rate">
   <div class="instrument-card__header">
-    <h2>Меъёри бозтамвил чист?</h2>
+    <h2>Меъёри бозтамвил</h2>
   </div>
   <div class="instrument-card__body">
     <p>Тибқи Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон", меъёри бозтамвил меъёри ҳадди ақалли фоизе мебошад, ки аз рӯйи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарз медиҳад ё меъёри даромадест, ки тибқи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзии исломӣ қарз медиҳад.</p>
@@ -442,7 +597,7 @@
 <!-- How rate is set -->
 <div class="instrument-card card--amber" id="rateset">
   <div class="instrument-card__header">
-    <h2>Меъёри бозтамвил чӣ тавр муқаррар карда мешавад?</h2>
+    <h2>Тарзи муайян кардани меъёри бозтамвил</h2>
   </div>
   <div class="instrument-card__body">
     <p>Меъёри бозтамвил дар ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон дар асоси маълумоти таҳлилӣ ва дурнамои макроиқтисодии кишвар, вазъи иқтисодии кишварҳои шарикони асосии савдои ҷумҳурӣ, тамоюли тағйирёбии сатҳи нархҳои ҷаҳонии молу маҳсулот, инчунин омилҳо ва интизориҳои таваррумӣ бо овоздиҳии на камтар аз се ду ҳиссаи аъзои Кумита муқаррар карда мешавад.</p>
@@ -455,7 +610,7 @@
 <!-- Corridor -->
 <div class="instrument-card card--blue" id="corridor">
   <div class="instrument-card__header">
-    <h2>Ҳудуди долони (коридори) меъёри фоизӣ чист?</h2>
+    <h2>Ҳудуди долони (коридори) меъёри фоизӣ</h2>
   </div>
   <div class="instrument-card__body">
     <table class="styled-table">
@@ -491,7 +646,7 @@
 <!-- Tools -->
 <div class="instrument-card card--slate" id="tools">
   <div class="instrument-card__header">
-    <h2>Бонки миллии Тоҷикистон дар умум кадом фишангҳои сиёсати пулию қарзиро истифода мебарад?</h2>
+    <h2>Истифодаи фишангҳои сиёсати пулию қарзӣ аз ҷониби Бонки миллии Тоҷикистон</h2>
   </div>
   <div class="instrument-card__body">
     <p>Бонки миллии Тоҷикистон барои иҷрои вазифа ва мақсади худ дар соҳаи сиёсати пулию қарзӣ фишангҳои (воситаҳои) зеринро истифода мебарад:</p>
@@ -511,7 +666,7 @@
 <!-- Committee -->
 <div class="instrument-card card--indigo" id="committee">
   <div class="instrument-card__header">
-    <h2>Қарорҳо дар бораи пешбурд ва мавқеи сиёсати пулию қарзӣ аз ҷониби кӣ қабул карда мешаванд?</h2>
+    <h2>Тарзи қабули қарор дар бораи пешбурд ва мавқеи сиёсати пулию қарзӣ</h2>
   </div>
   <div class="instrument-card__body">
     <p>Дар Бонки миллии Тоҷикистон қабули қарорҳо оид ба муайян намудани мавқеи сиёсати пулию қарзӣ ва истифодаи фишангҳои сиёсати пулию қарзӣ ба зиммаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон гузошта шудааст.</p>
@@ -524,14 +679,117 @@
 <!-- Impact on economy -->
 <div class="instrument-card card--green" id="impact">
   <div class="instrument-card__header">
-    <h2>Қарорҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон чӣ тавр ба иқтисодиёт таъсир мерасонанд?</h2>
+    <h2>Таъсири тағйирёбии меъёри бозтамвил ба иқтисодиёт</h2>
   </div>
   <div class="instrument-card__body">
     <p>Дар ҳолати аз ҷониби Бонки миллии Тоҷикистон тағйир додани меъёри бозтамвил, таъсири он ба сатҳи нархҳо як давраи муайянро дар бар мегирад. Тағйир додани меъёри бозтамвил зина ба зина ба нишондиҳандаҳои молиявию иқтисодӣ, бахусус ба сатҳи таваррум таъсир мерасонад, ки онро дар адабиётҳои иқтисодӣ механизми трансмиссионӣ ё худ механизми таъсирбахшӣ меноманд.</p>
     <p>Механизми трансмиссионии сиёсати пулию қарзӣ тавассути усулҳои (каналҳои) зерин амалӣ карда мешавад:</p>
     <figure class="img-figure">
       <div class="img-figure__label">Механизми трансмиссионии сиёсати пулию қарзӣ</div>
-      <img src="../img/maksad1.png" alt="Механизми трансмиссионии сиёсати пулию қарзӣ">
+      <div class="tm-diagram">
+        <svg viewBox="0 0 862 415" xmlns="http://www.w3.org/2000/svg"
+             style="font-family:Inter,'Helvetica Neue',Arial,sans-serif">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8.5" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1.5 9,5 0,8.5" fill="#475569"/>
+            </marker>
+            <marker id="arr2" viewBox="0 0 10 10" refX="5" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1.5 9,5 0,8.5" fill="#475569"/>
+            </marker>
+            <linearGradient id="gOr" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#e2e8f0"/>
+            </linearGradient>
+            <linearGradient id="gBl" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0f5ff"/><stop offset="100%" stop-color="#dbeafe"/>
+            </linearGradient>
+            <linearGradient id="gSk" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0f9ff"/><stop offset="100%" stop-color="#e0f2fe"/>
+            </linearGradient>
+            <linearGradient id="gIn" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f5f3ff"/><stop offset="100%" stop-color="#ede9fe"/>
+            </linearGradient>
+            <linearGradient id="gPu" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff1f2"/><stop offset="100%" stop-color="#ffe4e6"/>
+            </linearGradient>
+            <filter id="sh" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0000001c"/>
+            </filter>
+          </defs>
+
+          <rect width="862" height="415" fill="#f8fafc"/>
+
+          <g stroke="#475569" stroke-width="2" fill="none">
+            <path d="M 81,210 L 100,53"  marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 102,163" marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 102,263" marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 100,368" marker-end="url(#arr2)"/>
+
+            <line x1="182" y1="92"  x2="182" y2="124" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="182" y1="202" x2="182" y2="224" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="182" y1="302" x2="182" y2="329" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+
+            <path d="M 257,368 L 290,368 L 290,52" />
+            <line x1="257" y1="53" x2="290" y2="53"/>
+
+            <line x1="257" y1="163" x2="299" y2="163"/>
+            <line x1="257" y1="263" x2="299" y2="263"/>
+
+            <line x1="300" y1="53"  x2="490" y2="53"  marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="250" y1="390" x2="490" y2="390" marker-end="url(#arr2)"/>
+
+            <line x1="456" y1="163" x2="490" y2="163" marker-end="url(#arr2)"/>
+            <line x1="456" y1="245" x2="490" y2="245" marker-end="url(#arr2)"/>
+
+            <line x1="580" y1="147" x2="580" y2="95"  marker-end="url(#arr2)"/>
+            <line x1="662" y1="207" x2="705" y2="207" marker-end="url(#arr2)"/>
+
+            <path d="M 662,53  L 730,53  L 810,132" marker-end="url(#arr2)"/>
+            <path d="M 662,368 L 730,368 L 810,294" marker-end="url(#arr2)"/>
+          </g>
+
+          <rect x="10"  y="25"  width="71"  height="370" rx="6" fill="url(#gOr)" stroke="#94a3b8" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="20"  width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="130" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="230" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="335" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="300" y="130" width="156" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="300" y="212" width="156" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="20"  width="164" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="148" width="164" height="118" rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="335" width="164" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="715" y="138" width="133" height="150" rx="6" fill="url(#gPu)" stroke="#fda4af" stroke-width="1.5" filter="url(#sh)"/>
+
+          <text transform="rotate(-90,45.5,210)" x="45.5" y="210"
+                text-anchor="middle" dominant-baseline="middle"
+                font-size="15" font-weight="700" fill="#334155">Меъёри бозтамвил</text>
+
+          <text x="182.5" y="53"  text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Фоизи байнибонкӣ</text>
+          <text x="182.5" y="163" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Канали қарздиҳӣ</text>
+          <text x="182.5" y="263" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Канали интизориҳо</text>
+          <text x="182.5" y="368" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Канали қурбӣ</text>
+
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="378" y="158">Маҷмӯи талаботи</tspan><tspan x="378" dy="16">дохилӣ</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="378" y="240">Маҷмӯи талаботи</tspan><tspan x="378" dy="16">беруна</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="580" y="363">Нархҳои</tspan><tspan x="580" dy="16">воридотӣ</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="580" y="48">Интизориҳо нисбати</tspan><tspan x="580" dy="16">таваррум</tspan>
+          </text>
+          <text text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a5f">
+            <tspan x="580" y="202">Маҷмӯи Талабот</tspan><tspan x="580" dy="18">(ММД)</tspan>
+          </text>
+          <text text-anchor="middle" font-size="15" font-weight="700" fill="#9f1239">
+            <tspan x="781.5" y="204">Сатҳи</tspan><tspan x="781.5" dy="22">таваррум</tspan>
+          </text>
+        </svg>
+      </div>
     </figure>
     <p><strong>Барои маълумот:</strong> Дар Ҷумҳурии Тоҷикистон, ҳамчун дар дигар кишварҳои минтақа, таъсири тағйири меъёри фоизӣ ба сатҳи нархҳо одатан якчанд семоҳаи ояндаро дар бар мегирад. Бинобар ин, Бонки миллии Тоҷикистон қарорҳои сиёсати пулию қарзиро бо назардошти <strong style="color: #5b9bd5;">дурнамои сатҳи таваррум</strong> барои давраи ояндаи миёнамуҳлат қабул менамояд.</p>
   </div>
@@ -540,7 +798,7 @@
 <!-- Forecast -->
 <div class="instrument-card card--amber" id="forecast">
   <div class="instrument-card__header">
-    <h2>Дурнамои сатҳи таваррум чӣ тавр муайян карда мешавад?</h2>
+    <h2>Тарзи муайян намудани дурнамои таваррум</h2>
   </div>
   <div class="instrument-card__body">
     <p>Дар Бонки миллии Тоҷикистон дурнамои сатҳи таваррум тавассути моделҳои гуногуни иқтисодсанҷӣ (эконометрикӣ) ва сохторӣ макроиқтисодӣ (минбаъд – модел), ки дар ҳамкорӣ бо созмонҳои молиявии бонуфузи байналмилалӣ таҳия гардидаанд, муайян карда мешавад.</p>
@@ -553,7 +811,7 @@
 <!-- Impact on population -->
 <div class="instrument-card card--blue" id="population">
   <div class="instrument-card__header">
-    <h2>Сиёсати пулию қарзӣ чӣ тавр ба аҳолӣ таъсир мерасонад?</h2>
+    <h2>Таъсири пешбурд сиёсати пулию қарзӣ ба аҳолӣ</h2>
   </div>
   <div class="instrument-card__body">
     <p>Сиёсати пулию қарзӣ ба зиндагии ҳаррӯзаи аҳолӣ метавонад чунин таъсир расонад:</p>
@@ -570,25 +828,72 @@
 <!-- Factors -->
 <div class="instrument-card card--slate" id="factors">
   <div class="instrument-card__header">
-    <h2>Омилҳои таваррумие, ки баратараф намудани онҳо дар алоҳидагӣ ғайриимкон мебошанд?</h2>
+    <h2>Омилҳои таваррумие, ки баратараф намудани онҳо дар алоҳидагӣ ғайриимкон мебошанд:</h2>
   </div>
   <div class="instrument-card__body">
     <p>На ҳамаи омилҳои таваррумӣ аз сиёсати пулию қарзӣ сарчашма мегиранд. Омилҳое низ мавҷуд мебошанд, ки Бонки миллии Тоҷикистон ҷиҳати пешгирии онҳо дар якҷоягӣ бо вазорату идораҳои дахлдори ҷумҳурӣ чораҳои зарурӣ меандешад, ба монанди:</p>
-    <p>тағйирёбии нархҳои ҷаҳонӣ;</p>
-    <p>тағйирёбии вазъи экологӣ;</p>
-    <p>вазъи геосиёсӣ;</p>
-    <p>фазои сармоягузорӣ;</p>
-    <p>вобастагӣ аз воридот;</p>
-    <p>омилҳои маъмурӣ;</p>
-    <p>омилҳои мавсимӣ;</p>
-    <p>тағйирёбии сиёсати фискалӣ (буҷету андоз);</p>
-    <p>омилҳо ва муаммоҳои сохторӣ;</p>
-    <p>вазъи молиявию иқтисодии ҷаҳон.</p>
+    <ul>
+      <li>тағйирёбии нархҳои ҷаҳонӣ;</li>
+      <li>тағйирёбии вазъи экологӣ;</li>
+      <li>вазъи геосиёсӣ;</li>
+      <li>фазои сармоягузорӣ;</li>
+      <li>вобастагӣ аз воридот;</li>
+      <li>омилҳои маъмурӣ;</li>
+      <li>омилҳои мавсимӣ;</li>
+      <li>тағйирёбии сиёсати фискалӣ (буҷету андоз);</li>
+      <li>омилҳо ва муаммоҳои сохторӣ;</li>
+      <li>вазъи молиявию иқтисодии ҷаҳон.</li>
+    </ul>
   </div>
 </div>
 
 </div></div><!-- /.page-wrap -->
 
 <script src="../js/common.js"></script>
+<script>
+(function () {
+  // Reading progress bar
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      var pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+      bar.style.width = Math.min(pct, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+
+  // Accordion: inject toggle buttons into every card header
+  var chevronSVG = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    + '<path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '</svg>';
+
+  document.querySelectorAll('.instrument-card__header').forEach(function (header) {
+    var btn = document.createElement('button');
+    btn.className = 'card-toggle';
+    btn.setAttribute('aria-label', 'Кушодан / Пӯшидан');
+    btn.innerHTML = chevronSVG;
+    header.appendChild(btn);
+
+    function toggle(e) {
+      e.stopPropagation();
+      header.closest('.instrument-card').classList.toggle('instrument-card--collapsed');
+    }
+    btn.addEventListener('click', toggle);
+    header.addEventListener('click', toggle);
+  });
+
+  // Back to top
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
+</script>
 </body>
 </html>

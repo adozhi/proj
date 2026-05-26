@@ -17,7 +17,7 @@
 
     .instrument-card { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow-sm); margin-bottom: 1.75rem; overflow: hidden; border: 1px solid var(--border); }
     .instrument-card__header { display: flex; align-items: flex-start; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--surface-alt); }
-    .instrument-card__header h2 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin: 0; line-height: 1.4; }
+    .instrument-card__header h2 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin: 0; line-height: 1.4; padding-bottom: 0; border-bottom: none; }
     .instrument-card__body { padding: 20px 24px; }
     .card--blue   .instrument-card__header { border-left: 4px solid #3b82f6; }
     .card--slate  .instrument-card__header { border-left: 4px solid #64748b; }
@@ -85,9 +85,73 @@
       .members-table th, .members-table td,
       .schedule-table th, .schedule-table td { padding: 9px 8px; }
     }
+
+    /* Progress bar */
+    .read-progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #6366f1);
+      width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none;
+    }
+    /* Accordion */
+    .instrument-card__header { cursor: pointer; }
+    .card-toggle {
+      margin-left: auto; flex-shrink: 0; background: rgba(255,255,255,0.7);
+      border: 1px solid var(--border); border-radius: 50%; width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s; padding: 0;
+    }
+    .card-toggle:hover { background: #fff; }
+    .card-toggle svg { transition: transform 0.25s ease; display: block; }
+    .instrument-card--collapsed .card-toggle svg { transform: rotate(-90deg); }
+    .instrument-card--collapsed .instrument-card__body { display: none; }
+    /* Smooth scroll + active nav */
+    html { scroll-behavior: smooth; }
+    .instrument-nav a.nav--active { background: #1e40af; color: #fff; border-color: #1e40af; }
+    /* Back to top */
+    .back-to-top {
+      position: fixed; bottom: 28px; right: 24px;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: #3b82f6; color: #fff; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(59,130,246,0.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.25s, transform 0.25s, background 0.2s;
+      pointer-events: none; z-index: 9998;
+    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
+    /* Status badge in schedule */
+    .status-badge {
+      display: inline-block; font-size: 0.6rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-left: 8px; vertical-align: middle; white-space: nowrap;
+    }
+    .status-badge--done   { background: #d1fae5; color: #065f46; }
+    .status-badge--next   { background: #dbeafe; color: #1e40af; }
+    .status-badge--future { background: #f1f5f9; color: #475569; }
+    /* row-next subtle pulse */
+    @keyframes nextPulse {
+      0%, 100% { outline-color: #2563eb; }
+      50%       { outline-color: #93c5fd; }
+    }
+    .row-next { animation: nextPulse 2.4s ease-in-out infinite; }
+    /* Countdown */
+    .meeting-countdown {
+      margin-top: 14px; padding: 10px 18px;
+      background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe;
+      font-size: 0.85rem; color: #1e3a5f; font-weight: 500;
+    }
+    /* Phone links */
+    .phone a { color: var(--blue); text-decoration: none; font-weight: 600; }
+    .phone a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Боло">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 
 <header class="page-header">
   <div class="page-header__inner">
@@ -106,10 +170,10 @@
 <h1 class="page-title">Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h1>
 
 <nav class="instrument-nav">
-  <a href="#about"><span class="nav-num">01</span>Кумита</a>
-  <a href="#members"><span class="nav-num">02</span>Ҳайат</a>
-  <a href="#meeting"><span class="nav-num">03</span>Нақша</a>
-  <a href="#regulation"><span class="nav-num">04</span>Низомнома</a>
+  <a href="#about">Кумита</a>
+  <a href="#members">Ҳайат</a>
+  <a href="#meeting">Нақша</a>
+  <a href="#regulation">Низомнома</a>
 </nav>
 
 <!-- 01 About -->
@@ -141,15 +205,15 @@
         <tr><th class="num">№</th><th>Ному насаб</th><th>Вазифа</th><th>Тамос</th></tr>
       </thead>
       <tbody>
-        <tr><td class="num">1</td><td>Толибзода Фирдавс Назримад</td><td>Раиси Кумита - раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-01</td></tr>
-        <tr><td class="num">2</td><td>Шарифзода Фируз Ҳомиддин</td><td>Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</td><td class="phone">+(992 44) 600-32-03</td></tr>
-        <tr><td class="num">3</td><td>Убайдуллоев Диловар Шамолиддинович</td><td>Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</td><td class="phone">+(992 44) 600-31-46</td></tr>
-        <tr><td class="num">4</td><td>Бояков Зиёратшо Ғуломович</td><td>Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</td><td class="phone">+(992 44) 600-31-83</td></tr>
-        <tr><td class="num">5</td><td>Мамадалиев Фарухруз Сайфиддинович</td><td>Директори пажуҳишгоҳи илмӣ-тадқиқотӣ</td><td class="phone">+(992 44) 600-31-06</td></tr>
-        <tr><td class="num">6</td><td>Баҳридинов Бахтиёр Амридинович</td><td>Директори департаменти омор ва тавозуни пардохт</td><td class="phone">+(992 44) 600-31-49</td></tr>
-        <tr><td class="num">7</td><td>Қурбоналиева Нигина Мардоновна</td><td>Сардори идораи суботи молиявӣ</td><td class="phone">+(992 44) 600-31-66</td></tr>
-        <tr><td class="num">8</td><td>Сатторзода Умеда Саймумин</td><td>Сардори идораи бозори молиявӣ</td><td class="phone">+(992 44) 600-31-62</td></tr>
-        <tr><td class="num">9</td><td>Навҷуанова Муниса Навҷуановна</td><td>Сардори шуъбаи таҳлили хавфҳо</td><td class="phone">+(992 44) 600-32-99</td></tr>
+        <tr><td class="num">1</td><td>Толибзода Фирдавс Назримад</td><td>Раиси Кумита - раиси Бонки миллии Тоҷикистон</td><td class="phone"><a href="tel:+992446003201">+(992 44) 600-32-01</a></td></tr>
+        <tr><td class="num">2</td><td>Шарифзода Фируз Ҳомиддин</td><td>Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</td><td class="phone"><a href="tel:+992446003203">+(992 44) 600-32-03</a></td></tr>
+        <tr><td class="num">3</td><td>Убайдуллоев Диловар Шамолиддинович</td><td>Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</td><td class="phone"><a href="tel:+992446003146">+(992 44) 600-31-46</a></td></tr>
+        <tr><td class="num">4</td><td>Бояков Зиёратшо Ғуломович</td><td>Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</td><td class="phone"><a href="tel:+992446003183">+(992 44) 600-31-83</a></td></tr>
+        <tr><td class="num">5</td><td>Мамадалиев Фарухруз Сайфиддинович</td><td>Директори пажуҳишгоҳи илмӣ-тадқиқотӣ</td><td class="phone"><a href="tel:+992446003106">+(992 44) 600-31-06</a></td></tr>
+        <tr><td class="num">6</td><td>Баҳридинов Бахтиёр Амридинович</td><td>Директори департаменти омор ва тавозуни пардохт</td><td class="phone"><a href="tel:+992446003149">+(992 44) 600-31-49</a></td></tr>
+        <tr><td class="num">7</td><td>Қурбоналиева Нигина Мардоновна</td><td>Сардори идораи суботи молиявӣ</td><td class="phone"><a href="tel:+992446003166">+(992 44) 600-31-66</a></td></tr>
+        <tr><td class="num">8</td><td>Сатторзода Умеда Саймумин</td><td>Сардори идораи бозори молиявӣ</td><td class="phone"><a href="tel:+992446003162">+(992 44) 600-31-62</a></td></tr>
+        <tr><td class="num">9</td><td>Навҷуанова Муниса Навҷуановна</td><td>Сардори шуъбаи таҳлили хавфҳо</td><td class="phone"><a href="tel:+992446003299">+(992 44) 600-32-99</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -170,6 +234,7 @@
       </thead>
       <tbody id="scheduleBody"></tbody>
     </table>
+    <div id="meetingCountdown" class="meeting-countdown"></div>
 
     <div class="year-section">
       <h3>Ҷаласаҳои пешина</h3>
@@ -193,7 +258,7 @@
 <div id="regulation" class="instrument-card card--green">
   <div class="instrument-card__header"><h2>Низомнома</h2></div>
   <div class="instrument-card__body">
-    <a href="../img/Nizomnomai_kumita_2025.pdf" class="pdf-link" target="_blank" rel="noopener">
+    <a href="../docs/Nizomnomai_kumita_2025.pdf" class="pdf-link" target="_blank" rel="noopener noreferrer">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
       Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон
     </a>
@@ -248,7 +313,12 @@ function buildRows(year, tbody, autoNext) {
     m.cols.forEach((cell, idx) => {
       const td = document.createElement('td');
       if (idx === 3) td.colSpan = 2;
-      td.textContent = cell;
+      if (idx === 0) {
+        var labels = { done: 'Гузашт', next: 'Навбатӣ', future: 'Нақша' };
+        td.innerHTML = cell + ' <span class="status-badge status-badge--' + status + '">' + labels[status] + '</span>';
+      } else {
+        td.textContent = cell;
+      }
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
@@ -256,6 +326,22 @@ function buildRows(year, tbody, autoNext) {
 }
 
 buildRows('2026', document.getElementById('scheduleBody'), true);
+
+(function () {
+  var el = document.getElementById('meetingCountdown');
+  if (!el) return;
+  var rows2026 = MEETINGS['2026'] || [];
+  var nextDate = null;
+  for (var i = 0; i < rows2026.length; i++) {
+    var d = new Date(rows2026[i].iso); d.setHours(0,0,0,0);
+    if (d >= today) { nextDate = d; break; }
+  }
+  if (!nextDate) return;
+  var diff = Math.ceil((nextDate - today) / 86400000);
+  el.textContent = diff === 0
+    ? 'Имрӯз ҷаласа баргузор мегардад!'
+    : 'То ҷаласаи навбатӣ: ' + diff + ' рӯз';
+})();
 
 const historyYears = Object.keys(MEETINGS).filter(y => y !== '2026').sort((a,b) => b - a);
 let activeYear = null;
@@ -275,6 +361,71 @@ historyYears.forEach(year => {
   });
   document.getElementById('yearButtons').appendChild(btn);
 });
+</script>
+<script>
+(function () {
+  /* Progress bar */
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+
+  /* Accordion */
+  var chevron = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.querySelectorAll('.instrument-card__header').forEach(function (header) {
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'card-toggle'; btn.innerHTML = chevron;
+    header.appendChild(btn);
+    function toggle(e) {
+      e.stopPropagation();
+      header.closest('.instrument-card').classList.toggle('instrument-card--collapsed');
+    }
+    btn.addEventListener('click', toggle);
+    header.addEventListener('click', toggle);
+  });
+
+  /* Hash open */
+  var hash = window.location.hash;
+  if (hash) {
+    var target = document.querySelector(hash + '.instrument-card--collapsed');
+    if (target) target.classList.remove('instrument-card--collapsed');
+  }
+
+  /* Active nav on scroll */
+  var cards = Array.from(document.querySelectorAll('.instrument-card[id]'));
+  var navLinks = {};
+  document.querySelectorAll('.instrument-nav a').forEach(function (a) {
+    var id = (a.getAttribute('href') || '').replace('#', '');
+    navLinks[id] = a;
+  });
+  if (window.IntersectionObserver) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          Object.values(navLinks).forEach(function (a) { a.classList.remove('nav--active'); });
+          var link = navLinks[entry.target.id];
+          if (link) link.classList.add('nav--active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+    cards.forEach(function (card) { io.observe(card); });
+  }
+
+  /* Back to top */
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
 </script>
 <script src="../js/common.js"></script>
 </body>

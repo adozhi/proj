@@ -6,100 +6,176 @@
 <title>Шарҳи макроиқтисодӣ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/detail.css">
 <style>
-  .content-section { margin-bottom: 2.5rem; }
-  .page-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--navy); margin-bottom: 1.2rem; line-height: 1.25; }
-
-  .styled-table {
-    width: 100%; border-collapse: separate; border-spacing: 0;
-    border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 0.95rem;
-    margin: 1.5rem 0;
-  }
-  .styled-table thead tr { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; }
-  .styled-table th, .styled-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  .styled-table th { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
-  .styled-table tbody tr:nth-child(even) { background: var(--surface-alt); }
-  .styled-table tbody tr:hover { background: #eff6ff; }
-
-  .content-section h2 { font-size: 1.2rem; font-weight: 700; color: var(--navy); margin: 0 0 1rem; }
-  .content-section h3 { font-size: 1.05rem; font-weight: 600; color: var(--navy); margin: 1.2rem 0 0.6rem; }
-  .content-section p { margin-bottom: 0.9rem; }
-  .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1rem; }
-  .content-section li { margin-bottom: 0.4rem; }
-
-  .info-box {
-    background: var(--blue-light, #eff6ff); border: 1px solid var(--blue, #2563eb);
-    border-radius: 10px; padding: 16px 20px; margin: 1.2rem 0;
-  }
-  .highlight { color: var(--blue, #2563eb); font-weight: 600; }
-
-  img.content-img { width: 100%; border-radius: 10px; margin: 1.2rem 0; }
-
-  @media (max-width: 640px) {
-    .styled-table { font-size: 0.82rem; }
-    .styled-table th, .styled-table td { padding: 9px 8px; }
+  .page-title {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 1.6rem;
+    line-height: 1.25;
   }
 
-  .title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    text-align: center;
-    margin: 1.8rem 0 2rem;
+  .year-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-xs);
+    margin-bottom: 1.8rem;
   }
-  .year {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin: 2rem 0 1rem;
-    text-align: center;
-  }
-
-  .months {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 12px;
-  }
-
-  .month-card {
-    background: var(--card);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    border: 1px solid #e5e7eb;
-    padding: 12px;
-    text-align: center;
-    transition: transform 0.25s, box-shadow 0.25s;
-  }
-
-  .month-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
-  }
-
-  .month-name {
+  .year-nav__label {
+    font-size: 0.78rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+  .year-jump {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: var(--surface-alt);
+    color: var(--navy);
+    border: 1px solid var(--border-dark);
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .year-jump:hover { background: var(--blue); color: #fff; border-color: var(--blue); text-decoration: none; }
+  .year-jump.current { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+  .year-section { margin-bottom: 10px; }
+
+  .year-acc-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    margin: 0 0 10px;
+  }
+  .year-acc-btn::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-left: 14px;
+  }
+  .year-acc-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 800;
+    padding: 5px 18px;
+    border-radius: 100px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(15,23,42,0.18);
+    letter-spacing: -0.01em;
+    transition: box-shadow 0.18s;
+    user-select: none;
+  }
+  .year-acc-btn:hover .year-acc-pill { box-shadow: 0 4px 14px rgba(15,23,42,0.30); }
+  .year-acc-icon {
+    font-size: 11px;
+    opacity: 0.75;
+    transition: transform 0.25s;
+    line-height: 1;
+  }
+  .year-acc-btn.collapsed .year-acc-icon { transform: rotate(-90deg); }
+
+  .periods-wrap { overflow: hidden; transition: max-height 0.3s ease; }
+
+  .periods {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 0.5rem;
+    padding: 4px 0;
+  }
+  @media (max-width: 700px) { .periods { grid-template-columns: repeat(2, 1fr); } }
+
+  .period-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+    box-shadow: var(--shadow-xs);
+  }
+  .period-card:hover {
+    border-color: var(--blue);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.13);
+    transform: translateY(-2px);
+  }
+  .period-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
   }
 
   .file-btn {
-    display: block;
-    width: 100%;
-    margin: 3px 0;
-    padding: 6px 0;
-    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 14px;
+    border-radius: 7px;
+    font-size: 0.72rem;
+    font-weight: 700;
     text-decoration: none;
-    font-size: 0.9rem;
-    color: white;
-    font-weight: 500;
-    transition: 0.2s;
+    border: 1px solid transparent;
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
   }
+  .file-btn:hover { text-decoration: none; }
+  .pdf       { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+  .pdf:hover { background: #fecaca; border-color: #ef4444; color: #991b1b; }
 
-  .pdf { background: #d32f2f; }  /* красный */
-  .pdf:hover { background: #b71c1c; }
+  .read-progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #6366f1);
+    width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none;
+  }
+  .back-to-top {
+    position: fixed; bottom: 28px; right: 24px;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: #3b82f6; color: #fff; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.35);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s, background 0.2s;
+    pointer-events: none; z-index: 9998;
+  }
+  .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .back-to-top:hover { background: #2563eb; }
 </style>
-<link rel="stylesheet" href="../css/detail.css">
 </head>
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Боло">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
 <header class="page-header">
   <div class="page-header__inner">
     <a href="../index.html" class="back-btn">Асосӣ</a>
@@ -112,38 +188,177 @@
   </div>
 </header>
 
-<div class="page-wrap"><div class="container">
+<div class="page-wrap">
+  <div class="container">
     <h1 class="page-title">Шарҳи макроиқтисодӣ</h1>
-
-  <script>
-    const years = Array.from({length: 10}, (_, i) => 2017 + i).reverse(); //
-    const months = ["Январ","Феврал","Март","Апрел","Май","Июн","Июл","Август","Сентябр","Октябр","Ноябр","Декабр"];
-    const container = document.querySelector('.container');
-
-    years.forEach(year => {
-      const yearDiv = document.createElement('div');
-      yearDiv.className = 'year';
-      yearDiv.textContent = year;
-      container.appendChild(yearDiv);
-
-      const monthsDiv = document.createElement('div');
-      monthsDiv.className = 'months';
-      months.forEach((month, idx) => {
-        const card = document.createElement('div');
-        card.className = 'month-card';
-        card.innerHTML = `
-          <div class="month-name">${month}</div>
-          <a href="files/${year}-${String(idx+1).padStart(2,'0')}.pdf" class="file-btn pdf">PDF</a>
-        `;
-        monthsDiv.appendChild(card);
-      });
-      container.appendChild(monthsDiv);
-    });
-  </script>
-<script src="../js/common.js"></script>
-
+    <div id="year-nav" class="year-nav">
+      <span class="year-nav__label">Соли:</span>
+    </div>
+    <div id="reports-list"></div>
+  </div>
 </div>
-</div><!-- /.page-wrap -->
 
+<script>
+(function () {
+
+  var DATA = [
+    { year: 2015, periods: [
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2014, periods: [
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2013, periods: [
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2012, periods: [
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2011, periods: [
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2010, periods: [
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2009, periods: [
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2008, periods: [
+      { label: "Январ-март",    slug: "01-03" },
+      { label: "Январ-июн",     slug: "01-06" },
+      { label: "Январ-сентябр", slug: "01-09" },
+      { label: "Январ-декабр",  slug: "01-12" }
+    ]},
+    { year: 2007, periods: [
+      { label: "Январ-март",   slug: "01-03" },
+      { label: "Январ-июн",    slug: "01-06" },
+      { label: "Январ-декабр", slug: "01-12" }
+    ]}
+  ];
+
+  var pdfIcon = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+
+  var nav  = document.getElementById('year-nav');
+  var list = document.getElementById('reports-list');
+
+  DATA.forEach(function (entry, idx) {
+    var year   = entry.year;
+    var isOpen = (idx === 0);
+
+    var jump = document.createElement('button');
+    jump.className = 'year-jump' + (isOpen ? ' current' : '');
+    jump.textContent = year;
+    jump.dataset.year = year;
+    nav.appendChild(jump);
+
+    var section = document.createElement('div');
+    section.className = 'year-section';
+    section.id = 'year-' + year;
+
+    var btn = document.createElement('button');
+    btn.className = 'year-acc-btn' + (isOpen ? '' : ' collapsed');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    btn.innerHTML = '<span class="year-acc-pill"><span>' + year + '</span><span class="year-acc-icon">▾</span></span>';
+
+    var wrap = document.createElement('div');
+    wrap.className = 'periods-wrap';
+    wrap.style.maxHeight = isOpen ? '2000px' : '0';
+
+    var grid = document.createElement('div');
+    grid.className = 'periods';
+
+    entry.periods.forEach(function (p) {
+      var card = document.createElement('div');
+      card.className = 'period-card';
+      card.innerHTML =
+        '<div class="period-label">' + p.label + '</div>' +
+        '<a href="files/' + year + '-' + p.slug + '.pdf" class="file-btn pdf" target="_blank" rel="noopener noreferrer">' + pdfIcon + ' PDF</a>';
+      grid.appendChild(card);
+    });
+
+    wrap.appendChild(grid);
+    section.appendChild(btn);
+    section.appendChild(wrap);
+    list.appendChild(section);
+
+    (function (b, w) {
+      b.addEventListener('click', function () {
+        var open = !b.classList.contains('collapsed');
+        if (open) {
+          b.classList.add('collapsed');
+          b.setAttribute('aria-expanded', 'false');
+          w.style.maxHeight = '0';
+        } else {
+          b.classList.remove('collapsed');
+          b.setAttribute('aria-expanded', 'true');
+          w.style.maxHeight = '2000px';
+        }
+      });
+    })(btn, wrap);
+  });
+
+  nav.addEventListener('click', function (e) {
+    var pill = e.target.closest('.year-jump');
+    if (!pill) return;
+    var section = document.getElementById('year-' + pill.dataset.year);
+    if (!section) return;
+    var accBtn = section.querySelector('.year-acc-btn');
+    var wrap   = section.querySelector('.periods-wrap');
+    if (accBtn && wrap && accBtn.classList.contains('collapsed')) {
+      accBtn.classList.remove('collapsed');
+      accBtn.setAttribute('aria-expanded', 'true');
+      wrap.style.maxHeight = '2000px';
+    }
+    setTimeout(function () {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  });
+
+})();
+</script>
+
+<script>
+(function () {
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
+</script>
+<script src="../js/common.js"></script>
 </body>
 </html>
