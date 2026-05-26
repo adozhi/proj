@@ -70,15 +70,17 @@
         <div class="stats">
 
           <!-- Card 1: Refinancing Rate -->
-          <article class="statistic">
-            <div class="block-header">
+          <article class="statistic kpi-card rate-card">
+            <a href="other_links/policy_rate.html" class="block-header nav-link">
+              <span class="header-card-icon hci--rate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </span>
               <div class="block-header__left">
-                <a href="other_links/policy_rate.html" class="nav-link">
-                  <span class="text-hover-effect-1" data-i18n="rate_title">Меъёри бозтамвил</span>
-                </a>
+                <span class="text-hover-effect-1" data-i18n="rate_title">Меъёри бозтамвил</span>
                 <span id="rate-since" class="subtitle" data-i18n="rate_date">аз 02 феврали соли 2026</span>
               </div>
-            </div>
+              <svg class="header-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
             <div class="statistic-body">
               <div class="kpi-row">
                 <div id="stat-rate-icon" class="kpi-icon kpi-icon--down">
@@ -86,24 +88,34 @@
                 </div>
                 <div class="statistic-value"><span id="val-rate">7,00</span><span class="unit">%</span></div>
               </div>
-              <div id="badge-rate" class="trend-badge trend-down">↓ −0,25 б.ф. аз феврали 2026</div>
+              <div id="badge-rate" class="trend-badge trend-down">↓ −0,50 б.ф.</div>
             </div>
             <div class="statistic-footer">
-              <svg class="meta-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-              <a href="other_links/kumita_bmt.html#meeting" class="nav-link" data-i18n="next_meeting">Ҷаласаи навбатии Кумита: 30.07.2026</a>
+              <a href="other_links/kumita_bmt.html#meeting" class="footer-zone nav-link">
+                <span class="fz-icon fz-icon--calendar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </span>
+                <span class="fz-text">
+                  <span class="fz-label" data-i18n="meeting_label">Ҷаласаи навбатии Кумита</span>
+                  <span class="fz-value">30.07.2026</span>
+                </span>
+                <svg class="fz-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
             </div>
           </article>
 
           <!-- Card 2: Annual Inflation -->
-          <article class="statistic">
-            <div class="block-header">
+          <article class="statistic kpi-card inflation-card">
+            <a href="other_links/inflation.html" class="block-header nav-link">
+              <span class="header-card-icon hci--inflation">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </span>
               <div class="block-header__left">
-                <a href="other_links/inflation.html" class="nav-link">
-                  <span class="text-hover-effect-1" data-i18n="inflation_title">Таварруми солона</span>
-                </a>
+                <span class="text-hover-effect-1" data-i18n="inflation_title">Таварруми солона</span>
                 <span class="subtitle" data-i18n="inflation_month">Март 2026</span>
               </div>
-            </div>
+              <svg class="header-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
             <div class="statistic-body">
               <div class="kpi-row">
                 <div id="stat-inflation-icon" class="kpi-icon kpi-icon--up">
@@ -114,27 +126,37 @@
               <div id="badge-inflation" class="trend-badge trend-flat">✓ Дар ҳадаф</div>
             </div>
             <div class="statistic-footer">
-              <svg class="meta-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
-              <a href="other_links/maksad.html#target" class="nav-link" data-i18n="inflation_target_link">Ҳадафи таваррум: 5% (±2 б.ф.)</a>
+              <a href="other_links/maksad.html#target" class="footer-zone nav-link">
+                <span class="fz-icon fz-icon--target">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                </span>
+                <span class="fz-text">
+                  <span class="fz-label" data-i18n="target_label">Ҳадафи таваррум</span>
+                  <span class="fz-value" data-i18n="target_value">5% (±2 б.ф.)</span>
+                </span>
+                <svg class="fz-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
             </div>
           </article>
 
           <!-- Card 3: Chart -->
           <article class="statistic chart-card">
-            <div class="block-header">
+            <a href="other_links/charts.html" class="block-header nav-link">
+              <span class="header-card-icon hci--chart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              </span>
               <div class="block-header__left">
-                <a href="other_links/charts.html" class="nav-link">
-                  <span class="text-hover-effect-1" id="chartTitle" data-i18n="chart_title">Тағйирёбии сатҳи таваррум</span>
-                </a>
-                <span id="chartSubtitle" class="subtitle" data-i18n="chart_subtitle">Март 2025 — Март 2026</span>
+                <span class="text-hover-effect-1" id="chartTitle" data-i18n="chart_title">Тағйирёбии сатҳи таваррум</span>
+                <span class="subtitle" data-i18n="chart_subtitle"></span>
               </div>
-            </div>
+              <svg class="header-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
             <div class="chart-content">
               <canvas id="chartCanvas"></canvas>
             </div>
             <div class="chart-tabs">
               <button class="chart-tab active" data-index="0" style="--tab-color:#3b82f6"><span class="chart-tab__dot"></span><span data-i18n="dot_inflation">Таваррум</span></button>
-              <button class="chart-tab" data-index="1" style="--tab-color:#64748b"><span class="chart-tab__dot"></span><span data-i18n="dot_rate">Меъёри бозтамвил</span></button>
+              <button class="chart-tab" data-index="1" style="--tab-color:#1e40af"><span class="chart-tab__dot"></span><span data-i18n="dot_rate">Меъёри бозтамвил</span></button>
               <button class="chart-tab" data-index="2" style="--tab-color:#22c55e"><span class="chart-tab__dot"></span><span data-i18n="dot_bonds">Қоғазҳои қиматнок</span></button>
               <button class="chart-tab" data-index="3" style="--tab-color:#f59e0b"><span class="chart-tab__dot"></span><span data-i18n="dot_interbank">Байнибонкӣ</span></button>
             </div>
@@ -155,6 +177,52 @@
   </footer>
 
   <script src="js/script.js"></script>
+
+  <style>
+    #themeToggleBtn { position:fixed; bottom:28px; right:24px; z-index:9990; padding:6px 16px; border-radius:100px; border:1.5px solid #cbd5e1; background:#fff; color:#0f172a; font-size:0.78rem; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.10); font-family:inherit; transition:background 0.18s, border-color 0.18s, color 0.18s; letter-spacing:0.01em; }
+    #themeToggleBtn:hover { border-color:#94a3b8; background:#f8fafc; }
+
+    body.mono-theme .statistic::after { background: rgba(15,23,42,0.18); height: 2px; }
+    body.mono-theme .hci--rate,
+    body.mono-theme .hci--inflation,
+    body.mono-theme .hci--chart { background: #f8fafc; color: #475569; }
+    body.mono-theme .kpi-icon--down,
+    body.mono-theme .kpi-icon--up,
+    body.mono-theme .kpi-icon--stable,
+    body.mono-theme .kpi-icon--flat { background: #f8fafc; color: #1e3a5f; border: 1px solid #e2e8f0; box-shadow: none; }
+    body.mono-theme .rate-card a.block-header:hover,
+    body.mono-theme .inflation-card a.block-header:hover,
+    body.mono-theme .chart-card a.block-header:hover { background: #eff6ff; }
+    body.mono-theme .rate-card .footer-zone:hover,
+    body.mono-theme .inflation-card .footer-zone:hover { background: #eff6ff; }
+    body.mono-theme .fz-icon--calendar,
+    body.mono-theme .fz-icon--target { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+    body.mono-theme .trend-down,
+    body.mono-theme .trend-up,
+    body.mono-theme .trend-flat { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+    body.mono-theme .statistic-value { color: #0f172a; }
+    body.mono-theme .unit { color: #475569; font-weight: 700; }
+  </style>
+
+  <button id="themeToggleBtn">◑ Монохром</button>
+
+  <script>
+  (function () {
+    var btn = document.getElementById('themeToggleBtn');
+    var KEY  = 'nbt-theme-mono';
+    var CLS  = 'mono-theme';
+    function apply(mono) {
+      document.body.classList.toggle(CLS, mono);
+      btn.textContent = mono ? '◐ Цветной' : '◑ Монохром';
+    }
+    apply(localStorage.getItem(KEY) === '1');
+    btn.addEventListener('click', function () {
+      var next = !document.body.classList.contains(CLS);
+      localStorage.setItem(KEY, next ? '1' : '0');
+      apply(next);
+    });
+  })();
+  </script>
 
 </body>
 </html>
