@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
       footer_copy:    '© 2026 Бонки Миллии Тоҷикистон. Ҳамаи ҳуқуқҳо ҳифз шудаанд.',
       menu_policy: 'Сиёсати пулӣ',
       menu_goal: 'Мақсад ва вазифаҳо',
-      menu_tools: 'Фишангҳо',
-      menu_committee: 'Кумита',
-      menu_strategy: 'Стратегия',
+      menu_tools: 'Фишангҳои сиёсати пулӣ',
+      menu_committee: 'Кумитаи сиёсати пулию қарзии',
+      menu_strategy: 'Самтҳои асосии сиёсати пулию қарзии ҶТ',
       menu_reports: 'Шарҳ ва интишорот',
       menu_report_monthly_inflation: 'Шарҳи моҳонаи таваррум',
       menu_report_monetary: 'Шарҳи монетарӣ',
@@ -48,6 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
       dot_rate:              'Меъёри бозтамвил',
       dot_bonds:             'Қоғазҳои қиматнок',
       dot_interbank:         'Байнибонкӣ',
+      year_all:              'Ҳама',
+      sahm_title:            'Таваррум аз рӯи саҳм',
+      sahm_f:                'Хӯрокворӣ',
+      sahm_nf:               'Ғайрихӯрокворӣ',
+      sahm_s:                'Хизматрасонӣ',
+      meeting_label:         'Ҷаласаи навбатии Кумита',
+      target_label:          'Ҳадафи таваррум',
+      target_value:          '5% (±2 б.ф.)',
     },
     ru: {
       header_name:    'Национальный банк Таджикистана',
@@ -58,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
       footer_copy:    '© 2026 Национальный банк Таджикистана. Все права защищены.',
       menu_policy: 'Монетарная политика',
       menu_goal: 'Цели и задачи',
-      menu_tools: 'Инструменты',
-      menu_committee: 'Комитет',
-      menu_strategy: 'Стратегия',
+      menu_tools: 'Инструменты денежно–кредитной политики',
+      menu_committee: 'Комитет по денежно-кредитной политике',
+      menu_strategy: 'Основные направления денежно-кредитной политики РТ',
       menu_reports: 'Отчёты и публикации',
       menu_report_monthly_inflation: 'Ежемесячный обзор инфляции',
       menu_report_monetary: 'Монетарный обзор',
@@ -82,6 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
       dot_rate:              'Ставка рефинансирования',
       dot_bonds:             'Ценные бумаги',
       dot_interbank:         'Межбанк',
+      year_all:              'Все',
+      sahm_title:            'Инфляция по компонентам',
+      sahm_f:                'Продовольствие',
+      sahm_nf:               'Непродовольствие',
+      sahm_s:                'Услуги',
+      meeting_label:         'Следующее заседание',
+      target_label:          'Цель по инфляции',
+      target_value:          '5% (±2 п.п.)',
     },
     en: {
       header_name:    'National Bank of Tajikistan',
@@ -92,9 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
       footer_copy:    '© 2026 National Bank of Tajikistan. All rights reserved.',
       menu_policy: 'Monetary Policy',
       menu_goal: 'Goals & Objectives',
-      menu_tools: 'Tools',
-      menu_committee: 'Committee',
-      menu_strategy: 'Strategy',
+      menu_tools: 'Monetary Policy Instruments',
+      menu_committee: 'Monetary Policy Committee',
+      menu_strategy: ' The main directions of the monetary policy of RT',
       menu_reports: 'Reports & Publications',
       menu_report_monthly_inflation: 'Monthly Inflation Report',
       menu_report_monetary: 'Monetary Review',
@@ -116,171 +132,209 @@ document.addEventListener('DOMContentLoaded', () => {
       dot_rate:              'Refinancing Rate',
       dot_bonds:             'Securities',
       dot_interbank:         'Interbank',
+      year_all:              'All',
+      sahm_title:            'Inflation by Contribution',
+      sahm_f:                'Food',
+      sahm_nf:               'Non-food',
+      sahm_s:                'Services',
+      meeting_label:         'Next meeting',
+      target_label:          'Inflation target',
+      target_value:          '5% (±2 pp)',
     },
   };
 
-  /* ---------- chart datasets (fallback hardcoded) ---------- */
+  /* ---------- chart datasets ---------- */
 
   const DATASETS = [
-    { labelKey: 0, data: [3.4,3.6,3.8,3.6,3.5,3.1,2.8,3.1,3.2,3.5,3.6,3.7,3.4], color: '#3b82f6', fill: true  },
-    { labelKey: 1, data: [8.75,8.75,8.3145,8.25,8.25,7.7984,7.75,7.75,7.5167,7.5,7.5,7.5,7.5],  color: '#64748b', fill: true },
-    { labelKey: 2, data: [3.70,4.74,4.2,5.56,6.5,6.17,7.04,7.49,7.45,7.28,6.71,6.45,6.09],      color: '#22c55e', fill: true },
-    { labelKey: 3, data: [9.4,9.6,8.5,8.8,8.4,8.3,8.6,8.8,8.5,9.5,8.1,9.5,8.5],                color: '#f59e0b', fill: true },
+    { labelKey: 0, data: [3.4,3.6,3.8,3.6,3.5,3.1,2.8,3.1,3.2,3.5,3.6,3.7,3.4],               color: '#3b82f6' },
+    { labelKey: 1, data: [8.75,8.75,8.3145,8.25,8.25,7.7984,7.75,7.75,7.5167,7.5,7.5,7.5,7.5], color: '#1e40af', stepped: 'before', tension: 0, pointRadius: 'change' },
+    { labelKey: 2, data: [3.70,4.74,4.2,5.56,6.5,6.17,7.04,7.49,7.45,7.28,6.71,6.45,6.09],     color: '#22c55e' },
+    { labelKey: 3, data: [9.4,9.6,8.5,8.8,8.4,8.3,8.6,8.8,8.5,9.5,8.1,9.5,8.5],               color: '#f59e0b' },
   ];
+
+  function dsPointRadius(ds) {
+    if (ds.pointRadius === 'change') {
+      return ctx2 => {
+        const arr = ctx2.dataset.data;
+        const j   = ctx2.dataIndex;
+        return j === 0 || (arr[j] != null && arr[j-1] != null && Math.abs(arr[j] - arr[j-1]) > 0.0001) ? 2.5 : 0;
+      };
+    }
+    return 2.5;
+  }
+
+  /* ---------- plugins ---------- */
+
+  const crosshairPlugin = {
+    id: 'crosshair',
+    afterDraw(chartInst) {
+      const active = chartInst.tooltip?._active;
+      if (!active?.length) return;
+      const x = active[0].element.x;
+      const { top, bottom } = chartInst.scales.y;
+      const c = chartInst.ctx;
+      c.save();
+      c.beginPath();
+      c.moveTo(x, top);
+      c.lineTo(x, bottom);
+      c.lineWidth   = 1;
+      c.strokeStyle = '#cbd5e1';
+      c.setLineDash([3, 3]);
+      c.stroke();
+      c.restore();
+    },
+  };
+
+  const deltaPlugin = {
+    id: 'deltaLabels',
+    afterDatasetsDraw(chartInst) {
+      if (currentSlide !== 1) return;
+      const d    = chartInst.data.datasets[0].data;
+      const meta = chartInst.getDatasetMeta(0);
+      const c    = chartInst.ctx;
+      const area = chartInst.chartArea;
+      c.save();
+      c.font = '600 9px Inter,sans-serif';
+      d.forEach((val, i) => {
+        if (i === 0 || val == null || d[i-1] == null) return;
+        if (Math.abs(val - d[i-1]) < 0.0001) return;
+        const delta  = val - d[i-1];
+        const sign   = delta > 0 ? '+' : '−';
+        const text   = `${sign}${Math.abs(delta).toFixed(2).replace('.', ',')}%`;
+        const color  = delta < 0 ? '#16a34a' : '#dc2626';
+        const pt     = meta.data[i];
+        const offset = delta < 0 ? 22 : -22;
+        const tw     = c.measureText(text).width;
+        const pad    = 4;
+        const tx     = Math.max(area.left + tw/2 + pad, Math.min(area.right - tw/2 - pad, pt.x));
+        const ty     = Math.max(area.top + 10, Math.min(area.bottom - 10, pt.y + offset));
+        c.fillStyle = color + '22';
+        c.beginPath();
+        c.roundRect(tx - tw/2 - pad, ty - 7, tw + pad*2, 13, 3);
+        c.fill();
+        c.fillStyle    = color;
+        c.textAlign    = 'center';
+        c.textBaseline = 'middle';
+        c.fillText(text, tx, ty);
+      });
+      c.restore();
+    },
+  };
 
   /* ---------- dynamic y-axis range ---------- */
 
   function computeRange(data) {
-    const vals = (data || []).filter(v => v != null && !isNaN(v) && v > 0);
+    const vals = (data || []).filter(v => v != null && !isNaN(v));
     if (!vals.length) return { min: 0, max: 10, step: 2 };
     const lo   = Math.min(...vals);
     const hi   = Math.max(...vals);
     const span = hi - lo || 1;
     const step = span <= 3 ? 1 : span <= 6 ? 2 : 5;
-    // center the visible range symmetrically around the data midpoint
     const mid  = (lo + hi) / 2;
     const half = Math.ceil((span / 2 + step) / step) * step;
-    const min  = Math.max(0, Math.floor((mid - half) / step) * step);
+    const min  = lo < 0
+      ? Math.floor((mid - half) / step) * step
+      : Math.max(0, Math.floor((mid - half) / step) * step);
     const max  = Math.ceil((mid + half) / step) * step;
     return { min, max, step };
   }
 
   /* ---------- Excel loading ---------- */
 
-  // Short month names for chart axis labels
   const MONTH_NAMES = {
     tj: ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
     ru: ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
     en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
   };
 
-  // Full month names for period labels (section heading, card subtitle)
   const MONTH_FULL = {
     tj: ['Январ','Феврал','Март','Апрел','Май','Июн','Июл','Август','Сентябр','Октябр','Ноябр','Декабр'],
     ru: ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
     en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
   };
 
-  // Genitive month names for "since [month]" text in badges/subtitles
   const MONTH_GENITIVE = {
     tj: ['январи','феврали','марти','апрели','майи','июни','июли','августи','сентябри','октябри','ноябри','декабри'],
     ru: ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],
     en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
   };
 
-  // SVG icon markup for the three states
   const SVG_DOWN = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="18 14 12 20 6 14"/></svg>`;
   const SVG_UP   = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/></svg>`;
   const SVG_FLAT = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/></svg>`;
 
-  // Simple month-over-month comparison (last vs previous) — used for inflation
   function computeMonthChange(arr) {
     const n = arr.length;
     if (n < 2) return null;
-    const current = arr[n - 1];
-    const prev    = arr[n - 2];
-    const delta   = current - prev;
-    return {
-      direction:    delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0,
-      delta:        Math.abs(delta),
-      currentValue: current,
-    };
+    const delta = arr[n-1] - arr[n-2];
+    return { direction: delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0, delta: Math.abs(delta), currentValue: arr[n-1] };
   }
 
-  // Compute direction and last-change info from a numeric series — used for rate
-  function computeCardState(arr, dates) {
+  function computeCardState(arr, dates, rateDates) {
     const n = arr.length;
     if (n < 2) return null;
     const current = arr[n - 1];
-
-    // Walk back to find the first index of the current stable value
     let changeIdx = n - 1;
     for (let i = n - 2; i >= 0; i--) {
       if (Math.abs(arr[i] - current) > 0.0001) break;
       changeIdx = i;
     }
-
-    // Value before the current stable run started
     const prevValue = changeIdx > 0 ? arr[changeIdx - 1] : current;
     const delta     = current - prevValue;
-    const direction = delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0;
-
-    return { direction, delta: Math.abs(delta), sinceDate: dates[changeIdx], currentValue: current };
+    const base      = dates[changeIdx];
+    const day       = rateDates && rateDates[changeIdx] != null ? rateDates[changeIdx] : null;
+    const sinceDate = day ? { ...base, day } : base;
+    return { direction: delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0, delta: Math.abs(delta), sinceDate, currentValue: current };
   }
 
   function fmtVal(val, decimals, lang) {
-    return lang === 'en'
-      ? val.toFixed(decimals)
-      : val.toFixed(decimals).replace('.', ',');
+    return lang === 'en' ? val.toFixed(decimals) : val.toFixed(decimals).replace('.', ',');
   }
 
   function fmtSince(date, lang) {
     if (!date) return '';
-    const mn = MONTH_GENITIVE[lang][date.month - 1];
-    if (lang === 'en') return `since ${mn} ${date.year}`;
-    if (lang === 'ru') return `с ${mn} ${date.year}`;
-    return `аз ${mn} ${date.year}`;
+    const mn  = MONTH_GENITIVE[lang][date.month - 1];
+    const day = date.day ? (date.day < 10 ? '0' + date.day : '' + date.day) + ' ' : '';
+    return lang === 'en' ? `since ${day}${mn} ${date.year}` : lang === 'ru' ? `с ${day}${mn} ${date.year}` : `аз ${day}${mn} ${date.year}`;
   }
-
-  // --- Card renderers ---
 
   function renderRateCard(state, lang) {
     if (!state) return;
-
-    const valEl  = document.getElementById('val-rate');
-    const iconEl = document.getElementById('stat-rate-icon');
+    const valEl   = document.getElementById('val-rate');
+    const iconEl  = document.getElementById('stat-rate-icon');
     const badgeEl = document.getElementById('badge-rate');
     const sinceEl = document.getElementById('rate-since');
-
-    if (valEl) valEl.textContent = fmtVal(state.currentValue, 2, lang);
-
+    if (valEl && state.currentValue != null) valEl.textContent = fmtVal(state.currentValue, 2, lang);
     if (sinceEl) sinceEl.textContent = fmtSince(state.sinceDate, lang);
-
     if (iconEl) {
-      const cls = state.direction < 0 ? 'kpi-icon--down'
-                : state.direction > 0 ? 'kpi-icon--up'
-                : 'kpi-icon--flat';
+      const cls = state.direction < 0 ? 'kpi-icon--down' : state.direction > 0 ? 'kpi-icon--up' : 'kpi-icon--flat';
       iconEl.className = `kpi-icon ${cls}`;
-      iconEl.innerHTML = state.direction < 0 ? SVG_DOWN
-                       : state.direction > 0 ? SVG_UP
-                       : SVG_FLAT;
+      iconEl.innerHTML = state.direction < 0 ? SVG_DOWN : state.direction > 0 ? SVG_UP : SVG_FLAT;
     }
-
     if (badgeEl) {
       if (state.direction === 0) {
         badgeEl.className   = 'trend-badge trend-flat';
-        badgeEl.textContent = lang === 'en' ? 'No change'
-                            : lang === 'ru' ? 'Без изменений'
-                            : 'Бетағйир';
+        badgeEl.textContent = lang === 'en' ? 'No change' : lang === 'ru' ? 'Без изменений' : 'Бетағйир';
       } else {
         const sign = state.direction < 0 ? '−' : '+';
         const unit = lang === 'en' ? 'pp' : 'б.ф.';
         badgeEl.className   = `trend-badge ${state.direction < 0 ? 'trend-down' : 'trend-up'}`;
-        badgeEl.textContent = `${sign}${fmtVal(state.delta, 2, lang)} ${unit} ${fmtSince(state.sinceDate, lang)}`;
+        badgeEl.textContent = `${sign}${fmtVal(state.delta, 2, lang)} ${unit}`;
       }
     }
   }
 
   function renderInflationCard(state, lang) {
     if (!state) return;
-
     const iconEl  = document.getElementById('stat-inflation-icon');
     const badgeEl = document.getElementById('badge-inflation');
-
     if (iconEl) {
-      const cls = state.direction > 0 ? 'kpi-icon--up'
-                : state.direction < 0 ? 'kpi-icon--down'
-                : 'kpi-icon--flat';
+      const cls = state.direction > 0 ? 'kpi-icon--up' : state.direction < 0 ? 'kpi-icon--down' : 'kpi-icon--flat';
       iconEl.className = `kpi-icon ${cls}`;
-      iconEl.innerHTML = state.direction > 0 ? SVG_UP
-                       : state.direction < 0 ? SVG_DOWN
-                       : SVG_FLAT;
+      iconEl.innerHTML = state.direction > 0 ? SVG_UP : state.direction < 0 ? SVG_DOWN : SVG_FLAT;
     }
-
     if (badgeEl) {
-      const vsMonth = lang === 'en' ? 'vs. previous month'
-                    : lang === 'ru' ? 'к прошлому месяцу'
-                    : 'нисбат ба моҳи гузашта';
+      const vsMonth   = lang === 'en' ? 'vs. previous month' : lang === 'ru' ? 'к прошлому месяцу' : 'нисбат ба моҳи гузашта';
       const unchanged = lang === 'en' ? 'unchanged' : lang === 'ru' ? 'без изменений' : 'бетағйир';
       if (state.direction === 0) {
         badgeEl.className   = 'trend-badge trend-flat';
@@ -299,21 +353,17 @@ document.addEventListener('DOMContentLoaded', () => {
     renderInflationCard(cardState.inflation, lang);
   }
 
-  // Convert date string "YYYY-MM-DD" or Excel serial to { year, month }
   function parseDate(raw) {
     if (typeof raw === 'number') {
-      // Excel serial date: days since 1899-12-30
       const d = new Date(Math.round((raw - 25569) * 86400 * 1000));
       return { year: d.getUTCFullYear(), month: d.getUTCMonth() + 1 };
     }
     const s = String(raw).trim();
-    // YYYY-MM or YYYY-MM-DD
     const m = s.match(/^(\d{4})-(\d{2})/);
     if (m) return { year: +m[1], month: +m[2] };
     return null;
   }
 
-  // Build month label arrays for all langs from an array of {year, month} objects
   function buildMonthLabels(dates) {
     const result = { tj: [], ru: [], en: [] };
     const last = dates.length - 1;
@@ -321,10 +371,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const prevYear = i > 0 ? dates[i - 1].year : null;
       ['tj', 'ru', 'en'].forEach(lang => {
         const name = MONTH_NAMES[lang][d.month - 1];
-        // Show year on first entry, whenever year changes, and always on last entry
         const needYear = i === 0 || i === last || d.year !== prevYear;
-        const suffix = needYear ? ` ${String(d.year).slice(2)}` : '';
-        result[lang].push(name + suffix);
+        result[lang].push(name + (needYear ? ` ${String(d.year).slice(2)}` : ''));
       });
     });
     return result;
@@ -338,50 +386,42 @@ document.addEventListener('DOMContentLoaded', () => {
       const wb   = XLSX.read(buf, { type: 'array' });
       const ws   = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(ws, { defval: null });
-
       if (!rows.length) return false;
 
-      // Take last 13 rows (12-month window + current month)
-      const slice = rows.slice(-13);
-
-      const dates      = [];
-      const inflationY = [];
-      const rate       = [];
-      const bonds      = [];
-      const interbank  = [];
-
-      for (const row of slice) {
+      const allDates = [], allCols = [[], [], [], []], allRateDates = [];
+      for (const row of rows) {
         const d = parseDate(row.date);
         if (!d) continue;
-        dates.push(d);
-        inflationY.push(row.inflation_y != null ? +row.inflation_y : null);
-        rate.push(row.rate       != null ? +row.rate       : null);
-        bonds.push(row.bonds     != null ? +row.bonds      : null);
-        interbank.push(row.interbank != null ? +row.interbank : null);
+        allDates.push(d);
+        allCols[0].push(row.inflation_y != null ? +row.inflation_y : null);
+        allCols[1].push(row.rate_eom    != null ? +row.rate_eom    : null);
+        allCols[2].push(row.bonds       != null ? +row.bonds       : null);
+        allCols[3].push(row.interbank   != null ? +row.interbank   : null);
+        allRateDates.push(row.rate_date != null ? +row.rate_date   : null);
       }
+      if (!allDates.length) return false;
 
-      if (!dates.length) return false;
+      const n      = Math.min(13, allDates.length);
+      const offset = allDates.length - n;
+      const dates  = allDates.slice(offset);
+      DATASETS[0].data = allCols[0].slice(offset);
+      DATASETS[1].data = allCols[1].slice(offset);
+      DATASETS[2].data = allCols[2].slice(offset);
+      DATASETS[3].data = allCols[3].slice(offset);
+      const rateDates  = allRateDates.slice(offset);
 
-      // Patch DATASETS in place
-      DATASETS[0].data = inflationY;
-      DATASETS[1].data = rate;
-      DATASETS[2].data = bonds;
-      DATASETS[3].data = interbank;
-
-      // Patch month label arrays
       const labels = buildMonthLabels(dates);
       MONTHS.tj = labels.tj;
       MONTHS.ru = labels.ru;
       MONTHS.en = labels.en;
 
-      // Update period labels and card values from the last data row
-      const last = dates[dates.length - 1];
-      const lastInflation = inflationY[inflationY.length - 1];
+      const last           = dates[dates.length - 1];
+      const lastInflation  = DATASETS[0].data[DATASETS[0].data.length - 1];
 
       if (last) {
         ['tj', 'ru', 'en'].forEach(lang => {
           const fullMonth = MONTH_FULL[lang][last.month - 1];
-          const period = `${fullMonth} ${last.year}`;
+          const period    = `${fullMonth} ${last.year}`;
           LABELS[lang].section_period  = period;
           LABELS[lang].inflation_month = period;
           LABELS[lang].chart_subtitle  =
@@ -389,15 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Store so language switches can reformat the value
       if (lastInflation != null) loadedInflation = lastInflation;
 
-      // Compute card states for auto icon/badge rendering
       cardState = {
-        rate:      computeCardState(rate, dates),  // last-change logic (since when)
-        inflation: computeMonthChange(inflationY),  // simple last vs prev month
+        rate:      computeCardState(DATASETS[1].data, dates, rateDates),
+        inflation: computeMonthChange(DATASETS[0].data),
       };
 
+      loadedDates = dates;
       return true;
     } catch (e) {
       console.warn('Excel load failed, using fallback data:', e);
@@ -411,7 +450,33 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLang     = localStorage.getItem('lang') || 'tj';
   let chart;
   let loadedInflation = null;
-  let cardState       = null;   // { rate, inflation } computed from Excel
+  let cardState       = null;
+  let loadedDates     = [];
+
+  /* ---------- tooltip ---------- */
+
+  function tooltipLabel(c) {
+    if (c.parsed.y === null) return '';
+    const val = c.parsed.y;
+    const dec = currentSlide === 1 ? 2 : 1;
+    const vs  = val.toFixed(dec).replace('.', ',');
+    const d   = loadedDates[c.dataIndex];
+    const lbl = d ? MONTH_FULL[currentLang][d.month - 1] + ' ' + d.year
+                  : c.chart.data.labels[c.dataIndex];
+
+    if (currentSlide === 1) {
+      const pd = c.chart.data.datasets[0].data;
+      let prev = null;
+      for (let j = c.dataIndex - 1; j >= 0; j--) {
+        if (pd[j] !== null) { prev = pd[j]; break; }
+      }
+      if (prev !== null && Math.abs(val - prev) > 0.0001) {
+        const delta = val - prev;
+        return `${lbl}: ${vs}% (${delta >= 0 ? '▲' : '▼'} ${delta >= 0 ? '+' : ''}${delta.toFixed(2).replace('.', ',')}%)`;
+      }
+    }
+    return `${lbl}: ${vs}%`;
+  }
 
   /* ---------- chart init ---------- */
 
@@ -420,37 +485,58 @@ document.addEventListener('DOMContentLoaded', () => {
   const r0  = computeRange(ds0.data);
 
   chart = new Chart(ctx, {
+    plugins: [deltaPlugin, crosshairPlugin],
     type: 'line',
     data: {
       labels: MONTHS[currentLang],
       datasets: [{
-        label:           CHARTS[currentLang][0],
-        data:            ds0.data,
-        borderColor:     ds0.color,
-        backgroundColor: ds0.color + '33',
-        fill:            ds0.fill,
-        tension:         0.4,
-        pointRadius:     2,
-        spanGaps:        true,
+        label:                     CHARTS[currentLang][0],
+        data:                      ds0.data,
+        borderColor:               ds0.color,
+        borderWidth:               1.5,
+        backgroundColor:           'transparent',
+        fill:                      false,
+        tension:                   ds0.tension  ?? 0.4,
+        stepped:                   ds0.stepped  ?? false,
+        pointRadius:               dsPointRadius(ds0),
+        pointBackgroundColor:      ds0.color,
+        pointBorderColor:          '#fff',
+        pointBorderWidth:          1.5,
+        pointHoverRadius:          5,
+        pointHoverBackgroundColor: ds0.color,
+        pointHoverBorderColor:     '#fff',
+        pointHoverBorderWidth:     2,
+        spanGaps:                  true,
       }],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: false,
+      animation: { duration: 350, easing: 'easeInOutQuart' },
       plugins: {
         legend: { display: false },
         tooltip: {
           mode: 'index',
           intersect: false,
-          callbacks: { label: c => `${c.parsed.y.toFixed(2)}%` },
+          callbacks: {
+            title: () => '',
+            label: tooltipLabel,
+            labelColor: c => {
+              const color = typeof c.dataset.borderColor === 'string' ? c.dataset.borderColor : '#3b82f6';
+              return { borderColor: color, backgroundColor: color };
+            },
+          },
         },
       },
       scales: {
         y: {
-          min: r0.min, max: r0.max,
+          min: r0.min,
+          max: r0.max,
           ticks: { stepSize: r0.step, callback: v => v + '%', color: '#475569', font: { size: 11 }, padding: 6 },
-          grid: { color: '#e2e8f0' },
+          grid: {
+            color:     ctx => ctx.tick.value === 0 && ctx.chart.scales.y.min < 0 ? '#94a3b8' : '#e2e8f0',
+            lineWidth: ctx => ctx.tick.value === 0 && ctx.chart.scales.y.min < 0 ? 1.5 : 1,
+          },
         },
         x: {
           ticks: { color: '#475569', font: { size: 11 }, padding: 6 },
@@ -465,23 +551,33 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateChart(i) {
     const ds  = DATASETS[i];
     const rng = computeRange(ds.data);
-    chart.data.labels = [...MONTHS[currentLang]];
-    const d = chart.data.datasets[0];
-    d.label           = CHARTS[currentLang][ds.labelKey];
-    d.data            = ds.data;
-    d.borderColor     = ds.color;
-    d.backgroundColor = ds.color + '33';
-    d.fill            = ds.fill;
-    d.borderDash      = [];
-    chart.options.scales.y = {
-      min: rng.min, max: rng.max,
-      ticks: { stepSize: rng.step, callback: v => v + '%', color: '#475569', font: { size: 11 }, padding: 6 },
-      grid: { color: '#e2e8f0' },
+
+    chart.data.labels = MONTHS[currentLang];
+    chart.data.datasets[0] = {
+      label:                     CHARTS[currentLang][ds.labelKey],
+      data:                      ds.data,
+      borderColor:               ds.color,
+      borderWidth:               1.5,
+      backgroundColor:           'transparent',
+      fill:                      false,
+      tension:                   ds.tension  ?? 0.4,
+      stepped:                   ds.stepped  ?? false,
+      pointRadius:               dsPointRadius(ds),
+      pointBackgroundColor:      ds.color,
+      pointBorderColor:          '#fff',
+      pointBorderWidth:          1.5,
+      pointHoverRadius:          5,
+      pointHoverBackgroundColor: ds.color,
+      pointHoverBorderColor:     '#fff',
+      pointHoverBorderWidth:     2,
+      spanGaps:                  true,
     };
+    chart.options.scales.y.min            = rng.min;
+    chart.options.scales.y.max            = rng.max;
+    chart.options.scales.y.ticks.stepSize = rng.step;
     chart.update();
+
     document.getElementById('chartTitle').textContent = CHARTS[currentLang][ds.labelKey];
-    const sub = document.getElementById('chartSubtitle');
-    if (sub) sub.textContent = LABELS[currentLang].chart_subtitle;
   }
 
   /* ---------- slider ---------- */
@@ -507,14 +603,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const key = el.dataset.i18n;
       if (LABELS[lang]?.[key]) el.textContent = LABELS[lang][key];
     });
-    // Update inflation value and both card icons/badges from computed state
     if (loadedInflation != null) {
       const el = document.getElementById('val-inflation');
-      if (el) {
-        el.textContent = lang === 'en'
-          ? loadedInflation.toFixed(1)
-          : loadedInflation.toFixed(1).replace('.', ',');
-      }
+      if (el) el.textContent = lang === 'en' ? loadedInflation.toFixed(1) : loadedInflation.toFixed(1).replace('.', ',');
     }
     renderCards(lang);
     updateChart(currentSlide);
@@ -529,9 +620,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateLinks(lang) {
     document.querySelectorAll('.nav-link').forEach(link => {
-      const href = link.getAttribute('href');
-      if (!href || href === '#') return;
-      const base = href.split('/').pop().replace(/_ru|_eng/g, '');
+      if (!link.dataset.hrefBase) {
+        const href = link.getAttribute('href');
+        if (!href || href === '#') return;
+        link.dataset.hrefBase = href.split('/').pop();
+      }
+      const base = link.dataset.hrefBase;
       const paths = {
         tj: `other_links/${base}`,
         ru: `ru/${base.replace('.html', '_ru.html')}`,
@@ -567,13 +661,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLinks(currentLang);
   })();
 
-  // Load Excel data and refresh chart (after initial render with fallback)
   showSlide(0);
 
   loadFromExcel().then(loaded => {
     if (loaded) {
-      applyLanguage(currentLang);   // refreshes section_period, inflation_month, etc.
-      updateChart(currentSlide);
+      applyLanguage(currentLang);
+      updateLinks(currentLang);
     }
   });
 
