@@ -2,20 +2,56 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Диаграмма</title>
+<title>Диаграммы — НБТ</title>
 
-<script src="../js/chart.umd.min.js" defer></script>
-<script src="../js/xlsx.full.min.js"></script>
-
-<style>
-  .chart-card { margin-bottom: 2rem; }
-</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/detail.css">
+<script src="../js/chart.umd.min.js" defer></script>
+<script src="../js/xlsx.full.min.js" defer></script>
+
+<style>
+  .page-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--navy); margin-bottom: 1.5rem; line-height: 1.25; }
+  .chart-card { margin-bottom: 2rem; }
+  .read-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #6366f1); width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none; }
+  .back-to-top { position: fixed; bottom: 28px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: #3b82f6; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(59,130,246,0.35); opacity: 0; transform: translateY(12px); transition: opacity 0.25s, transform 0.25s, background 0.2s; pointer-events: none; z-index: 9998; }
+  .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
+  .chart-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4rem 1rem; color:#94a3b8; font-size:0.9rem; gap:1rem; }
+  .chart-loading__spinner { width:32px; height:32px; border:3px solid #e2e8f0; border-top-color:#3b82f6; border-radius:50%; animation:spin 0.8s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .btn-chart--active { background:#fff7ed !important; border-color:#f59e0b !important; color:#f59e0b !important; }
+  .date-range-wrap { position:relative; }
+  .date-range-btn { display:flex; align-items:center; gap:6px; padding:5px 12px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; font-size:0.8rem; color:#475569; cursor:pointer; white-space:nowrap; font-family:inherit; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+  .date-range-btn:hover { border-color:#94a3b8; background:#f8fafc; }
+  .date-range-btn svg { flex-shrink:0; stroke:#94a3b8; }
+  .date-range-dropdown { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); z-index:200; flex-direction:column; gap:6px; min-width:172px; }
+  .date-range-dropdown.open { display:flex; }
+  .date-range-dropdown input[type="month"] { width:100%; padding:5px 8px; border:1px solid #e2e8f0; border-radius:6px; font-size:0.8rem; font-family:inherit; color:#1e293b; background:#fff; cursor:pointer; outline:none; transition:border-color 0.15s; }
+  .date-range-dropdown input[type="month"]:focus { border-color:#64748b; }
+  .date-range-dropdown .btn-chart--apply { width:100%; justify-content:center; margin-top:2px; padding:6px 0; border-radius:6px; font-size:0.78rem; background:#1e293b; border-color:#1e293b; color:#fff; }
+  .date-range-dropdown .btn-chart--apply:hover { background:#0f172a; border-color:#0f172a; }
+  .chart-source { font-size:0.72rem; color:#94a3b8; padding:5px 0 0; text-align:right; }
+  .btn-overlay { display:flex; align-items:center; gap:5px; padding:5px 10px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; font-size:0.78rem; color:#64748b; cursor:pointer; white-space:nowrap; font-family:inherit; transition:border-color 0.15s,color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+  .btn-overlay:hover { border-color:#94a3b8; background:#f8fafc; }
+  .btn-overlay-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; transition:transform 0.15s; }
+  .btn-overlay--active .btn-overlay-dot { transform:scale(1.3); }
+  .btn-overlay--active { background:#f8fafc; font-weight:500; }
+  .chart-lastval { font-size:1rem; font-weight:800; margin-left:10px; padding:2px 8px; border-radius:6px; background:rgba(0,0,0,0.05); letter-spacing:0.01em; }
+  .page-updated { font-size:0.78rem; color:#94a3b8; text-align:right; padding:0 0 1.5rem; }
+  @media (max-width:640px) {
+    .chart-card__header { flex-direction:column; align-items:flex-start; gap:8px; }
+    .chart-toolbar { flex-wrap:wrap; gap:6px; }
+    .date-range-dropdown { left:auto; right:0; }
+    .chart-canvas-wrap canvas { max-height:220px; }
+  }
+</style>
 </head>
 
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Наверх">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 <header class="page-header">
   <div class="page-header__inner">
     <a href="../index.html" class="back-btn">Асосӣ</a>
@@ -30,96 +66,184 @@
 <div class="page-wrap"><div class="container" id="charts"></div></div>
 
 
-  <script>
+<script>
 
-// ================= DATASETS =================
+const SRC_NBT   = 'Источник: Национальный банк Таджикистана';
+const SRC_STAT  = 'Источник: Агентство по статистике при Президенте Республики Таджикистан';
+const SRC_BOTH  = 'Источник: Национальный банк Таджикистана; Агентство по статистике при Президенте Республики Таджикистан';
+
+const RU_MONTHS=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+function fmtRUDate(d){if(!d)return'—';const[y,m]=d.split('-').map(Number);return RU_MONTHS[m-1]+' '+y;}
+
 const datasets = [
-  {
-    id:"inflation",
-    title:"Изменение уровня инфляции",
-    color:"#3b82f6",
-    mode:"yearly" // по умолчанию годовая
+  { id:"inflation", title:"Изменение уровня инфляции", color:"#3b82f6", mode:"yearly", source:SRC_STAT },
+  { id:"sahm", title:"Инфляция по компонентам", stacked:true, source:SRC_STAT,
+    lines:[
+      { id:"sahm_f",  label:"Продовольственные",     color:"#3b82f6" },
+      { id:"sahm_nf", label:"Непродовольственные",    color:"#f59e0b" },
+      { id:"sahm_s",  label:"Услуги",              color:"#22c55e" },
+    ],
+    overlays:[
+      { id:"inflation", dataKey:"yearly", label:"Инфляция (годовая)", color:"#c0504d", tension:0.4 }
+    ]
   },
-  {id:"rate",title:"Ставка рефинансирования",color:"#64748b"},
-  {id:"bonds",title:"Проценты по ценным бумагам НБТ",color:"#22c55e"},
-  {id:"interbank",title:"Проценты по межбанковским кредитам",color:"#f59e0b"}
+  { id:"rate", title:"Ставка рефинансирования", color:"#1e40af", source:SRC_BOTH,
+    overlays:[
+      { id:"inflation", dataKey:"yearly", label:"Инфляция (годовая)", color:"#c0504d", tension:0.4 }
+    ]
+  },
+  { id:"bondsinterbank", title:"Проценты по ценным бумагам НБТ и межбанковским кредитам",
+    combined:true, source:SRC_NBT,
+    lines:[
+      { id:"bonds",     label:"Ценные бумаги НБТ", color:"#22c55e", tension:0.4 },
+      { id:"interbank", label:"Межбанк",      color:"#f59e0b", tension:0.4 }
+    ],
+    overlays:[
+      { id:"rate", dataKey:"data", label:"Ставка рефинансирования", color:"#1e40af", stepped:true, tension:0 }
+    ]
+  },
+  { id:"monagg", title:"Денежные агрегаты", combined:true, isLarge:true, source:SRC_NBT,
+    lines:[
+      { id:"m4", label:"M4", color:"#8b5cf6", tension:0.4 },
+      { id:"m2", label:"M2", color:"#10b981", tension:0.4 },
+      { id:"m1", label:"M1", color:"#3b82f6", tension:0.4 },
+      { id:"m0", label:"M0", color:"#f59e0b", tension:0.4 }
+    ]
+  }
 ];
 
 const charts = {};
 
-// ================= INIT =================
-document.addEventListener("DOMContentLoaded",()=>{
-  loadChartData();
-});
+document.addEventListener("DOMContentLoaded",()=>{ loadChartData(); });
 
-// ================= LOAD EXCEL =================
 async function loadChartData(){
-  const res = await fetch("../data/data.xlsx");
-  const buffer = await res.arrayBuffer();
-
+  document.getElementById('charts').innerHTML='<div class="chart-loading"><div class="chart-loading__spinner"></div>Загрузка данных...</div>';
+  let buffer;
+  try {
+    const res = await fetch("../data/data.xlsx");
+    if(!res.ok) throw new Error(res.status);
+    buffer = await res.arrayBuffer();
+  } catch(err) {
+    document.getElementById('charts').innerHTML='<div class="chart-loading" style="color:#ef4444">Ошибка загрузки данных</div>';
+    return;
+  }
   const wb = XLSX.read(buffer,{type:"array"});
   const sheet = wb.Sheets[wb.SheetNames[0]];
   const json = XLSX.utils.sheet_to_json(sheet,{defval:""});
 
-  const parsed={
-    inflation:[],
-    inflation_y:[], // добавили годовую
-    rate:[],
-    bonds:[],
-    interbank:[]
-  };
-
+  const parsed={ inflation:[], inflation_y:[], rate:[], bonds:[], interbank:[], m0:[], m1:[], m2:[], m4:[], m2_yoy:[], m4_yoy:[], sahm_f:[], sahm_nf:[], sahm_s:[] };
   const labels=[];
 
   json.forEach(row=>{
-    const date=row.date;
-    if(!date) return;
-
-    const infl=toNum(row.inflation);
-    const infl_y=toNum(row.inflation_y); // новое поле
-
-    const rate=toNum(row.rate);
-    const bonds=toNum(row.bonds);
-    const interbank=toNum(row.interbank);
-
-    // skip completely empty rows
-    if(infl===null && infl_y===null && rate===null && bonds===null && interbank===null) return;
-
+    const date=row.date; if(!date) return;
+    const infl=toNum(row.inflation), infl_y=toNum(row.inflation_y);
+    const rate=toNum(row.rate_eom), bonds=toNum(row.bonds), interbank=toNum(row.interbank);
+    const m0=toNum(row.m0), m1=toNum(row.m1), m2=toNum(row.m2), m4=toNum(row.m4);
+    const sahm_f=toNum(row.inf_sahm_f), sahm_nf=toNum(row.inf_sahm_nf), sahm_s=toNum(row.inf_sahm_s);
+    if(infl===null&&infl_y===null&&rate===null&&bonds===null&&interbank===null&&m0===null&&m1===null&&m2===null&&m4===null&&sahm_f===null&&sahm_nf===null&&sahm_s===null) return;
     labels.push(date);
-
-    parsed.inflation.push(infl);
-    parsed.inflation_y.push(infl_y);
-
-    parsed.rate.push(rate);
-    parsed.bonds.push(bonds);
-    parsed.interbank.push(interbank);
+    parsed.inflation.push(infl); parsed.inflation_y.push(infl_y);
+    parsed.rate.push(rate); parsed.bonds.push(bonds); parsed.interbank.push(interbank);
+    parsed.m0.push(m0); parsed.m1.push(m1); parsed.m2.push(m2); parsed.m4.push(m4);
+    parsed.sahm_f.push(sahm_f); parsed.sahm_nf.push(sahm_nf); parsed.sahm_s.push(sahm_s);
   });
+
+  const _prevDate=d=>{const[y,m]=d.split('-').map(Number);return`${y-1}-${String(m).padStart(2,'0')}`;};
+  for(const k of['m2','m4']){
+    parsed[k+'_yoy']=labels.map((d,i)=>{
+      const pi=labels.indexOf(_prevDate(d));
+      const cur=parsed[k][i],prev=pi>=0?parsed[k][pi]:null;
+      return(cur!==null&&prev!==null&&prev>0)?+((cur-prev)/prev*100).toFixed(2):null;
+    });
+  }
 
   datasets.forEach(ds=>{
     ds.labels=labels;
-
     if(ds.id==="inflation"){
-      ds.data_monthly=parsed.inflation;
-      ds.data_yearly=parsed.inflation_y;
-
-      // по умолчанию годовая
-      ds.data = ds.data_yearly;
+      ds.data_monthly=parsed.inflation; ds.data_yearly=parsed.inflation_y; ds.data=ds.data_yearly;
+    } else if(ds.stacked){
+      ds.lines.forEach(ln=>{ ln.data=parsed[ln.id]; });
+      ds.data=ds.lines[0].data;
+    } else if(ds.combined){
+      ds.lines.forEach(ln=>{ ln.data=parsed[ln.id]; });
+      if(ds.id==='monagg'){
+        ds.lines[0].yoy_data=parsed.m4_yoy;
+        ds.lines[1].yoy_data=parsed.m2_yoy;
+        ds.monaggMode='level';
+      }
+      ds.data=ds.lines[0].data;
     } else {
       ds.data=parsed[ds.id];
     }
   });
 
+  datasets.forEach(ds=>{
+    let li=-1;
+    if(ds.combined||ds.stacked){
+      ds.lines.forEach(ln=>{for(let i=ln.data.length-1;i>=0;i--){if(ln.data[i]!==null){if(i>li)li=i;break;}}});
+    } else {
+      const d=ds.id==='inflation'?ds.data_yearly:ds.data;
+      for(let i=d.length-1;i>=0;i--){if(d[i]!==null){li=i;break;}}
+    }
+    ds.lastDate=li>=0?labels[li]:null;
+  });
+
   initCharts();
 }
 
-// ================= NUMBER FIX =================
 function toNum(v){
   if(v===undefined||v===null||v==="") return null;
-  const n = parseFloat(String(v).replace(",", "."));
-  return isNaN(n) ? null : n;
+  const n=parseFloat(String(v).replace(",","."));
+  return isNaN(n)?null:n;
+}
+function barColors(data){ return data.map(v=>v===null?'transparent':v>=0?'#3b82f680':'#ef444455'); }
+function barBorderColors(data){ return data.map(v=>v===null?'transparent':v>=0?'#3b82f6':'#ef4444'); }
+function computeRangeZero(nums){
+  if(!nums.length) return {min:-2,max:2,step:1};
+  const lo=Math.min(0,Math.min(...nums)),hi=Math.max(0,Math.max(...nums));
+  const range=hi-lo, step=range<3?0.5:range<8?1:range<20?2:5;
+  return {min:Math.floor((lo-step)/step)*step,max:Math.ceil((hi+step)/step)*step,step};
+}
+function computeRange(values){
+  const nums=values.filter(v=>v!==null);
+  if(!nums.length) return {min:0,max:10,step:2};
+  const lo=Math.min(...nums),hi=Math.max(...nums);
+  const step=hi-lo<5?1:hi-lo<15?2:5;
+  const mid=(lo+hi)/2, half=Math.ceil(((hi-lo)/2+step)/step)*step;
+  return {min:Math.max(0,Math.floor((mid-half)/step)*step),max:Math.ceil((mid+half)/step)*step,step};
+}
+function computeRangeLarge(values){
+  const nums=values.filter(v=>v!==null);
+  if(!nums.length) return {min:0,max:10000,step:2000};
+  const lo=Math.min(...nums),hi=Math.max(...nums);
+  const rawStep=(hi-lo)/5;
+  const mag=Math.pow(10,Math.floor(Math.log10(rawStep||1)));
+  const n=rawStep/mag;
+  const nice=n<1.5?1:n<3.5?2:n<7.5?5:10;
+  const step=nice*mag;
+  const mid=(lo+hi)/2,half=Math.ceil(((hi-lo)/2+step)/step)*step;
+  return {min:Math.max(0,Math.floor((mid-half)/step)*step),max:Math.ceil((mid+half)/step)*step,step};
+}
+function computeStackedSums(lines,s,e){
+  return Array.from({length:e-s},(_,i)=>{
+    const vals=lines.map(ln=>ln.data[s+i]).filter(v=>v!==null);
+    return vals.length?vals.reduce((a,b)=>a+b,0):null;
+  }).filter(v=>v!==null);
+}
+function computeRangeTight(values){
+  const nums=values.filter(v=>v!==null);
+  if(!nums.length) return {min:0,max:10,step:2};
+  const lo=Math.min(...nums),hi=Math.max(...nums);
+  const step=hi-lo<5?1:hi-lo<15?2:5;
+  const mid=(lo+hi)/2, half=Math.ceil(((hi-lo)/2+step)/step)*step;
+  return {min:Math.floor((mid-half)/step)*step,max:Math.ceil((mid+half)/step)*step,step};
 }
 
-// ================= INIT CHARTS =================
+function fmtVal(val,id){
+  if(id==='rate') return val.toFixed(2).replace('.',',');
+  return val.toFixed(1).replace('.',',');
+}
+
 function initCharts(){
   const container=document.getElementById("charts");
   container.innerHTML="";
@@ -137,30 +261,41 @@ function initCharts(){
             <button class="chart-type-btn active" id="infl-btn-yearly" onclick="switchInflation('yearly')">Годовая</button>
             <button class="chart-type-btn" id="infl-btn-monthly" onclick="switchInflation('monthly')">Ежемесячная</button>
           </div>` : ""}
+          ${ds.id==="monagg" ? `
+          <div class="chart-type-toggle">
+            <button class="chart-type-btn active" id="monagg-btn-level" onclick="switchMonagg('level')">Уровень</button>
+            <button class="chart-type-btn" id="monagg-btn-growth" onclick="switchMonagg('growth')">Прирост %</button>
+          </div>` : ""}
         </div>
         <div class="chart-toolbar">
-          <div class="date-range">
-            <span class="date-range__label">От</span>
-            <input type="month" id="${ds.id}-start">
-            <span class="date-range-sep">—</span>
-            <span class="date-range__label">До</span>
-            <input type="month" id="${ds.id}-end">
+          ${ds.stacked ?
+            [...ds.lines.map((ln,i)=>`<button class="btn-overlay btn-overlay--active" id="${ds.id}-line-${i}" style="border-color:${ln.color};color:${ln.color}" onclick="toggleStackedLine('${ds.id}',${i})"><span class="btn-overlay-dot" style="background:${ln.color}"></span>${ln.label}</button>`),
+             ...(ds.overlays||[]).map((ov,i)=>`<button class="btn-overlay btn-overlay--active" id="${ds.id}-overlay-${i}" style="border-color:${ov.color};color:${ov.color}" onclick="toggleStackedOverlay('${ds.id}',${i})"><span class="btn-overlay-dot" style="background:${ov.color}"></span>${ov.label}</button>`)
+            ].join('')
+            : ds.combined ?
+            [...(ds.lines||[]).map((ln,i)=>`<button class="btn-overlay btn-overlay--active" id="${ds.id}-line-${i}" style="border-color:${ln.color};color:${ln.color}" onclick="toggleCombinedLine('${ds.id}',${i})"><span class="btn-overlay-dot" style="background:${ln.color}"></span>${ln.label}</button>`),
+             ...(ds.overlays||[]).map((ov,i)=>`<button class="btn-overlay" id="${ds.id}-overlay-${i}" onclick="toggleCombinedOverlay('${ds.id}',${i})"><span class="btn-overlay-dot" style="background:${ov.color}"></span>${ov.label}</button>`)
+            ].join('')
+            :(ds.overlays||[]).map((ov,i)=>`<button class="btn-overlay" id="${ds.id}-overlay-${i}" onclick="toggleOverlay('${ds.id}',${i})"><span class="btn-overlay-dot" style="background:${ov.color}"></span>${ov.label}</button>`).join('')}
+          <div class="date-range-wrap" id="${ds.id}-drwrap">
+            <button class="date-range-btn" onclick="toggleDatePicker('${ds.id}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span id="${ds.id}-range-label"></span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="date-range-dropdown" id="${ds.id}-dropdown">
+              <input type="month" id="${ds.id}-start">
+              <input type="month" id="${ds.id}-end">
+              <button class="btn-chart btn-chart--apply" onclick="applyDateRange('${ds.id}')">Применить</button>
+            </div>
           </div>
-          <button class="btn-chart btn-chart--apply" onclick="updateChart('${ds.id}')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            OK
-          </button>
-          <button class="btn-chart" onclick="resetChart('${ds.id}')">
+          <button class="btn-chart" id="${ds.id}-reset-btn" onclick="resetChart('${ds.id}')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            Reset
+            Сброс
           </button>
-          <button class="btn-chart" onclick="exportPNG('${ds.id}')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l4 4 4-4"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
-            PNG
-          </button>
-          <button class="btn-chart" onclick="exportCSV('${ds.id}')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-            CSV
+          <button class="btn-chart" onclick="exportXLS('${ds.id}')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            xlsx
           </button>
         </div>
       </div>
@@ -168,222 +303,732 @@ function initCharts(){
         <div class="chart-canvas-wrap">
           <canvas id="${ds.id}Chart"></canvas>
         </div>
+        <div class="chart-source" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px">
+          <span>${ds.source||SRC_NBT}</span>
+          <span>Последнее обновление: ${fmtRUDate(ds.lastDate)}</span>
+        </div>
       </div>
     `;
 
     container.appendChild(block);
-    createChart(ds);
+    ds.stacked ? createStackedChart(ds) : ds.combined ? createCombinedChart(ds) : createChart(ds);
   });
 }
 
-// ================= Y-AXIS RANGE =================
-function computeRange(values){
-  const nums = values.filter(v => v !== null);
-  if(!nums.length) return { min: 0, max: 10, step: 2 };
-  const lo = Math.min(...nums), hi = Math.max(...nums);
-  const step = hi - lo < 5 ? 1 : hi - lo < 15 ? 2 : 5;
-  const mid = (lo + hi) / 2;
-  const half = Math.ceil(((hi - lo) / 2 + step) / step) * step;
-  return {
-    min: Math.max(0, Math.floor((mid - half) / step) * step),
-    max: Math.ceil((mid + half) / step) * step,
-    step
-  };
+function updateLastVal(id){
+  const ds=datasets.find(d=>d.id===id); if(ds.combined||ds.stacked)return;
+  const chart=charts[id]; const el=document.getElementById(id+'-lastval');
+  if(!el||!chart)return;
+  const data=chart.data.datasets[0].data;
+  let last=null; for(let i=data.length-1;i>=0;i--){if(data[i]!==null){last=data[i];break;}}
+  el.textContent=last!==null?fmtVal(last,id)+'%':'';
 }
 
-// ================= CREATE CHART =================
+function getOverlaySlice(ov, labels, globalLabels){
+  const srcDs=datasets.find(d=>d.id===ov.id);
+  if(!srcDs) return labels.map(()=>null);
+  const srcArr=ov.dataKey==='yearly'?srcDs.data_yearly:srcDs.data;
+  if(!srcArr) return labels.map(()=>null);
+  return labels.map(l=>{const j=globalLabels.indexOf(l);return j>=0?(srcArr[j]??null):null;});
+}
+
 function createChart(ds){
+  const startIndex=ds.data.findIndex(v=>v!==null);
+  const _r=ds.id==='rate';
+  const allLabels=ds.labels.slice(startIndex);
+  const allData=ds.data.slice(startIndex);
+  let labels=allLabels, data=allData;
+  if(_r||ds.id==='inflation'){
+    const si=allLabels.findIndex(l=>l>='2010-01');
+    if(si>0){ labels=allLabels.slice(si); data=allData.slice(si); }
+  }
 
-  const startIndex = ds.data.findIndex(v => v !== null);
-  const labels = ds.labels.slice(startIndex);
-  const data = ds.data.slice(startIndex);
-  const r = computeRange(data);
+  const bgFill=ctx2=>{const{ctx:c,chartArea}=ctx2.chart;if(!chartArea)return ds.color+'33';const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,ds.color+'99');g.addColorStop(1,ds.color+'00');return g;};
+  ds._bgFill=bgFill;
 
+  const chartDatasets=[{
+    label:ds.title, data,
+    borderColor:ds.color,
+    borderWidth:_r?2:1.5,
+    backgroundColor:bgFill,
+    fill:true, tension:_r?0:0.4, stepped:_r?'before':false,
+    pointRadius:0, pointHoverRadius:5,
+    pointHoverBackgroundColor:ds.color, pointHoverBorderColor:'#fff', pointHoverBorderWidth:2,
+    spanGaps:true
+  }];
+
+  (ds.overlays||[]).forEach(ov=>{
+    chartDatasets.push({
+      label:ov.label, data:getOverlaySlice(ov,labels,ds.labels),
+      hidden:true,
+      borderColor:ov.color, borderWidth:1.5,
+      fill:false, tension:ov.tension??0.4, stepped:ov.stepped?'before':false,
+      pointRadius:0, pointHoverRadius:4, spanGaps:true
+    });
+  });
+
+  const r=_r?{...computeRange(data.filter(v=>v!==null)),min:0}:computeRange(data.filter(v=>v!==null));
   const ctx=document.getElementById(ds.id+"Chart");
-
   charts[ds.id]=new Chart(ctx,{
-    type:"line",
-    data:{
-      labels,
-      datasets:[{
-        label:ds.title,
-        data,
-        borderColor:ds.color,
-        backgroundColor:ds.color+"33",
-        fill:true,
-        tension:0.4,
-        pointRadius:0,
-        spanGaps:true
-      }]
-    },
+    type:"line", plugins:[],
+    data:{ labels, datasets:chartDatasets },
     options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      interaction:{ mode:'index', intersect:false },
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
       plugins:{
-        legend:{ display:false },
+        legend:{display:false},
         tooltip:{
           callbacks:{
-            label: c => c.parsed.y !== null ? ` ${c.parsed.y.toFixed(1).replace('.',',')}%` : ''
+            title:()=>'',
+            label:c=>{
+              if(c.parsed.y===null)return'';
+              const val=c.parsed.y,lbl=c.chart.data.labels[c.dataIndex];
+              const vs=fmtVal(val,ds.id);
+              if(_r&&c.datasetIndex===0){
+                const pd=c.chart.data.datasets[0].data;
+                let prev=null;for(let i=c.dataIndex-1;i>=0;i--){if(pd[i]!==null){prev=pd[i];break;}}
+                if(prev!==null&&Math.abs(val-prev)>0.0001){const d=val-prev,s2=d>=0?'+':'',a=d>=0?'▲':'▼';return`${lbl}: ${vs}% (${a} ${s2}${fmtVal(d,ds.id)}%)`;}
+              }
+              return`${lbl}: ${vs}%`;
+            },
+            labelColor:c=>{const color=c.datasetIndex===0?ds.color:(ds.overlays?.[c.datasetIndex-1]?.color||ds.color);return{borderColor:color,backgroundColor:color};}
           }
         }
       },
       scales:{
-        x:{ticks:{ color:"#475569", maxTicksLimit:12, maxRotation:45, minRotation:45 }},
-        y:{min:r.min, max:r.max, ticks:{ color:"#475569", stepSize:r.step }}
+        x:{grid:{color:'#e6e6e6'},ticks:{color:"#666",maxTicksLimit:12,maxRotation:45,minRotation:45}},
+        y:{min:r.min,max:r.max,grid:{color:'#e6e6e6'},ticks:{color:"#666",stepSize:r.step,callback:v=>v+'%'}}
       }
     }
   });
 
-  document.getElementById(ds.id+"-start").value=labels[0];
-  document.getElementById(ds.id+"-end").value=labels[labels.length-1];
+  const si=document.getElementById(ds.id+"-start");
+  const ei=document.getElementById(ds.id+"-end");
+  si.min=allLabels[0]; si.max=allLabels[allLabels.length-1];
+  ei.min=allLabels[0]; ei.max=allLabels[allLabels.length-1];
+  si.value=labels[0]; ei.value=labels[labels.length-1];
+  updateRangeLabel(ds.id);
+  updateLastVal(ds.id);
 }
 
-// ================= SWITCH INFLATION =================
-function switchInflation(type){
-  const ds = datasets.find(d=>d.id==="inflation");
-  const chart = charts["inflation"];
-
-  ds.mode = type;
-
-  const allLabels = ds.labels;
-  const curLabels = chart.data.labels;
-  const si = allLabels.indexOf(curLabels[0]);
-  const ei = allLabels.indexOf(curLabels[curLabels.length - 1]);
-
-  const allValues = type === "monthly" ? ds.data_monthly : ds.data_yearly;
-  const sliced = si >= 0 && ei >= 0 ? allValues.slice(si, ei + 1) : allValues;
-  chart.data.datasets[0].data = sliced;
-  chart.data.datasets[0].label = type === 'monthly' ? 'Месячная инфляция (%)' : 'Годовая инфляция (%)';
-
-  if(type === 'monthly'){
-    chart.options.scales.y.min = undefined;
-    chart.options.scales.y.max = undefined;
-    chart.options.scales.y.ticks.stepSize = undefined;
-  } else {
-    const r = computeRange(sliced.filter(v => v !== null));
-    chart.options.scales.y.min = r.min;
-    chart.options.scales.y.max = r.max;
-    chart.options.scales.y.ticks.stepSize = r.step;
+function toggleOverlay(chartId, ovIdx){
+  const chart=charts[chartId];
+  const ds=datasets.find(d=>d.id===chartId);
+  const ovDs=chart.data.datasets[ovIdx+1];
+  const showing=ovDs.hidden;
+  ovDs.hidden=!showing;
+  const btn=document.getElementById(`${chartId}-overlay-${ovIdx}`);
+  const color=ds.overlays[ovIdx].color;
+  if(btn){
+    btn.classList.toggle('btn-overlay--active',showing);
+    btn.style.borderColor=showing?color:'';
+    btn.style.color=showing?color:'';
   }
-
-  document.getElementById('infl-btn-yearly').classList.toggle('active', type==='yearly');
-  document.getElementById('infl-btn-monthly').classList.toggle('active', type==='monthly');
+  const anyOn=chart.data.datasets.slice(1).some(d=>!d.hidden);
+  chart.data.datasets[0].fill=!anyOn;
+  if(!anyOn) chart.data.datasets[0].backgroundColor=ds._bgFill;
   chart.update();
 }
 
-// ================= FILTER =================
+function createStackedChart(ds){
+  const indices=ds.lines.map(ln=>ln.data.findIndex(v=>v!==null)).filter(i=>i>=0);
+  const startIndex=indices.length?Math.min(...indices):0;
+  const labels=ds.labels.slice(startIndex);
+  const r=computeRangeZero(computeStackedSums(ds.lines,startIndex,ds.labels.length));
+  const nLines=ds.lines.length;
+  const chartDatasets=ds.lines.map(ln=>({
+    label:ln.label, data:ln.data.slice(startIndex),
+    backgroundColor:ln.color+'77', borderColor:ln.color,
+    borderWidth:1, borderRadius:3, maxBarThickness:28, stack:'s', type:'bar',
+  }));
+  (ds.overlays||[]).forEach(ov=>{
+    chartDatasets.push({
+      label:ov.label, data:getOverlaySlice(ov,labels,ds.labels),
+      hidden:false, type:'line',
+      borderColor:ov.color, borderWidth:2,
+      fill:false, tension:ov.tension??0.4,
+      pointRadius:0, pointHoverRadius:5,
+      pointHoverBackgroundColor:ov.color, pointHoverBorderColor:'#fff', pointHoverBorderWidth:2,
+      spanGaps:true, order:-1,
+    });
+  });
+  const ctx=document.getElementById(ds.id+"Chart");
+  charts[ds.id]=new Chart(ctx,{
+    type:"bar",
+    data:{labels, datasets:chartDatasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          title:()=>'',
+          label:c=>{
+            if(c.parsed.y===null)return'';
+            const lbl=c.chart.data.labels[c.dataIndex];
+            const val=c.parsed.y;
+            const isOverlay=c.datasetIndex>=nLines;
+            if(!isOverlay&&!val)return'';
+            const fmt=isOverlay?val.toFixed(1).replace('.',',')+' %':val.toFixed(2).replace('.',',')+' п.п.';
+            return`${lbl} · ${c.dataset.label}: ${fmt}`;
+          },
+          labelColor:c=>{
+            const color=c.datasetIndex<nLines?(ds.lines[c.datasetIndex]?.color||'#64748b'):(ds.overlays?.[c.datasetIndex-nLines]?.color||'#64748b');
+            return{borderColor:color,backgroundColor:color};
+          }
+        }}
+      },
+      scales:{
+        x:{stacked:true,grid:{display:false},ticks:{color:"#666",font:{size:10},maxTicksLimit:10,maxRotation:0,minRotation:0}},
+        y:{stacked:true,min:r.min,max:r.max,grid:{color:'#e6e6e6'},ticks:{color:"#666",font:{size:10},stepSize:r.step,callback:v=>v}}
+      }
+    }
+  });
+  const si=document.getElementById(ds.id+"-start"); const ei=document.getElementById(ds.id+"-end");
+  si.min=ds.labels[startIndex]; si.max=ds.labels[ds.labels.length-1];
+  ei.min=ds.labels[startIndex]; ei.max=ds.labels[ds.labels.length-1];
+  si.value=labels[0]; ei.value=labels[labels.length-1];
+  updateRangeLabel(ds.id);
+}
+
+function toggleStackedLine(chartId, lineIdx){
+  const chart=charts[chartId];
+  const ds=datasets.find(d=>d.id===chartId);
+  const wasHidden=chart.data.datasets[lineIdx].hidden;
+  chart.data.datasets[lineIdx].hidden=!wasHidden;
+  const btn=document.getElementById(`${chartId}-line-${lineIdx}`);
+  const color=ds.lines[lineIdx].color;
+  if(btn){
+    btn.classList.toggle('btn-overlay--active',wasHidden);
+    btn.style.borderColor=wasHidden?color:'';
+    btn.style.color=wasHidden?color:'';
+  }
+  chart.update();
+}
+
+function toggleStackedOverlay(chartId, ovIdx){
+  const chart=charts[chartId];
+  const ds=datasets.find(d=>d.id===chartId);
+  const dsIdx=ds.lines.length+ovIdx;
+  const wasHidden=chart.data.datasets[dsIdx].hidden;
+  chart.data.datasets[dsIdx].hidden=!wasHidden;
+  const btn=document.getElementById(`${chartId}-overlay-${ovIdx}`);
+  const color=ds.overlays[ovIdx].color;
+  if(btn){
+    btn.classList.toggle('btn-overlay--active',wasHidden);
+    btn.style.borderColor=wasHidden?color:'';
+    btn.style.color=wasHidden?color:'';
+  }
+  chart.update();
+}
+
+function createCombinedChart(ds){
+  let startIndex=ds.labels.length;
+  ds.lines.forEach(ln=>{const si=ln.data.findIndex(v=>v!==null);if(si>=0&&si<startIndex)startIndex=si;});
+  if(ds.id==='monagg'){
+    const si2=ds.labels.findIndex(l=>l>='2010-01');
+    if(si2>startIndex) startIndex=si2;
+  }
+  const labels=ds.labels.slice(startIndex);
+  ds.lines.forEach(ln=>{
+    ln._bgFill=ctx2=>{const{ctx:c,chartArea}=ctx2.chart;if(!chartArea)return ln.color+'33';const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,ln.color+'99');g.addColorStop(1,ln.color+'00');return g;};
+  });
+  const chartDatasets=[];
+  ds.lines.forEach(ln=>{
+    chartDatasets.push({
+      label:ln.label, data:ln.data.slice(startIndex),
+      hidden:false, borderColor:ln.color, borderWidth:1.5,
+      backgroundColor:'transparent', fill:false, tension:ln.tension??0.4,
+      pointRadius:0, pointHoverRadius:5,
+      pointHoverBackgroundColor:ln.color, pointHoverBorderColor:'#fff', pointHoverBorderWidth:2,
+      spanGaps:true
+    });
+  });
+  (ds.overlays||[]).forEach(ov=>{
+    chartDatasets.push({
+      label:ov.label, data:getOverlaySlice(ov,labels,ds.labels),
+      hidden:true, borderColor:ov.color, borderWidth:1.5,
+      fill:false, tension:ov.tension??0, stepped:ov.stepped?'before':false,
+      pointRadius:0, pointHoverRadius:4, spanGaps:true
+    });
+  });
+  const allVals=ds.lines.flatMap(ln=>ln.data.slice(startIndex)).filter(v=>v!==null);
+  const hasNeg=allVals.some(v=>v<0);
+  const r=ds.isLarge?computeRangeLarge(allVals):hasNeg?computeRangeTight(allVals):computeRange(allVals);
+  const ctx=document.getElementById(ds.id+"Chart");
+  charts[ds.id]=new Chart(ctx,{
+    type:"line", plugins:[],
+    data:{labels, datasets:chartDatasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          title:()=>'',
+          label:c=>{
+            if(c.parsed.y===null)return'';
+            const lbl=c.chart.data.labels[c.dataIndex];
+            const dsLabel=c.chart.data.datasets[c.datasetIndex].label;
+            const val=c.parsed.y;
+            if(ds.isLarge) return`${lbl} · ${dsLabel}: ${(val/1000).toFixed(1)} млрд сом.`;
+            return`${lbl} · ${dsLabel}: ${val.toFixed(1).replace('.',',')}%`;
+          },
+          labelColor:c=>{const nLines=ds.lines.length;const color=c.datasetIndex<nLines?ds.lines[c.datasetIndex].color:(ds.overlays?.[c.datasetIndex-nLines]?.color||'#64748b');return{borderColor:color,backgroundColor:color};}
+        }}
+      },
+      scales:{
+        x:{grid:{color:'#e6e6e6'},ticks:{color:"#666",maxTicksLimit:12,maxRotation:45,minRotation:45}},
+        y:{min:r.min,max:r.max,grid:{color:'#e6e6e6'},ticks:{color:"#666",stepSize:r.step,callback:v=>ds.isLarge?(v/1000).toFixed(0)+' млрд':v+'%'}}
+      }
+    }
+  });
+  const allLabels=ds.labels;
+  let firstDataIdx=ds.labels.length;
+  ds.lines.forEach(ln=>{const fi=ln.data.findIndex(v=>v!==null);if(fi>=0&&fi<firstDataIdx)firstDataIdx=fi;});
+  const firstDataDate=firstDataIdx<ds.labels.length?ds.labels[firstDataIdx]:ds.labels[0];
+  const si=document.getElementById(ds.id+"-start");
+  const ei=document.getElementById(ds.id+"-end");
+  si.min=firstDataDate; si.max=allLabels[allLabels.length-1];
+  ei.min=firstDataDate; ei.max=allLabels[allLabels.length-1];
+  si.value=labels[0]; ei.value=labels[labels.length-1];
+  updateRangeLabel(ds.id);
+}
+
+function updateCombinedFill(chartId){
+  const chart=charts[chartId];
+  const ds=datasets.find(d=>d.id===chartId);
+  const nLines=ds.lines.length;
+  const lineDs=chart.data.datasets.slice(0,nLines);
+  const activeLineCount=lineDs.filter(d=>!d.hidden).length;
+  const anyOverlayVisible=(ds.overlays||[]).some((ov,i)=>!chart.data.datasets[nLines+i].hidden);
+  lineDs.forEach((d,i)=>{
+    if(!d.hidden&&activeLineCount===1&&!anyOverlayVisible){d.fill=true;d.backgroundColor=ds.lines[i]._bgFill;}
+    else{d.fill=false;d.backgroundColor='transparent';}
+  });
+}
+
+function toggleCombinedLine(chartId, lineIdx){
+  const chart=charts[chartId];
+  const ds=datasets.find(d=>d.id===chartId);
+  const lineDs=chart.data.datasets[lineIdx];
+  const wasHidden=lineDs.hidden;
+  lineDs.hidden=!wasHidden;
+  const btn=document.getElementById(`${chartId}-line-${lineIdx}`);
+  const color=ds.lines[lineIdx].color;
+  if(btn){
+    btn.classList.toggle('btn-overlay--active',wasHidden);
+    btn.style.borderColor=wasHidden?color:'';
+    btn.style.color=wasHidden?color:'';
+  }
+  updateCombinedFill(chartId);
+  chart.update();
+}
+
+function toggleCombinedOverlay(chartId, ovIdx){
+  const chart=charts[chartId];
+  const ds=datasets.find(d=>d.id===chartId);
+  const nLines=ds.lines.length;
+  const ovDs=chart.data.datasets[nLines+ovIdx];
+  const wasHidden=ovDs.hidden;
+  ovDs.hidden=!wasHidden;
+  const btn=document.getElementById(`${chartId}-overlay-${ovIdx}`);
+  const color=ds.overlays[ovIdx].color;
+  if(btn){
+    btn.classList.toggle('btn-overlay--active',wasHidden);
+    btn.style.borderColor=wasHidden?color:'';
+    btn.style.color=wasHidden?color:'';
+  }
+  updateCombinedFill(chartId);
+  chart.update();
+}
+
+function switchInflation(type){
+  const ds=datasets.find(d=>d.id==="inflation");
+  const chart=charts["inflation"];
+  ds.mode=type;
+  const allLabels=ds.labels;
+  const curLabels=chart.data.labels;
+  const si=allLabels.indexOf(curLabels[0]);
+  const ei=allLabels.indexOf(curLabels[curLabels.length-1]);
+  const allValues=type==="monthly"?ds.data_monthly:ds.data_yearly;
+  const sliced=si>=0&&ei>=0?allValues.slice(si,ei+1):allValues;
+  chart.data.datasets[0].data=sliced;
+  chart.data.datasets[0].label=type==='monthly'?'Месячная инфляция (%)':'Годовая инфляция (%)';
+
+  if(type==='monthly'){
+    chart.config.type='bar';
+    chart.data.datasets[0].backgroundColor=barColors(sliced);
+    chart.data.datasets[0].borderColor=barBorderColors(sliced);
+    chart.data.datasets[0].borderWidth=1; chart.data.datasets[0].fill=false;
+    chart.data.datasets[0].borderRadius=4; chart.data.datasets[0].maxBarThickness=20;
+    chart.options.scales.x.ticks.maxTicksLimit=8; chart.options.scales.x.ticks.maxRotation=0; chart.options.scales.x.ticks.minRotation=0;
+    chart.options.scales.x.offset=true; chart.options.scales.x.grid={display:false};
+    chart.options.scales.y.grid={color:ctx=>ctx.tick.value===0?'#94a3b8':'#f1f5f9'};
+    chart.options.plugins.tooltip.callbacks.label=c=>{
+      if(c.parsed.y===null)return'';
+      const v=c.parsed.y,a=v>=0?'▲':'▼',s=v>=0?'+':'';
+      return`${c.chart.data.labels[c.dataIndex]}: ${a} ${s}${v.toFixed(1).replace('.',',')}%`;
+    };
+    const r=computeRangeZero(sliced.filter(v=>v!==null));
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
+  } else {
+    chart.config.type='line';
+    chart.data.datasets[0].backgroundColor=ctx2=>{const{ctx:c,chartArea}=ctx2.chart;if(!chartArea)return ds.color+'33';const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,ds.color+'99');g.addColorStop(1,ds.color+'00');return g;};
+    chart.data.datasets[0].borderColor=ds.color; chart.data.datasets[0].borderWidth=1.5; chart.data.datasets[0].fill=true;
+    chart.data.datasets[0].tension=0.4; chart.data.datasets[0].pointRadius=0; chart.data.datasets[0].pointHoverRadius=5;
+    chart.data.datasets[0].pointHoverBackgroundColor=ds.color; chart.data.datasets[0].pointHoverBorderColor='#fff'; chart.data.datasets[0].pointHoverBorderWidth=2;
+    chart.data.datasets[0].borderRadius=undefined; chart.data.datasets[0].maxBarThickness=undefined;
+    chart.options.scales.x.ticks.maxTicksLimit=12; chart.options.scales.x.ticks.maxRotation=45; chart.options.scales.x.ticks.minRotation=45;
+    chart.options.scales.x.offset=false; chart.options.scales.x.grid={color:'#e6e6e6'}; chart.options.scales.y.grid={color:'#e6e6e6'};
+    chart.options.plugins.tooltip.callbacks.title=()=>'';
+    chart.options.plugins.tooltip.callbacks.label=c=>c.parsed.y!==null?`${c.chart.data.labels[c.dataIndex]}: ${c.parsed.y.toFixed(1).replace('.',',')}%`:'';
+    const r=computeRange(sliced.filter(v=>v!==null));
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
+  }
+  document.getElementById('infl-btn-yearly').classList.toggle('active',type==='yearly');
+  document.getElementById('infl-btn-monthly').classList.toggle('active',type==='monthly');
+  chart.update();
+  updateLastVal('inflation');
+}
+
+function switchMonagg(mode){
+  const ds=datasets.find(d=>d.id==='monagg');
+  const chart=charts['monagg'];
+  ds.monaggMode=mode;
+  const curLabels=chart.data.labels;
+  const si=ds.labels.indexOf(curLabels[0]);
+  const ei=ds.labels.indexOf(curLabels[curLabels.length-1]);
+  const slice=arr=>(si>=0&&ei>=0)?arr.slice(si,ei+1):arr;
+  if(mode==='growth'){
+    chart.data.datasets[0].data=slice(ds.lines[0].yoy_data);
+    chart.data.datasets[1].data=slice(ds.lines[1].yoy_data);
+    chart.data.datasets[2].hidden=true; chart.data.datasets[3].hidden=true;
+    const b2=document.getElementById('monagg-line-2'); if(b2) b2.style.display='none';
+    const b3=document.getElementById('monagg-line-3'); if(b3) b3.style.display='none';
+    const allVals=[...chart.data.datasets[0].data,...chart.data.datasets[1].data].filter(v=>v!==null);
+    const hasNeg=allVals.some(v=>v<0);
+    const r=hasNeg?computeRangeTight(allVals):computeRange(allVals);
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
+    chart.options.scales.y.ticks.callback=v=>v+'%';
+    chart.options.plugins.tooltip.callbacks.label=c=>{
+      if(c.parsed.y===null)return'';
+      const lbl=c.chart.data.labels[c.dataIndex];
+      const dsLabel=c.chart.data.datasets[c.datasetIndex].label;
+      return`${lbl} · ${dsLabel}: ${c.parsed.y.toFixed(1).replace('.',',')}%`;
+    };
+  } else {
+    ds.lines.forEach((ln,i)=>{ chart.data.datasets[i].data=slice(ln.data); chart.data.datasets[i].hidden=false; });
+    const b2=document.getElementById('monagg-line-2'); if(b2) b2.style.display='';
+    const b3=document.getElementById('monagg-line-3'); if(b3) b3.style.display='';
+    const allVals=ds.lines.flatMap(ln=>slice(ln.data)).filter(v=>v!==null);
+    const r=computeRangeLarge(allVals);
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
+    chart.options.scales.y.ticks.callback=v=>(v/1000).toFixed(0)+' млрд';
+    chart.options.plugins.tooltip.callbacks.label=c=>{
+      if(c.parsed.y===null)return'';
+      const lbl=c.chart.data.labels[c.dataIndex];
+      const dsLabel=c.chart.data.datasets[c.datasetIndex].label;
+      return`${lbl} · ${dsLabel}: ${(c.parsed.y/1000).toFixed(1)} млрд сом.`;
+    };
+  }
+  document.getElementById('monagg-btn-level').classList.toggle('active',mode==='level');
+  document.getElementById('monagg-btn-growth').classList.toggle('active',mode==='growth');
+  updateCombinedFill('monagg');
+  chart.update();
+}
+
 function updateChart(id){
   const chart=charts[id];
   const ds=datasets.find(d=>d.id===id);
-
+  if(ds.stacked){
+    const start=document.getElementById(id+"-start").value;
+    const end=document.getElementById(id+"-end").value;
+    let s=ds.labels.findIndex(l=>l>=start); if(s<0)s=0;
+    let e=ds.labels.findIndex(l=>l>end); if(e<0)e=ds.labels.length;
+    if(e<=s)e=s+1;
+    const newLabels=ds.labels.slice(s,e);
+    chart.data.labels=newLabels;
+    ds.lines.forEach((ln,i)=>{ chart.data.datasets[i].data=ln.data.slice(s,e); });
+    (ds.overlays||[]).forEach((ov,i)=>{
+      chart.data.datasets[ds.lines.length+i].data=getOverlaySlice(ov,newLabels,ds.labels);
+    });
+    const sums=computeStackedSums(ds.lines,s,e);
+    if(sums.length){const r=computeRangeZero(sums);chart.options.scales.y.min=r.min;chart.options.scales.y.max=r.max;chart.options.scales.y.ticks.stepSize=r.step;}
+    chart.update();
+    const rb=document.getElementById(id+'-reset-btn'); if(rb) rb.classList.add('btn-chart--active');
+    return;
+  }
+  if(ds.combined){
+    const start=document.getElementById(id+"-start").value;
+    const end=document.getElementById(id+"-end").value;
+    let s=ds.labels.findIndex(l=>l>=start); if(s<0)s=0;
+    let e=ds.labels.findIndex(l=>l>end); if(e<0)e=ds.labels.length;
+    if(e<=s)e=s+1;
+    chart.data.labels=ds.labels.slice(s,e);
+    if(id==='monagg'&&ds.monaggMode==='growth'){
+      chart.data.datasets[0].data=ds.lines[0].yoy_data.slice(s,e);
+      chart.data.datasets[1].data=ds.lines[1].yoy_data.slice(s,e);
+    } else {
+      ds.lines.forEach((ln,i)=>{ chart.data.datasets[i].data=ln.data.slice(s,e); });
+    }
+    (ds.overlays||[]).forEach((ov,i)=>{
+      const srcDs=datasets.find(d=>d.id===ov.id);
+      const srcArr=ov.dataKey==='yearly'?srcDs.data_yearly:srcDs.data;
+      if(srcArr) chart.data.datasets[ds.lines.length+i].data=srcArr.slice(s,e);
+    });
+    let allVals;
+    if(id==='monagg'&&ds.monaggMode==='growth'){
+      allVals=[...ds.lines[0].yoy_data.slice(s,e),...ds.lines[1].yoy_data.slice(s,e)].filter(v=>v!==null);
+    } else {
+      const visibleLines=ds.lines.filter((ln,i)=>!chart.data.datasets[i].hidden);
+      const visibleVals=(visibleLines.length?visibleLines:ds.lines).flatMap(ln=>ln.data.slice(s,e)).filter(v=>v!==null);
+      allVals=visibleVals;
+    }
+    const hasNeg=allVals.some(v=>v<0);
+    const r=(id==='monagg'&&ds.monaggMode==='growth')
+      ?(hasNeg?computeRangeTight(allVals):computeRange(allVals))
+      :(ds.isLarge?computeRangeLarge(allVals):hasNeg?computeRangeTight(allVals):computeRange(allVals));
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
+    updateCombinedFill(id);
+    chart.update();
+    const rb=document.getElementById(id+'-reset-btn'); if(rb) rb.classList.add('btn-chart--active');
+    return;
+  }
   const start=document.getElementById(id+"-start").value;
   const end=document.getElementById(id+"-end").value;
-
-  let s=0,e=ds.labels.length;
-
-  if(start){
-    s=ds.labels.findIndex(l=>l>=start);
-    if(s<0) s=0;
-  }
-
-  if(end){
-    e=ds.labels.findIndex(l=>l>end);
-    if(e<0) e=ds.labels.length;
-  }
-
-  let dataSource = ds.data;
-
-  if(id==="inflation"){
-    dataSource = ds.mode==="monthly"
-      ? ds.data_monthly
-      : ds.data_yearly;
-  }
+  let s=ds.labels.findIndex(l=>l>=start); if(s<0)s=0;
+  let e=ds.labels.findIndex(l=>l>end); if(e<0)e=ds.labels.length;
+  if(e<=s)e=s+1;
 
   chart.data.labels=ds.labels.slice(s,e);
+  let dataSource=id==="inflation"?(ds.mode==="monthly"?ds.data_monthly:ds.data_yearly):ds.data;
   const filteredData=dataSource.slice(s,e);
   chart.data.datasets[0].data=filteredData;
-  if(id==="inflation" && ds.mode==="monthly"){
-    chart.options.scales.y.min=undefined;
-    chart.options.scales.y.max=undefined;
-    chart.options.scales.y.ticks.stepSize=undefined;
+  if(ds.overlays){
+    ds.overlays.forEach((ov,i)=>{
+      const srcDs=datasets.find(d=>d.id===ov.id);
+      const srcArr=ov.dataKey==='yearly'?srcDs.data_yearly:srcDs.data;
+      if(srcArr) chart.data.datasets[i+1].data=srcArr.slice(s,e);
+    });
+  }
+  if(id==="inflation"&&ds.mode==="monthly"){
+    chart.data.datasets[0].backgroundColor=barColors(filteredData);
+    chart.data.datasets[0].borderColor=barBorderColors(filteredData);
+    chart.options.scales.y.grid={color:ctx=>ctx.tick.value===0?'#94a3b8':'#f1f5f9'};
+    const r=computeRangeZero(filteredData.filter(v=>v!==null));
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
   } else {
-    const r=computeRange(filteredData.filter(v=>v!==null));
-    chart.options.scales.y.min=r.min;
-    chart.options.scales.y.max=r.max;
-    chart.options.scales.y.ticks.stepSize=r.step;
+    const r=id==='rate'?{...computeRange(filteredData.filter(v=>v!==null)),min:0}:computeRange(filteredData.filter(v=>v!==null));
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
   }
   chart.update();
+  const rb=document.getElementById(id+'-reset-btn');
+  if(rb) rb.classList.add('btn-chart--active');
+  updateLastVal(id);
 }
 
-// ================= RESET =================
 function resetChart(id){
-  const chart = charts[id];
-  const ds = datasets.find(d=>d.id===id);
+  const chart=charts[id];
+  const ds=datasets.find(d=>d.id===id);
+  if(ds.stacked){
+    const indices=ds.lines.map(ln=>ln.data.findIndex(v=>v!==null)).filter(i=>i>=0);
+    const startIndex=indices.length?Math.min(...indices):0;
+    const labels=ds.labels.slice(startIndex);
+    chart.data.labels=labels;
+    ds.lines.forEach((ln,i)=>{
+      chart.data.datasets[i].data=ln.data.slice(startIndex);
+      chart.data.datasets[i].hidden=false;
+      const btn=document.getElementById(`${id}-line-${i}`);
+      if(btn){btn.classList.add('btn-overlay--active');btn.style.borderColor=ln.color;btn.style.color=ln.color;}
+    });
+    (ds.overlays||[]).forEach((ov,i)=>{
+      chart.data.datasets[ds.lines.length+i].data=getOverlaySlice(ov,labels,ds.labels);
+      chart.data.datasets[ds.lines.length+i].hidden=false;
+      const btn=document.getElementById(`${id}-overlay-${i}`);
+      if(btn){btn.classList.add('btn-overlay--active');btn.style.borderColor=ov.color;btn.style.color=ov.color;}
+    });
+    const sums=computeStackedSums(ds.lines,startIndex,ds.labels.length);
+    if(sums.length){const r=computeRangeZero(sums);chart.options.scales.y.min=r.min;chart.options.scales.y.max=r.max;chart.options.scales.y.ticks.stepSize=r.step;}
+    const si2=document.getElementById(id+"-start"); const ei2=document.getElementById(id+"-end");
+    if(si2&&ei2){ si2.value=labels[0]; ei2.value=labels[labels.length-1]; updateRangeLabel(id); }
+    const _dd=document.getElementById(id+'-dropdown'); if(_dd)_dd.classList.remove('open');
+    chart.update();
+    const rb=document.getElementById(id+'-reset-btn'); if(rb)rb.classList.remove('btn-chart--active');
+    return;
+  }
+  if(ds.combined){
+    let startIndex=ds.labels.length;
+    ds.lines.forEach(ln=>{const si=ln.data.findIndex(v=>v!==null);if(si>=0&&si<startIndex)startIndex=si;});
+    if(id==='monagg'){const si2=ds.labels.findIndex(l=>l>='2010-01');if(si2>startIndex)startIndex=si2;}
+    const labels=ds.labels.slice(startIndex);
+    chart.data.labels=labels;
+    ds.lines.forEach((ln,i)=>{
+      chart.data.datasets[i].data=ln.data.slice(startIndex);
+      chart.data.datasets[i].hidden=false;
+      const btn=document.getElementById(`${id}-line-${i}`);
+      if(btn){btn.classList.add('btn-overlay--active');btn.style.borderColor=ln.color;btn.style.color=ln.color;}
+    });
+    (ds.overlays||[]).forEach((ov,i)=>{
+      const ovData=getOverlaySlice(ov,labels,ds.labels);
+      chart.data.datasets[ds.lines.length+i].data=ovData;
+      chart.data.datasets[ds.lines.length+i].hidden=true;
+      const btn=document.getElementById(`${id}-overlay-${i}`);
+      if(btn){btn.classList.remove('btn-overlay--active');btn.style.borderColor='';btn.style.color='';}
+    });
+    if(id==='monagg'&&ds.monaggMode==='growth'){
+      ds.monaggMode='level';
+      chart.options.scales.y.ticks.callback=v=>(v/1000).toFixed(0)+' млрд';
+      chart.options.plugins.tooltip.callbacks.label=c=>{
+        if(c.parsed.y===null)return'';
+        const lbl=c.chart.data.labels[c.dataIndex];
+        const dsLabel=c.chart.data.datasets[c.datasetIndex].label;
+        return`${lbl} · ${dsLabel}: ${(c.parsed.y/1000).toFixed(1)} млрд сом.`;
+      };
+      document.getElementById('monagg-btn-level').classList.add('active');
+      document.getElementById('monagg-btn-growth').classList.remove('active');
+      const b2=document.getElementById('monagg-line-2'); if(b2) b2.style.display='';
+      const b3=document.getElementById('monagg-line-3'); if(b3) b3.style.display='';
+    }
+    updateCombinedFill(id);
+    const si2=document.getElementById(id+"-start"); const ei2=document.getElementById(id+"-end");
+    if(si2&&ei2){ si2.value=labels[0]; ei2.value=labels[labels.length-1]; updateRangeLabel(id); }
+    const _dd=document.getElementById(id+'-dropdown'); if(_dd)_dd.classList.remove('open');
+    const allVals=ds.lines.flatMap(ln=>ln.data.slice(startIndex)).filter(v=>v!==null);
+    const hasNeg=allVals.some(v=>v<0);
+    const r=ds.isLarge?computeRangeLarge(allVals):hasNeg?computeRangeTight(allVals):computeRange(allVals);
+    chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
+    chart.update();
+    const rb=document.getElementById(id+'-reset-btn'); if(rb) rb.classList.remove('btn-chart--active');
+    return;
+  }
 
-  let rawData = ds.data;
-
+  let rawData=ds.data;
   if(id==="inflation"){
-    ds.mode = "yearly";
-    rawData = ds.data_yearly;
-    chart.data.datasets[0].label = 'Годовая инфляция (%)';
+    ds.mode="yearly"; rawData=ds.data_yearly;
+    chart.config.type='line';
+    chart.data.datasets[0].backgroundColor=ctx2=>{const{ctx:c,chartArea}=ctx2.chart;if(!chartArea)return ds.color+'33';const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,ds.color+'99');g.addColorStop(1,ds.color+'00');return g;};
+    chart.data.datasets[0].borderColor=ds.color; chart.data.datasets[0].borderWidth=1.5; chart.data.datasets[0].fill=true;
+    chart.data.datasets[0].tension=0.4; chart.data.datasets[0].pointRadius=0; chart.data.datasets[0].pointHoverRadius=5;
+    chart.data.datasets[0].pointHoverBackgroundColor=ds.color; chart.data.datasets[0].pointHoverBorderColor='#fff'; chart.data.datasets[0].pointHoverBorderWidth=2;
+    chart.data.datasets[0].borderRadius=undefined; chart.data.datasets[0].maxBarThickness=undefined;
+    chart.options.scales.x.ticks.maxTicksLimit=12; chart.options.scales.x.ticks.maxRotation=45; chart.options.scales.x.ticks.minRotation=45;
+    chart.options.scales.x.offset=false; chart.options.scales.x.grid={color:'#e6e6e6'}; chart.options.scales.y.grid={color:'#e6e6e6'};
+    chart.options.plugins.tooltip.callbacks.title=()=>'';
+    chart.options.plugins.tooltip.callbacks.label=c=>c.parsed.y!==null?`${c.chart.data.labels[c.dataIndex]}: ${c.parsed.y.toFixed(1).replace('.',',')}%`:'';
+    chart.data.datasets[0].label='Годовая инфляция (%)';
     document.getElementById('infl-btn-yearly').classList.add('active');
     document.getElementById('infl-btn-monthly').classList.remove('active');
   }
 
-  const startIndex = rawData.findIndex(v => v !== null);
-  const labels = ds.labels.slice(startIndex);
-  const data = rawData.slice(startIndex);
-
-  chart.data.labels = labels;
-  chart.data.datasets[0].data = data;
-
-  const startInput = document.getElementById(id+"-start");
-  const endInput = document.getElementById(id+"-end");
-  if(startInput && endInput){
-    startInput.value = labels[0];
-    endInput.value = labels[labels.length-1];
+  const startIndex=rawData.findIndex(v=>v!==null);
+  const allLabels2=ds.labels.slice(startIndex), allData2=rawData.slice(startIndex);
+  let labels=allLabels2, data=allData2;
+  if(id==='rate'||id==='inflation'){
+    const si=allLabels2.findIndex(l=>l>='2010-01');
+    if(si>0){ labels=allLabels2.slice(si); data=allData2.slice(si); }
   }
-
-  const r = computeRange(data.filter(v => v !== null));
-  chart.options.scales.y.min = r.min;
-  chart.options.scales.y.max = r.max;
-  chart.options.scales.y.ticks.stepSize = r.step;
-
+  chart.data.labels=labels; chart.data.datasets[0].data=data;
+  if(ds.overlays){
+    ds.overlays.forEach((ov,i)=>{
+      chart.data.datasets[i+1].data=getOverlaySlice(ov,labels,ds.labels);
+      chart.data.datasets[i+1].hidden=true;
+      const btn=document.getElementById(`${id}-overlay-${i}`);
+      if(btn){btn.classList.remove('btn-overlay--active');btn.style.borderColor='';btn.style.color='';}
+    });
+    chart.data.datasets[0].fill=true;
+    chart.data.datasets[0].backgroundColor=ds._bgFill;
+  }
+  const si2=document.getElementById(id+"-start"); const ei2=document.getElementById(id+"-end");
+  if(si2&&ei2){ si2.value=labels[0]; ei2.value=labels[labels.length-1]; updateRangeLabel(id); }
+  const _dd=document.getElementById(id+'-dropdown'); if(_dd)_dd.classList.remove('open');
+  const r=id==='rate'?{...computeRange(data.filter(v=>v!==null)),min:0}:computeRange(data.filter(v=>v!==null));
+  chart.options.scales.y.min=r.min; chart.options.scales.y.max=r.max; chart.options.scales.y.ticks.stepSize=r.step;
   chart.update();
+  const rb=document.getElementById(id+'-reset-btn'); if(rb)rb.classList.remove('btn-chart--active');
+  updateLastVal(id);
 }
 
-// ================= EXPORT PNG =================
-function exportPNG(id){
-  const link=document.createElement("a");
-  link.download=id+".png";
-  link.href=charts[id].toBase64Image();
-  link.click();
-}
-
-// ================= EXPORT CSV =================
-function exportCSV(id){
+function exportXLS(id){
   const chart=charts[id];
-
-  let csv="Date,Value\n";
-
+  const ds=datasets.find(d=>d.id===id);
+  if(ds.stacked){
+    const rows=[['Дата',...ds.lines.map(ln=>ln.label)]];
+    chart.data.labels.forEach((l,i)=>{
+      rows.push([l,...ds.lines.map((_,li)=>{const v=chart.data.datasets[li].data[i];return v!==null?v:''})]);
+    });
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:10},...ds.lines.map(()=>({wch:20}))];
+    const wb2=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb2,ws,id);
+    XLSX.writeFile(wb2,id+'.xlsx');
+    return;
+  }
+  if(ds.combined){
+    const rows=[['Дата',...ds.lines.map(ln=>ln.label)]];
+    chart.data.labels.forEach((l,i)=>{
+      rows.push([l,...ds.lines.map((_,li)=>{const v=chart.data.datasets[li].data[i];return v!==null?v:''})]);
+    });
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:10},...ds.lines.map(()=>({wch:18}))];
+    const wb2=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb2,ws,id);
+    XLSX.writeFile(wb2,id+'.xlsx');
+    return;
+  }
+  const rows=[['Дата', ds.title]];
   chart.data.labels.forEach((l,i)=>{
-    csv+=`${l},${chart.data.datasets[0].data[i]}\n`;
+    const v=chart.data.datasets[0].data[i];
+    if(v!==null) rows.push([l,v]);
   });
-
-  const blob=new Blob([csv],{type:"text/csv"});
-  const link=document.createElement("a");
-
-  link.href=URL.createObjectURL(blob);
-  link.download=id+".csv";
-  link.click();
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[{wch:10},{wch:16}];
+  const wb2=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb2,ws,id);
+  XLSX.writeFile(wb2,id+'.xlsx');
 }
 
-// ================= LANGUAGE =================
+function toggleDatePicker(id){
+  const dd=document.getElementById(id+'-dropdown');
+  const isOpen=dd.classList.contains('open');
+  document.querySelectorAll('.date-range-dropdown.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen) dd.classList.add('open');
+}
+
+function applyDateRange(id){
+  document.getElementById(id+'-dropdown').classList.remove('open');
+  updateChart(id);
+  updateRangeLabel(id);
+}
+
+function updateRangeLabel(id){
+  const s=document.getElementById(id+'-start').value;
+  const e=document.getElementById(id+'-end').value;
+  const lbl=document.getElementById(id+'-range-label');
+  const fmt=v=>v?v.split('-').reverse().join('.'):'?';
+  if(lbl) lbl.textContent=fmt(s)+' — '+fmt(e);
+}
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.date-range-wrap')){
+    document.querySelectorAll('.date-range-dropdown.open').forEach(el=>el.classList.remove('open'));
+  }
+});
 
 </script>
-
+<script>
+  const rp=document.getElementById("readProgress");
+  const bt=document.getElementById("backToTop");
+  window.addEventListener("scroll",()=>{
+    const s=document.documentElement;
+    const prog=(s.scrollTop/(s.scrollHeight-s.clientHeight))*100;
+    rp.style.width=prog+"%";
+    if(s.scrollTop>300){bt.classList.add("visible");}else{bt.classList.remove("visible");}
+  });
+  bt.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+</script>
 <script src="../js/common.js"></script>
+
+
 </body>
 </html>
-

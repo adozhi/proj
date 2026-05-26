@@ -99,6 +99,8 @@
   .img-figure { margin: 1.4rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
   .img-figure__label { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; padding: 10px 16px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; }
   .img-figure img { display: block; width: 100%; border-radius: 0; margin: 0; }
+  .tm-diagram { background: #f8fafc; padding: 20px; overflow-x: auto; }
+  .tm-diagram svg { display: block; width: 100%; min-width: 560px; height: auto; }
 
   @media (max-width: 640px) {
     .instrument-card__header { padding: 14px 16px; }
@@ -106,11 +108,83 @@
     .styled-table { font-size: 0.82rem; }
     .styled-table th, .styled-table td { padding: 9px 8px; }
   }
+
+  /* ---- Reading progress bar ---- */
+  .read-progress {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #6366f1);
+    width: 0%; z-index: 9999;
+    transition: width 0.08s linear;
+    pointer-events: none;
+  }
+
+  /* ---- Accordion ---- */
+  .instrument-card__header { cursor: pointer; }
+  .card-toggle {
+    margin-left: auto; flex-shrink: 0;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--border);
+    border-radius: 50%; width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background 0.2s; padding: 0;
+  }
+  .card-toggle:hover { background: #fff; }
+  .card-toggle svg { transition: transform 0.25s ease; display: block; }
+  .instrument-card--collapsed .card-toggle svg { transform: rotate(-90deg); }
+  .instrument-card--collapsed .instrument-card__body { display: none; }
+
+  /* ---- Timeline ---- */
+  .timeline { position: relative; padding-left: 0; }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 52px; top: 20px; bottom: 20px;
+    width: 2px; background: linear-gradient(to bottom, #3b82f6, #e2e8f0);
+  }
+  .timeline-step { display: flex; gap: 18px; margin-bottom: 1.4rem; position: relative; }
+  .timeline-year {
+    flex-shrink: 0; width: 90px;
+    background: linear-gradient(135deg, #0f172a, #1e40af);
+    color: #fff; font-size: 0.76rem; font-weight: 700;
+    border-radius: 8px; padding: 8px; text-align: center;
+    line-height: 1.35; align-self: flex-start;
+    position: relative; z-index: 1; box-shadow: 0 2px 8px #1e40af33;
+  }
+  .timeline-step:last-child .timeline-year {
+    background: linear-gradient(135deg, #064e3b, #10b981);
+    box-shadow: 0 2px 8px #10b98133;
+  }
+  .timeline-body { flex: 1; padding-top: 4px; }
+  .timeline-body > strong { display: block; font-size: 0.88rem; color: var(--navy); margin-bottom: 0.45rem; }
+  .timeline-body ul { padding-left: 1.3rem; margin: 0.4rem 0 0; }
+  .timeline-body li { margin-bottom: 0.35rem; line-height: 1.6; font-size: 0.88rem; }
+  .timeline-body p { font-size: 0.88rem; line-height: 1.65; margin-bottom: 0.4rem; }
+  @media (max-width: 640px) {
+    .timeline::before { left: 44px; }
+    .timeline-year { width: 76px; font-size: 0.7rem; }
+    .timeline-step { gap: 12px; }
+  }
+
+  .back-to-top {
+    position: fixed; bottom: 28px; right: 24px;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: #3b82f6; color: #fff; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.35);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.25s, background 0.2s;
+    pointer-events: none; z-index: 9998;
+  }
+  .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
 </style>
 <link rel="stylesheet" href="../css/detail.css">
 </head>
 
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Наверх">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 <header class="page-header">
   <div class="page-header__inner">
     <a href="../index.html" class="back-btn">Асосӣ</a>
@@ -127,14 +201,14 @@
 <h1 class="page-title">Цели и задачи денежно-кредитной политики</h1>
 
 <nav class="instrument-nav">
-  <a href="#summary">Краткое изложение</a>
+  <!-- <a href="#summary">Краткое изложение</a> -->
   <a href="#goal">Цель</a>
   <a href="#inflation">Инфляция</a>
   <a href="#targeting">Таргетирование</a>
   <a href="#rate">Ставка рефинансирования</a>
-  <a href="#corridor">Коридор</a>
+  <!-- <a href="#corridor">Коридор</a> -->
   <a href="#committee">Комитет</a>
-  <a href="#population">Населению</a>
+  <!-- <a href="#population">Населению</a> -->
 </nav>
 
 <!-- Summary -->
@@ -144,13 +218,13 @@
   </div>
   <div class="instrument-card__body">
     <table class="styled-table kv-table">
-        <tbody>
         <thead>
         <tr>
             <th></th>
             <th></th>
-        <tr>
+        </tr>
         </thead>
+        <tbody>
         <tr>
             <td><strong>Основная цель Национального банка Таджикистана</strong></td>
             <td>Достижение и поддержание стабильного уровня внутренних цен в долгосрочной перспективе</td>
@@ -182,7 +256,7 @@
         <ul>
     <li>процентные ставки ( ставки по кредитам и депозитам в краткосрочном и инвестиционные ставки в долгосрочном периоде — влияет);</li>
     <li>кредитование (влияет на доступность кредита и совокупный спрос — влияет);</li>
-    <li>обменный курс (влияет на стоимость импортных товаров и совокупный объём импорта и экспорта таъсир мерасонад);</li>
+    <li>обменный курс (влияет на стоимость импортных товаров и совокупный объём импорта и экспорта);</li>
     <li>ожидания (влияет на поведение потребителей и производителей)</li>
     </ul>
             </td></tr>
@@ -220,7 +294,7 @@
 <!-- Goal -->
 <div class="instrument-card card--slate" id="goal">
   <div class="instrument-card__header">
-    <h2>Какова основная цель Национального банка Таджикистана?</h2>
+    <h2>Основная цель Национального банка Таджикистана</h2>
   </div>
   <div class="instrument-card__body">
     <p>Согласно статье 5 Закона «О Национальном банке Таджикистана» основная цель Национального банка Таджикистана — достижение и поддержание стабильного уровня внутренних цен (уровня инфляции) в долгосрочной перспективе.</p>
@@ -236,7 +310,7 @@
 <!-- Inflation -->
 <div class="instrument-card card--indigo" id="inflation">
   <div class="instrument-card__header">
-    <h2>Что такое инфляция и почему поддержание стабильной инфляции — основная цель большинства центральных банков?</h2>
+    <h2>Умеренная инфляция — основная цель большинства центральных (национальных) банков</h2>
   </div>
   <div class="instrument-card__body">
     <p><u>Инфляция</u> — это рост общего уровня цен.</p>
@@ -260,7 +334,7 @@
 <!-- Monetary policy -->
 <div class="instrument-card card--green" id="policy">
   <div class="instrument-card__header">
-    <h2>Что такое денежно-кредитная политика?</h2>
+    <h2>Денежно-кредитная политика</h2>
   </div>
   <div class="instrument-card__body">
     <p>Денежно-кредитная (монетарная) политика – один из основных разделов макроэкономической политики государства, которая реализуется для достижения главной цели, а именно обеспечения стабильного уровня цен в долгосрочном периоде, посредством использования инструментов денежно-кредитной политики (монетарных рычагов).</p>
@@ -272,9 +346,9 @@
 <!-- Targeting -->
 <div class="instrument-card card--amber" id="targeting">
   <div class="instrument-card__header">
-    <h2>Что такое таргетирование инфляции?</h2>
+    <h2>Таргетирование инфляции</h2>
   </div>
-  <div class="instrument-card__body">
+  <div class="instrument-card__body" id="target">
     <p>В рыночной экономике таргетирование инфляции — один из современных режимов денежно-кредитной политики для поддержания стабильного уровня внутренних цен (инфляции) в рамках установленного целевого показателя.</p>
     <p>Согласно экономической литературе и практике центральных банков в рамках режима таргетирования инфляции центральные банки объявляют числовой целевой ориентир по инфляции на среднесрочный период и обязуются достичь его с помощью инструментов монетарной политики, прежде всего краткосрочной процентной ставки.</p>
     <p>Иными словами, таргетирование инфляции — это современный режим денежно-кредитной политики, в рамках которого Национальный банк Таджикистана:</p>
@@ -293,7 +367,7 @@
 <!-- Why 5% -->
 <div class="instrument-card card--blue" id="why5">
   <div class="instrument-card__header">
-    <h2>Почему целевой показатель инфляции установлен на уровне 5% ±2 п.п.?</h2>
+    <h2>Целевой показатель инфляции составляет 5% ±2 п.п.</h2>
   </div>
   <div class="instrument-card__body">
     <p>Согласно экономической литературе, уровень допустимой инфляции для экономики развивающихся стран является естественным и важным.</p>
@@ -307,7 +381,7 @@
 <!-- Previous regime -->
 <div class="instrument-card card--slate" id="previous">
   <div class="instrument-card__header">
-    <h2>Каков был предыдущий режим и чем он отличается от таргетирования инфляции?</h2>
+    <h2>Процесс перехода от монетарного таргетирования к таргетированию инфляции и проделанная в этом направлении работа</h2>
   </div>
   <div class="instrument-card__body">
     <p>До перехода к режиму таргетирования инфляции (до 2025 года) Национальный банк Таджикистана реализовывал режим таргетирования денежно-кредитной политики (посредством определения объёма денежной массы в экономике). Следует отметить, что цель этих программ (монетарной и инфляционной) была одна — стабильность уровня цен, однако способы её достижения различались:</p>
@@ -385,36 +459,60 @@
     <p><strong>Почему предыдущий режим перестал быть эффективным?</strong> Монетарное таргетирование требует значительной зависимости между объёмом денежной массы и уровнем инфляции. Ранее в экономике Республики Таджикистан эта зависимость была относительно стабильной, однако в результате экономического прогресса, развития финансовой системы, увеличения объёмов инвестиций и значительного притока иностранной валюты со временем она ослабла и стала неэффективной, поэтому в дальнейшем контроль за объёмом денежной массы отдельно не сможет обеспечить стабильный уровень инфляции.</p>
     <p>В связи с этим Национальный банк Таджикистана с 2012 года принял решение постепенно переходить к режиму таргетирования инфляции с учётом реализации необходимых реформ.</p>
     <p>Национальный банк Таджикистана готовился к переходу на данный режим около<strong style="color: #5b9bd5;"> 14 лет</strong> (2012-2025).</p>
-  </div>
-</div>
+    <div class="timeline">
 
-<!-- Preparation -->
-<div class="instrument-card card--indigo" id="preparation">
-  <div class="instrument-card__header">
-    <h2>Как Национальный банк Таджикистана готовился к переходу на режим таргетирования инфляции?</h2>
-  </div>
-  <div class="instrument-card__body">
-    <ul>
-        <li><strong>2012–2015 — Подготовка:</strong> На основании указаний Основателя мира и национального единства — Лидера нации, Президента Республики Таджикистан, Национальный банк Таджикистана начал реализацию важных реформ во всей деятельности банковской системы страны, особенно в сфере денежно-кредитной политики.</li>
-        <li><strong>2016–2020 — Реализация принципов режима таргетирования инфляции:</strong> в рамках Стратегии денежно-кредитной и валютной политики на 2016–2020 годы, Национальным банком Таджикистана были реализованы следующие меры:</li>
-    <p>-	совершенствование инструментов денежно-кредитной политики и введение инструментов постоянного действия;</p>
-    <p>-	укрепление аналитического и прогнозного потенциала сотрудников; разработка прогнозных моделей макроэкономического и эконометрического анализа;</p>
-    <p>-	содействие развитию банковской системы и финансового посредничества;</p>
-    <p>-	улучшение коммуникации с населением страны;</p>
-    <p>-	совершенствование управления международными резервами;</p>
-    <p>-	переход к режиму управляемого плавающего валютного курса; </p>
-    <p>-	снижение долларизации экономики;</p>
-    <p>-	повышение доверия к национальной валюте (сомони) и др.</p>
-        <li><strong>2021–2025 — Завершающая подготовка:</strong> В рамках <u>Стратегии денежно-кредитной политики на 2021–2025</u> годы Национальный банк Таджикистана реализовал важные реформы:</li>
-    <p>-	укрепление трансмиссионного механизма ДКП;</p>
-    <p>-	введение механизма усреднения обязательных резервов кредитных организаций;</p>
-    <p>-	продолжение сотрудничества с международными финансовыми организациями в области развития денежного рынка;</p>
-    <p>-	разработка и совершенствование нормативно-правовой базы;</p>
-    <p>-	постепенное снижение целевого показателя инфляции до 5% (±2 п.п.);</p>
-    <p>-	привлечение технической помощи для повышения аналитического потенциала;</p>
-    <p>-	разработка механизма прогнозирования ликвидности кредитных организаций и др.</p>
-        <li><strong>2026 — Официальный переход:</strong> Национальный банк Таджикистана официально объявил о переходе на режим таргетирования инфляции и установил целевой уровень инфляции на 2026 год в пределах 5% (±2 п.п.).</li>
-    </ul>
+      <div class="timeline-step">
+        <div class="timeline-year">2012–<br>2015</div>
+        <div class="timeline-body">
+          <strong>Подготовка</strong>
+          <p>На основании указаний Основателя мира и национального единства — Лидера нации, Президента Республики Таджикистан, Национальный банк Таджикистана начал реализацию важных реформ во всей деятельности банковской системы страны, особенно в сфере денежно-кредитной политики.</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2016–<br>2020</div>
+        <div class="timeline-body">
+          <strong>Реализация принципов режима таргетирования инфляции</strong>
+          <p>В рамках Стратегии денежно-кредитной и валютной политики на 2016–2020 годы Национальным банком Таджикистана были реализованы следующие меры:</p>
+          <ul>
+            <li>совершенствование инструментов денежно-кредитной политики и введение инструментов постоянного действия;</li>
+            <li>укрепление аналитического и прогнозного потенциала сотрудников; разработка прогнозных моделей макроэкономического и эконометрического анализа;</li>
+            <li>содействие развитию банковской системы и финансового посредничества;</li>
+            <li>улучшение коммуникации с населением страны;</li>
+            <li>совершенствование управления международными резервами;</li>
+            <li>переход к режиму управляемого плавающего валютного курса;</li>
+            <li>снижение долларизации экономики;</li>
+            <li>повышение доверия к национальной валюте (сомони) и др.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2021–<br>2025</div>
+        <div class="timeline-body">
+          <strong>Завершающая подготовка</strong>
+          <p>В рамках <u>Стратегии денежно-кредитной политики на 2021–2025</u> годы Национальный банк Таджикистана реализовал важные реформы:</p>
+          <ul>
+            <li>укрепление трансмиссионного механизма ДКП;</li>
+            <li>введение механизма усреднения обязательных резервов кредитных организаций;</li>
+            <li>продолжение сотрудничества с международными финансовыми организациями в области развития денежного рынка;</li>
+            <li>разработка и совершенствование нормативно-правовой базы;</li>
+            <li>постепенное снижение целевого показателя инфляции до 5% (±2 п.п.);</li>
+            <li>привлечение технической помощи для повышения аналитического потенциала;</li>
+            <li>разработка механизма прогнозирования ликвидности кредитных организаций и др.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-body">
+          <strong>Официальный переход</strong>
+          <p>Национальный банк Таджикистана официально объявил о переходе на режим таргетирования инфляции и установил целевой уровень инфляции на 2026 год в пределах 5% (±2 п.п.).</p>
+        </div>
+      </div>
+
+    </div>
     <p>Основным инструментом денежно-кредитной политики Национального банка Таджикистана в режиме таргетирования инфляции является <strong style="color: #5b9bd5;">ставка рефинансирования.</strong></p>
   </div>
 </div>
@@ -422,7 +520,7 @@
 <!-- Refinancing rate -->
 <div class="instrument-card card--green" id="rate">
   <div class="instrument-card__header">
-    <h2>Что такое ставка рефинансирования?</h2>
+    <h2>Ставка рефинансирования</h2>
   </div>
   <div class="instrument-card__body">
     <p>Согласно Закону «О Национальном банке Таджикистана», ставка рефинансирования — минимальная процентная ставка, по которой Национальный банк предоставляет кредиты кредитным организациям, или доходная ставка для исламских кредитных организаций.</p>
@@ -438,12 +536,12 @@
 <!-- How rate is set -->
 <div class="instrument-card card--amber" id="rateset">
   <div class="instrument-card__header">
-    <h2>Как устанавливается ставка рефинансирования?</h2>
+    <h2>Порядок установления ставки рефинансирования</h2>
   </div>
   <div class="instrument-card__body">
     <p>Ставка рефинансирования устанавливается на заседаниях Комитета по денежно-кредитной политики на основе макроэкономического прогноза, экономической ситуации в странах — торговых партнёрах, тенденций мировых цен и инфляционных ожиданий путём голосования не менее 2/3 членов Комитета.</p>
     <p>В рамках режима таргетирования инфляции, когда прогноз и ожидания инфляции превышают цель, ставка повышается; если ниже — понижается.</p>
-    <p>Подробнее об инструментах денежно-кредитной политики см. на странице<a href="../ru/fishang_ru"><u> «Инструменты денежно-кредитной политики»</u></a>.</p>
+    <p>Подробнее об инструментах денежно-кредитной политики см. на странице <a href="../ru/fishang_ru.html"><u>«Инструменты денежно-кредитной политики»</u></a>.</p>
     <p>Ставка рефинансирования влияет на другие показатели в рамках <strong style="color: #5b9bd5;">процентного коридора.</strong></p>
   </div>
 </div>
@@ -451,7 +549,7 @@
 <!-- Corridor -->
 <div class="instrument-card card--blue" id="corridor">
   <div class="instrument-card__header">
-    <h2>Что такое процентный коридор?</h2>
+    <h2>Границы процентного коридора</h2>
   </div>
   <div class="instrument-card__body">
     <table class="styled-table">
@@ -471,8 +569,8 @@
             <td>7,0% — ключевая ставка ДКП.</td>
         </tr>
          <tr>
-            <td><strong>Верхняя граница (ставка по депозитам овернайт)</strong></td>
-            <td>ставка рефинансирования − 3 п.п.(4,0%)% — ставка, которую Национальный банк кредитным организациям выплачивает кредитным организациям за привлечение депозитов овернайт.</td>
+            <td><strong>Нижняя граница (ставка по депозитам овернайт)</strong></td>
+            <td>ставка рефинансирования − 3 п.п. (4,0%) — ставка, которую Национальный банк выплачивает кредитным организациям за привлечение депозитов овернайт.</td>
         </tr>
          <tr>
             <td><strong>Краткосрочная межбанковская ставка</strong></td>
@@ -487,7 +585,7 @@
 <!-- Tools -->
 <div class="instrument-card card--slate" id="tools">
   <div class="instrument-card__header">
-    <h2>Какие инструменты денежно-кредитной политики использует Национальный банк Таджикистана?</h2>
+    <h2>Применение инструментов денежно-кредитной политики Национальным банком Таджикистана</h2>
   </div>
   <div class="instrument-card__body">
     <p>Национальный банк Таджикистана использует следующие инструменты ДКП:</p>
@@ -507,7 +605,7 @@
 <!-- Committee -->
 <div class="instrument-card card--indigo" id="committee">
   <div class="instrument-card__header">
-    <h2>Кто принимает решения о проведении и позиции денежно-кредитной политики?</h2>
+    <h2>Порядок принятия решений о проведении и позиции денежно-кредитной политики</h2>
   </div>
   <div class="instrument-card__body">
     <p>В Национальном банке Таджикистана решения об определении позиции денежно-кредитной политики и применении инструментов денежно-кредитной политики возложены на Комитет по денежно-кредитной политики.</p>
@@ -520,14 +618,119 @@
 <!-- Impact on economy -->
 <div class="instrument-card card--green" id="impact">
   <div class="instrument-card__header">
-    <h2>Как решения Комитета по денежно-кредитной политики влияют на экономику?</h2>
+    <h2>Влияние изменений ставки рефинансирования на экономику</h2>
   </div>
   <div class="instrument-card__body">
     <p>При изменении Национальным банком ставки рефинансирования её воздействие на уровень цен охватывает определённый период. Изменение ставки влияет на экономические показатели постепенно — этот механизм называется трансмиссионным механизмом денежно-кредитной политики.</p>
     <p>Трансмиссионный механизм денежно-кредитной политики реализуется через следующие каналы:</p>
     <figure class="img-figure">
       <div class="img-figure__label">Трансмиссионный механизм денежно-кредитной политики</div>
-      <img src="../img/maksad2.png" alt="Трансмиссионный механизм денежно-кредитной политики">
+      <div class="tm-diagram">
+        <svg viewBox="0 0 862 415" xmlns="http://www.w3.org/2000/svg"
+             style="font-family:Inter,'Helvetica Neue',Arial,sans-serif">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8.5" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1.5 9,5 0,8.5" fill="#475569"/>
+            </marker>
+            <marker id="arr2" viewBox="0 0 10 10" refX="5" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1.5 9,5 0,8.5" fill="#475569"/>
+            </marker>
+            <linearGradient id="gOr" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#e2e8f0"/>
+            </linearGradient>
+            <linearGradient id="gBl" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0f5ff"/><stop offset="100%" stop-color="#dbeafe"/>
+            </linearGradient>
+            <linearGradient id="gSk" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0f9ff"/><stop offset="100%" stop-color="#e0f2fe"/>
+            </linearGradient>
+            <linearGradient id="gIn" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f5f3ff"/><stop offset="100%" stop-color="#ede9fe"/>
+            </linearGradient>
+            <linearGradient id="gPu" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff1f2"/><stop offset="100%" stop-color="#ffe4e6"/>
+            </linearGradient>
+            <filter id="sh" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0000001c"/>
+            </filter>
+          </defs>
+
+          <rect width="862" height="415" fill="#f8fafc"/>
+
+          <g stroke="#475569" stroke-width="2" fill="none">
+            <path d="M 81,210 L 100,53"  marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 102,163" marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 102,263" marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 100,368" marker-end="url(#arr2)"/>
+
+            <line x1="182" y1="92"  x2="182" y2="124" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="182" y1="202" x2="182" y2="224" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="182" y1="302" x2="182" y2="329" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+
+            <path d="M 257,368 L 290,368 L 290,52" />
+            <line x1="257" y1="53" x2="290" y2="53"/>
+
+            <line x1="257" y1="163" x2="299" y2="163"/>
+            <line x1="257" y1="263" x2="299" y2="263"/>
+
+            <line x1="300" y1="53"  x2="490" y2="53"  marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="250" y1="390" x2="490" y2="390" marker-end="url(#arr2)"/>
+
+            <line x1="456" y1="163" x2="490" y2="163" marker-end="url(#arr2)"/>
+            <line x1="456" y1="245" x2="490" y2="245" marker-end="url(#arr2)"/>
+
+            <line x1="580" y1="147" x2="580" y2="95"  marker-end="url(#arr2)"/>
+            <line x1="662" y1="207" x2="705" y2="207" marker-end="url(#arr2)"/>
+
+            <path d="M 662,53  L 730,53  L 810,132" marker-end="url(#arr2)"/>
+            <path d="M 662,368 L 730,368 L 810,294" marker-end="url(#arr2)"/>
+          </g>
+
+          <rect x="10"  y="25"  width="71"  height="370" rx="6" fill="url(#gOr)" stroke="#94a3b8" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="20"  width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="130" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="230" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="335" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="300" y="130" width="156" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="300" y="212" width="156" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="20"  width="164" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="148" width="164" height="118" rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="335" width="164" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="715" y="138" width="133" height="150" rx="6" fill="url(#gPu)" stroke="#fda4af" stroke-width="1.5" filter="url(#sh)"/>
+
+          <text transform="rotate(-90,45.5,210)" x="45.5" y="210"
+                text-anchor="middle" dominant-baseline="middle"
+                font-size="15" font-weight="700" fill="#334155">Ставка рефинансирования</text>
+
+          <text text-anchor="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">
+            <tspan x="182.5" y="44">Межбанковская</tspan><tspan x="182.5" dy="17">ставка</tspan>
+          </text>
+          <text x="182.5" y="163" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Канал кредитования</text>
+          <text x="182.5" y="263" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Канал ожиданий</text>
+          <text x="182.5" y="368" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Валютный канал</text>
+
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="378" y="154">Совокупный</tspan><tspan x="378" dy="17">внутренний спрос</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="378" y="237">Совокупный</tspan><tspan x="378" dy="17">внешний спрос</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="580" y="363">Импортные</tspan><tspan x="580" dy="16">цены</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="580" y="48">Инфляционные</tspan><tspan x="580" dy="16">ожидания</tspan>
+          </text>
+          <text text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a5f">
+            <tspan x="580" y="202">Совокупный спрос</tspan><tspan x="580" dy="18">(ВВП)</tspan>
+          </text>
+          <text text-anchor="middle" font-size="15" font-weight="700" fill="#9f1239">
+            <tspan x="781.5" y="204">Уровень</tspan><tspan x="781.5" dy="22">инфляции</tspan>
+          </text>
+        </svg>
+      </div>
     </figure>
     <p><strong>Для справки:</strong> В Таджикистане, как и в других странах региона, полный эффект изменения ставки на цены охватывает несколько кварталов. Поэтому Национальный банк принимает решения по денежно-кредитной политики с учётом <strong style="color: #5b9bd5;">прогноза уровня инфляции</strong> на среднесрочный период.</p>
   </div>
@@ -536,7 +739,7 @@
 <!-- Forecast -->
 <div class="instrument-card card--amber" id="forecast">
   <div class="instrument-card__header">
-    <h2>Как определяется прогноз уровня инфляции?</h2>
+    <h2>Порядок определения прогноза уровня инфляции</h2>
   </div>
   <div class="instrument-card__body">
     <p>В Национальном банке Таджикистана прогноз инфляции определяется с помощью различных эконометрических и макроэкономических моделей, разработанных совместно с международными финансовыми организациями.</p>
@@ -549,7 +752,7 @@
 <!-- Impact on population -->
 <div class="instrument-card card--blue" id="population">
   <div class="instrument-card__header">
-    <h2>Как денежно-кредитная политика влияет на население?</h2>
+    <h2>Влияние денежно-кредитной политики на население</h2>
   </div>
   <div class="instrument-card__body">
     <p>Денежно-кредитная политика оказывает следующее воздействие на повседневную жизнь населения:</p>
@@ -570,21 +773,60 @@
   </div>
   <div class="instrument-card__body">
     <p>Не все инфляционные факторы связаны с денежно-кредитной политики. Существуют факторы, для устранения которых Национальный банк Таджикистана совместно с министерствами принимает меры:</p>
-    <p>1) Изменение мировых цен;</p>
-    <p>2) Экологические изменения;</p>
-    <p>3) Геополитическая ситуация;</p>
-    <p>4) Инвестиционный климат;</p>
-    <p>5) Зависимость от импорта;</p>
-    <p>6) Административные факторы;</p>
-    <p>7) Сезонные факторы;</p>
-    <p>8) Изменение фискальной политики;</p>
-    <p>9) Структурные факторы;</p>
-    <p>10) Мировая финансово-экономическая ситуация.</p>
+    <ul>
+      <li>изменение мировых цен;</li>
+      <li>экологические изменения;</li>
+      <li>геополитическая ситуация;</li>
+      <li>инвестиционный климат;</li>
+      <li>зависимость от импорта;</li>
+      <li>административные факторы;</li>
+      <li>сезонные факторы;</li>
+      <li>изменение фискальной политики;</li>
+      <li>структурные факторы;</li>
+      <li>мировая финансово-экономическая ситуация.</li>
+    </ul>
   </div>
 </div>
 
 </div></div><!-- /.page-wrap -->
 
 <script src="../js/common.js"></script>
+<script>
+(function () {
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+  var chevron = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.querySelectorAll('.instrument-card__header').forEach(function (header) {
+    var btn = document.createElement('button');
+    btn.className = 'card-toggle';
+    btn.setAttribute('aria-label', 'Открыть / Закрыть');
+    btn.innerHTML = chevron;
+    header.appendChild(btn);
+    function toggle(e) {
+      e.stopPropagation();
+      header.closest('.instrument-card').classList.toggle('instrument-card--collapsed');
+    }
+    btn.addEventListener('click', toggle);
+    header.addEventListener('click', toggle);
+  });
+
+  // Back to top
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
+</script>
 </body>
 </html>

@@ -6,6 +6,8 @@
   <title>Ставка рефинансирования</title>
 
   
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/detail.css">
   <script defer src="../js/chart.umd.min.js"></script>
   <script src="../js/xlsx.full.min.js"></script>
 
@@ -14,7 +16,7 @@
     .section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 1em; padding-bottom: 0.5em; border-bottom: 2px solid #3b82f6; }
     .section p { margin-bottom: 0.75em; color: #475569; font-size: 0.92rem; line-height: 1.65; }
     .section p:last-child { margin-bottom: 0; }
-    .stats-card { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); border-radius: 16px; padding: 28px 32px; margin: 20px 0; box-shadow: 0 8px 32px rgba(30,64,175,0.28); position: relative; overflow: hidden; }
+    .stats-card { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); border-radius: 16px; padding: 28px 32px; margin: 0 0 28px; box-shadow: 0 8px 32px rgba(30,64,175,0.28); position: relative; overflow: hidden; }
     .stats-card::after { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.04); pointer-events: none; }
     .stats-card h3 { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.50); text-transform: uppercase; letter-spacing: 0.10em; margin: 0 0 3px; }
     .stats-card h4 { font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.35); margin: 0 0 14px; }
@@ -23,15 +25,34 @@
     .styled-table { width: 100%; border-collapse: collapse; font-size: 0.90rem; margin: 16px 0 0; border-radius: 8px; overflow: hidden; }
     .styled-table thead tr { background-color: #3b82f6; color: #fff; font-weight: 600; text-align: left; }
     .styled-table th, .styled-table td { padding: 11px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+    .styled-table th:first-child, .styled-table td:first-child { width: 40%; }
     .styled-table tbody tr:nth-child(even) { background-color: #f8fafc; }
     .styled-table tbody tr:hover { background-color: #e0f2fe; }
+    .read-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #6366f1); width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none; }
+    .back-to-top { position: fixed; bottom: 28px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: #3b82f6; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(59,130,246,0.35); opacity: 0; transform: translateY(12px); transition: opacity 0.25s, transform 0.25s, background 0.2s; pointer-events: none; z-index: 9998; }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
     @media (max-width: 768px) { .section { padding: 18px 16px; } }
+
+    .btn-chart--active { background:#fff7ed !important; border-color:#f59e0b !important; color:#f59e0b !important; }
+    .date-range-wrap { position:relative; }
+    .date-range-btn { display:flex; align-items:center; gap:6px; padding:5px 12px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; font-size:0.8rem; color:#475569; cursor:pointer; white-space:nowrap; font-family:inherit; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+    .date-range-btn:hover { border-color:#94a3b8; background:#f8fafc; }
+    .date-range-btn svg { flex-shrink:0; stroke:#94a3b8; }
+    .date-range-dropdown { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); z-index:200; flex-direction:column; gap:6px; min-width:172px; }
+    .date-range-dropdown.open { display:flex; }
+    .date-range-dropdown input[type="month"] { width:100%; padding:5px 8px; border:1px solid #e2e8f0; border-radius:6px; font-size:0.8rem; font-family:inherit; color:#1e293b; background:#fff; cursor:pointer; outline:none; transition:border-color 0.15s; }
+    .date-range-dropdown input[type="month"]:focus { border-color:#64748b; }
+    .date-range-dropdown .btn-chart--apply { width:100%; justify-content:center; margin-top:2px; padding:6px 0; border-radius:6px; font-size:0.78rem; background:#1e293b; border-color:#1e293b; color:#fff; }
+    .date-range-dropdown .btn-chart--apply:hover { background:#0f172a; border-color:#0f172a; }
+    .chart-source { font-size:0.72rem; color:#94a3b8; padding:5px 0 0; }
   </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/detail.css">
 </head>
 <body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Наверх">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 <header class="page-header">
   <div class="page-header__inner">
     <a href="../index.html" class="back-btn">Асосӣ</a>
@@ -41,10 +62,14 @@
       <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
       <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
     </div>
+
+
   </div>
+
+
 </header>
 
-<div class="container">
+<div class="page-wrap"><div class="container">
 
   <div class="stats-card">
     <h3>Ставка рефинансирования</h3>
@@ -53,9 +78,49 @@
     <div id="badge-rate-detail" class="stats-badge">↓ −0,25 п.п. с февраля 2026</div>
   </div>
 
+  <div class="chart-card">
+    <div class="chart-card__header">
+      <div class="chart-card__header-left">
+        <h2 class="chart-card__title">Изменение ставки рефинансирования</h2>
+      </div>
+      <div class="chart-toolbar">
+        <div class="date-range-wrap" id="rate-drwrap">
+          <button class="date-range-btn" onclick="toggleDatePicker()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="rate-range-label"></span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="date-range-dropdown" id="rate-dropdown">
+            <input type="month" id="rate-start">
+            <input type="month" id="rate-end">
+            <button class="btn-chart btn-chart--apply" onclick="applyDateRange()">Применить</button>
+          </div>
+        </div>
+        <button class="btn-chart" id="rate-reset-btn" onclick="resetChart()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Сброс
+        </button>
+        <button class="btn-chart" onclick="exportXLS()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          xlsx
+        </button>
+      </div>
+    </div>
+    <div class="chart-card__body">
+      <div class="chart-canvas-wrap" style="height:440px;">
+        <canvas id="rateChart"></canvas>
+      </div>
+      <div class="chart-source" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px">
+        <span>Источник: Национальный банк Таджикистана</span>
+        <span>Последнее обновление: <span id="rate-last-updated">—</span></span>
+      </div>
+    </div>
+  </div>
+
+
   <!-- 1. Что такое ставка рефинансирования -->
   <div class="section">
-    <h2>Что такое ставка рефинансирования?</h2>
+    <h2>Ставка рефинансирования</h2>
     <p>Согласно Закону «О Национальном банке Таджикистана», ставка рефинансирования — минимальная процентная ставка, по которой Национальный банк предоставляет кредиты кредитным организациям, или доходная ставка для исламских кредитных организаций.</p>
     <p>Ставка рефинансирования — основной инструмент для проведения монетарных операций, устанавливается на основе всестороннего анализа целевых показателей, возможных рисков и позиции денежно-кредитной политики.</p>
     <p>Ставка рефинансирования выполняет сигнальную функцию, характеризуя направление денежно-кредитной политики на будущий период.</p>
@@ -67,15 +132,15 @@
 
 
   <div class="section">
-    <h2>Как устанавливается ставка рефинансирования?</h2>
+    <h2>Порядок установления ставки рефинансирования</h2>
     <p>Ставка рефинансирования устанавливается на заседаниях Комитета по денежно-кредитной политики на основе макроэкономического прогноза, экономической ситуации в странах — торговых партнёрах, тенденций мировых цен и инфляционных ожиданий путём голосования не менее 2/3 членов Комитета.</p>
     <p>В рамках режима таргетирования инфляции, когда прогноз и ожидания инфляции превышают цель, ставка повышается; если ниже — понижается.</p>
-    <p>Подробнее об инструментах денежно-кредитной политики см. на странице<a href="../ru/fishang_ru.html"><u> «Инструменты денежно-кредитной политики»</u></a>.</p>
-    <p>Ставка рефинансирования влияет на другие показатели в рамках <strong style="color: #5b9bd5;">процентного коридора.</strong></p>
+    <p>Подробнее об инструментах денежно-кредитной политики см. на странице<a href="../ru/fishang_ru.html"> «Инструменты денежно-кредитной политики»</a>.</p>
+    <p>Ставка рефинансирования влияет на другие показатели в рамках <strong style="color: #2563eb;">процентного коридора.</strong></p>
   </div>
 
   <div class="section">
-  <h2>Что такое процентный коридор?</h2>
+  <h2>Границы процентного коридора</h2>
 
   <table class="styled-table">
       <thead>
@@ -106,53 +171,29 @@
 
 </div>
 
-    <div class="chart-card">
-      <div class="chart-card__header">
-        <div class="chart-card__header-left">
-          <h2 class="chart-card__title">Изменение ставки рефинансирования</h2>
-        </div>
-        <div class="chart-toolbar">
-          <div class="date-range">
-            <span class="date-range__label">От</span>
-            <input type="month" id="startDate" value="2010-01">
-            <span class="date-range-sep">—</span>
-            <span class="date-range__label">До</span>
-            <input type="month" id="endDate" value="2026-01">
-          </div>
-          <button class="btn-chart btn-chart--apply" onclick="updateChart()">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            OK
-          </button>
-          <button class="btn-chart" onclick="resetChart()">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            Reset
-          </button>
-          <button class="btn-chart" onclick="exportPNG()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l4 4 4-4"/><line x1="12" y1="8" x2="12" y2="16"/></svg>
-            PNG
-          </button>
-          <button class="btn-chart" onclick="exportCSV()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-            CSV
-          </button>
-        </div>
-      </div>
-      <div class="chart-card__body">
-        <div class="chart-canvas-wrap" style="height:440px;">
-          <canvas id="rateChart"></canvas>
-        </div>
-      </div>
-    </div>
-</div> 
+
+</div></div><!-- /.page-wrap -->
 
 <script>
 
 let rateChart;
-let originalData = null;
+let chartData = null;
 
 const MONTH_GENITIVE_RU = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+function fmtRUDate(d){if(!d)return'—';const[y,m]=d.split('-').map(Number);return MONTH_GENITIVE_RU[m-1]+' '+y;}
 
-function computeCardState(arr, dates) {
+function toNum(v){if(v===undefined||v===null||v==='')return null;const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?null:n;}
+
+function computeRange(values){
+  const nums=values.filter(v=>v!==null&&!isNaN(v));
+  if(!nums.length)return{min:0,max:10,step:2};
+  const lo=Math.min(...nums),hi=Math.max(...nums);
+  const step=hi-lo<5?1:hi-lo<15?2:5;
+  const mid=(lo+hi)/2,half=Math.ceil(((hi-lo)/2+step)/step)*step;
+  return{min:Math.max(0,Math.floor((mid-half)/step)*step),max:Math.ceil((mid+half)/step)*step,step};
+}
+
+function computeCardState(arr, dates, rateDates) {
   const n = arr.length; if (n < 2) return null;
   const current = arr[n-1];
   let changeIdx = n-1;
@@ -163,7 +204,9 @@ function computeCardState(arr, dates) {
   const prevValue = changeIdx > 0 ? arr[changeIdx-1] : current;
   const delta = current - prevValue;
   const direction = delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0;
-  return { direction, delta: Math.abs(delta), sinceDate: dates[changeIdx], currentValue: current };
+  const base = dates[changeIdx];
+  const day = rateDates && rateDates[changeIdx] != null ? rateDates[changeIdx] : null;
+  return { direction, delta: Math.abs(delta), sinceDate: day ? {...base, day} : base, currentValue: current };
 }
 
 function updateCorridorTable(rate) {
@@ -176,8 +219,8 @@ function updateCorridorTable(rate) {
   if (l) l.textContent = fmt(rate - 3);
 }
 
-function updateRateCard(rates, dates) {
-  const state = computeCardState(rates, dates);
+function updateRateCard(rates, dates, rateDates) {
+  const state = computeCardState(rates, dates, rateDates);
   if (!state) return;
   const valEl = document.getElementById('val-rate-detail');
   const badgeEl = document.getElementById('badge-rate-detail');
@@ -185,15 +228,17 @@ function updateRateCard(rates, dates) {
   if (valEl) valEl.textContent = state.currentValue.toFixed(2).replace('.', ',');
   if (state.sinceDate) {
     const mn = MONTH_GENITIVE_RU[state.sinceDate.month - 1];
-    if (subtitleEl) subtitleEl.textContent = `от ${mn} ${state.sinceDate.year} года`;
+    const day = state.sinceDate.day ? (state.sinceDate.day < 10 ? '0' + state.sinceDate.day : '' + state.sinceDate.day) + ' ' : '';
+    if (subtitleEl) subtitleEl.textContent = `от ${day}${mn} ${state.sinceDate.year} года`;
     if (badgeEl) {
       if (state.direction === 0) {
         badgeEl.textContent = 'Без изменений';
         badgeEl.style.cssText = 'background:rgba(251,191,36,0.22);color:#fbbf24;border:1px solid rgba(251,191,36,0.35);';
       } else {
+        const arrow = state.direction < 0 ? '↓ ' : '↑ ';
         const sign = state.direction < 0 ? '−' : '+';
         const deltaStr = state.delta.toFixed(2).replace('.', ',');
-        badgeEl.textContent = `${sign}${deltaStr} п.п. с ${mn} ${state.sinceDate.year}`;
+        badgeEl.textContent = `${arrow}${sign}${deltaStr} п.п.`;
         if (state.direction < 0) {
           badgeEl.style.cssText = 'background:rgba(34,197,94,0.18);color:#86efac;border:1px solid rgba(34,197,94,0.25);';
         } else {
@@ -205,140 +250,205 @@ function updateRateCard(rates, dates) {
   updateCorridorTable(state.currentValue);
 }
 
-// ===== ЗАГРУЗКА EXCEL =====
-async function loadExcelData() {
-  try {
-    const response = await fetch('../data/data.xlsx');
-
-    if (!response.ok) {
-      throw new Error('Excel файл не найден');
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-
-    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-
-    const json = XLSX.utils.sheet_to_json(sheet);
-
-    const labels = json.map(row => String(row.date).slice(0, 7));
-    const values = json.map(row => Number(row.rate));
-    const dates = json.map(row => {
-      const str = String(row.date).slice(0, 7);
-      const [y, m] = str.split('-');
-      return { year: parseInt(y), month: parseInt(m) };
-    });
-
-    updateRateCard(values, dates);
-
-    return { labels, values };
-
-  } catch (err) {
-    console.error('Ошибка загрузки Excel:', err);
-    return { labels: [], values: [] };
-  }
-}
-
-// ===== INIT CHART =====
 document.addEventListener('DOMContentLoaded', async () => {
+  let buffer;
+  try {
+    const res = await fetch('../data/data.xlsx');
+    if (!res.ok) throw new Error(res.status);
+    buffer = await res.arrayBuffer();
+  } catch(err) { console.error('Ошибка:', err); return; }
 
-  const data = await loadExcelData();
-  originalData = data;
+  const wb = XLSX.read(buffer, {type:'array'});
+  const sheet = wb.Sheets[wb.SheetNames[0]];
+  const json = XLSX.utils.sheet_to_json(sheet, {defval:''});
 
-  const ctx = document.getElementById('rateChart').getContext('2d');
+  const labels = [], values = [], cardRates = [], cardDates = [], cardRateDates = [];
+  json.forEach(row => {
+    const date = row.date; if (!date) return;
+    const v = toNum(row.rate_eom);
+    labels.push(String(date).slice(0,7));
+    values.push(v);
+    if (v !== null) {
+      cardRates.push(v);
+      const [y,m] = String(date).slice(0,7).split('-');
+      cardDates.push({year:parseInt(y),month:parseInt(m)});
+      cardRateDates.push(row.rate_date != null && row.rate_date !== '' ? +row.rate_date : null);
+    }
+  });
 
-  const validVals = data.values.filter(v => v != null && !isNaN(v) && v > 0);
-  const lo = Math.min(...validVals), hi = Math.max(...validVals);
-  const span = hi - lo || 1;
-  const yStep = span <= 3 ? 1 : span <= 8 ? 2 : 5;
-  const mid = (lo + hi) / 2;
-  const half = Math.ceil((span / 2 + yStep) / yStep) * yStep;
-  const yMin = Math.max(0, Math.floor((mid - half) / yStep) * yStep);
-  const yMax = Math.ceil((mid + half) / yStep) * yStep;
+  chartData = {labels, values};
+  updateRateCard(cardRates, cardDates, cardRateDates);
 
+  let startIdx = labels.findIndex(l => l >= '2010-01'); if (startIdx < 0) startIdx = 0;
+  const slicedLabels = labels.slice(startIdx);
+  const slicedValues = values.slice(startIdx);
+
+  const allVals = slicedValues.filter(v => v !== null);
+  const r = {...computeRange(allVals), min:0};
+
+  const ctx = document.getElementById('rateChart');
   rateChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: data.labels,
+      labels: slicedLabels,
       datasets: [{
         label: 'Ставка рефинансирования',
-        data: data.values,
+        data: slicedValues,
         borderColor: '#1e40af',
-        backgroundColor: 'rgba(30, 64, 175, 0.12)',
-        tension: 0.4,
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        fill: false,
+        tension: 0,
+        stepped: 'before',
         pointRadius: 0,
-        borderWidth: 3,
-        fill: true
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#1e40af',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2,
+        spanGaps: true
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
+      interaction: {mode:'index', intersect:false},
       plugins: {
-        legend: { position: 'top' },
-        tooltip: { callbacks: { label: c => ` ${c.parsed.y.toFixed(2).replace('.', ',')}%` } }
+        legend: {display:false},
+        tooltip: {
+          callbacks: {
+            title: () => '',
+            label: c => {
+              if (c.parsed.y === null) return '';
+              const val = c.parsed.y, lbl = c.chart.data.labels[c.dataIndex];
+              const vs = val.toFixed(2).replace('.', ',');
+              const pd = c.chart.data.datasets[0].data;
+              let prev = null;
+              for (let i = c.dataIndex-1; i >= 0; i--) { if (pd[i] !== null) { prev = pd[i]; break; } }
+              if (prev !== null && Math.abs(val - prev) > 0.0001) {
+                const d = val - prev, s2 = d >= 0 ? '+' : '', a = d >= 0 ? '▲' : '▼';
+                return `${lbl}: ${vs}% (${a} ${s2}${d.toFixed(2).replace('.', ',')}%)`;
+              }
+              return `${lbl}: ${vs}%`;
+            },
+            labelColor: () => ({ borderColor: '#1e40af', backgroundColor: '#1e40af' })
+          }
+        }
       },
       scales: {
-        y: {
-          min: yMin, max: yMax,
-          ticks: { callback: v => v + '%', stepSize: yStep, color: '#475569' }
-        }
+        x: {grid:{color:'#e6e6e6'}, ticks:{color:'#666',maxTicksLimit:12,maxRotation:45,minRotation:45}},
+        y: {min:r.min, max:r.max, grid:{color:'#e6e6e6'}, ticks:{color:'#666',stepSize:r.step,callback:v=>v+'%'}}
       }
     }
   });
 
-  // авто установка дат
-  if (data.labels.length) {
-    document.getElementById('startDate').value = data.labels[0];
-    document.getElementById('endDate').value = data.labels[data.labels.length - 1];
+  const si = document.getElementById('rate-start');
+  const ei = document.getElementById('rate-end');
+  const firstRateIdx = values.findIndex(v => v !== null);
+  const firstRateDate = firstRateIdx >= 0 ? labels[firstRateIdx] : labels[0];
+  si.min = firstRateDate; si.max = labels[labels.length-1];
+  ei.min = firstRateDate; ei.max = labels[labels.length-1];
+  si.value = slicedLabels[0]; ei.value = slicedLabels[slicedLabels.length-1];
+  updateRangeLabel();
+
+  let lastDate = null;
+  for (let i = values.length-1; i >= 0; i--) { if (values[i] !== null) { lastDate = labels[i]; break; } }
+  const lastEl = document.getElementById('rate-last-updated');
+  if (lastEl) lastEl.textContent = fmtRUDate(lastDate);
+});
+
+function toggleDatePicker() {
+  document.getElementById('rate-dropdown').classList.toggle('open');
+}
+
+function applyDateRange() {
+  document.getElementById('rate-dropdown').classList.remove('open');
+  applyRange();
+  updateRangeLabel();
+}
+
+function applyRange() {
+  if (!rateChart || !chartData) return;
+  const start = document.getElementById('rate-start').value;
+  const end = document.getElementById('rate-end').value;
+  let s = chartData.labels.findIndex(l => l >= start); if (s < 0) s = 0;
+  let e = chartData.labels.findIndex(l => l > end); if (e < 0) e = chartData.labels.length;
+  if (e <= s) e = s + 1;
+  rateChart.data.labels = chartData.labels.slice(s, e);
+  rateChart.data.datasets[0].data = chartData.values.slice(s, e);
+  const allVals = chartData.values.slice(s, e).filter(v => v !== null);
+  const r = {...computeRange(allVals), min:0};
+  rateChart.options.scales.y.min = r.min; rateChart.options.scales.y.max = r.max; rateChart.options.scales.y.ticks.stepSize = r.step;
+  rateChart.update();
+  const rb = document.getElementById('rate-reset-btn'); if (rb) rb.classList.add('btn-chart--active');
+}
+
+function resetChart() {
+  if (!rateChart || !chartData) return;
+  let startIdx = chartData.labels.findIndex(l => l >= '2010-01'); if (startIdx < 0) startIdx = 0;
+  const labels = chartData.labels.slice(startIdx);
+  const values = chartData.values.slice(startIdx);
+  rateChart.data.labels = labels;
+  rateChart.data.datasets[0].data = values;
+  const allVals = values.filter(v => v !== null);
+  const r = {...computeRange(allVals), min:0};
+  rateChart.options.scales.y.min = r.min; rateChart.options.scales.y.max = r.max; rateChart.options.scales.y.ticks.stepSize = r.step;
+  rateChart.update();
+  const si = document.getElementById('rate-start'); const ei = document.getElementById('rate-end');
+  if (si && ei) { si.value = labels[0]; ei.value = labels[labels.length-1]; updateRangeLabel(); }
+  document.getElementById('rate-dropdown').classList.remove('open');
+  const rb = document.getElementById('rate-reset-btn'); if (rb) rb.classList.remove('btn-chart--active');
+}
+
+function updateRangeLabel() {
+  const s = document.getElementById('rate-start').value;
+  const e = document.getElementById('rate-end').value;
+  const lbl = document.getElementById('rate-range-label');
+  const fmt = v => v ? v.split('-').reverse().join('.') : '?';
+  if (lbl) lbl.textContent = fmt(s) + ' — ' + fmt(e);
+}
+
+function exportXLS() {
+  if (!rateChart) return;
+  const rows = [['Дата', 'Ставка рефинансирования (%)']];
+  rateChart.data.labels.forEach((l, i) => {
+    const v = rateChart.data.datasets[0].data[i];
+    if (v !== null) rows.push([l, v]);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:10},{wch:26}];
+  const wb2 = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb2, ws, 'rate');
+  XLSX.writeFile(wb2, 'policy_rate.xlsx');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.date-range-wrap')) {
+    const dd = document.getElementById('rate-dropdown');
+    if (dd) dd.classList.remove('open');
   }
 });
 
-
-// ===== UPDATE CHART (ФИЛЬТР) =====
-function updateChart() {
-  if (!rateChart || !originalData) return;
-
-  const startInput = document.getElementById('startDate').value;
-  const endInput = document.getElementById('endDate').value;
-
-  const start = startInput.slice(0, 7);
-  const end = endInput.slice(0, 7);
-
-  const labels = originalData.labels;
-  const values = originalData.values;
-
-  let startIndex = labels.findIndex(l => l >= start);
-  let endIndex = labels.findIndex(l => l > end) - 1;
-
-  if (startIndex < 0) startIndex = 0;
-  if (endIndex < 0) endIndex = labels.length - 1;
-
-  rateChart.data.labels = labels.slice(startIndex, endIndex + 1);
-  rateChart.data.datasets[0].data = values.slice(startIndex, endIndex + 1);
-
-  rateChart.update();
-}
-
-
-// ===== RESET =====
-function resetChart() {
-  if (!rateChart || !originalData) return;
-
-  rateChart.data.labels = originalData.labels;
-  rateChart.data.datasets[0].data = originalData.values;
-  rateChart.update();
-
-  document.getElementById('startDate').value = originalData.labels[0];
-  document.getElementById('endDate').value = originalData.labels[originalData.labels.length - 1];
-}
-
-
-function exportPNG() { exportChartPNG(rateChart, 'rateChart'); }
-function exportCSV() { exportChartCSV(rateChart, 'rateChart', 'Rate'); }
-
+</script>
+<script>
+(function () {
+  var bar = document.getElementById('readProgress');
+  if (bar) {
+    function updateBar() {
+      var doc = document.documentElement;
+      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
+    }
+    window.addEventListener('scroll', updateBar, { passive: true });
+  }
+  var btt = document.getElementById('backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function () {
+      btt.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+    btt.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
 </script>
 <script src="../js/common.js"></script>
 </body>
