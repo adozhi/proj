@@ -8,143 +8,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/detail.css">
   <style>
-    .page-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: var(--navy); margin-bottom: 1.5rem; line-height: 1.25; }
-
-    .instrument-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.75rem; }
-    .instrument-nav a { display: inline-block; padding: 6px 14px; border-radius: 20px; background: var(--surface-alt); border: 1px solid var(--border); color: var(--navy); font-size: 0.82rem; font-weight: 500; text-decoration: none; transition: background 0.15s, color 0.15s; }
-    .instrument-nav a:hover { background: #1e40af; color: #fff; border-color: #1e40af; }
-    .instrument-nav .nav-num { font-weight: 700; margin-right: 4px; color: #3b82f6; }
-
-    .instrument-card { background: var(--surface); border-radius: 14px; box-shadow: var(--shadow-sm); margin-bottom: 1.75rem; overflow: hidden; border: 1px solid var(--border); }
-    .instrument-card__header { display: flex; align-items: flex-start; padding: 16px 24px; border-bottom: 1px solid var(--border); background: var(--surface-alt); }
-    .instrument-card__header h2 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin: 0; line-height: 1.4; padding-bottom: 0; border-bottom: none; }
-    .instrument-card__body { padding: 20px 24px; }
-    .card--blue   .instrument-card__header { border-left: 4px solid #3b82f6; }
-    .card--slate  .instrument-card__header { border-left: 4px solid #64748b; }
-    .card--indigo .instrument-card__header { border-left: 4px solid #6366f1; }
-    .card--green  .instrument-card__header { border-left: 4px solid #10b981; }
-
-    .instrument-card__body p { margin-bottom: 0.9rem; }
-    .instrument-card__body ul { padding-left: 1.5rem; margin-bottom: 1rem; }
-    .instrument-card__body li { margin-bottom: 0.4rem; }
-    .instrument-card__body h3 { font-size: 1rem; font-weight: 600; color: var(--navy); margin: 1.2rem 0 0.6rem; }
-
-    /* Members table */
-    .members-table {
-      width: 100%; border-collapse: separate; border-spacing: 0;
-      border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 0.95rem;
-    }
-    .members-table thead tr { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; }
-    .members-table th, .members-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    .members-table th { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
-    .members-table tbody tr:nth-child(even) { background: var(--surface-alt); }
-    .members-table tbody tr:hover { background: #eff6ff; }
-    .members-table .num { width: 40px; text-align: center; color: var(--text-muted); font-weight: 600; }
-    .members-table .phone { font-family: monospace; color: var(--blue); font-weight: 600; white-space: nowrap; }
-
-    /* Schedule table */
-    .schedule-table {
-      width: 100%; border-collapse: separate; border-spacing: 0;
-      border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 0.95rem; margin-top: 1.5rem;
-    }
-    .schedule-table thead tr { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; }
-    .schedule-table th, .schedule-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
-    .schedule-table th { font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
-    .schedule-table tbody tr:hover { background: #eff6ff; }
-
-    .row-done   { background: #f0fdf4; }
-    .row-next   { background: #eff6ff; outline: 2px solid #2563eb; outline-offset: -2px; font-weight: 600; }
-    .row-future { background: #fff; }
-    .row-done:hover, .row-next:hover, .row-future:hover { background: #dbeafe; }
-
-    /* Year selector */
     .year-section {
       margin-top: 2.5rem; padding: 20px 24px;
       background: var(--surface-alt); border-radius: 12px; border: 1px solid var(--border);
     }
-    .year-section h3 { margin: 0 0 14px; font-size: 1rem; font-weight: 600; color: var(--text-2); }
-    .year-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
-    .year-btn {
-      padding: 6px 16px; border-radius: 8px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--text-2); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.15s;
-    }
-    .year-btn:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
-    .year-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
-
-    /* PDF link */
-    .pdf-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 20px; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; color: var(--blue); font-weight: 600; text-decoration: none;
-      transition: all 0.15s; box-shadow: var(--shadow-xs);
-    }
-    .pdf-link:hover { background: var(--blue-light); border-color: var(--blue); }
-
-    @media (max-width: 640px) {
-      .members-table, .schedule-table { font-size: 0.82rem; }
-      .members-table th, .members-table td,
-      .schedule-table th, .schedule-table td { padding: 9px 8px; }
-    }
-
-    /* Progress bar */
-    .read-progress {
-      position: fixed; top: 0; left: 0; height: 3px;
-      background: linear-gradient(90deg, #3b82f6, #6366f1);
-      width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none;
-    }
-    /* Accordion */
-    .instrument-card__header { cursor: pointer; }
-    .card-toggle {
-      margin-left: auto; flex-shrink: 0; background: rgba(255,255,255,0.7);
-      border: 1px solid var(--border); border-radius: 50%; width: 30px; height: 30px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: background 0.2s; padding: 0;
-    }
-    .card-toggle:hover { background: #fff; }
-    .card-toggle svg { transition: transform 0.25s ease; display: block; }
-    .instrument-card--collapsed .card-toggle svg { transform: rotate(-90deg); }
-    .instrument-card--collapsed .instrument-card__body { display: none; }
-    /* Smooth scroll + active nav */
-    html { scroll-behavior: smooth; }
-    .instrument-nav a.nav--active { background: #1e40af; color: #fff; border-color: #1e40af; }
-    /* Back to top */
-    .back-to-top {
-      position: fixed; bottom: 28px; right: 24px;
-      width: 42px; height: 42px; border-radius: 50%;
-      background: #3b82f6; color: #fff; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(59,130,246,0.35);
-      opacity: 0; transform: translateY(12px);
-      transition: opacity 0.25s, transform 0.25s, background 0.2s;
-      pointer-events: none; z-index: 9998;
-    }
-    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
-    /* Status badge in schedule */
-    .status-badge {
-      display: inline-block; font-size: 0.6rem; font-weight: 700;
-      padding: 2px 7px; border-radius: 20px;
-      text-transform: uppercase; letter-spacing: 0.05em;
-      margin-left: 8px; vertical-align: middle; white-space: nowrap;
-    }
-    .status-badge--done   { background: #d1fae5; color: #065f46; }
-    .status-badge--next   { background: #dbeafe; color: #1e40af; }
-    .status-badge--future { background: #f1f5f9; color: #475569; }
-    /* row-next subtle pulse */
-    @keyframes nextPulse {
-      0%, 100% { outline-color: #2563eb; }
-      50%       { outline-color: #93c5fd; }
-    }
-    .row-next { animation: nextPulse 2.4s ease-in-out infinite; }
-    /* Countdown */
-    .meeting-countdown {
-      margin-top: 14px; padding: 10px 18px;
-      background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe;
-      font-size: 0.85rem; color: #1e3a5f; font-weight: 500;
-    }
-    /* Phone links */
-    .phone a { color: var(--blue); text-decoration: none; font-weight: 600; }
-    .phone a:hover { text-decoration: underline; }
+    .year-section h3 { margin: 0 0 12px; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
   </style>
 </head>
 <body>
@@ -170,13 +38,61 @@
 <h1 class="page-title">Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h1>
 
 <nav class="instrument-nav">
-  <a href="#about">Кумита</a>
-  <a href="#members">Ҳайат</a>
   <a href="#meeting">Нақша</a>
   <a href="#regulation">Низомнома</a>
+  <a href="#about">Кумита</a>
+  <a href="#members">Ҳайат</a>
 </nav>
 
-<!-- 01 About -->
+<!-- 01 Schedule -->
+<div id="meeting" class="instrument-card card--green">
+  <div class="instrument-card__header"><h2>Нақшаи баргузории ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон барои соли 2026</h2></div>
+  <div class="instrument-card__body">
+    <div class="table-wrap">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
+          <th>Шарҳи мухтасар</th>
+          <th>Муаррифӣ</th>
+          <th colspan="2">Қарори кумита</th>
+        </tr>
+      </thead>
+      <tbody id="scheduleBody"></tbody>
+    </table>
+    </div>
+    <div class="year-section">
+      <h3>Ҷаласаҳои пешина</h3>
+      <div class="year-buttons" id="yearButtons"></div>
+      <div class="table-wrap" id="historyTable" style="display:none; margin-top:1.2rem;">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
+            <th>Шарҳи мухтасар</th>
+            <th>Муаррифӣ</th>
+            <th colspan="2">Қарори кумита</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 Regulation -->
+<div id="regulation" class="instrument-card card--indigo">
+  <div class="instrument-card__header"><h2>Низомнома</h2></div>
+  <div class="instrument-card__body">
+    <a href="../docs/Nizomnomai_kumita_2025.pdf" class="pdf-link" target="_blank" rel="noopener noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон
+    </a>
+  </div>
+</div>
+
+<!-- 03 About -->
 <div id="about" class="instrument-card card--blue">
   <div class="instrument-card__header"><h2>Дар бораи Кумита</h2></div>
   <div class="instrument-card__body">
@@ -196,13 +112,14 @@
   </div>
 </div>
 
-<!-- 02 Members -->
+<!-- 04 Members -->
 <div id="members" class="instrument-card card--slate">
   <div class="instrument-card__header"><h2>Ҳайати Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h2></div>
   <div class="instrument-card__body">
+    <div class="table-wrap">
     <table class="members-table">
       <thead>
-        <tr><th class="num">№</th><th>Ному насаб</th><th>Вазифа</th><th>Тамос</th></tr>
+        <tr><th class="">№</th><th>Ному насаб</th><th>Вазифа</th><th>Тамос</th></tr>
       </thead>
       <tbody>
         <tr><td class="num">1</td><td>Толибзода Фирдавс Назримад</td><td>Раиси Кумита - раиси Бонки миллии Тоҷикистон</td><td class="phone"><a href="tel:+992446003201">+(992 44) 600-32-01</a></td></tr>
@@ -216,83 +133,299 @@
         <tr><td class="num">9</td><td>Навҷуанова Муниса Навҷуановна</td><td>Сардори шуъбаи таҳлили хавфҳо</td><td class="phone"><a href="tel:+992446003299">+(992 44) 600-32-99</a></td></tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<!-- 03 Schedule -->
-<div id="meeting" class="instrument-card card--indigo">
-  <div class="instrument-card__header"><h2>Нақшаи баргузории ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон барои соли 2026</h2></div>
-  <div class="instrument-card__body">
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
-          <th>Шарҳи мухтасар</th>
-          <th>Муаррифӣ</th>
-          <th colspan="2">Қарори кумита</th>
-        </tr>
-      </thead>
-      <tbody id="scheduleBody"></tbody>
-    </table>
-    <div id="meetingCountdown" class="meeting-countdown"></div>
-
-    <div class="year-section">
-      <h3>Ҷаласаҳои пешина</h3>
-      <div class="year-buttons" id="yearButtons"></div>
-      <table class="schedule-table" id="historyTable" style="display:none; margin-top:1.2rem;">
-        <thead>
-          <tr>
-            <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
-            <th>Шарҳи мухтасар</th>
-            <th>Муаррифӣ</th>
-            <th colspan="2">Қарори кумита</th>
-          </tr>
-        </thead>
-        <tbody id="historyBody"></tbody>
-      </table>
     </div>
-  </div>
-</div>
-
-<!-- 04 Regulation -->
-<div id="regulation" class="instrument-card card--green">
-  <div class="instrument-card__header"><h2>Низомнома</h2></div>
-  <div class="instrument-card__body">
-    <a href="../docs/Nizomnomai_kumita_2025.pdf" class="pdf-link" target="_blank" rel="noopener noreferrer">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-      Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон
-    </a>
   </div>
 </div>
 
 </div></div>
 
 <script>
+// render helpers
+function renderDoc(doc) {
+  if (!doc) return '';
+  return 'Санаи нашр:<br>' + doc.label;
+}
+function renderRes(doc) {
+  if (!doc) return '';
+  return doc.label;
+}
+
+// meeting data
 const MEETINGS = {
+
   "2026": [
-    { iso: "2026-01-29", cols: ["29 январи с.2026", "Санаи нашр: 29 январи с.2026", "Санаи нашр: 29 январи с.2026", "Қарори №46"] },
-    { iso: "2026-04-30", cols: ["30 апрел с.2026",  "Санаи нашр: 30 апрел с.2026",  "Санаи нашр: 30 апрел с.2026",  "Қарори №"]   },
-    { iso: "2026-07-30", cols: ["30 июл с.2026",     "Санаи нашр: 30 июл с.2026",     "Санаи нашр: 30 июл с.2026",     "Қарори №"]   },
-    { iso: "2026-10-29", cols: ["29 октябр с.2026",  "Санаи нашр: 29 октябр с.2026",  "Санаи нашр: 29 октябр с.2026",  "Қарори №"]   },
+    { iso:"2026-01-29", date:"29 январи с.2026",
+      summary:      { href:"/files/monetary_policy/2026/Кумита/Резаахбор%2046.pdf",  label:"29 январи с.2026" },
+      presentation: { href:"/files/monetary_policy/2026/Кумита/Runamo_46.pdf",        label:"29 январи с.2026" },
+      resolution:   { href:"/files/monetary_policy/2026/Кумита/Qaror%2046_somona.pdf",label:"Қарори №46" } },
+
+    { iso:"2026-04-30", date:"30 апрел с.2026",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Резаахбор%2047.pdf",         label:"30 апрел с.2026" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2026/Runamo_47_taj.pdf",     label:"30 апрел с.2026" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2026/Qaror%2047_somona.pdf", label:"Қарори №47" } },
+
+    { iso:"2026-07-30", date:"30 июл с.2026",
+      summary:      { href:null, label:"30 июл с.2026" },
+      presentation: { href:null, label:"30 июл с.2026" },
+      resolution:   { href:null, label:"Қарори №" } },
+
+    { iso:"2026-10-29", date:"29 октябр с.2026",
+      summary:      { href:null, label:"29 октябр с.2026" },
+      presentation: { href:null, label:"29 октябр с.2026" },
+      resolution:   { href:null, label:"Қарори №" } },
   ],
+
   "2025": [
-    { iso: "2025-01-15", cols: ["15 январи с.2025", "Санаи нашр: 15 январи с.2025", "Санаи нашр: 15 январи с.2025", "Қарори №40"] },
-    { iso: "2025-04-20", cols: ["20 апрел с.2025",  "Санаи нашр: 20 апрел с.2025",  "Санаи нашр: 20 апрел с.2025",  "Қарори №41"] },
+    { iso:"2025-02-06", date:"06 феврал с.2025",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_40.pdf",  label:"06 феврал с.2025" },
+      presentation: { href:"/files/normative/MPC_NBT_№40_taj.pdf",               label:"06 феврал с.2025" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror_40.pdf",       label:"Қарори №40" } },
+
+    { iso:"2025-04-30", date:"30 апрел с.2025",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Резаахбор%2041.pdf",      label:"30 апрел с.2025" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/MPC_NBT_№41_somona.pdf", label:"30 апрел с.2025" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2025/Qaror_41.pdf",       label:"Қарори №41" } },
+
+    { iso:"2025-05-28", date:"28 майи с.2025", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/2025/Резаахбор%2042.pdf",                   label:"28 май с.2025" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/MPC_NBT_%E2%84%9641_somona.pdf", label:"28 май с.2025" },
+      resolution:   { href:"/files/monetary_policy/2025/Qaror%20somona.pdf",                   label:"Қарори №42" } },
+
+    { iso:"2025-07-31", date:"31 июл с.2025",
+      summary:      { href:"/files/Omor/2025/Резаахбор%2043.pdf",        label:"31 июли с.2025" },
+      presentation: { href:"/files/Omor/2025/MPC_NBT_№43_somona.pdf",   label:"31 июли с.2025" },
+      resolution:   { href:"/files/Omor/2025/Qaror%2043.pdf",            label:"Қарори №43" } },
+
+    { iso:"2025-10-29", date:"29 октябр с.2025",
+      summary:      { href:"/files/Omor/kredit/Резаахбор%2044.pdf",        label:"29 октябр с.2025" },
+      presentation: { href:"/files/Omor/kredit/MPC_NBT_№44_somona.pdf",   label:"29 октябр с.2025" },
+      resolution:   { href:"/files/Omor/kredit/Қарори%2044.pdf",           label:"Қарори №44" } },
   ],
+
   "2024": [
-    { iso: "2024-02-10", cols: ["10 феврал с.2024", "Санаи нашр: 10 феврал с.2024", "Санаи нашр: 10 феврал с.2024", "Қарори №35"] },
+    { iso:"2024-02-09", date:"09 феврал с.2024",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_36.pdf", label:"09 феврал с.2024" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Runamo_36.pdf",     label:"09 феврал с.2024" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qarori_36.pdf",     label:"Қарори №36" } },
+
+    { iso:"2024-04-26", date:"26 апрел с.2024",
+      summary:      { href:"/files/monetary_policy/kumita/Резаахбор%2037.pdf",                   label:"26 апрел с.2024" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/MPC_NBT_№37%20(2024-04)%20сомона.pdf", label:"26 апрел с.2024" },
+      resolution:   { href:"/files/monetary_policy/kumita/Қарор%2037%20сомона.pdf",              label:"Қарори №37" } },
+
+    { iso:"2024-07-31", date:"31 июл с.2024",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_38.pdf", label:"31 июли с.2024" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Muarrifi_38.pdf",   label:"31 июли с.2024" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror_38.pdf",       label:"Қарори №38" } },
+
+    { iso:"2024-10-25", date:"25 октябр с.2024",
+      summary:      { href:"/files/monetary_policy/COMMEETEE/Rezaakhbor39.pdf", label:"25 октябр с.2024" },
+      presentation: { href:"/files/monetary_policy/COMMEETEE/Runamo39.pdf",     label:"25 октябр с.2024" },
+      resolution:   { href:"/files/monetary_policy/COMMEETEE/Qaror39.pdf",      label:"Қарори №39" } },
   ],
+
   "2023": [
-    { iso: "2023-03-12", cols: ["12 март с.2023", "Санаи нашр: 12 март с.2023", "Санаи нашр: 12 март с.2023", "Қарори №30"] },
+    { iso:"2023-02-03", date:"03 феврал с.2023",
+      summary:      { href:"/tj/monetary_policy/Rezaakhbor32.pdf", label:"03 феврал с.2023" },
+      presentation: { href:"/tj/monetary_policy/Runamo32.pdf",     label:"03 феврал с.2023" },
+      resolution:   { href:"/tj/monetary_policy/Qaror32.pdf",      label:"Қарори №32" } },
+
+    { iso:"2023-04-28", date:"28 апрел с.2023",
+      summary:      { href:"/files/monetary_policy/Rezaakhbor33.pdf", label:"28 апрел с.2023" },
+      presentation: { href:"/files/monetary_policy/Runamo33.pdf",     label:"28 апрел с.2023" },
+      resolution:   { href:"/files/monetary_policy/Qaror33.pdf",      label:"Қарори №33" } },
+
+    { iso:"2023-07-28", date:"28 июл с.2023",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_34.pdf", label:"28 июли с.2023" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Runamo_34.pdf",     label:"28 июли с.2023" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror_34.pdf",      label:"Қарори №34" } },
+
+    { iso:"2023-10-27", date:"27 октябр с.2023",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor35.pdf", label:"27 октябр с.2023" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Runamo35.pdf",     label:"27 октябр с.2023" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror35.pdf",      label:"Қарори №35" } },
   ],
-  "2022": [{ iso: "2022-03-12", cols: ["12 март с.2022", "Санаи нашр: 12 март с.2022", "Санаи нашр: 12 март с.2022", "Қарори №"] }],
-  "2021": [{ iso: "2021-03-12", cols: ["12 март с.2021", "Санаи нашр: 12 март с.2021", "Санаи нашр: 12 март с.2021", "Қарори №"] }],
-  "2020": [{ iso: "2020-03-12", cols: ["12 март с.2020", "Санаи нашр: 12 март с.2020", "Санаи нашр: 12 март с.2020", "Қарори №"] }],
-  "2019": [{ iso: "2019-03-12", cols: ["12 март с.2019", "Санаи нашр: 12 март с.2019", "Санаи нашр: 12 март с.2019", "Қарори №"] }],
-  "2018": [{ iso: "2018-03-12", cols: ["12 март с.2018", "Санаи нашр: 12 март с.2018", "Санаи нашр: 12 март с.2018", "Қарори №"] }],
-  "2017": [{ iso: "2017-03-12", cols: ["12 март с.2017", "Санаи нашр: 12 март с.2017", "Санаи нашр: 12 март с.2017", "Қарори №"] }],
+
+  "2022": [
+    { iso:"2022-02-11", date:"11 феврал с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Rezaakhbor_28.pdf",        label:"11 феврал с.2022" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2022/11_02_2022_Muarrifi_Kumita.pdf", label:"11 феврал с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Qaror_28.pdf",             label:"Қарори №28" } },
+
+    { iso:"2022-05-13", date:"13 май с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Резаахбор_29_2.pdf",          label:"13 май с.2022" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2022/MPC_NBT_№29_(2022-05)_02.pdf",label:"13 май с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Қарор_29.pdf",                label:"Қарори №29" } },
+
+    { iso:"2022-08-19", date:"19 август с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Резаахбор_30.pdf", label:"19 август с.2022" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2022/Muarrifi.pdf",     label:"19 август с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Qaror30.pdf",      label:"Қарори №30" } },
+
+    { iso:"2022-10-25", date:"25 октябр с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Rezaakhbor31.pdf", label:"25 октябр с.2022" },
+      presentation: { href:"/files/statistics/Muarrifi31.pdf",                       label:"25 октябр с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Qaror31.pdf",      label:"Қарори №31" } },
+  ],
+
+  "2021": [
+    { iso:"2021-01-28", date:"28 январи с.2021", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/Rezaahbor_2021_28_01.pdf", label:"28 январи с.2021" },
+      presentation: null,
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/Karor_№23.pdf",            label:"Қарори №23" } },
+
+    { iso:"2021-02-05", date:"5 феврали с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/Rezaakhbor_24.pdf",        label:"5 феврали с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/Runamo_muarrifi.pdf",      label:"5 феврали с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/06_02_21_qaror_24.pdf",    label:"Қарори №24" } },
+
+    { iso:"2021-04-27", date:"27 апрели с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/Rezaakhbor_25.pdf",           label:"27 апрели с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/MPC_NBT_№25_2021_04_27.pdf", label:"27 апрели с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/Qaror_25.pdf",                label:"Қарори №25" } },
+
+    { iso:"2021-07-27", date:"27 июли с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/27_07_2021_Rezaakhbor_26_pdf.pdf", label:"27 июли с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/27_07_2021_Muarrifi_Kumita.pdf",   label:"27 июли с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/27_07_2021_Qaror_№26.pdf",         label:"Қарори №26" } },
+
+    { iso:"2021-10-22", date:"22 октябри с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/22_10_2021_Rezaakhbor_27_pdf.pdf", label:"22 октябри с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/22_10_2021_Muarrifi_Kumita.pdf",   label:"22 октябри с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/Qaror_27.pdf",                     label:"Қарори №27" } },
+  ],
+
+  "2020": [
+    { iso:"2020-01-28", date:"28 январи с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/03.02.2020%20Резаахбор%2018.pdf",         label:"28 январи с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/12_02_2020_kumita_muarrifi_2020_03_.pdf", label:"28 январи с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/04_02_2020_Qaror_18_2020.pdf",            label:"Қарори №18" } },
+
+    { iso:"2020-04-01", date:"01 апрели с.2020", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/08.04.2020%20Резаахбор%2019%20%20ОХИРОН.pdf", label:"01 апрели с.2020" },
+      presentation: null,
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/08.04.2020%20Қарор%20№19.pdf",              label:"Қарори №19" } },
+
+    { iso:"2020-04-27", date:"27 апрели с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/Резаахбор%2020.pdf",                         label:"27 апрели с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/29.04.2020%20Комитети%20нав_03%20барои%20сайт_01.pdf", label:"27 апрели с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/Қарори%2020.pdf",                            label:"Қарори №20" } },
+
+    { iso:"2020-07-27", date:"27 июли с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/Резаахбор%2021.pdf",        label:"27 июли с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/28.07.2020_Комитет.pdf",    label:"27 июли с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/Қарор%20№21.pdf",           label:"Қарори №21" } },
+
+    { iso:"2020-10-29", date:"29 октябри с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/Резаахбор_22_10_2020_охирин.pdf",     label:"29 октябри с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/Рунамои%20комитет_02%20-барои%20сайт.pdf", label:"29 октябри с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/Карори%20Кумита_22_10_2020.pdf",      label:"Қарори №22" } },
+  ],
+
+  "2019": [
+    { iso:"2019-01-30", date:"30 январи с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/presreliz_kumita_2019.pdf", label:"30 январи с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/MPC_13_2019.pdf",           label:"30 январи с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/qaror_13.pdf",              label:"Қарори №13" } },
+
+    { iso:"2019-04-18", date:"18 апрели с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/Барои%20сайт%20МPС14.pdf",                   label:"18 апрели с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Кумитаи%20сиёсати%20монетари%202019_04_30.pdf", label:"18 апрели с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/Қарор14.pdf",                                label:"Қарори №14" } },
+
+    { iso:"2019-05-31", date:"31 майи с.2019", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/Барои%20сайд%20МPС15%20(002).pdf",               label:"31 майи с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Кумитаи%20сиёсати%20монетари%202019_04_30%20матбуот.pdf", label:"31 майи с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/Қарор15.pdf",                                    label:"Қарори №15" } },
+
+    { iso:"2019-07-25", date:"25 июли с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/30_07_2019_Baroi_sait_MPC_13_tj.pdf", label:"25 июли с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Kumitai_puli_25_07_2019.pdf",         label:"25 июли с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/qaror_16.pdf",                        label:"Қарори №16" } },
+
+    { iso:"2019-11-28", date:"28 ноябри с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/Rezaakhbor_28_11_2019.pdf", label:"28 ноябри с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Kumita_28_11_2019_tj.pdf",  label:"28 ноябри с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/Karor_17_2.pdf",            label:"Қарори №17" } },
+  ],
+
+  "2018": [
+    { iso:"2018-01-23", date:"23 январи с.2018", extra:"ғайринақшавӣ",
+      summary:      { href:"/tj/news/461555/",                                        label:"23 январи с.2018" },
+      presentation: { href:null,                                                       label:"23 январи с.2018" },
+      resolution:   { href:"/files/monetary_policy/files/2018/01/karor_tj_№6.pdf",   label:"Қарори № 6" } },
+
+    { iso:"2018-01-31", date:"31 январи с.2018",
+      summary:      { href:null, label:"31 январи с.2018" },
+      presentation: { href:null, label:"31 январи с.2018" },
+      resolution:   null },
+
+    { iso:"2018-03-14", date:"14 марти с.2018",
+      summary:      { href:"/tj/news/463578/",                                         label:"20 марти с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018v3.pdf",    label:"20 марти с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/november_2017.pdf", label:"Қарори № 7" } },
+
+    { iso:"2018-05-02", date:"02 майи с.2018",
+      summary:      { href:"/tj/news/466722/",                                                   label:"21 майи с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018v3TJ%20-05.2018.pdf", label:"21 майи с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/Karor_8.pdf",                  label:"Қарори № 8" } },
+
+    { iso:"2018-07-25", date:"25 июли с.2018",
+      summary:      { href:"/tj/news/470629/",                                           label:"27 июли с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC9_2018v3.pdf",     label:"27 июли с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/karor_9.pdf",          label:"Қарори №9" } },
+
+    { iso:"2018-09-05", date:"05 сентябри с.2018",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2018/meyor_boztamvil_tj.pdf", label:"10 сентябри с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018-09.2018.pdf",   label:"10 сентябри с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/qaror_10_tj.pdf",         label:"Қарори № 10" } },
+
+    { iso:"2018-10-24", date:"24 октябри с.2018",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2018/Шарҳи%20мухтасар_24.10.2018.pdf", label:"24 октябри с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018-11%202018.pdf",           label:"24 октябри с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/qaror_11_tj.pdf",                   label:"Қарори № 11" } },
+
+    { iso:"2018-12-15", date:"15 декабри с.2018",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2018/Резаахбор.pdf",        label:"15 декабри с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MRC_2018_12_18_tj.pdf", label:"15 декабри с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/karor_12_tj.pdf",       label:"Қарори № 12" } },
+  ],
+
+  "2017": [
+    { iso:"2017-01-31", date:"31 январи с.2017", extra:"ғайринақшавӣ",
+      summary:      { href:"/tj/news/445427/",                              label:"31 янв. с.2017" },
+      presentation: null,
+      resolution:   { href:"/files/monetary_policy/files/07.02.2017/kumita.pdf", label:"Қарори № 1" } },
+
+    { iso:"2017-03-17", date:"17 марти с.2017",
+      summary:      { href:"/tj/news/447634/",                                            label:"20 Марти с.2017" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/29.03.2017/2017_03.pdf",    label:"28 Марти с.2017" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/29.03.2017/karori_N2_TJ.pdf", label:"Қарори №2" } },
+
+    { iso:"2017-05-17", date:"17 майи с.2017",
+      summary:      { href:"/tj/news/450284/",                                              label:"26 Майи с.2017" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/29.03.2017/2017_05_03_TJ.pdf", label:"26 Май с.2017" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/qaror_3_1.pdf",               label:"Қарори №3" } },
+
+    { iso:"2017-07-18", date:"18 июли с.2017",
+      summary:      { href:"/tj/news/453212/",                                             label:"2 Августи с.2017" },
+      presentation: { href:"/upload/iblock/b53/2017_08(MPC_N04_2017).pdf",                label:"2 Августи с.2017" },
+      resolution:   { href:"/upload/iblock/829/Karori_4_tj.pdf",                           label:"Қарори №4" } },
+
+    { iso:"2017-09-19", date:"19 сентябри с.2017",
+      summary:      { href:"/tj/news/457332/",                                                      label:"2 ноябри с.2017" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/5/2017_07(MPC_N05_2017)_TJ.pdf",      label:"2 ноябри с.2017" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/5/Карори_кумита№5.pdf",               label:"Қарори №5" } },
+
+    { iso:"2017-12-21", date:"21 декабри с.2017",
+      summary:      { href:null, label:"21 Декабри с.2017" },
+      presentation: { href:null, label:"21 Декабри с.2017" },
+      resolution:   null },
+  ],
+
 };
 
+// table logic
 const today = new Date(); today.setHours(0,0,0,0);
 
 function buildRows(year, tbody, autoNext) {
@@ -305,43 +438,40 @@ function buildRows(year, tbody, autoNext) {
       if (d >= today) { nextIdx = i; break; }
     }
   }
+  const labels = { done:'Гузашт', next:'Навбатӣ', future:'Нақша' };
   rows.forEach((m, i) => {
     const d = new Date(m.iso); d.setHours(0,0,0,0);
     const status = i === nextIdx ? 'next' : d < today ? 'done' : 'future';
     const tr = document.createElement('tr');
-    tr.className = `row-${status}`;
-    m.cols.forEach((cell, idx) => {
-      const td = document.createElement('td');
-      if (idx === 3) td.colSpan = 2;
-      if (idx === 0) {
-        var labels = { done: 'Гузашт', next: 'Навбатӣ', future: 'Нақша' };
-        td.innerHTML = cell + ' <span class="status-badge status-badge--' + status + '">' + labels[status] + '</span>';
-      } else {
-        td.textContent = cell;
-      }
-      tr.appendChild(td);
-    });
+    tr.className = 'row-' + status;
+
+    // Col 1 — date + badge
+    const td0 = document.createElement('td');
+    const extra = m.extra ? '<br><small style="color:var(--text-3)">(' + m.extra + ')</small>' : '';
+    td0.innerHTML = m.date + extra + '<br><span class="status-badge status-badge--' + status + '">' + labels[status] + '</span>';
+    tr.appendChild(td0);
+
+    // Col 2 — summary (Резаахбор)
+    const td1 = document.createElement('td');
+    td1.innerHTML = renderDoc(m.summary);
+    tr.appendChild(td1);
+
+    // Col 3 — presentation (Муаррифӣ); если нет — берём summary
+    const td2 = document.createElement('td');
+    td2.innerHTML = renderDoc(m.presentation || m.summary);
+    tr.appendChild(td2);
+
+    // Col 4 — resolution (Қарор); если нет — показываем «Қарори №»
+    const td3 = document.createElement('td');
+    td3.colSpan = 2;
+    td3.innerHTML = m.resolution ? renderRes(m.resolution) : 'Қарори №';
+    tr.appendChild(td3);
+
     tbody.appendChild(tr);
   });
 }
 
 buildRows('2026', document.getElementById('scheduleBody'), true);
-
-(function () {
-  var el = document.getElementById('meetingCountdown');
-  if (!el) return;
-  var rows2026 = MEETINGS['2026'] || [];
-  var nextDate = null;
-  for (var i = 0; i < rows2026.length; i++) {
-    var d = new Date(rows2026[i].iso); d.setHours(0,0,0,0);
-    if (d >= today) { nextDate = d; break; }
-  }
-  if (!nextDate) return;
-  var diff = Math.ceil((nextDate - today) / 86400000);
-  el.textContent = diff === 0
-    ? 'Имрӯз ҷаласа баргузор мегардад!'
-    : 'То ҷаласаи навбатӣ: ' + diff + ' рӯз';
-})();
 
 const historyYears = Object.keys(MEETINGS).filter(y => y !== '2026').sort((a,b) => b - a);
 let activeYear = null;
@@ -362,71 +492,8 @@ historyYears.forEach(year => {
   document.getElementById('yearButtons').appendChild(btn);
 });
 </script>
-<script>
-(function () {
-  /* Progress bar */
-  var bar = document.getElementById('readProgress');
-  if (bar) {
-    function updateBar() {
-      var doc = document.documentElement;
-      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
-    }
-    window.addEventListener('scroll', updateBar, { passive: true });
-  }
 
-  /* Accordion */
-  var chevron = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  document.querySelectorAll('.instrument-card__header').forEach(function (header) {
-    var btn = document.createElement('button');
-    btn.type = 'button'; btn.className = 'card-toggle'; btn.innerHTML = chevron;
-    header.appendChild(btn);
-    function toggle(e) {
-      e.stopPropagation();
-      header.closest('.instrument-card').classList.toggle('instrument-card--collapsed');
-    }
-    btn.addEventListener('click', toggle);
-    header.addEventListener('click', toggle);
-  });
-
-  /* Hash open */
-  var hash = window.location.hash;
-  if (hash) {
-    var target = document.querySelector(hash + '.instrument-card--collapsed');
-    if (target) target.classList.remove('instrument-card--collapsed');
-  }
-
-  /* Active nav on scroll */
-  var cards = Array.from(document.querySelectorAll('.instrument-card[id]'));
-  var navLinks = {};
-  document.querySelectorAll('.instrument-nav a').forEach(function (a) {
-    var id = (a.getAttribute('href') || '').replace('#', '');
-    navLinks[id] = a;
-  });
-  if (window.IntersectionObserver) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          Object.values(navLinks).forEach(function (a) { a.classList.remove('nav--active'); });
-          var link = navLinks[entry.target.id];
-          if (link) link.classList.add('nav--active');
-        }
-      });
-    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
-    cards.forEach(function (card) { io.observe(card); });
-  }
-
-  /* Back to top */
-  var btt = document.getElementById('backToTop');
-  if (btt) {
-    window.addEventListener('scroll', function () {
-      btt.classList.toggle('visible', window.scrollY > 320);
-    }, { passive: true });
-    btt.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-})();
-</script>
 <script src="../js/common.js"></script>
+<script src="../js/detail-shared.js"></script>
 </body>
 </html>
