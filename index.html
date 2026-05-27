@@ -123,7 +123,7 @@
                 </div>
                 <div class="statistic-value"><span id="val-inflation">3,4</span><span class="unit">%</span></div>
               </div>
-              <div id="badge-inflation" class="trend-badge trend-flat">✓ Дар ҳадаф</div>
+              <div id="badge-inflation" class="trend-badge trend-flat">= Дар ҳадаф</div>
             </div>
             <div class="statistic-footer">
               <a href="other_links/maksad.html#target" class="footer-zone nav-link">
@@ -159,6 +159,7 @@
               <button class="chart-tab" data-index="1" style="--tab-color:#1e40af"><span class="chart-tab__dot"></span><span data-i18n="dot_rate">Меъёри бозтамвил</span></button>
               <button class="chart-tab" data-index="2" style="--tab-color:#22c55e"><span class="chart-tab__dot"></span><span data-i18n="dot_bonds">Қоғазҳои қиматнок</span></button>
               <button class="chart-tab" data-index="3" style="--tab-color:#f59e0b"><span class="chart-tab__dot"></span><span data-i18n="dot_interbank">Байнибонкӣ</span></button>
+
             </div>
           </article>
 
@@ -179,50 +180,15 @@
   <script src="js/script.js"></script>
 
   <style>
-    #themeToggleBtn { position:fixed; bottom:28px; right:24px; z-index:9990; padding:6px 16px; border-radius:100px; border:1.5px solid #cbd5e1; background:#fff; color:#0f172a; font-size:0.78rem; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.10); font-family:inherit; transition:background 0.18s, border-color 0.18s, color 0.18s; letter-spacing:0.01em; }
-    #themeToggleBtn:hover { border-color:#94a3b8; background:#f8fafc; }
+    /* Accent stripe + icon tint vars (default: colorful) */
+    .hci--rate,
+    .hci--inflation,
+    .hci--chart            { background: #dbeafe !important; color: #1e40af !important; }
 
-    body.mono-theme .statistic::after { background: rgba(15,23,42,0.18); height: 2px; }
-    body.mono-theme .hci--rate,
-    body.mono-theme .hci--inflation,
-    body.mono-theme .hci--chart { background: #f8fafc; color: #475569; }
-    body.mono-theme .kpi-icon--down,
-    body.mono-theme .kpi-icon--up,
-    body.mono-theme .kpi-icon--stable,
-    body.mono-theme .kpi-icon--flat { background: #f8fafc; color: #1e3a5f; border: 1px solid #e2e8f0; box-shadow: none; }
-    body.mono-theme .rate-card a.block-header:hover,
-    body.mono-theme .inflation-card a.block-header:hover,
-    body.mono-theme .chart-card a.block-header:hover { background: #eff6ff; }
-    body.mono-theme .rate-card .footer-zone:hover,
-    body.mono-theme .inflation-card .footer-zone:hover { background: #eff6ff; }
-    body.mono-theme .fz-icon--calendar,
-    body.mono-theme .fz-icon--target { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
-    body.mono-theme .trend-down,
-    body.mono-theme .trend-up,
-    body.mono-theme .trend-flat { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
-    body.mono-theme .statistic-value { color: #0f172a; }
-    body.mono-theme .unit { color: #475569; font-weight: 700; }
+    /* fz-label */
+    .fz-label { font-size:.64rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
   </style>
 
-  <button id="themeToggleBtn">◑ Монохром</button>
-
-  <script>
-  (function () {
-    var btn = document.getElementById('themeToggleBtn');
-    var KEY  = 'nbt-theme-mono';
-    var CLS  = 'mono-theme';
-    function apply(mono) {
-      document.body.classList.toggle(CLS, mono);
-      btn.textContent = mono ? '◐ Цветной' : '◑ Монохром';
-    }
-    apply(localStorage.getItem(KEY) === '1');
-    btn.addEventListener('click', function () {
-      var next = !document.body.classList.contains(CLS);
-      localStorage.setItem(KEY, next ? '1' : '0');
-      apply(next);
-    });
-  })();
-  </script>
 
 </body>
 </html>
