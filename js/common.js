@@ -1,11 +1,7 @@
-/**
- * common.js — shared utilities for all detail pages.
- * Provides: setLang (file-aware redirect), initLangButtons,
- *           exportChartPNG, exportChartCSV, filterChart, resetChart.
- */
+// shared utilities: language switch, chart export, date filter, Excel loader
 (function () {
 
-  /* ---------- helpers ---------- */
+  // helpers
 
   function getBaseName() {
     const file = location.pathname.split('/').pop();
@@ -22,7 +18,7 @@
     return map[lang] || map.tj;
   }
 
-  /* ---------- language switcher ---------- */
+  // language switcher
 
   window.setLang = function (lang) {
     document.body.style.opacity = '0.4';
@@ -40,7 +36,7 @@
     });
   }
 
-  /* ---------- chart export ---------- */
+  // chart export
 
   window.exportChartPNG = function (chart, name) {
     const a = document.createElement('a');
@@ -60,12 +56,7 @@
     a.click();
   };
 
-  /* ---------- chart date-filter helpers ---------- */
-
-  /**
-   * filterChart(chart, allLabels, allValues, startId, endId)
-   * Slices labels/values between the two <input type="month"> elements.
-   */
+  // date filter
   window.filterChart = function (chart, allLabels, allValues, startId, endId) {
     const start = document.getElementById(startId)?.value?.slice(0, 7) || '';
     const end   = document.getElementById(endId)?.value?.slice(0, 7) || '';
@@ -79,11 +70,6 @@
     chart.data.datasets[0].data   = allValues.slice(s, e);
     chart.update();
   };
-
-  /**
-   * resetChart(chart, allLabels, allValues, startId, endId)
-   * Restores the full date range and resets the pickers.
-   */
   window.resetChartRange = function (chart, allLabels, allValues, startId, endId) {
     chart.data.labels           = allLabels;
     chart.data.datasets[0].data = allValues;
@@ -95,14 +81,7 @@
     if (e) e.value = allLabels[allLabels.length - 1];
   };
 
-  /* ---------- Excel loader ---------- */
-
-  /**
-   * loadExcel(url, columns)
-   * url     — path to the .xlsx file
-   * columns — array of column keys to extract, first must be "date"
-   * Returns: { labels: string[], [col]: number[] }
-   */
+  // Excel loader
   window.loadExcel = async function (url, columns) {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Cannot fetch ${url}`);
@@ -131,7 +110,7 @@
     return out;
   };
 
-  /* ---------- init on DOM ready ---------- */
+  // init
   document.addEventListener('DOMContentLoaded', initLangButtons);
 
 })();

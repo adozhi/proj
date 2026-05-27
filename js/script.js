@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ---------- i18n ---------- */
+  // i18n
 
   const MONTHS = {
     tj: ['Мар 25','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек','Янв 26','Фев','Мар 26'],
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
 
-  /* ---------- chart datasets ---------- */
+  // chart datasets
 
   const DATASETS = [
     { labelKey: 0, data: [3.4,3.6,3.8,3.6,3.5,3.1,2.8,3.1,3.2,3.5,3.6,3.7,3.4],               color: '#3b82f6' },
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return 2.5;
   }
 
-  /* ---------- plugins ---------- */
+  // plugins
 
   const crosshairPlugin = {
     id: 'crosshair',
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
 
-  /* ---------- dynamic y-axis range ---------- */
+  // dynamic y-axis range
 
   function computeRange(data) {
     const vals = (data || []).filter(v => v != null && !isNaN(v));
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return { min, max, step };
   }
 
-  /* ---------- Excel loading ---------- */
+  // Excel loading
 
   const MONTH_NAMES = {
     tj: ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- state ---------- */
+  // state
 
   let currentSlide    = 0;
   let currentLang     = localStorage.getItem('lang') || 'tj';
@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let cardState       = null;
   let loadedDates     = [];
 
-  /* ---------- tooltip ---------- */
+  // tooltip
 
   function tooltipLabel(c) {
     if (c.parsed.y === null) return '';
@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${lbl}: ${vs}%`;
   }
 
-  /* ---------- chart init ---------- */
+  // chart init
 
   const ctx = document.getElementById('chartCanvas').getContext('2d');
   const ds0 = DATASETS[0];
@@ -539,14 +539,14 @@ document.addEventListener('DOMContentLoaded', () => {
           },
         },
         x: {
-          ticks: { color: '#475569', font: { size: 11 }, padding: 6 },
+          ticks: { color: '#475569', font: { size: 11 }, padding: 6, maxRotation: 0, minRotation: 0 },
           grid: { display: false },
         },
       },
     },
   });
 
-  /* ---------- update chart ---------- */
+  // update chart
 
   function updateChart(i) {
     const ds  = DATASETS[i];
@@ -580,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('chartTitle').textContent = CHARTS[currentLang][ds.labelKey];
   }
 
-  /* ---------- slider ---------- */
+  // slider
 
   function showSlide(n) {
     currentSlide = (n + DATASETS.length) % DATASETS.length;
@@ -594,7 +594,28 @@ document.addEventListener('DOMContentLoaded', () => {
     tab.addEventListener('click', () => showSlide(+tab.dataset.index))
   );
 
-  /* ---------- language ---------- */
+  // auto-rotate every 10s
+
+  const TIMER_MS = 10000;
+  let   autoTimer  = null;
+  let   isHovered  = false;
+
+  function restartTimer() {
+    clearInterval(autoTimer);
+    if (!isHovered) {
+      autoTimer = setInterval(() => showSlide(currentSlide + 1), TIMER_MS);
+    }
+  }
+
+  const chartCard = document.querySelector('.chart-card');
+  if (chartCard) {
+    chartCard.addEventListener('mouseenter', () => { isHovered = true;  clearInterval(autoTimer); });
+    chartCard.addEventListener('mouseleave', () => { isHovered = false; restartTimer(); });
+  }
+
+  restartTimer();
+
+  // language
 
   function applyLanguage(lang) {
     currentLang = lang;
@@ -646,7 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 120);
   };
 
-  /* ---------- init ---------- */
+  // init
 
   (function initLanguage() {
     const urlLang = new URLSearchParams(location.search).get('lang');
