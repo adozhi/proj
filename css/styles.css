@@ -1,12 +1,11 @@
-/* ============================================================
-   NBT — Main Page Styles (National Bank of Tajikistan)
-   ============================================================ */
+/* NBT — Main Styles */
 
 :root {
   --navy:        #0f172a;
   --navy-2:      #1e3a5f;
   --navy-3:      #1e40af;
   --blue:        #2563eb;
+  --brand:       #0f172a;
   --blue-dark:   #1d4ed8;
   --blue-light:  #eff6ff;
   --blue-mid:    #bfdbfe;
@@ -58,7 +57,7 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
-/* ── Header ─────────────────────────────────────────────── */
+/* Header */
 .site-header {
   background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%);
   color: #fff;
@@ -78,7 +77,7 @@ a { color: inherit; text-decoration: none; }
   gap: 16px;
 }
 
-/* ── Brand ───────────────────────────────────────────────── */
+/* Brand */
 .header-brand {
   display: flex;
   align-items: center;
@@ -143,7 +142,7 @@ a { color: inherit; text-decoration: none; }
 
 .header-tagline { display: none; }
 
-/* ── Lang Switcher ──────────────────────────────────────── */
+/* Lang Switcher */
 .lang-switcher {
   display: flex;
   gap: 3px;
@@ -181,7 +180,7 @@ a { color: inherit; text-decoration: none; }
 
 .lang-fade { opacity: 0.45; transition: 0.2s; }
 
-/* ── Navbar ─────────────────────────────────────────────── */
+/* Navbar */
 .navbar {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -218,7 +217,7 @@ a { color: inherit; text-decoration: none; }
 .menu > .menu-item:hover > a { border-bottom-color: var(--blue); }
 .menu > .menu-item.dropdown > a::after { content: '▾'; font-size: 9px; opacity: 0.5; }
 
-/* ── Dropdown ───────────────────────────────────────────── */
+/* Dropdown */
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -274,11 +273,11 @@ a { color: inherit; text-decoration: none; }
   border-radius: 0 var(--r-md) var(--r-md) var(--r-md);
 }
 
-/* ── Layout ─────────────────────────────────────────────── */
+/* Layout */
 .container { max-width: 1220px; margin: 0 auto; padding: 0 24px; }
 main { flex: 1; }
 
-/* ── Page Intro ─────────────────────────────────────────── */
+/* Page Intro */
 .page-intro {
   background: linear-gradient(90deg, #f8fafc 0%, #eff6ff 100%);
   border-bottom: 1px solid var(--border);
@@ -332,10 +331,10 @@ main { flex: 1; }
   font-weight: 400;
 }
 
-/* ── Stats Wrap ─────────────────────────────────────────── */
+/* Stats Wrap */
 .stats-wrap { padding: 16px 0 30px; }
 
-/* ── Stats Grid — 3 columns ─────────────────────────────── */
+/* Stats Grid — 3 columns */
 .stats {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -343,40 +342,31 @@ main { flex: 1; }
   align-items: stretch;
 }
 
-/* ── Stat Card ──────────────────────────────────────────── */
+/* Stat Card */
 .statistic {
   background: var(--surface);
   border: 1px solid var(--border);
+  border-top: 3px solid #1e40af;
   border-radius: var(--r-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-xs);
-  transition: box-shadow var(--transition), transform var(--transition);
+  transition: transform var(--transition);
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
-.statistic::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
-}
-
 .statistic:hover {
-  box-shadow: var(--shadow-sm);
   transform: translateY(-2px);
 }
 
-.rate-card    a.block-header:hover { background: linear-gradient(135deg, rgba(219,234,254,0.4) 0%, #fff 60%); }
-.inflation-card a.block-header:hover { background: linear-gradient(135deg, rgba(220,252,231,0.4) 0%, #fff 60%); }
-.chart-card   a.block-header:hover { background: linear-gradient(135deg, rgba(237,233,254,0.4) 0%, #fff 60%); }
+.rate-card    a.block-header:hover { background: #f8fafc; }
+.inflation-card a.block-header:hover { background: #f8fafc; }
+.chart-card   a.block-header:hover { background: #f8fafc; }
 
-.rate-card    .footer-zone:hover { background: linear-gradient(135deg, rgba(219,234,254,0.35) 0%, #f8fafc 60%); }
-.inflation-card .footer-zone:hover { background: linear-gradient(135deg, rgba(220,252,231,0.35) 0%, #f8fafc 60%); }
+.rate-card    .footer-zone:hover { background: #f0f7ff; }
+.inflation-card .footer-zone:hover { background: #f0f7ff; }
 
-/* ── Block Header ───────────────────────────────────────── */
+/* Block Header */
 .block-header {
   padding: 0 14px;
   height: 54px;
@@ -471,7 +461,7 @@ a.block-header:hover .header-link-icon {
 .badge-stable { background: #dbeafe; color: #1d4ed8; }
 .badge-down   { background: #d1fae5; color: #065f46; }
 
-/* ── Stat Body ──────────────────────────────────────────── */
+/* Stat Body */
 .statistic-body {
   flex: 1;
   display: flex;
@@ -482,14 +472,14 @@ a.block-header:hover .header-link-icon {
   gap: 12px;
 }
 
-/* ── KPI Row: icon + number side by side ────────────────── */
+/* KPI Row: icon + number side by side */
 .kpi-row {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-/* ── KPI Icon badge ─────────────────────────────────────── */
+/* KPI Icon badge */
 .kpi-icon {
   width: 54px;
   height: 54px;
@@ -505,12 +495,12 @@ a.block-header:hover .header-link-icon {
   height: 28px;
 }
 
-.kpi-icon--down   { background: #dcfce7; color: #15803d; box-shadow: 0 2px 8px rgba(21,128,61,0.18); }
-.kpi-icon--up     { background: #fee2e2; color: #dc2626; box-shadow: 0 2px 8px rgba(220,38,38,0.18); }
-.kpi-icon--stable { background: #eff6ff; color: #2563eb; box-shadow: 0 2px 8px rgba(37,99,235,0.15); }
-.kpi-icon--flat   { background: #fef9c3; color: #d97706; box-shadow: 0 2px 8px rgba(217,119,6,0.18); }
+.kpi-icon--down   { background: #dcfce7; color: #15803d; }
+.kpi-icon--up     { background: #fee2e2; color: #dc2626; }
+.kpi-icon--stable { background: #eff6ff; color: #2563eb; }
+.kpi-icon--flat   { background: #f1f5f9; color: #64748b; }
 
-/* ── Big Number ─────────────────────────────────────────── */
+/* Big Number */
 .statistic-value {
   font-size: 4rem;
   font-weight: 800;
@@ -518,16 +508,17 @@ a.block-header:hover .header-link-icon {
   line-height: 1;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .unit {
   font-size: 2rem;
   font-weight: 800;
   margin-left: 4px;
-  color: #3b82f6;
+  color: #1e40af;
 }
 
-/* ── Trend badge ────────────────────────────────────────── */
+/* Trend badge */
 .trend-badge {
   display: inline-flex;
   align-items: center;
@@ -539,11 +530,11 @@ a.block-header:hover .header-link-icon {
   width: fit-content;
 }
 
-.trend-down { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-.trend-up   { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
-.trend-flat { background: #fef9c3; color: #d97706; border: 1px solid #fde68a; }
+.trend-down { background: transparent; color: #15803d; border: 1.5px solid #15803d; }
+.trend-up   { background: transparent; color: #dc2626; border: 1.5px solid #dc2626; }
+.trend-flat { background: transparent; color: #64748b; border: 1.5px solid #94a3b8; }
 
-/* ── Stat Footer ────────────────────────────────────────── */
+/* Stat Footer */
 .statistic-footer {
   border-top: 1px solid var(--border);
   background: var(--surface-alt);
@@ -569,13 +560,11 @@ a.block-header:hover .header-link-icon {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: filter 0.15s;
 }
 .fz-icon svg { width: 17px; height: 17px; }
-.footer-zone:hover .fz-icon { filter: brightness(0.93); }
 
-.fz-icon--calendar { background: #dbeafe; color: #2563eb; }
-.fz-icon--target   { background: #dcfce7; color: #16a34a; }
+.fz-icon--calendar { background: #dbeafe; color: #1e40af; }
+.fz-icon--target   { background: #dbeafe; color: #1e40af; }
 
 .fz-text {
   display: flex;
@@ -606,10 +595,7 @@ a.block-header:hover .header-link-icon {
   opacity: 0.12;
   transition: opacity 0.15s, transform 0.15s;
 }
-.footer-zone:hover .fz-arrow {
-  opacity: 0.55;
-  transform: translateX(3px);
-}
+.footer-zone:hover .fz-arrow { opacity: 0.55; transform: translateX(3px); }
 
 
 
@@ -627,7 +613,7 @@ a.block-header:hover .header-link-icon {
 
 .chart-hidden { opacity: 0; }
 
-/* ── Chart tabs / Dataset switcher ─────────────────────── */
+/* Chart tabs / Dataset switcher */
 .chart-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -635,6 +621,7 @@ a.block-header:hover .header-link-icon {
   padding: 7px 12px;
   border-top: 1px solid var(--border);
   background: var(--surface-alt);
+  position: relative;
 }
 
 .chart-tab {
@@ -658,10 +645,15 @@ a.block-header:hover .header-link-icon {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--tab-color, #94a3b8);
+  background: #94a3b8;
   flex-shrink: 0;
   opacity: 0.45;
-  transition: opacity var(--transition);
+  transition: opacity var(--transition), background var(--transition);
+}
+
+@keyframes tabFlash {
+  0%   { box-shadow: 0 0 0 3px color-mix(in srgb, var(--tab-color, #3b82f6) 35%, transparent); }
+  100% { box-shadow: none; }
 }
 
 .chart-tab.active {
@@ -669,9 +661,10 @@ a.block-header:hover .header-link-icon {
   border-color: var(--tab-color, #3b82f6);
   color: var(--tab-color, #2563eb);
   font-weight: 600;
+  animation: tabFlash 0.5s ease-out;
 }
 
-.chart-tab.active .chart-tab__dot { opacity: 1; }
+.chart-tab.active .chart-tab__dot { background: var(--tab-color, #3b82f6); opacity: 1; }
 
 .chart-tab:hover:not(.active) {
   background: var(--surface);
@@ -679,7 +672,8 @@ a.block-header:hover .header-link-icon {
   color: var(--text-2);
 }
 
-/* ── Target bar (inflation) ─────────────────────────────── */
+
+/* Target bar (inflation) */
 .target-bar-wrap {
   margin-bottom: 0;
 }
@@ -715,7 +709,7 @@ a.block-header:hover .header-link-icon {
   transform: translateX(-50%);
 }
 
-/* ── Footer ─────────────────────────────────────────────── */
+/* Footer */
 .site-footer {
   background: #0f172a;
   color: rgba(255,255,255,0.40);
@@ -739,7 +733,7 @@ a.block-header:hover .header-link-icon {
 .footer-inner strong { color: rgba(255,255,255,0.70); font-weight: 600; }
 
 
-/* ── Responsive ─────────────────────────────────────────── */
+/* Responsive */
 @media (max-width: 1100px) {
   .stats { grid-template-columns: 1fr 1fr; }
   .statistic.chart-card { grid-column: 1 / -1; }
