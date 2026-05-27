@@ -19,7 +19,6 @@
       margin-bottom: 32px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
-    .section h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 1em; padding-bottom: 0.5em; border-bottom: 2px solid #3b82f6; }
     .section p { margin-bottom: 0.75em; color: #475569; font-size: 0.92rem; line-height: 1.65; }
     .section p:last-child { margin-bottom: 0; }
     .section ul { padding-left: 1.4em; margin: 0.5em 0 0; }
@@ -27,10 +26,10 @@
     .section li:last-child { margin-bottom: 0; }
     .expandable-content h2 { font-size: 1rem; font-weight: 700; color: #1e293b; margin: 1em 0 0.6em; padding-bottom: 0.5em; border-bottom: 2px solid #3b82f6; }
 
-    .stats-card { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); border-radius: 16px; padding: 28px 32px; margin: 0 0 28px; box-shadow: 0 8px 32px rgba(30,64,175,0.28); position: relative; overflow: hidden; }
+    .stats-card { background: var(--brand); border-radius: 16px; padding: 28px 32px; margin: 0 0 28px; box-shadow: 0 8px 32px rgba(30,64,175,0.28); position: relative; overflow: hidden; }
     .stats-card::after { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.04); pointer-events: none; }
-    .stats-card h3 { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.50); text-transform: uppercase; letter-spacing: 0.10em; margin: 0 0 14px; }
-    .stats-card h4 { font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.35); margin: 0 0 14px; }
+    .stats-card h3 { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.90); text-transform: uppercase; letter-spacing: 0.10em; margin: 0 0 14px; }
+    .stats-card h4 { font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.80); margin: 0 0 14px; }
     .stats-value { font-size: 4.2rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
     .stats-badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(34,197,94,0.18); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
 
@@ -42,10 +41,6 @@
     .expandable-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
     .expandable-content.active { max-height: 2000px; padding-top: 0.5rem; }
 
-    .read-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #3b82f6, #6366f1); width: 0%; z-index: 9999; transition: width 0.08s linear; pointer-events: none; }
-    .back-to-top { position: fixed; bottom: 28px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: #3b82f6; color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(59,130,246,0.35); opacity: 0; transform: translateY(12px); transition: opacity 0.25s, transform 0.25s, background 0.2s; pointer-events: none; z-index: 9998; }
-    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
 
     @media (max-width: 768px) { .section { padding: 20px; } }
 
@@ -69,7 +64,6 @@
   </style>
 </head>
 <body>
-<div id="readProgress" class="read-progress"></div>
 <button id="backToTop" class="back-to-top" aria-label="Back to top">
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
@@ -92,7 +86,7 @@
 
   <div class="stats-card">
     <h3 id="inflation-title">Annual Inflation — March 2026</h3>
-    <div class="stats-value"><span id="val-inflation-detail">3.4</span><span style="font-size:2rem;font-weight:800;color:rgba(255,255,255,0.75);margin-left:3px;">%</span></div>
+    <div class="stats-value"><span id="val-inflation-detail">3.4</span><span style="font-size:2rem;font-weight:800;color:rgba(255,255,255,0.90);margin-left:3px;">%</span></div>
     <div id="badge-inflation-detail" class="stats-badge">✓ On target — 5% (±2 pp)</div>
   </div>
 
@@ -468,7 +462,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       },
       scales: {
-        x: { ticks: { maxTicksLimit: 12, maxRotation: 45, minRotation: 45 } },
+        x: { ticks: { padding: 6, maxTicksLimit: 12, maxRotation: 0, minRotation: 0 } },
         y: { min: yr.min, max: yr.max, ticks: { callback: v => v + '%', stepSize: yr.step } }
       }
     },

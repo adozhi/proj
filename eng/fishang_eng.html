@@ -7,13 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    .page-title {
-      font-size: clamp(1.4rem, 3vw, 1.9rem);
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 0.6rem;
-      line-height: 1.25;
-    }
+  .page-title { margin-bottom: 0.6rem; }
     .page-lead {
       font-size: 1rem;
       color: var(--text-2);
@@ -21,92 +15,7 @@
       line-height: 1.7;
     }
 
-    /* ---- Navigation pills ---- */
-    .instrument-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 2rem;
-    }
-    .instrument-nav a {
-      display: inline-block;
-      padding: 5px 14px;
-      border-radius: 20px;
-      background: var(--surface-alt);
-      border: 1.5px solid var(--border);
-      color: var(--text-2);
-      font-size: 0.78rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .instrument-nav a:hover {
-      background: #eff6ff;
-      border-color: #3b82f6;
-      color: #2563eb;
-    }
-
-    /* ---- Instrument card ---- */
-    .instrument-card {
-      background: var(--surface);
-      border-radius: 14px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 1.75rem;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .instrument-card__header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 18px 24px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface-alt);
-    }
-    .instrument-num {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      letter-spacing: 0.03em;
-    }
-    .instrument-card__header h2 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-    .instrument-card__body {
-      padding: 20px 24px;
-    }
-    .instrument-card__body p {
-      margin-bottom: 0.85rem;
-      line-height: 1.7;
-    }
-    .instrument-card__body p:last-child { margin-bottom: 0; }
-
-    /* ---- Color accents ---- */
-    .card--blue  .instrument-card__header { border-left: 4px solid #3b82f6; }
-    .card--slate .instrument-card__header { border-left: 4px solid #64748b; }
-    .card--indigo .instrument-card__header { border-left: 4px solid #6366f1; }
-    .card--green .instrument-card__header { border-left: 4px solid #10b981; }
-    .card--amber .instrument-card__header { border-left: 4px solid #f59e0b; }
-
-    .card--blue  .instrument-num { background: #dbeafe; color: #1d4ed8; }
-    .card--slate .instrument-num { background: #f1f5f9; color: #475569; }
-    .card--indigo .instrument-num { background: #e0e7ff; color: #4338ca; }
-    .card--green .instrument-num { background: #d1fae5; color: #065f46; }
-    .card--amber .instrument-num { background: #fef3c7; color: #92400e; }
-
-    /* ---- Info box ---- */
+    /* Info box */
     .info-box {
       background: #eff6ff;
       border: 1px solid #bfdbfe;
@@ -119,7 +28,7 @@
     }
     .info-box strong { color: #1d4ed8; }
 
-    /* ---- Sub-cards ---- */
+    /* Sub-cards */
     .sub-cards {
       display: flex;
       flex-direction: column;
@@ -145,7 +54,7 @@
       line-height: 1.55;
     }
 
-    /* ---- Document link pills ---- */
+    /* Document link pills */
     .doc-links {
       display: flex;
       flex-wrap: wrap;
@@ -180,7 +89,7 @@
     }
     .sub-card .doc-links { margin-top: 10px; }
 
-    /* ---- Figure ---- */
+    /* Figure */
     .figure-card {
       margin: 0;
       border-radius: 12px;
@@ -202,13 +111,11 @@
       text-align: center;
     }
     .img-figure { margin: 1.4rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-    .img-figure__label { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%); color: #fff; padding: 10px 16px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; }
+    .img-figure__label { background: var(--brand); color: #fff; padding: 10px 16px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; }
     .img-figure img { display: block; width: 100%; border-radius: 0; margin: 0; }
 
     @media (max-width: 640px) {
-      .instrument-card__header { padding: 14px 16px; }
-      .instrument-card__body { padding: 16px; }
-    }
+      }
     .moc-section-title { font-size:1rem; font-weight:700; color:var(--navy); margin:1.75rem 0 1rem; }
     .moc-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:1.75rem; }
     @media (max-width:900px) { .moc-grid { grid-template-columns:1fr; } }
@@ -256,50 +163,14 @@
     .moc-note a { color: inherit; text-decoration: none; display: block; }
     .moc-note a:hover { color: #4f46e5; text-decoration: none; }
 
-    /* ul/ol inside cards */
-    .instrument-card__body ul,
-    .instrument-card__body ol { padding-left: 1.5rem; margin-bottom: 1rem; }
-    .instrument-card__body li { margin-bottom: 0.45rem; line-height: 1.65; }
-
-    /* Reading progress bar */
-    .read-progress {
-      position: fixed; top: 0; left: 0; height: 3px;
-      background: linear-gradient(90deg, #3b82f6, #6366f1);
-      width: 0%; z-index: 9999;
-      transition: width 0.08s linear;
-      pointer-events: none;
-    }
-
     /* Accordion */
-    .instrument-card__header { cursor: pointer; }
-    .card-toggle {
-      margin-left: auto; flex-shrink: 0;
-      background: rgba(255,255,255,0.7);
-      border: 1px solid var(--border);
-      border-radius: 50%; width: 30px; height: 30px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: background 0.2s; padding: 0;
-    }
-    .card-toggle:hover { background: #fff; }
-    .card-toggle svg { transition: transform 0.25s ease; display: block; }
-    .instrument-card--collapsed .card-toggle svg { transform: rotate(-90deg); }
-    .instrument-card--collapsed .instrument-card__body { display: none; }
-
-    /* 2x2 grid for overnight sub-cards */
+/* 2x2 grid for overnight sub-cards */
     .sub-cards--grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 640px) {
       .sub-cards--grid { grid-template-columns: 1fr; }
     }
 
     /* Smooth scroll */
-    html { scroll-behavior: smooth; }
-
-    /* Active nav pill */
-    .instrument-nav a.nav--active {
-      background: #eff6ff; border-color: #3b82f6;
-      color: #2563eb; font-weight: 600;
-    }
-
     /* Zebra rows in moc-params */
     .moc-params > div:nth-child(4n+3),
     .moc-params > div:nth-child(4n+4) {
@@ -311,23 +182,8 @@
       padding-top: 4px;
     }
 
-    /* No underlines on hover */
-    .instrument-nav a:hover { text-decoration: none; }
     .doc-link:hover { text-decoration: none; }
 
-    /* Back to top button */
-    .back-to-top {
-      position: fixed; bottom: 28px; right: 24px;
-      width: 42px; height: 42px; border-radius: 50%;
-      background: #3b82f6; color: #fff; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(59,130,246,0.35);
-      opacity: 0; transform: translateY(12px);
-      transition: opacity 0.25s, transform 0.25s, background 0.2s;
-      pointer-events: none; z-index: 9998;
-    }
-    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .back-to-top:hover { background: #2563eb; box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
   </style>
   <link rel="stylesheet" href="../css/detail.css">
 </head>
@@ -660,66 +516,7 @@
 
 </div></div><!-- /.page-wrap -->
 <script src="../js/common.js"></script>
-<script>
-(function () {
-  var bar = document.getElementById('readProgress');
-  if (bar) {
-    function updateBar() {
-      var doc = document.documentElement;
-      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
-    }
-    window.addEventListener('scroll', updateBar, { passive: true });
-  }
-  document.querySelectorAll('.instrument-num').forEach(function (el, i) {
-    el.textContent = String(i + 1).padStart(2, '0');
-  });
-  var chevron = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  document.querySelectorAll('.instrument-card__header').forEach(function (header) {
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'card-toggle';
-    btn.innerHTML = chevron;
-    header.appendChild(btn);
-    function toggle(e) {
-      e.stopPropagation();
-      header.closest('.instrument-card').classList.toggle('instrument-card--collapsed');
-    }
-    btn.addEventListener('click', toggle);
-    header.addEventListener('click', toggle);
-  });
-  var hash = window.location.hash;
-  if (hash) {
-    var target = document.querySelector(hash + '.instrument-card--collapsed');
-    if (target) target.classList.remove('instrument-card--collapsed');
-  }
-  var cards = Array.from(document.querySelectorAll('.instrument-card[id]'));
-  var navLinks = {};
-  document.querySelectorAll('.instrument-nav a').forEach(function (a) {
-    var id = a.getAttribute('href').replace('#', '');
-    navLinks[id] = a;
-  });
-  if (window.IntersectionObserver) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          Object.values(navLinks).forEach(function (a) { a.classList.remove('nav--active'); });
-          var link = navLinks[entry.target.id];
-          if (link) link.classList.add('nav--active');
-        }
-      });
-    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
-    cards.forEach(function (card) { io.observe(card); });
-  }
-  var btt = document.getElementById('backToTop');
-  if (btt) {
-    window.addEventListener('scroll', function () {
-      btt.classList.toggle('visible', window.scrollY > 320);
-    }, { passive: true });
-    btt.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-})();
-</script>
+
+<script src="../js/detail-shared.js"></script>
 </body>
 </html>
