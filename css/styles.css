@@ -433,7 +433,6 @@ a.block-header:hover .header-link-icon {
   max-width: 100%;
 }
 
-.statistic:hover .text-hover-effect-1 { color: var(--blue); }
 
 .block-header .subtitle {
   display: inline-flex;
