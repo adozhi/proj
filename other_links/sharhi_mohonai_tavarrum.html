@@ -90,8 +90,10 @@
       card.className = 'month-card';
       card.innerHTML =
         '<div class="month-name">' + MONTH_NAMES[m - 1] + '</div>' +
+        '<div class="file-btns">' +
         '<a href="files/' + year + '-' + mm + '.pdf"  class="file-btn pdf"   target="_blank" rel="noopener noreferrer">' + pdfIcon + ' PDF</a>' +
-        '<a href="files/' + year + '-' + mm + '.xlsx" class="file-btn excel" target="_blank" rel="noopener noreferrer">' + xlsIcon + ' Excel</a>';
+        '<a href="files/' + year + '-' + mm + '.xlsx" class="file-btn excel" target="_blank" rel="noopener noreferrer">' + xlsIcon + ' Excel</a>' +
+        '</div>';
       grid.appendChild(card);
     }
 
