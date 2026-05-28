@@ -199,7 +199,7 @@
       card.className = 'period-card';
       card.innerHTML =
         '<div class="period-label">' + p.label + '</div>' +
-        '<a href="files/' + year + '-' + p.slug + '.pdf" class="file-btn pdf" target="_blank" rel="noopener noreferrer">' + pdfIcon + ' PDF</a>';
+        '<div class="file-btns">' + '<a href="files/' + year + '-' + p.slug + '.pdf" class="file-btn pdf" target="_blank" rel="noopener noreferrer">' + pdfIcon + ' PDF</a>' + '</div>';
       grid.appendChild(card);
     });
 
