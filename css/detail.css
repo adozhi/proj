@@ -594,8 +594,14 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
   letter-spacing: 0.06em;
 }
 
+.file-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+}
 .file-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
@@ -604,7 +610,6 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
   font-size: 0.68rem;
   font-weight: 700;
   text-decoration: none;
-  margin: 4px 0;
   border: 1px solid transparent;
   transition: background 0.18s, border-color 0.18s, color 0.18s;
 }
