@@ -735,13 +735,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!link.dataset.hrefBase) {
         const href = link.getAttribute('href');
         if (!href || href === '#') return;
-        link.dataset.hrefBase = href.split('/').pop().replace(/_(ru|eng)\.html$/, '.html');
+        const [file, hash = ''] = href.split('/').pop().split('#');
+        link.dataset.hrefBase = file.replace(/_(ru|eng)\.html$/, '.html');
+        link.dataset.hrefHash = hash ? '#' + hash : '';
       }
-      const base = link.dataset.hrefBase;
+      const base = link.dataset.hrefBase, hash = link.dataset.hrefHash || '';
       const paths = {
-        tj: BASE + `other_links/${base}`,
-        ru: BASE + `ru/${base.replace('.html', '_ru.html')}`,
-        en: BASE + `eng/${base.replace('.html', '_eng.html')}`,
+        tj: BASE + `other_links/${base}` + hash,
+        ru: BASE + `ru/${base.replace('.html', '_ru.html')}` + hash,
+        en: BASE + `eng/${base.replace('.html', '_eng.html')}` + hash,
       };
       link.href = paths[lang] || paths.tj;
     });

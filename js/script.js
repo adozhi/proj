@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // i18n
+  const EMBED = window.NBT_EMBED || null;
+  const ROOT  = (EMBED && EMBED.root && document.querySelector(EMBED.root)) || document;
+  const BASE  = (EMBED && EMBED.base) || '';
 
   const MONTHS = {
-    tj: ['Мар 25','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек','Янв 26','Фев','Мар 26'],
-    ru: ['Мар 25','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек','Янв 26','Фев','Мар 26'],
-    en: ['Mar 25','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan 26','Feb','Mar 26'],
+    tj: ['Сен 25','Окт','Ноя','Дек','Янв 26','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен 26'],
+    ru: ['Сен 25','Окт','Ноя','Дек','Янв 26','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен 26'],
+    en: ['Sep 25','Oct','Nov','Dec','Jan 26','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep 26'],
   };
 
   const CHARTS = {
@@ -19,29 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
       header_name:    'Бонки Миллии Тоҷикистон',
       header_tagline: 'NATIONAL BANK OF TAJIKISTAN',
       section_heading:'Нишондиҳандаҳои монетарӣ',
-      section_period: 'Март 2026',
-      chart_subtitle: 'Марти 2025 — Марти 2026',
+      section_period: 'Сентябр 2026',
+      chart_subtitle: 'Сентябр 2025 — Сентябр 2026',
       footer_copy:    '© 2026 Бонки Миллии Тоҷикистон. Ҳамаи ҳуқуқҳо ҳифз шудаанд.',
-      menu_policy: 'Сиёсати пулӣ',
-      menu_goal: 'Мақсад ва вазифаҳо',
-      menu_tools: 'Фишангҳои сиёсати пулӣ',
-      menu_committee: 'Кумитаи сиёсати пулию қарзии',
-      menu_strategy: 'Самтҳои асосии сиёсати пулию қарзии ҶТ',
-      menu_reports: 'Шарҳ ва интишорот',
-      menu_report_monthly_inflation: 'Шарҳи моҳонаи таваррум',
-      menu_report_monetary: 'Шарҳи монетарӣ',
-      menu_report_macro: 'Шарҳи макроиқтисодӣ',
-      menu_report_inflation: 'Шарҳи таваррум',
       rate_title: 'Меъёри бозтамвил',
       rate_date: 'аз 02 феврали соли 2026',
-      next_meeting: 'Ҷаласаи навбатии Кумита: 30.07.2026',
       inflation_title: 'Таварруми солона',
-      inflation_month: 'Март 2026',
+      inflation_month: 'Сентябр 2026',
       inflation_target: 'Ҳадафи таваррум: 5% (±2 б.ф.) — доираи 3–7%',
       chart_title: 'Тағйирёбии сатҳи таваррум',
       section_desc:          'Ҳолати ҷорӣ ва тағйироти нишондиҳандаҳои асосии монетарии кишвар',
-      rate_badge:            '↓ Коҳиш ёфт',
-      rate_change:           '↓ −0,25 б.ф. аз феврали 2026',
       inflation_badge:       '✓ Дар ҳадаф',
       inflation_target_link: 'Ҳадафи таваррум: 5% (±2 б.ф.)',
       dot_inflation:         'Таваррум',
@@ -56,34 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
       meeting_label:         'Ҷаласаи навбатии Кумита',
       target_label:          'Ҳадафи таваррум',
       target_value:          '5% (±2 б.ф.)',
+      events_title:          'Рӯйдодҳои наздик',
     },
     ru: {
       header_name:    'Национальный банк Таджикистана',
       header_tagline: 'NATIONAL BANK OF TAJIKISTAN',
       section_heading:'Монетарные показатели',
-      section_period: 'Март 2026',
-      chart_subtitle: 'Март 2025 — Март 2026',
+      section_period: 'Сентябрь 2026',
+      chart_subtitle: 'Сентябрь 2025 — Сентябрь 2026',
       footer_copy:    '© 2026 Национальный банк Таджикистана. Все права защищены.',
-      menu_policy: 'Монетарная политика',
-      menu_goal: 'Цели и задачи',
-      menu_tools: 'Инструменты денежно–кредитной политики',
-      menu_committee: 'Комитет по денежно-кредитной политике',
-      menu_strategy: 'Основные направления денежно-кредитной политики РТ',
-      menu_reports: 'Отчёты и публикации',
-      menu_report_monthly_inflation: 'Ежемесячный обзор инфляции',
-      menu_report_monetary: 'Монетарный обзор',
-      menu_report_macro: 'Макроэкономический обзор',
-      menu_report_inflation: 'Обзор инфляции',
       rate_title: 'Ставка рефинансирования',
       rate_date: 'с 02 февраля 2026',
-      next_meeting: 'Следующее заседание: 30.07.2026',
       inflation_title: 'Годовая инфляция',
-      inflation_month: 'Март 2026',
+      inflation_month: 'Сентябрь 2026',
       inflation_target: 'Цель инфляции: 5% (±2 п.п.) — диапазон 3–7%',
       chart_title: 'Изменение уровня инфляции',
       section_desc:          'Текущее состояние и изменения ключевых монетарных показателей',
-      rate_badge:            '↓ Снижена',
-      rate_change:           '↓ −0,25 п.п. с февраля 2026',
       inflation_badge:       '✓ В цели',
       inflation_target_link: 'Цель инфляции: 5% (±2 п.п.)',
       dot_inflation:         'Инфляция',
@@ -98,34 +75,22 @@ document.addEventListener('DOMContentLoaded', () => {
       meeting_label:         'Следующее заседание',
       target_label:          'Цель по инфляции',
       target_value:          '5% (±2 п.п.)',
+      events_title:          'Ближайшие события',
     },
     en: {
       header_name:    'National Bank of Tajikistan',
       header_tagline: 'NATIONAL BANK OF TAJIKISTAN',
       section_heading:'Monetary Indicators',
-      section_period: 'March 2026',
-      chart_subtitle: 'March 2025 — March 2026',
+      section_period: 'September 2026',
+      chart_subtitle: 'September 2025 — September 2026',
       footer_copy:    '© 2026 National Bank of Tajikistan. All rights reserved.',
-      menu_policy: 'Monetary Policy',
-      menu_goal: 'Goals & Objectives',
-      menu_tools: 'Monetary Policy Instruments',
-      menu_committee: 'Monetary Policy Committee',
-      menu_strategy: ' The main directions of the monetary policy of RT',
-      menu_reports: 'Reports & Publications',
-      menu_report_monthly_inflation: 'Monthly Inflation Report',
-      menu_report_monetary: 'Monetary Review',
-      menu_report_macro: 'Macroeconomic Review',
-      menu_report_inflation: 'Inflation Report',
       rate_title: 'Refinancing Rate',
       rate_date: 'from 02 Feb 2026',
-      next_meeting: 'Next meeting: 30.07.2026',
       inflation_title: 'Annual Inflation',
-      inflation_month: 'March 2026',
+      inflation_month: 'September 2026',
       inflation_target: 'Inflation target: 5% (±2 pp) — range 3–7%',
       chart_title: 'Inflation Dynamics',
       section_desc:          'Current status and changes in key monetary indicators',
-      rate_badge:            '↓ Decreased',
-      rate_change:           '↓ −0.25 pp since Feb 2026',
       inflation_badge:       '✓ On target',
       inflation_target_link: 'Inflation target: 5% (±2 pp)',
       dot_inflation:         'Inflation',
@@ -140,17 +105,23 @@ document.addEventListener('DOMContentLoaded', () => {
       meeting_label:         'Next meeting',
       target_label:          'Inflation target',
       target_value:          '5% (±2 pp)',
+      events_title:          'Upcoming events',
     },
   };
 
-  // chart datasets
-
   const DATASETS = [
-    { labelKey: 0, data: [3.4,3.6,3.8,3.6,3.5,3.1,2.8,3.1,3.2,3.5,3.6,3.7,3.4],               color: '#3b82f6' },
-    { labelKey: 1, data: [8.75,8.75,8.3145,8.25,8.25,7.7984,7.75,7.75,7.5167,7.5,7.5,7.5,7.5], color: '#1e40af', stepped: 'before', tension: 0, pointRadius: 'change' },
-    { labelKey: 2, data: [3.70,4.74,4.2,5.56,6.5,6.17,7.04,7.49,7.45,7.28,6.71,6.45,6.09],     color: '#22c55e' },
-    { labelKey: 3, data: [9.4,9.6,8.5,8.8,8.4,8.3,8.6,8.8,8.5,9.5,8.1,9.5,8.5],               color: '#f59e0b' },
+    { labelKey: 0, data: [2.8,3.1,3.2,3.5,3.6,3.6,3.4,3.6,4.1,4.1,4.1,4.1,4.1],                  color: NBT_COLORS.inflation },
+    { labelKey: 1, data: [7.75,7.75,7.5,7.5,7.5,7,7,7,7,7,7,7,7],                                 color: NBT_COLORS.rate, stepped: 'before', tension: 0, pointRadius: 'change' },
+    { labelKey: 2, data: [7.46,7.37,7.34,6.95,6.71,6.45,6.09,5.83,5.09,5.19,5.49,6.34,6.43],      color: NBT_COLORS.bonds },
+    { labelKey: 3, data: [8.61,8.79,8.53,9.54,8.14,9.48,8.51,5.47,8.64,8.35,7.42,6.44,5.67],      color: NBT_COLORS.interbank },
   ];
+
+  const PP = { tj: 'б.ф.', ru: 'п.п.', en: 'pp' };
+
+  function fmtNum(val, decimals, lang) {
+    const s = val.toFixed(decimals);
+    return lang === 'en' ? s : s.replace('.', ',');
+  }
 
   function dsPointRadius(ds) {
     if (ds.pointRadius === 'change') {
@@ -162,8 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return 2.5;
   }
-
-  // plugins
 
   const crosshairPlugin = {
     id: 'crosshair',
@@ -200,8 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (Math.abs(val - d[i-1]) < 0.0001) return;
         const delta  = val - d[i-1];
         const sign   = delta > 0 ? '+' : '−';
-        const text   = `${sign}${Math.abs(delta).toFixed(2).replace('.', ',')}%`;
-        const color  = delta < 0 ? '#16a34a' : '#dc2626';
+        const text   = `${sign}${fmtNum(Math.abs(delta), 2, currentLang)} ${PP[currentLang]}`;
+        const color  = delta < 0 ? '#16a34a' : '#c0504d';
         const pt     = meta.data[i];
         const offset = delta < 0 ? 22 : -22;
         const tw     = c.measureText(text).width;
@@ -221,8 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
 
-  // dynamic y-axis range
-
   function computeRange(data) {
     const vals = (data || []).filter(v => v != null && !isNaN(v));
     if (!vals.length) return { min: 0, max: 10, step: 2 };
@@ -238,8 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const max  = Math.ceil((mid + half) / step) * step;
     return { min, max, step };
   }
-
-  // Excel loading
 
   const MONTH_NAMES = {
     tj: ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
@@ -270,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return { direction: delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0, delta: Math.abs(delta), currentValue: arr[n-1] };
   }
 
-  function computeCardState(arr, dates, rateDates) {
+  function computeCardState(arr, dates) {
     const n = arr.length;
     if (n < 2) return null;
     const current = arr[n - 1];
@@ -282,14 +247,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevValue = changeIdx > 0 ? arr[changeIdx - 1] : current;
     const delta     = current - prevValue;
     const base      = dates[changeIdx];
-    const day       = rateDates && rateDates[changeIdx] != null ? rateDates[changeIdx] : null;
+
+    const day       = base && window.nbtRateEffectiveDay ? window.nbtRateEffectiveDay(base.year, base.month) : null;
     const sinceDate = day ? { ...base, day } : base;
     return { direction: delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0, delta: Math.abs(delta), sinceDate, currentValue: current };
   }
 
-  function fmtVal(val, decimals, lang) {
-    return lang === 'en' ? val.toFixed(decimals) : val.toFixed(decimals).replace('.', ',');
-  }
+  const fmtVal = fmtNum;
 
   function fmtSince(date, lang) {
     if (!date) return '';
@@ -317,9 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
         badgeEl.textContent = lang === 'en' ? 'No change' : lang === 'ru' ? 'Без изменений' : 'Бетағйир';
       } else {
         const sign = state.direction < 0 ? '−' : '+';
-        const unit = lang === 'en' ? 'pp' : 'б.ф.';
         badgeEl.className   = `trend-badge ${state.direction < 0 ? 'trend-down' : 'trend-up'}`;
-        badgeEl.textContent = `${sign}${fmtVal(state.delta, 2, lang)} ${unit}`;
+        badgeEl.textContent = `${sign}${fmtVal(state.delta, 2, lang)} ${PP[lang]}`;
       }
     }
   }
@@ -335,16 +298,83 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (badgeEl) {
       const vsMonth   = lang === 'en' ? 'vs. previous month' : lang === 'ru' ? 'к прошлому месяцу' : 'нисбат ба моҳи гузашта';
-      const unchanged = lang === 'en' ? 'unchanged' : lang === 'ru' ? 'без изменений' : 'бетағйир';
+      const unchanged = lang === 'en' ? 'Unchanged' : lang === 'ru' ? 'Без изменений' : 'Бетағйир';
       if (state.direction === 0) {
         badgeEl.className   = 'trend-badge trend-flat';
-        badgeEl.textContent = `${vsMonth} ${unchanged}`;
+        badgeEl.textContent = `${unchanged} ${vsMonth}`;
       } else {
         const sign = state.direction > 0 ? '+' : '−';
         badgeEl.className   = `trend-badge ${state.direction > 0 ? 'trend-up' : 'trend-down'}`;
-        badgeEl.textContent = `${sign}${fmtVal(state.delta, 1, lang)}% ${vsMonth}`;
+        badgeEl.textContent = `${sign}${fmtVal(state.delta, 1, lang)} ${PP[lang]} ${vsMonth}`;
       }
     }
+  }
+
+  function pagePath(slug, lang) {
+    return BASE + (lang === 'ru' ? `ru/${slug}_ru.html` : lang === 'en' ? `eng/${slug}_eng.html` : `other_links/${slug}.html`);
+  }
+
+  function todayISO() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  const fmtISO = iso => iso.split('-').reverse().join('.');
+
+  function renderLastDecision(lang) {
+    const el = document.getElementById('last-decision');
+    if (!el || !window.NBT_MEETINGS) return;
+    const today = todayISO();
+    const past  = [].concat(...Object.values(window.NBT_MEETINGS)).filter(m => m.iso < today).sort((a, b) => a.iso < b.iso ? 1 : -1);
+    if (!past.length) { el.hidden = true; return; }
+    const m   = past[0];
+    const doc = (m[lang] || m.tj);
+    const href = doc.summary?.href || doc.resolution?.href;
+    const label = lang === 'en' ? 'Latest decision' : lang === 'ru' ? 'Последнее решение' : 'Қарори охирин';
+    el.textContent = `${label}: ${fmtISO(m.iso)}`;
+    el.href = href || pagePath('kumita_bmt', lang) + '#meeting';
+    el.hidden = false;
+  }
+
+  function renderEvents(lang) {
+    const list = document.getElementById('events-list');
+    if (!list) return;
+    const today = todayISO();
+    const meetingName = { tj: 'Ҷаласаи Кумитаи сиёсати пулию қарзӣ', ru: 'Заседание Комитета по денежно-кредитной политике', en: 'Monetary Policy Committee meeting' };
+    const typeName = {
+      meeting:     { tj: 'Ҷаласа',  ru: 'Заседание',  en: 'Meeting' },
+      publication: { tj: 'Интишор', ru: 'Публикация', en: 'Publication' },
+    };
+    const events = [];
+    Object.values(window.NBT_MEETINGS || {}).forEach(year => year.forEach(m => {
+      if (m.iso >= today) events.push({ date: m.iso, type: 'meeting', name: meetingName[lang], href: pagePath('kumita_bmt', lang) + '#meeting' });
+    }));
+    (window.NBT_CALENDAR || []).forEach(e => {
+      if (e.date >= today) events.push({ date: e.date, type: 'publication', name: e.label[lang] || e.label.tj, href: pagePath(e.page, lang) });
+    });
+    events.sort((a, b) => a.date < b.date ? -1 : 1);
+    const shown = events.slice(0, 3);
+    list.closest('.events-wrap').hidden = !shown.length;
+    list.innerHTML = shown.map(e => {
+      const [y, mo, d] = e.date.split('-').map(Number);
+      return `<li class="events__item events__item--${e.type}"><a href="${e.href}">
+          <span class="events__date"><span class="events__day">${d}</span><span class="events__month">${MONTH_NAMES[lang][mo - 1]} ${String(y).slice(2)}</span></span>
+          <span class="events__text"><span class="events__type">${typeName[e.type][lang]}</span><span class="events__name">${e.name}</span></span>
+        </a></li>`;
+    }).join('');
+  }
+
+  function renderMeeting(lang) {
+
+    const el = document.getElementById('next-meeting');
+    if (!el || typeof window.nbtNextMeeting !== 'function') return;
+    const next  = window.nbtNextMeeting();
+    const zone  = el.closest('.statistic-footer');
+
+    if (!next) { if (window.nbtHomeFooter) window.nbtHomeFooter(); else if (zone) zone.hidden = true; return; }
+    const [y, m, d] = next.split('-');
+    el.textContent = `${d}.${m}.${y}`;
+    if (zone) zone.hidden = false;
   }
 
   function renderCards(lang) {
@@ -380,15 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function loadFromExcel() {
     try {
-      const resp = await fetch('data/data.xlsx');
-      if (!resp.ok) return false;
-      const buf  = await resp.arrayBuffer();
-      const wb   = XLSX.read(buf, { type: 'array' });
-      const ws   = wb.Sheets[wb.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(ws, { defval: null });
+      const rows = await nbtLoadRows({ defval: null });
       if (!rows.length) return false;
 
-      const allDates = [], allCols = [[], [], [], []], allRateDates = [];
+      const allDates = [], allCols = [[], [], [], []];
       for (const row of rows) {
         const d = parseDate(row.date);
         if (!d) continue;
@@ -397,7 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
         allCols[1].push(row.rate_eom    != null ? +row.rate_eom    : null);
         allCols[2].push(row.bonds       != null ? +row.bonds       : null);
         allCols[3].push(row.interbank   != null ? +row.interbank   : null);
-        allRateDates.push(row.rate_date != null ? +row.rate_date   : null);
       }
       if (!allDates.length) return false;
 
@@ -408,7 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
       DATASETS[1].data = allCols[1].slice(offset);
       DATASETS[2].data = allCols[2].slice(offset);
       DATASETS[3].data = allCols[3].slice(offset);
-      const rateDates  = allRateDates.slice(offset);
 
       const labels = buildMonthLabels(dates);
       MONTHS.tj = labels.tj;
@@ -432,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (lastInflation != null) loadedInflation = lastInflation;
 
       cardState = {
-        rate:      computeCardState(DATASETS[1].data, dates, rateDates),
+        rate:      computeCardState(DATASETS[1].data, dates),
         inflation: computeMonthChange(DATASETS[0].data),
       };
 
@@ -444,22 +467,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // state
+  function readLang() {
+    if (EMBED && EMBED.lang) return EMBED.lang;
+    try { return localStorage.getItem('lang'); } catch (e) { return null; }
+  }
 
   let currentSlide    = 0;
-  let currentLang     = localStorage.getItem('lang') || 'tj';
+  let currentLang     = readLang() || 'tj';
   let chart;
   let loadedInflation = null;
-  let cardState       = null;
-  let loadedDates     = [];
 
-  // tooltip
+  let cardState       = { rate: null, inflation: computeMonthChange(DATASETS[0].data) };
+  let loadedDates     = [];
 
   function tooltipLabel(c) {
     if (c.parsed.y === null) return '';
     const val = c.parsed.y;
     const dec = currentSlide === 1 ? 2 : 1;
-    const vs  = val.toFixed(dec).replace('.', ',');
+    const vs  = fmtNum(val, dec, currentLang);
     const d   = loadedDates[c.dataIndex];
     const lbl = d ? MONTH_FULL[currentLang][d.month - 1] + ' ' + d.year
                   : c.chart.data.labels[c.dataIndex];
@@ -472,13 +497,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (prev !== null && Math.abs(val - prev) > 0.0001) {
         const delta = val - prev;
-        return `${lbl}: ${vs}% (${delta >= 0 ? '▲' : '▼'} ${delta >= 0 ? '+' : ''}${delta.toFixed(2).replace('.', ',')}%)`;
+        return `${lbl}: ${vs}% (${delta >= 0 ? '▲ +' : '▼ −'}${fmtNum(Math.abs(delta), 2, currentLang)} ${PP[currentLang]})`;
       }
     }
     return `${lbl}: ${vs}%`;
   }
-
-  // chart init
 
   const ctx = document.getElementById('chartCanvas').getContext('2d');
   const ds0 = DATASETS[0];
@@ -512,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 350, easing: 'easeInOutQuart' },
+      animation: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? false : { duration: 350, easing: 'easeInOutQuart' },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -522,7 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
             title: () => '',
             label: tooltipLabel,
             labelColor: c => {
-              const color = typeof c.dataset.borderColor === 'string' ? c.dataset.borderColor : '#3b82f6';
+              const color = typeof c.dataset.borderColor === 'string' ? c.dataset.borderColor : NBT_COLORS.inflation;
               return { borderColor: color, backgroundColor: color };
             },
           },
@@ -545,8 +568,6 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     },
   });
-
-  // update chart
 
   function updateChart(i) {
     const ds  = DATASETS[i];
@@ -578,79 +599,151 @@ document.addEventListener('DOMContentLoaded', () => {
     chart.update();
 
     document.getElementById('chartTitle').textContent = CHARTS[currentLang][ds.labelKey];
+    const last = ds.data[ds.data.length - 1];
+    chart.canvas.setAttribute('aria-label', `${CHARTS[currentLang][ds.labelKey]}: ${(MONTHS[currentLang][0])} — ${MONTHS[currentLang].at(-1)}` +
+      (last != null ? `, ${MONTHS[currentLang].at(-1)}: ${fmtNum(last, 2, currentLang)}%` : ''));
   }
-
-  // slider
 
   function showSlide(n) {
     currentSlide = (n + DATASETS.length) % DATASETS.length;
     updateChart(currentSlide);
-    document.querySelectorAll('.chart-tab').forEach((tab, i) =>
-      tab.classList.toggle('active', i === currentSlide)
-    );
+    document.querySelectorAll('.chart-tab').forEach((tab, i) => {
+      tab.classList.toggle('active', i === currentSlide);
+      tab.setAttribute('aria-selected', String(i === currentSlide));
+      tab.tabIndex = i === currentSlide ? 0 : -1;
+    });
   }
 
-  document.querySelectorAll('.chart-tab').forEach(tab =>
-    tab.addEventListener('click', () => showSlide(+tab.dataset.index))
-  );
-
-  // auto-rotate every 10s
-
-  const TIMER_MS = 10000;
-  let   autoTimer  = null;
-  let   isHovered  = false;
+  const TIMER_MS = 8000, IDLE_MS = 30000;
+  let   autoTimer  = null, idleTimer = null;
+  let   paused     = false;
+  const autoplay   = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let   held       = false;
 
   function restartTimer() {
     clearInterval(autoTimer);
-    if (!isHovered) {
+    if (autoplay && !paused && !held) {
       autoTimer = setInterval(() => showSlide(currentSlide + 1), TIMER_MS);
     }
   }
 
+  function stopAutoplay() {
+    held = true;
+    clearInterval(autoTimer);
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => { held = false; restartTimer(); }, IDLE_MS);
+  }
+
+  const tabs = Array.from(document.querySelectorAll('.chart-tab'));
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    stopAutoplay();
+    showSlide(+tab.dataset.index);
+  }));
+
+  const tabList = document.querySelector('.chart-tabs');
+  if (tabList) {
+    tabList.addEventListener('keydown', e => {
+      const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!step) return;
+      e.preventDefault();
+      stopAutoplay();
+      showSlide(currentSlide + step);
+      tabs[currentSlide].focus();
+    });
+  }
+
   const chartCard = document.querySelector('.chart-card');
   if (chartCard) {
-    chartCard.addEventListener('mouseenter', () => { isHovered = true;  clearInterval(autoTimer); });
-    chartCard.addEventListener('mouseleave', () => { isHovered = false; restartTimer(); });
+    const pause  = () => { paused = true;  clearInterval(autoTimer); };
+    const resume = () => { paused = false; restartTimer(); };
+    chartCard.addEventListener('mouseenter', pause);
+    chartCard.addEventListener('mouseleave', resume);
+    chartCard.addEventListener('focusin',    pause);
+    chartCard.addEventListener('focusout',   e => { if (!chartCard.contains(e.relatedTarget)) resume(); });
+    chartCard.addEventListener('touchstart', stopAutoplay, { passive: true });
   }
 
   restartTimer();
 
-  // language
+  const navbar = EMBED ? null : document.querySelector('.navbar');
+  const menuEl = navbar && navbar.querySelector('.menu');
+
+  function closeDropdowns(except) {
+    if (!navbar) return;
+    navbar.querySelectorAll('.dropdown, .dropdown-sub').forEach(dd => {
+      if (except && dd.contains(except)) return;
+      dd.classList.remove('open');
+      dd.querySelector(':scope > a')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  if (navbar) {
+    navbar.addEventListener('click', e => {
+      const trigger = e.target.closest('.dropdown > a, .dropdown-sub > a');
+      if (!trigger) return;
+      e.preventDefault();
+      const dd   = trigger.parentElement;
+      const open = !dd.classList.contains('open');
+      closeDropdowns(dd);
+      dd.classList.toggle('open', open);
+      trigger.setAttribute('aria-expanded', String(open));
+    });
+    navbar.addEventListener('mouseleave', () => {
+      if (window.matchMedia('(hover: hover)').matches) closeDropdowns();
+    });
+  }
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.navbar')) closeDropdowns();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeDropdowns();
+  });
 
   function applyLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem('lang', lang);
-    document.querySelectorAll('[data-i18n]').forEach(el => {
+    if (!EMBED) {
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+      document.documentElement.lang = lang === 'tj' ? 'tg' : lang;
+      document.title = `${LABELS[lang].header_name} — ${LABELS[lang].section_heading}`;
+    }
+    ROOT.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.dataset.i18n;
       if (LABELS[lang]?.[key]) el.textContent = LABELS[lang][key];
     });
     if (loadedInflation != null) {
       const el = document.getElementById('val-inflation');
-      if (el) el.textContent = lang === 'en' ? loadedInflation.toFixed(1) : loadedInflation.toFixed(1).replace('.', ',');
+      if (el) el.textContent = fmtNum(loadedInflation, 1, lang);
     }
+    if (window.nbtRenderMainMenu) window.nbtRenderMainMenu(menuEl, lang);
     renderCards(lang);
+    renderMeeting(lang);
+    renderLastDecision(lang);
+    renderEvents(lang);
     updateChart(currentSlide);
   }
 
   function highlightActiveLang(lang) {
-    document.querySelectorAll('.lang-switcher button').forEach(btn => {
+    ROOT.querySelectorAll('.lang-switcher button').forEach(btn => {
       const code = btn.dataset.lang || btn.getAttribute('onclick')?.match(/'([a-z]+)'/)?.[1];
       btn.classList.toggle('active', code === lang);
     });
   }
 
   function updateLinks(lang) {
-    document.querySelectorAll('.nav-link').forEach(link => {
+    ROOT.querySelectorAll('.nav-link').forEach(link => {
       if (!link.dataset.hrefBase) {
         const href = link.getAttribute('href');
         if (!href || href === '#') return;
-        link.dataset.hrefBase = href.split('/').pop();
+        const [file, hash = ''] = href.split('/').pop().split('#');
+        link.dataset.hrefBase = file.replace(/_(ru|eng)\.html$/, '.html');
+        link.dataset.hrefHash = hash ? '#' + hash : '';
       }
-      const base = link.dataset.hrefBase;
+      const base = link.dataset.hrefBase, hash = link.dataset.hrefHash || '';
       const paths = {
-        tj: `other_links/${base}`,
-        ru: `ru/${base.replace('.html', '_ru.html')}`,
-        en: `eng/${base.replace('.html', '_eng.html')}`,
+        tj: BASE + `other_links/${base}` + hash,
+        ru: BASE + `ru/${base.replace('.html', '_ru.html')}` + hash,
+        en: BASE + `eng/${base.replace('.html', '_eng.html')}` + hash,
       };
       link.href = paths[lang] || paths.tj;
     });
@@ -667,15 +760,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 120);
   };
 
-  // init
-
   (function initLanguage() {
     const urlLang = new URLSearchParams(location.search).get('lang');
-    if (urlLang && LABELS[urlLang]) {
+    if (EMBED && EMBED.lang) {
+      currentLang = EMBED.lang;
+    } else if (urlLang && LABELS[urlLang]) {
       currentLang = urlLang;
-      localStorage.setItem('lang', urlLang);
     } else {
-      currentLang = localStorage.getItem('lang') || 'tj';
+      currentLang = readLang() || 'tj';
     }
     applyLanguage(currentLang);
     highlightActiveLang(currentLang);
