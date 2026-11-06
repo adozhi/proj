@@ -1,8 +1,3 @@
-// Two additions for every Chart.js chart on the site (load with `defer` right after chart.umd.min.js):
-//  - the latest value of each line is written at its end, in the line's colour (no hovering needed);
-//  - navy tooltips in the colours of the page header.
-// A chart can switch the end labels off with options.plugins.endLabel = false,
-// or set { suffix: ' п.п.', decimals: 2 }; a dataset with endLabel: false is skipped.
 (function () {
   if (!window.Chart) return;
   const D = Chart.defaults;
@@ -37,7 +32,7 @@
       if (!labels.length) return;
       ctx.save();
       ctx.font = '700 11px Inter, system-ui, sans-serif';
-      // stack labels that would overlap
+
       labels.sort((a, b) => a.y - b.y);
       for (let k = 1; k < labels.length; k++) if (labels[k].y - labels[k - 1].y < 18) labels[k].y = labels[k - 1].y + 18;
       labels.forEach(l => {
@@ -55,6 +50,6 @@
       ctx.restore();
     },
   });
-  // room on the right for the end labels
+
   D.layout.padding = Object.assign({}, D.layout.padding, { right: 48 });
 })();

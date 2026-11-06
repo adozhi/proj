@@ -1,4 +1,3 @@
-// sharhi_mohonai_tavarrum: page script shared by other_links/sharhi_mohonai_tavarrum.html, ru/sharhi_mohonai_tavarrum_ru.html, eng/sharhi_mohonai_tavarrum_eng.html
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -15,17 +14,14 @@ const I18N = {
 
 (function () {
 
-  // ===== file addresses — edit here =====
   function fileHref(year, month, ext) {
     var mm = month < 10 ? '0' + month : '' + month;
     return 'files/' + year + '-' + mm + '.' + ext;
   }
-  // =======================================
 
   var FIRST_YEAR  = 2016;
   var FIRST_MONTH = 9;
 
-  // the review for a month comes out the next month, so the list ends with the previous month
   var now   = new Date();
   var lastY = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
   var lastM = now.getMonth() === 0 ? 12 : now.getMonth();

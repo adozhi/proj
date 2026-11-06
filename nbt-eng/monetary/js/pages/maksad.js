@@ -1,5 +1,3 @@
-// maksad: page script shared by other_links/maksad.html, ru/maksad_ru.html, eng/maksad_eng.html
-// Top banner: the inflation target and where inflation is now (data/targets.js + data.json).
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -16,7 +14,7 @@ const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', '
 (function () {
   const hero = document.getElementById('goalHero');
   if (!hero) return;
-  // the lead sentence is the first paragraph of the "goal" section, in the page's own language
+
   const lead = (document.querySelector('#goal .x-block__body p') || {}).textContent || '';
 
   function render(last) {
@@ -46,7 +44,6 @@ const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', '
   nbtLoadRows().then(rows => render(rows.filter(r => r.inflation_y != null).pop())).catch(() => {});
 })();
 
-// Ruler above the transition timeline: each stage as long as its years, the preparation years under one brace.
 (function () {
   const tl = document.querySelector('#previous .timeline');
   if (!tl) return;

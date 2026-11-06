@@ -262,7 +262,7 @@
 }
 .nbt-mp .rs-side--provide .rs-mark{ bottom: calc(var(--lane) * 58px + 18px); }
 .nbt-mp .rs-side--absorb  .rs-mark{ top: calc(var(--lane) * 58px); flex-direction: column-reverse; }
-.nbt-mp .rs-mark::after{            
+.nbt-mp .rs-mark::after{
   content: ''; position: absolute; left: var(--x); width: 1px; background: rgba(255,255,255,0.35);
   height: calc(var(--lane) * 58px + 10px);
 }

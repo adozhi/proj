@@ -7,3 +7,5 @@ data.xlsx: inflation_f / inflation_nf / inflation_s (столбцы C–E), ап
 data.xlsx: infl_core (столбец T) — базовая инфляция, вся колонка
 data.xlsx: infl_expect (столбец U) — инфляционные ожидания, вся колонка
 data.xlsx: op_deposits, op_securities (столбцы V–W) — операции НБТ, все значения
+js/pages/charts.js: ширина процентного коридора ±3 п.п. (CORRIDOR_WIDTH) применена ко всей истории — заменить реальной историей коридора
+data/calendar.js: даты выхода публикаций временные — заменить официальным календарём публикаций

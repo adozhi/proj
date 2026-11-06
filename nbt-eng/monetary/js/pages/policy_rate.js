@@ -1,4 +1,3 @@
-// policy_rate: page script shared by other_links/policy_rate.html, ru/policy_rate_ru.html, eng/policy_rate_eng.html
 const LANG = nbtPageLang();
 const COLORS = window.NBT_COLORS;
 
@@ -44,12 +43,9 @@ const I18N = {
   },
 }[LANG];
 
-// decimal separator: comma for tj/ru, point for en
 const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ',');
 
 function fmtDate(d){if(!d)return'—';const[y,m]=d.split('-').map(Number);return I18N.monthsGen[m-1]+' '+y;}
-
-
 
 function toNum(v){if(v===undefined||v===null||v==='')return null;const n=parseFloat(String(v).replace(',','.'));return isNaN(n)?null:n;}
 
@@ -66,7 +62,6 @@ const cbChartPlugin = {
     function rr(x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
     c.save();
 
-    // 1. dotted current-rate line + badge at right edge
     let lastVal = null, lastIdx = -1;
     for (let i = data.length-1; i >= 0; i--) { if (data[i] !== null) { lastVal = data[i]; lastIdx = i; break; } }
     if (lastVal !== null && meta0.data[lastIdx]) {
@@ -88,7 +83,6 @@ const cbChartPlugin = {
       c.fillText(txt, bx, by + 1);
     }
 
-    // 2. change labels + 3. decision tick marks
     c.font = '600 9px Inter, system-ui, sans-serif';
     let lastLabelX = -999;
     data.forEach((v, i) => {
@@ -101,11 +95,9 @@ const cbChartPlugin = {
       const pt = meta0.data[i]; if (!pt) return;
       const x = pt.x;
 
-      // tick at x-axis bottom
       c.strokeStyle = '#94a3b8'; c.lineWidth = 1.5; c.setLineDash([]);
       c.beginPath(); c.moveTo(x, xAxis.bottom + 1); c.lineTo(x, xAxis.bottom + 5); c.stroke();
 
-      // badge (skip if too close to previous)
       if (x - lastLabelX < 38) return;
       lastLabelX = x;
       const isHike = delta > 0;
@@ -147,7 +139,7 @@ function computeCardState(arr, dates) {
   const delta = current - prevValue;
   const direction = delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0;
   const base = dates[changeIdx];
-  // the day the new rate took effect comes from the meeting schedule (data/meetings.js)
+
   const day = base && window.nbtRateEffectiveDay ? window.nbtRateEffectiveDay(base.year, base.month) : null;
   return { direction, delta: Math.abs(delta), sinceDate: day ? {...base, day} : base, currentValue: current };
 }
@@ -193,7 +185,6 @@ function updateRateCard(rates, dates) {
   updateCorridorTable(state.currentValue);
 }
 
-// colour of a rate move: green for a cut, red for a hike, null when unchanged
 const RATE_CUT = '#16a34a', RATE_HIKE = '#c0504d';
 function rateMove(prev, cur) {
   if (prev == null || cur == null || Math.abs(cur - prev) < 0.0001) return null;
@@ -206,7 +197,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     json = await nbtLoadRows({defval:""});
   } catch(err) { console.error(I18N.error, err); return; }
-
 
   const labels = [], values = [], cardRates = [], cardDates = [];
   json.forEach(row => {
@@ -245,7 +235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         fill: false,
         tension: 0,
         stepped: 'before',
-        // every change of the rate: a dot and the step in green (cut) or red (hike)
+
         segment: { borderColor: c => rateMove(c.p0.parsed.y, c.p1.parsed.y) || COLORS.rate },
         pointRadius: c => rateMove(prevRate(c.chart.data.datasets[0].data, c.dataIndex), c.raw) ? 4 : 0,
         pointBackgroundColor: c => rateMove(prevRate(c.chart.data.datasets[0].data, c.dataIndex), c.raw) || COLORS.rate,
@@ -382,7 +372,6 @@ document.addEventListener('click', e => {
   }
 });
 
-// banner: the interest rate corridor and where the interbank rate sits in it (js/gauges.js)
 (function () {
   const host = document.getElementById('corridorGauge');
   if (!host || !window.nbtGauge) return;

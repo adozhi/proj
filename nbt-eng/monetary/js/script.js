@@ -1,11 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // embedded in another site (e.g. nbt.tj): window.NBT_EMBED = { lang: 'ru', base: 'monetary/', root: '.nbt-mp' }
-  // — fixed language, links into the block's folder, and nothing outside the block is touched
+
   const EMBED = window.NBT_EMBED || null;
   const ROOT  = (EMBED && EMBED.root && document.querySelector(EMBED.root)) || document;
   const BASE  = (EMBED && EMBED.base) || '';
-
-  // i18n
 
   const MONTHS = {
     tj: ['Сен 25','Окт','Ноя','Дек','Янв 26','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен 26'],
@@ -112,15 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
 
-  // chart datasets
-
   const DATASETS = [
     { labelKey: 0, data: [2.8,3.1,3.2,3.5,3.6,3.6,3.4,3.6,4.1,4.1,4.1,4.1,4.1],                  color: NBT_COLORS.inflation },
     { labelKey: 1, data: [7.75,7.75,7.5,7.5,7.5,7,7,7,7,7,7,7,7],                                 color: NBT_COLORS.rate, stepped: 'before', tension: 0, pointRadius: 'change' },
     { labelKey: 2, data: [7.46,7.37,7.34,6.95,6.71,6.45,6.09,5.83,5.09,5.19,5.49,6.34,6.43],      color: NBT_COLORS.bonds },
     { labelKey: 3, data: [8.61,8.79,8.53,9.54,8.14,9.48,8.51,5.47,8.64,8.35,7.42,6.44,5.67],      color: NBT_COLORS.interbank },
   ];
-
 
   const PP = { tj: 'б.ф.', ru: 'п.п.', en: 'pp' };
 
@@ -139,8 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return 2.5;
   }
-
-  // plugins
 
   const crosshairPlugin = {
     id: 'crosshair',
@@ -198,8 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   };
 
-  // dynamic y-axis range
-
   function computeRange(data) {
     const vals = (data || []).filter(v => v != null && !isNaN(v));
     if (!vals.length) return { min: 0, max: 10, step: 2 };
@@ -215,8 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const max  = Math.ceil((mid + half) / step) * step;
     return { min, max, step };
   }
-
-  // data loading (data/data.json, see tools/build_data.py)
 
   const MONTH_NAMES = {
     tj: ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
@@ -259,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevValue = changeIdx > 0 ? arr[changeIdx - 1] : current;
     const delta     = current - prevValue;
     const base      = dates[changeIdx];
-    // the day the new rate took effect comes from the meeting schedule (data/meetings.js)
+
     const day       = base && window.nbtRateEffectiveDay ? window.nbtRateEffectiveDay(base.year, base.month) : null;
     const sinceDate = day ? { ...base, day } : base;
     return { direction: delta > 0.0001 ? 1 : delta < -0.0001 ? -1 : 0, delta: Math.abs(delta), sinceDate, currentValue: current };
@@ -322,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // link to a detail page in the given language, from the main page
   function pagePath(slug, lang) {
     return BASE + (lang === 'ru' ? `ru/${slug}_ru.html` : lang === 'en' ? `eng/${slug}_eng.html` : `other_links/${slug}.html`);
   }
@@ -334,7 +321,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const fmtISO = iso => iso.split('-').reverse().join('.');
 
-  // latest MPC decision (data/meetings.js): its press release, or the Committee page while it is not published
   function renderLastDecision(lang) {
     const el = document.getElementById('last-decision');
     if (!el || !window.NBT_MEETINGS) return;
@@ -350,7 +336,6 @@ document.addEventListener('DOMContentLoaded', () => {
     el.hidden = false;
   }
 
-  // nearest MPC meetings + publications (data/calendar.js)
   function renderEvents(lang) {
     const list = document.getElementById('events-list');
     if (!list) return;
@@ -380,12 +365,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderMeeting(lang) {
-    // schedule lives in data/meetings.js, shared with the Committee page
+
     const el = document.getElementById('next-meeting');
     if (!el || typeof window.nbtNextMeeting !== 'function') return;
     const next  = window.nbtNextMeeting();
     const zone  = el.closest('.statistic-footer');
-    // no meeting ahead: js/home.js shows the last decision there instead (without it the row is hidden)
+
     if (!next) { if (window.nbtHomeFooter) window.nbtHomeFooter(); else if (zone) zone.hidden = true; return; }
     const [y, m, d] = next.split('-');
     el.textContent = `${d}.${m}.${y}`;
@@ -482,8 +467,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // state
-
   function readLang() {
     if (EMBED && EMBED.lang) return EMBED.lang;
     try { return localStorage.getItem('lang'); } catch (e) { return null; }
@@ -493,11 +476,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentLang     = readLang() || 'tj';
   let chart;
   let loadedInflation = null;
-  // until Excel loads, the inflation card is driven by the fallback series
+
   let cardState       = { rate: null, inflation: computeMonthChange(DATASETS[0].data) };
   let loadedDates     = [];
-
-  // tooltip
 
   function tooltipLabel(c) {
     if (c.parsed.y === null) return '';
@@ -521,8 +502,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return `${lbl}: ${vs}%`;
   }
-
-  // chart init
 
   const ctx = document.getElementById('chartCanvas').getContext('2d');
   const ds0 = DATASETS[0];
@@ -590,8 +569,6 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
 
-  // update chart
-
   function updateChart(i) {
     const ds  = DATASETS[i];
     const rng = computeRange(ds.data);
@@ -627,8 +604,6 @@ document.addEventListener('DOMContentLoaded', () => {
       (last != null ? `, ${MONTHS[currentLang].at(-1)}: ${fmtNum(last, 2, currentLang)}%` : ''));
   }
 
-  // slider
-
   function showSlide(n) {
     currentSlide = (n + DATASETS.length) % DATASETS.length;
     updateChart(currentSlide);
@@ -638,9 +613,6 @@ document.addEventListener('DOMContentLoaded', () => {
       tab.tabIndex = i === currentSlide ? 0 : -1;
     });
   }
-
-  // auto-rotate every 8s; a tab picked by hand stays for 30s, then rotation goes on;
-  // paused while hovered/focused, disabled for prefers-reduced-motion
 
   const TIMER_MS = 8000, IDLE_MS = 30000;
   let   autoTimer  = null, idleTimer = null;
@@ -668,7 +640,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showSlide(+tab.dataset.index);
   }));
 
-  // arrow keys move between tabs (WAI-ARIA tabs pattern)
   const tabList = document.querySelector('.chart-tabs');
   if (tabList) {
     tabList.addEventListener('keydown', e => {
@@ -694,10 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   restartTimer();
 
-  // navbar: menu items come from js/site-nav.js; dropdowns open on hover (desktop) or tap / keyboard.
-  // Handlers are delegated because the menu is re-rendered on every language switch.
-
-  const navbar = EMBED ? null : document.querySelector('.navbar');   // embedded: the host site owns its menu
+  const navbar = EMBED ? null : document.querySelector('.navbar');
   const menuEl = navbar && navbar.querySelector('.menu');
 
   function closeDropdowns(except) {
@@ -731,8 +699,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeDropdowns();
   });
-
-  // language
 
   function applyLanguage(lang) {
     currentLang = lang;
@@ -791,8 +757,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.remove('lang-fade');
     }, 120);
   };
-
-  // init
 
   (function initLanguage() {
     const urlLang = new URLSearchParams(location.search).get('lang');

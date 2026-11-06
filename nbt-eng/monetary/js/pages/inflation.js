@@ -1,4 +1,3 @@
-// inflation: page script shared by other_links/inflation.html, ru/inflation_ru.html, eng/inflation_eng.html
 const LANG = nbtPageLang();
 const COLORS = window.NBT_COLORS;
 
@@ -45,12 +44,10 @@ const I18N = {
   },
 }[LANG];
 
-// decimal separator: comma for tj/ru, point for en
 const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ',');
 
 function fmtDate(d){if(!d)return'—';const[y,m]=d.split('-').map(Number);return I18N.monthsGen[m-1]+' '+y;}
 
-// target history lives in data/targets.js
 const getTarget = d => nbtTargetFor(d);
 
 function buildTargetData(labels) {
@@ -99,7 +96,7 @@ function updateInflationCard(values_yearly, dates) {
   if (valEl) valEl.textContent = num(current, 1);
   if (badgeEl) {
     const tg = (lastDate && getTarget(`${lastDate.year}-${String(lastDate.month).padStart(2, '0')}`)) || { center: 5, band: 2 };
-    const inTarget = Math.abs(current - tg.center) <= tg.band;  // see also the gauge below
+    const inTarget = Math.abs(current - tg.center) <= tg.band;
     const cb = document.getElementById('btn-corridor');
     if (cb && cb.lastChild && cb.lastChild.nodeType === 3) cb.lastChild.textContent = ' ' + I18N.target(tg.center, tg.band) + ' ';
     if (inTarget) {
@@ -109,7 +106,7 @@ function updateInflationCard(values_yearly, dates) {
       badgeEl.textContent = I18N.offTarget;
       badgeEl.style.cssText = 'background:rgba(192,80,77,0.3);color:#f2b8b5;border:1px solid rgba(192,80,77,0.55);';
     }
-  }  // target gauge in the banner (js/gauges.js)
+  }
   const gaugeEl = document.getElementById('inflGauge');
   if (gaugeEl && window.nbtGauge && lastDate) {
     const ym = `${lastDate.year}-${String(lastDate.month).padStart(2, '0')}`;
@@ -164,7 +161,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const data = await loadExcelData();
   originalData = data;
 
-  // Starting from 2010-01 like charts.html
   const startIdx2010 = data.labels.findIndex(l => l >= '2010-01');
   const startIdx = startIdx2010 >= 0 ? startIdx2010 : 0;
   const slicedLabels = data.labels.slice(startIdx);
@@ -223,7 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         stepped: true
       }, {
         label: (t => I18N.target(t.center, t.band))(window.NBT_INFLATION_TARGETS[window.NBT_INFLATION_TARGETS.length - 1]),
-        endLabel: false,   // no value at the right edge for the target line
+        endLabel: false,
         data: originalData.td.center,
         borderColor: 'rgba(5,150,105,0.65)',
         borderDash: [6, 4],
@@ -298,7 +294,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (lastEl) lastEl.textContent = fmtDate(lastDate);
 });
 
-
 function computeRangeZero(nums){
   if(!nums.length) return {min:-2,max:2,step:1};
   const lo=Math.min(0,Math.min(...nums)),hi=Math.max(0,Math.max(...nums));
@@ -308,7 +303,6 @@ function computeRangeZero(nums){
 function barColors(data){ return data.map(v=>v===null?'transparent':v>=0?nbtAlpha(COLORS.inflation,0.85):nbtAlpha(COLORS.deflation,0.75)); }
 function barBorderColors(data){ return data.map(v=>v===null?'transparent':v>=0?COLORS.inflation:COLORS.deflation); }
 
-// the monthly view starts on the last 3 years (16 years of monthly bars are unreadable); the yearly view gets its range back
 let yearlyRange = null;
 function setRange(start, end) {
   document.getElementById('startDate').value = start;
@@ -453,7 +447,6 @@ function updateRangeLabel() {
   if (lbl) lbl.textContent = fmt(s) + ' — ' + fmt(e);
 }
 
-
 function updateChart() {
   if (!inflationChart || !originalData) return;
 
@@ -501,7 +494,6 @@ function updateChart() {
   if (rb) rb.classList.add('btn-chart--active');
 }
 
-
 function resetChart() {
   if (!inflationChart || !originalData) return;
 
@@ -521,7 +513,6 @@ function resetChart() {
   inflationChart.data.datasets[3].data = resetTd.center;
   [1, 2, 3].forEach(i => inflationChart.data.datasets[i].hidden = false);
 
-  // Restore to yearly line chart state
   inflationChart.config.type = 'line';
   inflationChart.data.datasets[0].backgroundColor = ctx2 => {
     const {ctx: c, chartArea} = ctx2.chart;
@@ -569,7 +560,6 @@ function resetChart() {
   if (rb) rb.classList.remove('btn-chart--active');
 }
 
-
 async function exportXLS() {
   const XLSX = await nbtLoadXLSX();
   if (!inflationChart) return;
@@ -592,7 +582,6 @@ document.addEventListener('click', e => {
   }
 });
 
-// ---------- "show more" explainers: a real button, smooth opening, the calculation explained visually ----------
 const XP = {
   tj: { open: 'Кушодан', close: 'Пӯшидан', groups: ['Хӯрокворӣ', 'Ғайрихӯрокворӣ', 'Хизматрасонӣ'], items: 'номгӯй дар сабад', weights: 'вазни хос, %' },
   ru: { open: 'Открыть', close: 'Свернуть', groups: ['Продовольственные', 'Непродовольственные', 'Услуги'], items: 'наименований в корзине', weights: 'удельный вес, %' },
@@ -621,7 +610,6 @@ document.querySelectorAll('.show-more').forEach((link, k) => {
   panel.classList.add('xp-panel');
   panel.innerHTML = `<div class="xp-panel__inner">${panel.innerHTML}</div>`;
 
-  // sections inside → numbered steps; the basket and the weights are drawn from the numbers in the text
   const secs = panel.querySelectorAll('.xp-panel__inner > section');
   if (secs.length) {
     panel.querySelector('.xp-panel__inner').classList.add('xp-steps');
@@ -630,7 +618,7 @@ document.querySelectorAll('.show-more').forEach((link, k) => {
       const h = sec.querySelector('h3'); if (h) h.textContent = h.textContent.replace(/^\s*\d+\.\s*/, '');
       sec.querySelectorAll('p').forEach(p => {
         const n = numsIn(p.textContent);
-        // basket: total = a + b + c (e.g. 546 = 112 + 335 + 99)
+
         for (let i = 0; i + 3 < n.length; i++) {
           if (n[i] > 0 && n[i] === n[i + 1] + n[i + 2] + n[i + 3]) {
             const viz = document.createElement('div'); viz.className = 'xp-viz';
@@ -638,7 +626,7 @@ document.querySelectorAll('.show-more').forEach((link, k) => {
             p.after(viz); return;
           }
         }
-        // weights: three shares that add up to 100
+
         for (let i = 0; i + 2 < n.length; i++) {
           if (Math.abs(n[i] + n[i + 1] + n[i + 2] - 100) < 0.15 && n[i] < 100) {
             const viz = document.createElement('div'); viz.className = 'xp-viz';

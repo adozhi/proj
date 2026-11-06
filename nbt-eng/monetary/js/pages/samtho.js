@@ -1,5 +1,3 @@
-// samtho: page script shared by other_links/samtho.html, ru/samtho_ru.html, eng/samtho_eng.html
-// The documents as a bookshelf: the current year as a cover, earlier years as spines on decade shelves.
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -9,9 +7,9 @@ const I18N = {
 }[LANG];
 
 (function () {
-  // ===== file addresses — edit here =====
+
   function fileHref(year) { return 'files/' + year + '.pdf'; }
-  // =======================================
+
   var FIRST = 2003, CURRENT = 2026;
 
   var host = document.getElementById('doc-grid');
@@ -27,7 +25,6 @@ const I18N = {
       '<span class="sh-cover__for">' + esc(I18N.current(CURRENT)) + '</span>' +
     '</a>';
 
-  // decade shelves, newest first
   var shelves = [];
   for (var d = Math.floor((CURRENT - 1) / 10) * 10; d >= Math.floor(FIRST / 10) * 10; d -= 10) {
     var years = [];
@@ -37,7 +34,7 @@ const I18N = {
       '<div class="sh-shelf">' +
         '<span class="sh-shelf__label">' + I18N.shelf(years[years.length - 1], years[0]) + '</span>' +
         '<div class="sh-shelf__books">' + years.map(function (y) {
-          var h = 172, c = SHADES[y % SHADES.length];   // same height for every year; only the shade varies
+          var h = 172, c = SHADES[y % SHADES.length];
           return '<a class="sh-book" href="' + fileHref(y) + '" target="_blank" rel="noopener noreferrer" style="--h:' + h + 'px;--c:' + c + '" ' +
                  'title="' + esc(title + ', ' + y) + '" aria-label="' + esc(title + ', ' + y + ' — ' + I18N.open) + '"><span>' + y + '</span></a>';
         }).join('') + '</div>' +

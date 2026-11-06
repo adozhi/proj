@@ -1,4 +1,3 @@
-// sharhi_monetary: page script shared by other_links/sharhi_monetary.html, ru/sharhi_monetary_ru.html, eng/sharhi_monetary_eng.html
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -39,11 +38,9 @@ const I18N = {
 
 (function () {
 
-  // ===== file addresses — edit here =====
   function fileHref(year, slug, ext) {
     return 'files/' + year + '-' + slug + '.' + ext;
   }
-  // =======================================
 
   var DATA = [
     { year: 2025, periods: [
@@ -177,10 +174,10 @@ const I18N = {
         items: entry.periods.map(function (p) {
           var name = nbtPeriodName[p.slug];
           return {
-            end:   nbtPeriodEnd(p.slug),      // calendar column: the month the period ends
-            title: name || p.label,           // "I квартал", or the label for non-standard periods
+            end:   nbtPeriodEnd(p.slug),
+            title: name || p.label,
             short: nbtPeriodShort[p.slug] || p.label.replace(/^.*[-–]/, '').slice(0, 3),
-            sub:   name ? p.label : '',       // "январь–март"
+            sub:   name ? p.label : '',
             files: [{ type: 'pdf', href: fileHref(entry.year, p.slug, 'pdf') }],
           };
         }),

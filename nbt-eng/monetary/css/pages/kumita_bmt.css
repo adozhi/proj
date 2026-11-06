@@ -57,7 +57,7 @@
   position: relative; list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: repeat(var(--stops), minmax(0, 1fr)); gap: 0 18px;
 }
-.nbt-mp .mpc-rail::before{               
+.nbt-mp .mpc-rail::before{
   content: ''; position: absolute; left: 0; right: 0; top: 9px; height: 2px;
   background: linear-gradient(90deg, var(--navy-2, #1e3a5f), var(--blue));
   opacity: 0.25;

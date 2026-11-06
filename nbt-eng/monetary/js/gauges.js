@@ -1,10 +1,3 @@
-// Small horizontal scales shared by several pages (no chart library needed).
-//
-//   nbtGauge(host, { min, max, band: [lo, hi], center, value, valueText, bandText, step, unit })
-//
-// draws: the scale, a highlighted band (target or corridor), a thin line at `center`
-// and a marker with a label at `value`. Colors come from the surrounding element:
-// put it inside a dark panel and add class "gauge--dark".
 (function () {
   const pct = (v, min, max) => ((Math.min(max, Math.max(min, v)) - min) / (max - min) * 100).toFixed(2) + '%';
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');

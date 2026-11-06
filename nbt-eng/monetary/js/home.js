@@ -1,6 +1,3 @@
-// Main page additions on top of the classic three cards (js/script.js stays as it is; index_classic.html does not load this file).
-//  - rate and inflation cards get a "back side" opened by a small button: the corridor and recent decisions,
-//    inflation by group and versus target;
 (function () {
   const T = {
     tj: { more: 'Муфассал', close: 'Пӯшидан', corridor: 'Долони меъёри фоизӣ', credit: 'Қарзи шабонарӯзӣ', rate: 'Меъёри бозтамвил', deposit: 'Амонати шабонарӯзӣ',
@@ -19,7 +16,7 @@
           monthly: 'Monthly inflation', target: 'Target', inBand: 'within target', outBand: 'outside target', toInflation: 'Inflation →',
           band: 'target', corr: 'corridor', last: 'Latest Committee decision', views: ['Classic', 'Dark', 'Strip'], view: 'View' },
   };
-  const EMBED = window.NBT_EMBED || null;   // see js/script.js: embedded in another site
+  const EMBED = window.NBT_EMBED || null;
   const lang = () => { if (EMBED && EMBED.lang) return EMBED.lang; const l = (document.documentElement.lang || 'tg').slice(0, 2); return l === 'ru' ? 'ru' : l === 'en' ? 'en' : 'tj'; };
   const L = () => T[lang()];
   const num = (v, d) => lang() === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ',');
@@ -31,7 +28,6 @@
   let ROWS = [];
   const last = key => { for (let i = ROWS.length - 1; i >= 0; i--) if (ROWS[i][key] != null) return { date: String(ROWS[i].date).slice(0, 7), v: +ROWS[i][key] }; return null; };
 
-  // ---------- back sides ----------
   const ICON = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.3L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.3L3 16"/><path d="M3 21v-5h5"/></svg>';
 
   function setupCard(card, key) {
@@ -71,7 +67,6 @@
     document.querySelectorAll('.card-flip').forEach(b => b.setAttribute('aria-label', t.more));
     const closeBtn = `<button type="button" class="card-back__close" aria-label="${esc(t.close)}">×</button>`;
 
-    // rate: corridor ladder + interbank + last decisions
     const rate = last('rate_eom'), ib = last('interbank');
     const rb = document.getElementById('back-rate');
     if (rb && rate) {
@@ -92,7 +87,6 @@
         <a class="card-back__link" href="${pagePath('kumita_bmt')}#meeting">${esc(t.toCommittee)}</a>`;
     }
 
-    // inflation: groups, monthly, target
     const inf = last('inflation_y'), mon = last('inflation');
     const ib2 = document.getElementById('back-inflation');
     if (ib2 && inf) {
@@ -110,8 +104,6 @@
     }
   }
 
-  // ---------- rate card footer: the latest decision while the next meeting is not announced ----------
-  // inflation card footer: the target in force for the latest month (columns target / target_band in data.xlsx)
   function renderTarget() {
     const el = document.querySelector('.inflation-card .fz-value');
     const last = ROWS.filter(r => r.inflation_y != null).pop();
@@ -124,7 +116,7 @@
   function renderFooter() {
     const el = document.getElementById('next-meeting');
     const zone = el && el.closest('.statistic-footer');
-    if (!zone || (window.nbtNextMeeting && nbtNextMeeting())) return;   // the classic script shows the next meeting
+    if (!zone || (window.nbtNextMeeting && nbtNextMeeting())) return;
     const t = L();
     const past = [].concat(...Object.values(window.NBT_MEETINGS || {})).filter(m => m.iso < todayISO).sort((a, b) => a.iso < b.iso ? 1 : -1)[0];
     if (!past) return;
@@ -138,9 +130,8 @@
 
   window.nbtHomeFooter = () => renderFooter();
 
-  // ---------- three looks for the cards, remembered per visitor ----------
   function setView(v) {
-    // embedded: the look is fixed and set on the block's own wrapper, not on the host page's <body>
+
     const host = (EMBED && document.querySelector((EMBED.root || '') + ' .nbt-home')) || document.body;
     host.classList.remove('view-1', 'view-2', 'view-3');
     host.classList.add('view-' + v);
@@ -153,20 +144,19 @@
     sw.querySelectorAll('button').forEach((b, i) => { b.title = `${t.view}: ${t.views[i]}`; b.setAttribute('aria-label', b.title); });
   }
 
-  // ---------- start ----------
   document.addEventListener('DOMContentLoaded', () => {
     const rateCard = document.querySelector('.rate-card'), inflCard = document.querySelector('.inflation-card');
     if (rateCard) setupCard(rateCard, 'rate');
     if (inflCard) setupCard(inflCard, 'inflation');
     renderBacks();
     labelViews();
-    let v = '3';   // look 3 is the site's look (the 1/2/3 switch was removed)
+    let v = '3';
     if (EMBED && EMBED.view) v = String(EMBED.view);
     setView(v);
     const sw = document.getElementById('viewSwitch');
     if (sw) sw.addEventListener('click', e => { const b = e.target.closest('button[data-view]'); if (b) setView(b.dataset.view); });
     nbtLoadRows().then(rows => { ROWS = rows; renderBacks(); renderFooter(); renderTarget(); }).catch(() => {});
-    // the classic script switches language in place: follow it
+
     new MutationObserver(() => { renderBacks(); renderFooter(); renderTarget(); labelViews(); })
       .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   });

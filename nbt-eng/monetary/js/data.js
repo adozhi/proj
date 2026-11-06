@@ -1,13 +1,9 @@
-// shared data loader: rows from data/data.json (built by tools/build_data.py),
-// falling back to parsing data/data.xlsx when the JSON is missing.
 (function () {
 
-  // works from index.html and from the language folders
   const base = document.currentScript.src.replace(/js\/data\.js(\?.*)?$/, '');
 
   let xlsxPromise = null;
 
-  // SheetJS is ~900 KB — load it only when it is actually needed
   window.nbtLoadXLSX = function () {
     if (window.XLSX) return Promise.resolve(window.XLSX);
     if (!xlsxPromise) {
@@ -44,9 +40,6 @@
     }
   }
 
-  // rows shaped like XLSX.utils.sheet_to_json(sheet, { defval })
-  // the inflation target by month (columns target / target_band) replaces the list in data/targets.js:
-  // consecutive months with the same target become one period, the last period stays open (to: null)
   function applyTargets(rows) {
     const periods = [];
     rows.forEach(r => {

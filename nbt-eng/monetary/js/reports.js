@@ -1,16 +1,3 @@
-// Publications pages ("Шарҳ ва интишорот"): shared layout for the monthly inflation review,
-// inflation report, monetary review and macroeconomic review.
-//
-//   nbtRenderReports({
-//     years: [{ year: 2026, items: [{ end: 9, title, short, sub, files: [{ type: 'pdf' | 'xlsx', href }] }] }, ...],
-//     archive: true,   // optional: the series is no longer published
-//   });
-//
-//   end   — month (1–12) in which the reporting period ends: the issue is placed in that month's column
-//   title — full period name ("Сентябр", "I квартал"); short — text inside the calendar cell (optional)
-//
-// Layout: the latest issue as a document cover, then a publication calendar — years × months —
-// where every issue sits in the month its period ends. #2024 in the address highlights that year.
 (function () {
 
   const LANG = window.nbtPageLang ? window.nbtPageLang() : 'tj';
@@ -42,7 +29,7 @@
     const nav   = document.getElementById('year-nav');
     const list  = document.getElementById('reports-list');
     if (!list || !years.length) return;
-    if (nav) nav.remove();   // the calendar replaces the year buttons
+    if (nav) nav.remove();
 
     const pageTitle = (document.querySelector('.page-title') || {}).textContent || '';
     const newest = years[0];
@@ -50,7 +37,6 @@
     const oldest = years[years.length - 1].year;
     const count  = years.reduce((n, y) => n + y.items.length, 0);
 
-    // ---- latest issue: a document cover + actions
     const cover = `
       <section class="rp-latest" aria-label="${esc(T.latest)}">
         <a class="rp-cover" href="${esc(latest.files[0].href)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(pageTitle + ' — ' + latest.title + ' ' + newest.year + ', PDF')}">
@@ -69,8 +55,6 @@
         </div>
       </section>`;
 
-    // ---- columns: the 12 months for a monthly series; otherwise only the periods that recur,
-    //      rare one-off periods go to an "other" column
     const freq = {};
     years.forEach(y => new Set(y.items.map(i => i.end)).forEach(e => { freq[e] = (freq[e] || 0) + 1; }));
     const monthly = Object.keys(freq).length > 6 && years.some(y => y.items.length > 6);
@@ -90,7 +74,6 @@
           </a>${extra.map(f => `<a class="rp-cal__extra" href="${esc(f.href)}" target="_blank" rel="noopener noreferrer" title="${esc(label + ' — ' + NAME[f.type])}" aria-label="${esc(label + ', ' + NAME[f.type])}">${ICON[f.type]}</a>`).join('')}`;
     };
 
-    // ---- publication calendar: rows = years, columns as above
     const cell = (y, m) => {
       const it = y.items.find(i => i.end === m);
       if (!it) return `<td class="rp-cal__empty"><span aria-hidden="true"></span></td>`;
@@ -119,7 +102,6 @@
 
     list.innerHTML = (opts.archive ? `<p class="rp-archive">${esc(T.archive(newest.year))}</p>` : '') + cover + calendar;
 
-    // #2024 in the address: highlight and show that year
     function focusYear() {
       const y = location.hash.slice(1);
       list.querySelectorAll('tr.is-target').forEach(r => r.classList.remove('is-target'));
@@ -130,7 +112,6 @@
     focusYear();
   };
 
-  // period names for cumulative reports (slug '01-03' = January–March, …) and their calendar month
   window.nbtPeriodName = {
     tj: { '01-03': 'Семоҳаи I', '01-06': 'Нимсолаи I', '01-09': '9 моҳ', '01-12': 'Сол' },
     ru: { '01-03': 'I квартал', '01-06': 'I полугодие', '01-09': '9 месяцев', '01-12': 'Год' },
@@ -141,7 +122,7 @@
     ru: { '01-03': 'I кв', '01-06': '6 мес', '01-09': '9 мес', '01-12': 'Год' },
     en: { '01-03': 'Q1', '01-06': 'H1', '01-09': '9M', '01-12': 'FY' },
   }[LANG];
-  // 'MM' or 'MM-MM' -> last month of the period
+
   window.nbtPeriodEnd = slug => { const m = String(slug).match(/(\d{2})$/); return m ? +m[1] : null; };
 
 })();

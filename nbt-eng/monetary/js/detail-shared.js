@@ -1,5 +1,3 @@
-// shared UI for all detail pages: progress bar, back-to-top, accordion, nav highlight,
-// phone-friendly tables, document file sizes
 (function () {
 
   var LANG = ((window.NBT_EMBED && window.NBT_EMBED.lang) || document.documentElement.lang || 'tg').slice(0, 2);
@@ -12,7 +10,6 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // progress bar
   var bar = document.getElementById('readProgress');
   if (bar) {
     function updateBar() {
@@ -23,7 +20,6 @@
     window.addEventListener('scroll', updateBar, { passive: true });
   }
 
-  // back to top: appears after the first screen
   var btt = document.getElementById('backToTop');
   if (btt) {
     window.addEventListener('scroll', function () {
@@ -34,12 +30,10 @@
     });
   }
 
-  // number each card
   document.querySelectorAll('.instrument-num').forEach(function (el, i) {
     el.textContent = String(i + 1).padStart(2, '0');
   });
 
-  // ---------- accordion ----------
   var chevron = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none">'
     + '<path d="M4 6l4 4 4-4" stroke="#64748b" stroke-width="2"'
     + ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -50,7 +44,6 @@
 
   function bodyOf(card) { return card.querySelector('.instrument-card__body'); }
 
-  // open/close one card; animated unless the user asked for reduced motion
   function setOpen(card, open, animate) {
     var body = bodyOf(card);
     var btn  = card.querySelector('.card-toggle');
@@ -95,14 +88,13 @@
     header.appendChild(btn);
 
     header.addEventListener('click', function (e) {
-      // selecting text in the header should not fold the card
+
       if (String(window.getSelection && window.getSelection()) !== '' && e.target !== btn && !btn.contains(e.target)) return;
       if (e.target.closest('a') && !e.target.closest('.card-toggle')) return;
       setOpen(card, card.classList.contains('instrument-card--collapsed'), true);
     });
   });
 
-  // card that holds an element (the card itself or anything inside it)
   function cardFor(el) { return el && el.closest ? el.closest('.instrument-card') : null; }
 
   function openTarget(id, scroll) {
@@ -116,24 +108,21 @@
     return true;
   }
 
-  // long pages: only the first two cards start open (the rest stay one click away)
   var hashId = location.hash.slice(1);
   if (cardsAll.length > 6) {
     cardsAll.forEach(function (card, i) { if (i >= 2) setOpen(card, false, false); });
   }
   if (hashId && openTarget(hashId, true)) {
-    // the browser already tried to scroll before the cards were folded — scroll again after layout
+
     setTimeout(function () { openTarget(hashId, true); }, 0);
   }
 
-  // links inside the page (section pills, "see table" links) open the card they point to
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="#"]');
     if (a && a.getAttribute('href').length > 1) openTarget(a.getAttribute('href').slice(1), false);
   });
   window.addEventListener('hashchange', function () { openTarget(location.hash.slice(1), true); });
 
-  // expand all / collapse all
   if (cardsAll.length > 3) {
     var bar2 = document.createElement('div');
     bar2.className = 'cards-actions';
@@ -157,7 +146,6 @@
     syncAllBtn();
   }
 
-  // ---------- full table of contents for long articles (nav[data-toc="auto"]) ----------
   document.querySelectorAll('nav[data-toc="auto"]').forEach(function (nav) {
     var scope = nav.parentElement;
     var items = Array.from(scope.querySelectorAll('.x-block')).map(function (sec, i) {
@@ -169,7 +157,6 @@
     if (items) nav.innerHTML = items;
   });
 
-  // ---------- active nav pill via IntersectionObserver ----------
   var cards    = Array.from(document.querySelectorAll('.instrument-card[id], .x-block[id]'));
   var navLinks = {};
   document.querySelectorAll('.instrument-nav a').forEach(function (a) {
@@ -190,16 +177,14 @@
     cards.forEach(function (card) { io.observe(card); });
   }
 
-  // ---------- content tables in a form that fits their meaning ----------
-  // Cells are moved (not copied), so live values inside them (e.g. #corridor-upper) keep updating.
   function moveInto(target, cell) { while (cell.firstChild) target.appendChild(cell.firstChild); return target; }
   function el(tag, cls) { var e = document.createElement(tag); if (cls) e.className = cls; return e; }
-  // a leading figure such as "7,00%", "5% ±2 п.п." or "10,00%" is shown large
+
   var FIGURE = /^\s*([+−-]?\d+(?:[.,]\d+)?\s*%(?:\s*[±]\s*\d+(?:[.,]\d+)?\s*(?:п\.п\.|б\.ф\.|pp|p\.p\.)?)?)/;
   function liftFigure(box) {
     var m = box.textContent.match(FIGURE);
     if (!m) return;
-    // the figure may be split across text and live value spans (<span data-nbt>): move those nodes into the big figure
+
     var need = m[0].replace(/\s+$/, '').length, got = 0, big = el('span', 'xt-figure');
     while (box.firstChild && got < need) {
       var n = box.firstChild, len = n.textContent.length;
@@ -220,7 +205,7 @@
     var box;
 
     if (table.classList.contains('kv-table')) {
-      // fact sheet: label + value tiles, figures large
+
       box = el('dl', 'xt-dossier');
       rows.forEach(function (tr) {
         var item = el('div', 'xt-dossier__item');
@@ -230,7 +215,7 @@
         item.appendChild(dt); item.appendChild(dd); box.appendChild(item);
       });
     } else if (head.length === 3) {
-      // comparison of two regimes: characteristic · before → after
+
       box = el('div', 'xt-shift');
       var top = el('div', 'xt-shift__head');
       top.innerHTML = '<span></span><span class="xt-shift__from"></span><span class="xt-shift__arrow" aria-hidden="true">→</span><span class="xt-shift__to"></span>';
@@ -247,14 +232,14 @@
         box.appendChild(row);
       });
     } else if (head.length === 2 || rows[0].children.length === 2) {
-      // a short list of levels (the interest rate corridor): a vertical rail, the centre emphasised
+
       box = el('ol', 'xt-rail');
       rows.forEach(function (tr, i) {
         var li = el('li', 'xt-rail__step');
         var name = moveInto(el('span', 'xt-rail__name'), tr.children[0]);
         var val = moveInto(el('span', 'xt-rail__value'), tr.children[1]);
         liftFigure(val);
-        // a live value inside the text (e.g. <span id="corridor-upper">) is mirrored as a large figure
+
         var live = val.querySelector('[id^="corridor-"], [data-nbt^="rate"]');
         if (live && !val.querySelector('.xt-figure')) {
           var fig = el('span', 'xt-figure');
@@ -272,7 +257,6 @@
     wrap.parentNode.replaceChild(box, wrap);
   });
 
-  // ---------- tables shown as cards on phones: column name above each value ----------
   document.querySelectorAll('.members-table').forEach(function (table) {
     var heads = Array.from(table.querySelectorAll('thead th')).map(function (th) { return th.textContent.trim(); });
     table.querySelectorAll('tbody tr').forEach(function (tr) {
@@ -280,7 +264,6 @@
     });
   });
 
-  // ---------- toggle buttons: aria-pressed follows the visual "active" state ----------
   var TOGGLES = '.btn-overlay, .chart-type-btn';
   function syncPressed(el) {
     el.setAttribute('aria-pressed', String(el.classList.contains('btn-overlay--active') || el.classList.contains('active')));
@@ -299,8 +282,6 @@
     }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['class'] });
   }
 
-  // ---------- file size next to document links ("PDF, 280 KB") ----------
-  // same-site files only: browsers block size requests to other sites
   var docLinks = Array.from(document.querySelectorAll('a.doc-link[href$=".pdf"], a.doc-link[href*=".pdf?"]'))
     .filter(function (a) { return a.origin === location.origin; });
   if (docLinks.length && docLinks.length <= 40 && window.fetch) {

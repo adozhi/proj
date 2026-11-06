@@ -1,6 +1,3 @@
-// fishang: page script shared by other_links/fishang.html, ru/fishang_ru.html, eng/fishang_eng.html
-// The rate scale: every NBT instrument placed at its rate, computed from the current refinancing rate.
-// Instrument names are read from the instrument table on the page, so each language shows its own names.
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -22,13 +19,11 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const host = document.getElementById('rateScale');
   if (!host) return;
 
-  // names from the instrument table: absorb [overnight deposit, deposit auctions, securities], provide [intraday, overnight credit, credit auctions]
   const rows = side => Array.from(document.querySelectorAll(`.moc-block.${side} .moc-row`));
   const name = (side, i) => (rows(side)[i]?.querySelector('.moc-row__name')?.textContent || '').trim();
   const secTerms = Array.from((rows('absorb')[2] || document).querySelectorAll('.moc-params__value span')).map(s => s.textContent.trim());
   const target = (side, i) => { const r = rows(side)[i]; if (r && !r.id) r.id = `moc-${side}-${i}`; return r ? '#' + r.id : null; };
 
-  // spread from the refinancing rate, pp; kind: 'fixed' | 'max' | 'min' | 'zero'
   const ITEMS = [
     { side: 'absorb',  label: name('absorb', 0),                                  d: -3,   kind: 'fixed', href: target('absorb', 0) },
     { side: 'absorb',  label: `${name('absorb', 2)} · ${secTerms[0] || '7'}`,     d: 0,    kind: 'max',   href: target('absorb', 2) },
@@ -45,7 +40,7 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
     const pos = v => ((v - lo) / (hi - lo) * 100).toFixed(2) + '%';
     const valueText = it => it.kind === 'zero' ? I18N.free
       : `${it.kind === 'max' ? I18N.upTo + ' ' : it.kind === 'min' ? I18N.from + ' ' : ''}${num(val(it), 2)}%`;
-    // marks closer than ~26% of the scale go to the next lane, so labels never overlap
+
     const lanes = {};
     ['absorb', 'provide'].forEach(side => {
       const ends = [];
@@ -78,7 +73,6 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
       </div>`;
   }
 
-  // the current rate on each row of the structure table
   const rangeText = (its, rate) => {
     const v = it => it.kind === 'zero' ? 0 : rate + it.d;
     if (its[0].kind === 'zero') return I18N.free;
@@ -87,7 +81,7 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
     return pre + (b ? `${a}–${b}%` : `${a}%`);
   };
   function decorate(rate) {
-    // the same current rate on each row of the structure table
+
     ITEMS.forEach(it => {
       const row = it.href && document.querySelector(it.href); if (!row) return;
       const same = ITEMS.filter(o => o.href === it.href);
@@ -97,7 +91,6 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
     });
   }
 
-  // instruction links in the table that were left empty get the address of the same instruction from the text above
   document.querySelectorAll('.moc-note a').forEach(a => {
     if (a.getAttribute('href')) return;
     const no = (a.textContent.match(/(?:№|No\.?)\s*(\d+)/) || [])[1];

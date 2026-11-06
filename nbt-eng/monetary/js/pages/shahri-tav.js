@@ -1,4 +1,3 @@
-// shahri-tav: page script shared by other_links/shahri-tav.html, ru/shahri-tav_ru.html, eng/shahri-tav_eng.html
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -21,11 +20,9 @@ const I18N = {
 
 (function () {
 
-  // ===== file addresses — edit here =====
   function fileHref(year, slug, ext) {
     return 'files/' + year + '-' + slug + '.' + ext;
   }
-  // =======================================
 
   var DATA = [
     { year: 2025, periods: [
@@ -102,7 +99,7 @@ const I18N = {
         year: entry.year,
         items: entry.periods.map(function (p) {
           return {
-            end:   p.slug === 'H1' ? 6 : 12,  // calendar column: half-year issues in June, annual in December
+            end:   p.slug === 'H1' ? 6 : 12,
             title: p.label,
             short: p.slug === 'H1' ? (LANG === 'en' ? 'H1' : LANG === 'ru' ? '6 мес' : '6 моҳ') : (LANG === 'en' ? 'FY' : LANG === 'ru' ? 'Год' : 'Сол'),
             files: [

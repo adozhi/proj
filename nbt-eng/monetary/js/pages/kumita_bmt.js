@@ -1,4 +1,3 @@
-// kumita_bmt: page script shared by other_links/kumita_bmt.html, ru/kumita_bmt_ru.html, eng/kumita_bmt_eng.html
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -35,7 +34,7 @@ const I18N = {
   },
 }[LANG];
 
-const MEETINGS = nbtMeetings(LANG);                    // { year: [{ iso, date, summary, presentation, resolution, extra }] }
+const MEETINGS = nbtMeetings(LANG);
 const ALL = [].concat(...Object.values(window.NBT_MEETINGS)).sort((a, b) => a.iso < b.iso ? -1 : 1);
 const DOCS = document.getElementById('mpcDocNames').dataset;
 
@@ -44,7 +43,6 @@ const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', '
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const longDate = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${I18N.months[m - 1]} ${y}`; };
 
-// what each meeting decided — shared with the charts page (data/meetings.js)
 const outcome = (m, rate) => nbtDecision(m, rate);
 
 function outcomeChip(o) {
@@ -61,14 +59,13 @@ const ICON = {
 
 function docLink(kind, doc) {
   const icon = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[kind]}</svg>`;
-  // href "" = the document exists, its address is filled in later; null = not published yet
+
   if (doc && doc.href != null) {
     return `<a class="mpc-docs__item" href="${doc.href}"${doc.href ? ' target="_blank" rel="noopener noreferrer"' : ''}>${icon}<span>${esc(DOCS[kind])}</span></a>`;
   }
   return `<span class="mpc-docs__item is-pending">${icon}<span>${esc(DOCS[kind])}</span><em>${esc(I18N.pending)}</em></span>`;
 }
 
-// ---------- the year strip ----------
 const years = Object.keys(MEETINGS).sort();
 const nextMeeting = ALL.find(m => m.iso >= todayISO) || null;
 let year = nextMeeting ? nextMeeting.iso.slice(0, 4) : years[years.length - 1];
@@ -106,7 +103,6 @@ document.getElementById('mpcYear').addEventListener('click', e => {
   if (years[i]) { year = years[i]; renderRail(); }
 });
 
-// ---------- hero: next meeting + current rate ----------
 function renderHero(rates) {
   const next = document.getElementById('mpcNext');
   if (nextMeeting) {

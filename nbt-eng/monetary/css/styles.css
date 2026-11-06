@@ -202,7 +202,7 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(4px);
-  
+
   transition: opacity 0.15s 0.08s, transform 0.15s 0.08s, visibility 0.15s 0.08s;
   pointer-events: none;
 }
@@ -756,7 +756,6 @@
 }
 
 
-/* embedded in nbt.tj */
 .nbt-mp{--x-head-top:0px;font-family:"Inter",system-ui,-apple-system,sans-serif;line-height:1.65;color:var(--text,#1e293b);text-align:left}
 .nbt-mp a:hover{text-decoration:none}
 .nbt-mp img{max-width:100%}
@@ -764,7 +763,6 @@
 .nbt-mp header{background:transparent !important;box-shadow:none;z-index:auto;width:auto}
 .nbt-mp .x-story .x-block__head{background:var(--bg,#f1f5f9) !important;z-index:20}
 
-/* main page of nbt.tj: the cards sit in the host's row */
 .nbt-mp.nbt-mp--home{background:transparent;min-height:0;display:block;font-size:16px}
 .nbt-mp.nbt-mp--home .container{max-width:none;padding:0}
 .nbt-mp.nbt-mp--home .stats-wrap{padding:0 0 8px}

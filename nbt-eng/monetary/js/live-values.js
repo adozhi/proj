@@ -1,11 +1,3 @@
-// Current values written into the page text from data/data.json (data.xlsx), so the text never goes stale.
-// Mark a number in the HTML and keep the old value inside as a fallback:
-//   <span data-nbt="rate" data-dec="2">7,00</span>%           refinancing rate (last rate_eom)
-//   <span data-nbt="rate-up">10,00</span>, data-nbt="rate-down"  corridor bounds: rate ± 3
-//   <span data-nbt="rate-since">02 февраля 2026</span>        the day the current rate took effect (data/meetings.js)
-//   <span data-nbt="target-center">5</span>, "target-band"     inflation target (columns target / target_band)
-//   <span data-nbt="year">2026</span>                         year of the latest data month
-// data-dec sets decimals (default: as many as the fallback text has). Needs js/data.js; data/meetings.js is optional.
 (function () {
   if (!window.nbtLoadRows) return;
   const lang = () => {
@@ -59,7 +51,7 @@
   }
 
   nbtLoadRows().then(rows => { values = compute(rows); fill(); }).catch(() => {});
-  // the main page switches language without reloading
+
   if (window.MutationObserver) new MutationObserver(fill).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   window.nbtFillLiveValues = fill;
 })();

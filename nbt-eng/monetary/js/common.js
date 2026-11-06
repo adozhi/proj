@@ -1,7 +1,4 @@
-// shared utilities for detail pages: language switch
 (function () {
-
-  // helpers
 
   function getBaseName() {
     const file = location.pathname.split('/').pop();
@@ -18,8 +15,6 @@
     return (map[lang] || map.tj) + location.hash;
   }
 
-  // language switcher
-
   window.setLang = function (lang) {
     document.body.style.opacity = '0.4';
     setTimeout(() => {
@@ -28,14 +23,12 @@
     }, 150);
   };
 
-  // the page's own language comes from its folder, not from what was saved last
   function pageLang() {
     const dir = location.pathname.split('/').slice(-2, -1)[0];
     return dir === 'ru' ? 'ru' : dir === 'eng' ? 'en' : 'tj';
   }
   window.nbtPageLang = pageLang;
 
-  // Chart.js x-axis callback: "2014-01" -> "янв 14" using the page's month names
   window.nbtMonthTick = function (months) {
     return function (v) {
       const l = this.getLabelForValue(v);
@@ -55,7 +48,6 @@
     });
   }
 
-  // init
   document.addEventListener('DOMContentLoaded', initLangButtons);
 
 })();

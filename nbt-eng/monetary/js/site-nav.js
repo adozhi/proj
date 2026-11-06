@@ -1,4 +1,3 @@
-// site structure: one source for the main-page menu and the section bar on detail pages
 (function () {
 
   const L = (tj, ru, en) => ({ tj, ru, en });
@@ -31,7 +30,6 @@
   const HOME  = L('Асосӣ', 'Главная', 'Home');
   const DIR   = { tj: ['other_links', ''], ru: ['ru', '_ru'], en: ['eng', '_eng'] };
 
-  // link to a page from the main page or from a page inside a language folder
   function href(slug, lang, fromRoot) {
     const [dir, suffix] = DIR[lang] || DIR.tj;
     return (fromRoot ? '' : '../') + `${dir}/${slug}${suffix}.html`;
@@ -39,10 +37,9 @@
 
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
-  // main page: <ul class="menu"> with one dropdown, sub-dropdowns per group
   window.nbtRenderMainMenu = function (ul, lang) {
     if (!ul) return;
-    // no .nav-link class: these hrefs are already per-language (script.js rewrites .nav-link hrefs of the cards)
+
     const item = p => `<li><a href="${href(p.slug, lang, true)}">${esc(p.label[lang])}</a></li>`;
     ul.innerHTML =
       `<li class="menu-item dropdown">
@@ -58,9 +55,8 @@
       </li>`;
   };
 
-  // detail pages: breadcrumbs + links to the other pages of the same group
   function renderSectionBar() {
-    // embedded in another site the block has no own header: the bar goes after a [data-nbt-section-bar] marker
+
     const header = document.querySelector('.page-header') || document.querySelector('[data-nbt-section-bar]');
     if (!header || typeof window.nbtPageLang !== 'function') return;
     const lang = window.nbtPageLang();
@@ -94,8 +90,6 @@
       </div>`;
     header.insertAdjacentElement('afterend', nav);
 
-    // keep the current tab visible on narrow screens (horizontal scroll only — never move the page,
-    // or links like maksad.html#target would lose their position)
     const list = nav.querySelector('.section-nav__tabs');
     const cur  = nav.querySelector('.is-current');
     if (list && cur) list.scrollLeft = cur.offsetLeft - (list.clientWidth - cur.offsetWidth) / 2;

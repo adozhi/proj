@@ -1,8 +1,3 @@
-// MPC meeting schedule — single source for the Committee pages (tj/ru/en) and the main page.
-// To add a meeting: add one entry with its ISO date and the three language blocks.
-// The main page shows the nearest meeting with iso >= today.
-// effective: the date the new refinancing rate applies from (only for meetings that changed the rate);
-// it gives the "since 02 February 2026" date on the rate cards.
 window.NBT_MEETINGS = {
 
   "2026": [
@@ -736,7 +731,6 @@ window.NBT_MEETINGS = {
   ],
 };
 
-// schedule in the shape the Committee page renders: { year: [{ iso, date, summary, ... }] }
 window.nbtMeetings = function (lang) {
   const out = {};
   Object.keys(window.NBT_MEETINGS).forEach(y => {
@@ -745,16 +739,12 @@ window.nbtMeetings = function (lang) {
   return out;
 };
 
-// day of month the rate decided at a meeting took effect, for a given year/month (null if unknown)
 window.nbtRateEffectiveDay = function (year, month) {
   const ym = year + '-' + String(month).padStart(2, '0');
   const m = [].concat(...Object.values(window.NBT_MEETINGS)).find(x => x.effective && x.effective.slice(0, 7) === ym);
   return m ? +m.effective.slice(8, 10) : null;
 };
 
-// what a past meeting decided, from the end-of-month refinancing rate: { delta, kind: 'cut' | 'hold' | 'raise' } or null.
-// rateByMonth: { 'YYYY-MM': rate }. The new rate is in force in the month of `effective` when known; otherwise in the
-// meeting month for meetings in the first half of the month, in the next month for meetings late in the month.
 window.nbtDecision = function (m, rateByMonth) {
   const d = new Date();
   const today = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
@@ -768,7 +758,6 @@ window.nbtDecision = function (m, rateByMonth) {
   return { delta, kind: delta < 0 ? 'cut' : delta > 0 ? 'raise' : 'hold', month: after };
 };
 
-// nearest meeting on or after today, as 'YYYY-MM-DD' (null if none is scheduled)
 window.nbtNextMeeting = function () {
   const d = new Date();
   const today = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');

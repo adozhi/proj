@@ -1,4 +1,3 @@
-// charts: page script shared by other_links/charts.html, ru/charts_ru.html, eng/charts_eng.html
 const LANG = nbtPageLang();
 
 const I18N = {
@@ -319,12 +318,10 @@ const I18N = {
   },
 }[LANG];
 
-// decimal separator: comma for tj/ru, point for en
 const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ',');
 
 function fmtDate(d){if(!d)return'—';const[y,m]=d.split('-').map(Number);return I18N.months[m-1]+' '+y;}
 
-// x-axis: "янв 14" instead of "2014-01"; fewer labels on phones
 const TICKS = window.innerWidth < 640 ? 5 : 10;
 function tickLabel(v){
   const l=this.getLabelForValue(v);
@@ -333,15 +330,10 @@ function tickLabel(v){
   return I18N.months[m-1].slice(0,3).toLowerCase()+' '+String(y).slice(2);
 }
 
-
-
-// interest rate corridor: overnight loan = rate + width, overnight deposit = rate − width.
-// TODO: ширина ±3 п.п. применена ко всей истории — заменить реальной историей коридора.
 const CORRIDOR_WIDTH = 3;
 
 const COLORS = window.NBT_COLORS;
 
-// sections of the page, in order; every chart below names its section
 const INFL = () => datasets.find(d => d.id === 'inflation');
 
 const SECTIONS = [
@@ -350,8 +342,6 @@ const SECTIONS = [
   { id:'sec-money',     title:I18N.secMoney },
 ];
 
-// demo — the series is temporary sample data (listed in data/placeholders.txt); the card shows a warning badge
-// "Short explanation" under every chart: what it shows, how to read it, why it matters
 const EXPLAIN = {
   tj: {
     _btn: 'Шарҳи мухтасар',
@@ -433,7 +423,7 @@ const explainBlock = id => EXPLAIN[id]
   ? `<details class="chart-explain"><summary>${EXPLAIN._btn}</summary><p>${EXPLAIN[id]}</p></details>` : '';
 
 const datasets = [
-  // --- inflation
+
   { id:"inflation", sec:'sec-inflation', title:I18N.tInflation, note:I18N.nInflation, targetBand:true, color:COLORS.inflation, mode:"yearly", source:I18N.srcStat },
   { id:"groups", sec:'sec-inflation', title:I18N.tGroups, note:I18N.nGroups, combined:true, from:'2010-01', demo:I18N.demoFromApr, source:I18N.srcStat,
     lines:[
@@ -476,7 +466,7 @@ const datasets = [
       { id:"infl_expect", label:I18N.expect,     color:COLORS.expect, tension:0.3, dash:[6,4] }
     ]
   },
-  // --- monetary policy
+
   { id:"rate", sec:'sec-policy', title:I18N.rate, color:COLORS.rate, source:I18N.srcBoth,
     overlays:[
       { id:"inflation", dataKey:"yearly", label:I18N.inflAnnual, color:COLORS.inflationOverlay, tension:0.4 }
@@ -506,7 +496,7 @@ const datasets = [
       { id:"sp_bonds", label:I18N.spBonds, color:COLORS.bonds, tension:0.3 }
     ]
   },
-  // --- interest rates
+
   { id:"bondsinterbank", sec:'sec-policy', title:I18N.tBonds,
     combined:true, source:I18N.srcNbt,
     lines:[
@@ -517,7 +507,7 @@ const datasets = [
       { id:"rate", dataKey:"data", label:I18N.rate, color:COLORS.rate, stepped:true, tension:0 }
     ]
   },
-  // --- money and NBT operations
+
   { id:"monagg", sec:'sec-money', title:I18N.tMonagg, combined:true, isLarge:true, from:'2010-01', source:I18N.srcNbt,
     lines:[
       { id:"m4", label:"M4", color:COLORS.m4, tension:0.4 },
@@ -576,7 +566,7 @@ async function loadChartData(){
     parsed.m0.push(m0); parsed.m1.push(m1); parsed.m2.push(m2); parsed.m4.push(m4);
     parsed.sahm_f.push(sahm_f); parsed.sahm_nf.push(sahm_nf); parsed.sahm_s.push(sahm_s);
     parsed.infl_y_f.push(toNum(row.inflation_y_f)); parsed.infl_y_nf.push(toNum(row.inflation_y_nf)); parsed.infl_y_s.push(toNum(row.inflation_y_s));
-    // real (ex-post) refinancing rate: rate minus annual inflation of the same month
+
     parsed.realrate.push(rate!==null&&infl_y!==null?+(rate-infl_y).toFixed(2):null);
     parsed.corr_rate.push(rate);
     parsed.corr_low.push(rate!==null?+(rate-CORRIDOR_WIDTH).toFixed(2):null);
@@ -584,9 +574,9 @@ async function loadChartData(){
     parsed.infl_f.push(toNum(row.inflation_f)); parsed.infl_nf.push(toNum(row.inflation_nf)); parsed.infl_s.push(toNum(row.inflation_s));
     parsed.infl_core.push(toNum(row.infl_core)); parsed.infl_expect.push(toNum(row.infl_expect));
     parsed.op_deposits.push(toNum(row.op_deposits)); parsed.op_securities.push(toNum(row.op_securities));
-    // dollarization: foreign-currency deposits (M4 − M2) as a share of broad money M4
+
     parsed.dollar.push(m4!==null&&m2!==null&&m4>0?+((m4-m2)/m4*100).toFixed(2):null);
-    // transmission: how far market rates are from the policy rate, pp
+
     parsed.sp_ib.push(interbank!==null&&rate!==null?+(interbank-rate).toFixed(2):null);
     parsed.sp_bonds.push(bonds!==null&&rate!==null?+(bonds-rate).toFixed(2):null);
   });
@@ -602,7 +592,7 @@ async function loadChartData(){
 
   datasets.forEach(ds=>{
     ds.labels=labels;
-    if(ds.custom&&!ds.lines) return;   // seasonality / heatmap read the inflation series directly
+    if(ds.custom&&!ds.lines) return;
     if(ds.id==="inflation"){
       ds.data_monthly=parsed.inflation; ds.data_yearly=parsed.inflation_y; ds.data=ds.data_yearly;
     } else if(ds.stacked){
@@ -621,7 +611,6 @@ async function loadChartData(){
     }
   });
 
-  // Compute last data date per dataset
   datasets.forEach(ds=>{
     if(ds.custom) return;
     let li=-1;
@@ -682,10 +671,9 @@ function computeRangeTight(values){
   if(!nums.length) return {min:0,max:10,step:2};
   const lo=Math.min(...nums),hi=Math.max(...nums);
   const step=hi-lo<5?1:hi-lo<15?2:5;
-  // a quarter-step margin around the data, always including zero
+
   return {min:Math.min(0,Math.floor((lo-step/4)/step)*step),max:Math.max(0,Math.ceil((hi+step/4)/step)*step),step};
 }
-
 
 function fmtVal(val,id){
   return num(val, id==='rate' ? 2 : 1);
@@ -790,7 +778,6 @@ function updateLastVal(id){
   el.textContent=last!==null?fmtVal(last,id)+'%':'';
 }
 
-
 function getOverlaySlice(ov, labels, globalLabels){
   const srcDs=datasets.find(d=>d.id===ov.id);
   if(!srcDs) return labels.map(()=>null);
@@ -798,8 +785,6 @@ function getOverlaySlice(ov, labels, globalLabels){
   if(!srcArr) return labels.map(()=>null);
   return labels.map(l=>{const j=globalLabels.indexOf(l);return j>=0?(srcArr[j]??null):null;});
 }
-
-
 
 function createChart(ds){
   const startIndex=ds.data.findIndex(v=>v!==null);
@@ -812,7 +797,6 @@ function createChart(ds){
     if(si>0){ labels=allLabels.slice(si); data=allData.slice(si); }
   }
 
-  // the refinancing rate: a light clean blue under the line (the dark navy gradient looked grey-violet)
   const bgFill=_r
     ?(ctx2=>{const{ctx:c,chartArea}=ctx2.chart;if(!chartArea)return 'rgba(59,130,246,0.12)';const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,'rgba(59,130,246,0.22)');g.addColorStop(1,'rgba(59,130,246,0.02)');return g;})
     :(ctx2=>{const{ctx:c,chartArea}=ctx2.chart;if(!chartArea)return ds.color+'33';const g=c.createLinearGradient(0,chartArea.top,0,chartArea.bottom);g.addColorStop(0,ds.color+'99');g.addColorStop(1,ds.color+'00');return g;});
@@ -1010,7 +994,7 @@ function createCombinedChart(ds){
   });
   const chartDatasets=[];
   ds.lines.forEach(ln=>{
-    if(ds.bars){   // grouped columns: one per group and month
+    if(ds.bars){
       chartDatasets.push({ type:'bar', label:ln.label, data:ln.data.slice(startIndex), hidden:false,
         backgroundColor:ln.color+'d9', hoverBackgroundColor:ln.color, borderWidth:0, borderRadius:3,
         maxBarThickness:12, categoryPercentage:0.78, barPercentage:0.92 });
@@ -1081,7 +1065,7 @@ function createCombinedChart(ds){
 function updateCombinedFill(chartId){
   const chart=charts[chartId];
   const ds=datasets.find(d=>d.id===chartId);
-  if(ds.keepFill||ds.bars) return;   // chart with its own fill (corridor band) / columns
+  if(ds.keepFill||ds.bars) return;
   const nLines=ds.lines.length;
   const lineDs=chart.data.datasets.slice(0,nLines);
   const activeLineCount=lineDs.filter(d=>!d.hidden).length;
@@ -1513,7 +1497,6 @@ document.addEventListener('click',e=>{
   }
 });
 
-// links to one chart and period: charts.html#corridor/2018-01/2026-09
 function openChartFromHash(){
   const [id,from,to]=decodeURIComponent(location.hash.slice(1)).split('/');
   if(!id||!document.getElementById('chart-'+id)) return;
@@ -1540,7 +1523,6 @@ async function copyChartLink(id,btn){
   }catch(e){ window.prompt(I18N.copyLink,url); }
 }
 
-// every column of data.json + a sheet describing them
 async function exportAllData(btn){
   btn.disabled=true;
   try{
@@ -1559,7 +1541,6 @@ async function exportAllData(btn){
   } finally { btn.disabled=false; }
 }
 
-// green band = inflation target in force in each month (data/targets.js); hidden on the monthly view
 const targetBandPlugin={
   id:'targetBand',
   beforeDatasetsDraw(chart){
@@ -1570,14 +1551,14 @@ const targetBandPlugin={
     const step=labels.length>1?(x.getPixelForValue(1)-x.getPixelForValue(0)):a.width;
     c.save();
     c.beginPath(); c.rect(a.left,a.top,a.width,a.height); c.clip();
-    // one rectangle per run of months with the same target (no seams between months)
+
     const runs=[];
     labels.forEach((l,i)=>{
       const t=nbtTargetFor(l), last=runs[runs.length-1];
       if(!t) return;
       if(last&&last.t===t&&last.end===i-1) last.end=i; else runs.push({t,start:i,end:i});
     });
-    // drawn the same way as on the inflation page: light band, thin edges, dashed centre that steps between periods
+
     runs.forEach(({t,start,end})=>{
       const x0=x.getPixelForValue(start)-step/2, x1=x.getPixelForValue(end)+step/2;
       const top=y.getPixelForValue(t.center+t.band), bot=y.getPixelForValue(t.center-t.band);
@@ -1597,9 +1578,8 @@ const targetBandPlugin={
   }
 };
 
-// colours of Committee decisions (decisions-by-year chart)
 const DEC_COLORS={cut:'#15803d',raise:'#c0504d',hold:'#94a3b8'};
-// cards that are not a plain time series: seasonality chart and heatmap
+
 function createCustomCard(ds){
   const block=document.createElement('div');
   block.className='chart-card'; block.id='chart-'+ds.id;
@@ -1620,12 +1600,11 @@ function createCustomCard(ds){
       <div class="chart-source" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px"><span>${ds.source}</span><span>${I18N.updated}: ${fmtDate(INFL().lastDate)}</span></div>
       ${explainBlock(ds.id)}
     </div>`;
-  // draw once the card is in the page (the canvas needs its size)
+
   setTimeout(()=>({season:createSeasonChart,heatmap:createHeatmap,decisions:createDecisionsChart,deviation:createDeviationChart,path:createPathChart,multiples:createMultiples,strip:createTargetStrip,decyears:createDecisionYears})[ds.custom](ds),0);
   return block;
 }
 
-// target board: one cell per month since 2017, coloured by where annual inflation was against the target
 function createTargetStrip(ds){
   const host=document.getElementById(ds.id+'Table'); if(!host) return;
   const src=INFL(), FROM=2017, cells={};
@@ -1649,7 +1628,6 @@ function createTargetStrip(ds){
     <tbody>${years.map(y=>`<tr><th scope="row">${y}</th>${cells[y].map(c=>c?`<td class="ts-${c.k}" title="${fmtDate(c.l)}: ${num(c.v,1)}% — ${name[c.k]} (${c.t.center}% ±${c.t.band})">${num(c.v,1)}</td>`:'<td class="hm-empty"></td>').join('')}</tr>`).join('')}</tbody></table>`;
 }
 
-// Committee decisions by year: cuts / holds / hikes, and the total change of the rate over the year
 function createDecisionYears(ds){
   const src=datasets.find(d=>d.id==='rate'); if(!src||!window.NBT_MEETINGS||!window.nbtDecision) return;
   const byMonth={}; src.labels.forEach((l,i)=>{ if(src.data[i]!=null) byMonth[l]=src.data[i]; });
@@ -1687,7 +1665,6 @@ function createDecisionYears(ds){
   });
 }
 
-// small multiples: one compact bar chart per group, one under another, same months and the same scale
 function createMultiples(ds){
   const host=document.getElementById(ds.id+'Multi'); if(!host) return;
   const L=ds.labels, n=ds.lastMonths||24;
@@ -1721,7 +1698,6 @@ function createMultiples(ds){
   charts[ds.id]=ds._multi[0];
 }
 
-// monthly inflation, Jan–Dec on the x axis: one line per recent year + the average of the ten years before
 function monthlyByYear(fromYear){
   const src=INFL(), byYear={};
   src.labels.forEach((l,i)=>{
@@ -1755,7 +1731,6 @@ function createSeasonChart(ds){
   });
 }
 
-// years × months table of monthly inflation, colored by size (red — prices up, teal — prices down)
 function createHeatmap(ds){
   const byYear=monthlyByYear(2010);
   const years=Object.keys(byYear).map(Number).sort((a,b)=>b-a);
@@ -1771,8 +1746,6 @@ function createHeatmap(ds){
   </table>`;
 }
 
-// ---------- monetary policy: decisions of the Committee on the rate line ----------
-// a dot at every meeting since 2017: green — cut, red — raise, grey — unchanged (data/meetings.js)
 function createDecisionsChart(ds){
   const src=datasets.find(d=>d.id==='rate');
   const from=src.labels.findIndex(l=>l>='2017-01');
@@ -1807,7 +1780,6 @@ function createDecisionsChart(ds){
   });
 }
 
-// ---------- monetary policy: the policy path — annual inflation (x) against the refinancing rate (y), month by month ----------
 function createPathChart(ds){
   const src=INFL(), rateDs=datasets.find(d=>d.id==='rate');
   const rateBy={}; rateDs.labels.forEach((l,i)=>{ if(rateDs.data[i]!=null) rateBy[l]=rateDs.data[i]; });
@@ -1823,7 +1795,7 @@ function createPathChart(ds){
     beforeDatasetsDraw(chart){
       const {ctx:c,chartArea:a,scales:{x,y}}=chart;
       c.save(); c.beginPath(); c.rect(a.left,a.top,a.width,a.height); c.clip();
-      // target band (vertical) and the line where the rate equals inflation
+
       c.fillStyle='rgba(16,185,129,0.10)';
       c.fillRect(x.getPixelForValue(t.center-t.band),a.top,x.getPixelForValue(t.center+t.band)-x.getPixelForValue(t.center-t.band),a.height);
       c.strokeStyle='rgba(100,116,139,0.55)'; c.setLineDash([5,4]); c.lineWidth=1;
@@ -1855,8 +1827,6 @@ function createPathChart(ds){
   });
 }
 
-// ---------- monetary policy: annual inflation minus the target centre ----------
-// bars inside the allowed band are blue, outside it red; dashed lines = ±band (data/targets.js)
 function createDeviationChart(ds){
   const src=INFL();
   const idx=src.labels.map((l,i)=>i).filter(i=>nbtTargetFor(src.labels[i])&&src.data_yearly[i]!=null);
