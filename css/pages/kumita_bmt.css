@@ -210,3 +210,4 @@ a.mpc-docs__item:focus-visible { outline: 2px solid var(--blue); outline-offset:
   .mpc-roster__lead .mpc-member, .mpc-roster__list .mpc-member { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 2px; align-content: start; }
   .mpc-roster .mpc-member__role { align-self: end; }
 }
+.mpc-chip--empty { visibility: hidden; }

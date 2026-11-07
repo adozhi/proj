@@ -46,7 +46,7 @@ const longDate = iso => { const [y, m, d] = iso.split('-').map(Number); return `
 const outcome = (m, rate) => nbtDecision(m, rate);
 
 function outcomeChip(o) {
-  if (!o) return '';
+  if (!o) return '<span class="mpc-chip mpc-chip--empty" aria-hidden="true">&nbsp;</span>';
   const value = o.kind === 'hold' ? I18N.hold : `${o.delta < 0 ? '−' : '+'}${num(Math.abs(o.delta), 2)} ${I18N.pp}`;
   return `<span class="mpc-chip mpc-chip--${o.kind}" title="${esc(I18N[o.kind])}">${o.kind === 'cut' ? '↓' : o.kind === 'raise' ? '↑' : '='} ${esc(value)}</span>`;
 }
@@ -128,7 +128,7 @@ function renderHero(rates) {
     <span class="mpc-hero__label">${esc(I18N.rate)}</span>
     <span class="mpc-hero__value">${num(current, 2)}<small>%</small></span>
     ${sinceISO ? `<span class="mpc-hero__since">${esc(I18N.since(longDate(sinceISO)))}</span>` : ''}
-    ${lastMeeting ? `<span class="mpc-hero__last">${esc(I18N.last)} · ${lastMeeting.iso.split('-').reverse().join('.')} ${outcomeChip(outcome(lastMeeting, rates))}</span>` : ''}`;
+    ${lastMeeting ? `<span class="mpc-hero__last">${esc(I18N.last)} · ${lastMeeting.iso.split('-').reverse().join('.')} ${outcome(lastMeeting, rates) ? outcomeChip(outcome(lastMeeting, rates)) : ''}</span>` : ''}`;
 }
 
 document.getElementById('mpcCountLabel').textContent = I18N.members;
