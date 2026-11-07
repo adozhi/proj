@@ -1,3 +1,4 @@
+import hashlib
 import html
 import pathlib
 import re
@@ -119,7 +120,7 @@ def copy_tree(name):
 
 def write_scoped_css():
     (OUT / 'css' / 'pages').mkdir(parents=True, exist_ok=True)
-    extra = f'\n{SCOPE}{{--x-head-top:0px;font-family:"Inter",system-ui,-apple-system,sans-serif;line-height:1.65;color:var(--text,#1e293b);text-align:left}}\n{SCOPE} a:hover{{text-decoration:none}}\n{SCOPE} img{{max-width:100%}}\n{SCOPE} *{{font-family:inherit;transition:none}}\n{SCOPE} header{{background:transparent !important;box-shadow:none;z-index:auto;width:auto}}\n{SCOPE} .x-story .x-block__head{{background:var(--bg,#f1f5f9) !important;z-index:20}}\n'
+    extra = f'\n{SCOPE}{{--x-head-top:0px;font-family:"Inter",system-ui,-apple-system,sans-serif;line-height:1.65;color:var(--text,#1e293b);text-align:left}}\n{SCOPE} a:hover{{text-decoration:none}}\n{SCOPE} img{{max-width:100%}}\n{SCOPE} *{{font-family:inherit;transition:none}}\n{SCOPE} header{{background:transparent !important;box-shadow:none;z-index:auto;width:auto}}\n{SCOPE} .x-story .x-block__head{{background:var(--bg,#f1f5f9) !important;z-index:20}}\n{SCOPE}.nbt-mp--page{{font-size:16px}}\n{SCOPE} :is(h1,h2,h3,h4,h5,h6){{line-height:1.65}}\n{SCOPE} button{{line-height:normal}}\n'
     for f in list((ROOT / 'css').glob('*.css')) + list((ROOT / 'css' / 'pages').glob('*.css')):
         rel = f.relative_to(ROOT)
         text = scope_css(f.read_text(encoding='utf-8'))
@@ -209,6 +210,14 @@ def home_assets():
     return f"""<link rel="stylesheet" href="monetary/fonts/inter.css" data-nbt-mp="asset">\n<link rel="stylesheet" href="monetary/css/styles.css" data-nbt-mp="asset">\n<link rel="stylesheet" href="monetary/css/home.css" data-nbt-mp="asset">\n<script data-nbt-mp="asset">window.NBT_EMBED = {{ lang: '{LANG}', base: 'monetary/', root: '.nbt-mp--home', view: '3' }};</script>\n""" + ''.join((f'<script src="monetary/{p}" data-nbt-mp="asset"></script>\n' for p in ('js/chart.umd.min.js', 'js/chart-style.js', 'js/palette.js', 'js/data.js', 'js/site-nav.js', 'data/meetings.js', 'data/calendar.js', 'data/targets.js', 'js/script.js', 'js/home.js')))
 REL = re.compile('(\\b(?:src|href)=")(?!https?:|//|/|#|data:|mailto:|tel:|javascript:|\\.\\./\\.\\./)([^"]+")')
 
+def stamp(text, prefix):
+    def one(m):
+        f = OUT / m.group(2)
+        if not f.exists():
+            return m.group(0)
+        return f'{m.group(1)}{prefix}{m.group(2)}?v={hashlib.md5(f.read_bytes()).hexdigest()[:8]}"'
+    return re.sub('(\\b(?:src|href)=")' + re.escape(prefix) + '((?:css|js|data|fonts)/[^"?]+\\.(?:css|js))(?:\\?v=[0-9a-f]*)?"', one, text)
+
 def host_template(index):
     head_end = index.index('</header>') + len('</header>')
     foot = index.index('<footer>')
@@ -227,7 +236,7 @@ def page_html(src, top, bottom):
     page = top.replace(re.search('<title>.*?</title>', top, re.S).group(0), f'<title>{title}</title>', 1) if '<title>' in top else top
     embed = f"<script>window.NBT_EMBED = {{ lang: '{LANG}', home: '../../index.html' }};</script>\n"
     page = page.replace('</head>', embed + '\n'.join(head_links) + '\n</head>', 1)
-    return page + '\n<div class="nbt-mp nbt-mp--page">\n' + body + '\n</div>\n' + bottom
+    return stamp(page + '\n<div class="nbt-mp nbt-mp--page">\n' + body + '\n</div>\n' + bottom, '../')
 
 def export(lang, site_dir):
     global NBT, OUT, CFG, LANG
@@ -252,7 +261,7 @@ def export(lang, site_dir):
     s = replace_marked(s, 'CARDS', 'div', cards_html(), CFG['cards'])
     s = ASSET.sub('', s)
     k = s.rindex('</body>')
-    s = s[:k] + home_assets() + s[k:]
+    s = s[:k] + stamp(home_assets(), 'monetary/') + s[k:]
     index_path.write_text(s, encoding='utf-8')
     top, bottom = host_template(s)
     folder = CFG['folder']

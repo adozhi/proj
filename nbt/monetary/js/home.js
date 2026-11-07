@@ -1,22 +1,23 @@
 (function () {
   const T = {
     tj: { more: 'Муфассал', close: 'Пӯшидан', corridor: 'Долони меъёри фоизӣ', credit: 'Қарзи шабонарӯзӣ', rate: 'Меъёри бозтамвил', deposit: 'Амонати шабонарӯзӣ',
-          interbank: 'Байнибонкӣ', decisions: 'Қарорҳои охирин', hold: 'бетағйир', pp: 'б.ф.', toCommittee: 'Кумита →',
+          interbank: 'Байнибонкӣ', decisions: 'Қарорҳои охирин', hold: 'бетағйир', pp: 'б.ф.', toCommittee: 'Кумита →', toRate: 'Меъёри бозтамвил →',
           groups: 'Таварруми солона аз рӯи гурӯҳҳо', food: 'Хӯрокворӣ', nonfood: 'Ғайрихӯрокворӣ', services: 'Хизматрасонӣ',
-          monthly: 'Таваррум дар моҳ', target: 'Ҳадаф', inBand: 'дар доираи ҳадаф', outBand: 'берун аз ҳадаф', toInflation: 'Таваррум →',
+          monthly: 'Таваррум дар моҳ', target: 'Ҳадаф', toInflation: 'Таваррум →',
           band: 'ҳадаф', corr: 'долон', last: 'Қарори охирини Кумита', views: ['Классикӣ', 'Тира', 'Хат'], view: 'Намуд' },
     ru: { more: 'Подробнее', close: 'Закрыть', corridor: 'Процентный коридор', credit: 'Кредит овернайт', rate: 'Ставка рефинансирования', deposit: 'Депозит овернайт',
-          interbank: 'Межбанк', decisions: 'Последние решения', hold: 'без изменений', pp: 'п.п.', toCommittee: 'Комитет →',
+          interbank: 'Межбанк', decisions: 'Последние решения', hold: 'без изменений', pp: 'п.п.', toCommittee: 'Комитет →', toRate: 'Ставка рефинансирования →',
           groups: 'Годовая инфляция по группам', food: 'Продовольственные', nonfood: 'Непродовольственные', services: 'Услуги',
-          monthly: 'Инфляция за месяц', target: 'Цель', inBand: 'в пределах цели', outBand: 'вне цели', toInflation: 'Инфляция →',
+          monthly: 'Инфляция за месяц', target: 'Цель', toInflation: 'Инфляция →',
           band: 'цель', corr: 'коридор', last: 'Последнее решение Комитета', views: ['Классический', 'Тёмный', 'Лента'], view: 'Вид' },
     en: { more: 'Details', close: 'Close', corridor: 'Interest rate corridor', credit: 'Overnight loan', rate: 'Refinancing rate', deposit: 'Overnight deposit',
-          interbank: 'Interbank', decisions: 'Latest decisions', hold: 'unchanged', pp: 'pp', toCommittee: 'Committee →',
+          interbank: 'Interbank', decisions: 'Latest decisions', hold: 'unchanged', pp: 'pp', toCommittee: 'Committee →', toRate: 'Refinancing rate →',
           groups: 'Annual inflation by group', food: 'Food', nonfood: 'Non-food', services: 'Services',
-          monthly: 'Monthly inflation', target: 'Target', inBand: 'within target', outBand: 'outside target', toInflation: 'Inflation →',
+          monthly: 'Monthly inflation', target: 'Target', toInflation: 'Inflation →',
           band: 'target', corr: 'corridor', last: 'Latest Committee decision', views: ['Classic', 'Dark', 'Strip'], view: 'View' },
   };
   const EMBED = window.NBT_EMBED || null;
+  const tnum = v => { const x = Number.isInteger(+v) ? String(+v) : (+v).toFixed(1); return lang() === 'en' ? x : x.replace('.', ','); };
   const lang = () => { if (EMBED && EMBED.lang) return EMBED.lang; const l = (document.documentElement.lang || 'tg').slice(0, 2); return l === 'ru' ? 'ru' : l === 'en' ? 'en' : 'tj'; };
   const L = () => T[lang()];
   const num = (v, d) => lang() === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ',');
@@ -84,21 +85,20 @@
         ${ib ? `<p class="cb-note">${esc(t.interbank)} · <b>${num(ib.v, 1)}%</b></p>` : ''}
         <span class="card-back__title">${esc(t.decisions)}</span>
         <ul class="cb-decisions">${past.map(m => `<li><span>${m.iso.slice(8, 10)}.${m.iso.slice(5, 7)}.${m.iso.slice(2, 4)}</span>${chip(window.nbtDecision ? nbtDecision(m, rates) : null)}</li>`).join('')}</ul>
-        <a class="card-back__link" href="${pagePath('kumita_bmt')}#meeting">${esc(t.toCommittee)}</a>`;
+        <a class="card-back__link" href="${pagePath('policy_rate')}">${esc(t.toRate)}</a>`;
     }
 
     const inf = last('inflation_y'), mon = last('inflation');
     const ib2 = document.getElementById('back-inflation');
     if (ib2 && inf) {
       const tg = (window.nbtTargetFor && nbtTargetFor(inf.date)) || { center: 5, band: 2 };
-      const inside = Math.abs(inf.v - tg.center) <= tg.band;
       const g = [['inflation_y_f', t.food], ['inflation_y_nf', t.nonfood], ['inflation_y_s', t.services]].map(([k, n]) => [n, last(k)]).filter(x => x[1]);
       ib2.innerHTML = `${closeBtn}
         <span class="card-back__title">${esc(t.groups)}</span>
         <ul class="cb-groups">${g.map(([n, p]) => `<li><span>${esc(n)}</span><b>${num(p.v, 1)}%</b></li>`).join('')}</ul>
         <div class="cb-row">
           ${mon ? `<div><span class="card-back__title">${esc(t.monthly)}</span><b class="cb-big">${mon.v > 0 ? '+' : mon.v < 0 ? '−' : ''}${num(Math.abs(mon.v), 1)}%</b></div>` : ''}
-          <div><span class="card-back__title">${esc(t.target)}</span><b class="cb-big">${tg.center}% ± ${tg.band}</b><span class="cb-status ${inside ? 'is-in' : 'is-out'}">${esc(inside ? t.inBand : t.outBand)}</span></div>
+          <div><span class="card-back__title">${esc(t.target)}</span><b class="cb-big">${tnum(tg.center)}% ± ${tnum(tg.band)}</b></div>
         </div>
         <a class="card-back__link" href="${pagePath('inflation')}">${esc(t.toInflation)}</a>`;
     }
@@ -110,7 +110,7 @@
     const tg = last && window.nbtTargetFor ? nbtTargetFor(String(last.date).slice(0, 7)) : null;
     if (!el || !tg) return;
     el.removeAttribute('data-i18n');
-    el.textContent = `${tg.center}% (±${tg.band} ${L().pp})`;
+    el.textContent = `${tnum(tg.center)}% (±${tnum(tg.band)} ${L().pp})`;
   }
 
   function renderFooter() {

@@ -318,6 +318,7 @@ const I18N = {
   },
 }[LANG];
 
+const tn = v => Number.isInteger(+v) ? String(+v) : num(+v, 1);
 const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ',');
 
 function fmtDate(d){if(!d)return'—';const[y,m]=d.split('-').map(Number);return I18N.months[m-1]+' '+y;}
@@ -1625,7 +1626,7 @@ function createTargetStrip(ds){
       <ul class="ts-legend"><li><i class="ts-in"></i>${I18N.stripIn}</li><li><i class="ts-above"></i>${I18N.stripAbove}</li><li><i class="ts-below"></i>${I18N.stripBelow}</li></ul>
     </div>
     <table class="heatmap ts-table"><thead><tr><th scope="col"></th>${I18N.months.map(m=>`<th scope="col">${m.slice(0,3)}</th>`).join('')}</tr></thead>
-    <tbody>${years.map(y=>`<tr><th scope="row">${y}</th>${cells[y].map(c=>c?`<td class="ts-${c.k}" title="${fmtDate(c.l)}: ${num(c.v,1)}% — ${name[c.k]} (${c.t.center}% ±${c.t.band})">${num(c.v,1)}</td>`:'<td class="hm-empty"></td>').join('')}</tr>`).join('')}</tbody></table>`;
+    <tbody>${years.map(y=>`<tr><th scope="row">${y}</th>${cells[y].map(c=>c?`<td class="ts-${c.k}" title="${fmtDate(c.l)}: ${num(c.v,1)}% — ${name[c.k]} (${tn(c.t.center)}% ±${tn(c.t.band)})">${num(c.v,1)}</td>`:'<td class="hm-empty"></td>').join('')}</tr>`).join('')}</tbody></table>`;
 }
 
 function createDecisionYears(ds){
@@ -1848,7 +1849,7 @@ function createDeviationChart(ds){
         tooltip:{callbacks:{title:c=>fmtDate(c[0].label),label:c=>{
           if(c.datasetIndex!==0) return c.datasetIndex===1?`${I18N.devBand}: ±${num(c.parsed.y,0)} ${I18N.pp}`:'';
           const t=nbtTargetFor(c.label), v=c.parsed.y;
-          return `${v>=0?'+':'−'}${num(Math.abs(v),1)} ${I18N.pp} (${I18N.devTarget} ${t.center}%, ${inside[c.dataIndex]?I18N.devIn:I18N.devOut})`;
+          return `${v>=0?'+':'−'}${num(Math.abs(v),1)} ${I18N.pp} (${I18N.devTarget} ${tn(t.center)}%, ${inside[c.dataIndex]?I18N.devIn:I18N.devOut})`;
         }}}},
       scales:{x:{grid:{display:false},ticks:{color:'#666',maxTicksLimit:TICKS,maxRotation:0,callback:tickLabel}},
         y:{min:r.min,max:r.max,ticks:{color:'#666',stepSize:r.step,callback:v=>(v>0?'+':'')+v},grid:{color:c=>c.tick.value===0?'#64748b':'#e6e6e6',lineWidth:c=>c.tick.value===0?1.5:1}}}}

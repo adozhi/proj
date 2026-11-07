@@ -6,7 +6,8 @@
 .nbt-mp .gauge__band em{ position: absolute; top: 16px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--band-line); white-space: nowrap; }
 .nbt-mp .gauge__center{ position: absolute; top: -4px; bottom: -4px; left: var(--x); width: 2px; margin-left: -1px; background: var(--band-line); }
 .nbt-mp .gauge__marker{ position: absolute; top: 50%; left: var(--x); width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--mark); box-shadow: 0 0 0 4px rgba(59,130,246,0.35); }
-.nbt-mp .gauge--out .gauge__marker{ box-shadow: 0 0 0 4px rgba(192,80,77,0.5); }
+.nbt-mp .gauge--out .gauge__marker{ background: #c0504d; box-shadow: 0 0 0 4px rgba(192,80,77,0.45); }
+.nbt-mp .gauge--out .gauge__marker b, .nbt-mp .gauge--out:not(.gauge--dark) .gauge__marker b{ background: #c0504d; color: #fff; }
 .nbt-mp .gauge__marker b{ position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 3px 10px; border-radius: 14px; background: var(--mark); color: var(--navy, #0f172a);
   font-size: 0.85rem; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 .nbt-mp .gauge:not(.gauge--dark) .gauge__marker b{ color: #fff; }

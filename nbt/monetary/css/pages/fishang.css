@@ -384,4 +384,16 @@
 .nbt-mp .moc-row{ align-content: start; }
 
 }
+.nbt-mp .rs-head{ align-items: center; justify-content: space-between; }
+.nbt-mp .rs-legend{ display: flex; flex-wrap: wrap; gap: 6px 20px; list-style: none; margin: 0; padding: 0; font-size: 0.78rem; color: rgba(255,255,255,0.8); }
+.nbt-mp .rs-legend li{ display: inline-flex; align-items: center; gap: 8px; padding: 0 !important; }
+.nbt-mp .rs-legend li::before{ display: none !important; }
+.nbt-mp .rs-legend__rate{ width: 22px; height: 12px; border-radius: 6px; background: #fff; }
+.nbt-mp .rs-legend__corridor{ width: 26px; height: 8px; border-radius: 4px; background: rgba(147,197,253,0.35); border: 1px solid rgba(191,219,254,0.7); }
+.nbt-mp .rs-axis{ height: 30px; }
+.nbt-mp .rs-mark::after{ z-index: 0; }
+.nbt-mp .rs-mark--end{ transform: translateX(-100%); align-items: flex-end; text-align: right; }
+.nbt-mp .rs-mark--end::after{ left: auto; right: 2px; }
+.nbt-mp .rate-scale .rs-legend li{ color: rgba(255,255,255,0.85); font-size: 0.78rem; }
+.nbt-mp .rs-legend__corridor{ background: rgba(147,197,253,0.18); border: 1px dashed rgba(147,197,253,0.8); height: 12px; border-radius: 6px; }
 
