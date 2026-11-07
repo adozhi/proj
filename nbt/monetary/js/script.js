@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function fmtSince(date, lang) {
     if (!date) return '';
     const mn  = MONTH_GENITIVE[lang][date.month - 1];
-    const day = date.day ? (date.day < 10 ? '0' + date.day : '' + date.day) + ' ' : '';
+    const day = date.day ? date.day + ' ' : '';
     return lang === 'en' ? `since ${day}${mn} ${date.year}` : lang === 'ru' ? `с ${day}${mn} ${date.year}` : `аз ${day}${mn} ${date.year}`;
   }
 

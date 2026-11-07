@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Objectives and Tasks of Monetary Policy</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  .page-title { margin-bottom: 0.6rem; }
+  .styled-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); font-size: 0.95rem; margin: 1.5rem 0; }
+  .styled-table thead tr { background: var(--brand); color: #fff; }
+  .styled-table th { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); vertical-align: top; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.03em; }
+  .styled-table th:last-child { border-right: none; }
+  .styled-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); vertical-align: top; }
+  .styled-table td:last-child { border-right: none; }
+  .styled-table tbody tr:last-child td { border-bottom: none; }
+  .styled-table tbody tr:nth-child(even) { background: var(--surface-alt); }
+  .styled-table tbody tr:hover { background: #eff6ff; }
+
+  .info-box { background: var(--blue-light, #eff6ff); border: 1px solid var(--blue, #2563eb); border-radius: 10px; padding: 16px 20px; margin: 1.2rem 0; }
+  .highlight { color: var(--blue, #2563eb); font-weight: 600; }
+
+  img.content-img { width: 100%; border-radius: 10px; margin: 1.2rem 0; }
+
+  .img-figure { margin: 1.4rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+  .img-figure__label { background: var(--brand); color: #fff; padding: 10px 16px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; }
+  .img-figure img { display: block; width: 100%; border-radius: 0; margin: 0; }
+  .tm-diagram { background: #f8fafc; padding: 20px; overflow-x: auto; }
+  .tm-diagram svg { display: block; width: 100%; min-width: 560px; height: auto; }
+
+  @media (max-width: 640px) {
+    .styled-table { font-size: 0.82rem; }
+    .styled-table th, .styled-table td { padding: 9px 8px; }
+    }
+/* Timeline */
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+    border-left: 2px solid #bfdbfe;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 8px;
+  }
+  .timeline-step { position: relative; display: block; }
+  .timeline-step::before {
+    content: '';
+    position: absolute;
+    left: -36px; top: 8px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #1e40af;
+    border: 2.5px solid #fff;
+    box-shadow: 0 0 0 2.5px #1e40af;
+    z-index: 2;
+  }
+  .timeline-step:last-child::before {
+    background: #059669;
+    box-shadow: 0 0 0 2.5px #059669;
+  }
+  .timeline-year {
+    display: inline-block;
+    background: #eff6ff;
+    color: #1e40af;
+    border: 1.5px solid #bfdbfe;
+    font-size: 0.8rem; font-weight: 700;
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .timeline-step:last-child .timeline-year {
+    background: #f0fdf4;
+    border-color: #059669;
+    color: #059669;
+  }
+  .timeline-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .timeline-step:last-child .timeline-body { border-left-color: #059669; }
+  .timeline-body > strong {
+    display: block;
+    font-size: 0.82rem; font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .timeline-step:last-child .timeline-body > strong { color: #059669; }
+  .timeline-body ul { padding-left: 1.2rem; margin: 0.4rem 0 0; }
+  .timeline-body li { margin-bottom: 0.4rem; line-height: 1.65; font-size: 0.88rem; color: var(--text-3); }
+  .timeline-body p  { font-size: 0.88rem; line-height: 1.65; margin-bottom: 0.4rem; color: var(--text-3); }
+  @media (max-width: 640px) {
+    .timeline { padding-left: 22px; margin-left: 4px; }
+    .timeline-step::before { left: -29px; width: 13px; height: 13px; top: 9px; }
+  }
+
+</style>
+<link rel="stylesheet" href="../css/detail.css">
+</head>
+
+<body>
+<div id="readProgress" class="read-progress"></div>
+<button id="backToTop" class="back-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 14V4M4 9l5-5 5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<header class="page-header">
+  <div class="page-header__inner">
+    <a href="../index.html" class="back-btn">Home</a>
+    <span class="page-header__title">Goals &amp; Objectives</span>
+    <div class="lang-switcher">
+      <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
+      <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
+      <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+    </div>
+  </div>
+</header>
+<div class="page-wrap"><div class="container">
+
+<h1 class="page-title">Objectives and Tasks of Monetary Policy</h1>
+
+<nav class="instrument-nav">
+  <!-- <a href="#summary">Summary</a> -->
+  <a href="#goal">Objective</a>
+  <a href="#inflation">Inflation</a>
+  <!-- <a href="#policy">Monetary Policy</a> -->
+  <a href="#targeting">Targeting</a>
+  <!-- <a href="#why5">Why 5%?</a> -->
+  <!-- <a href="#previous">Previous Regime</a> -->
+  <!-- <a href="#preparation">Preparation</a> -->
+  <a href="#rate">Refinancing Rate</a>
+  <!-- <a href="#rateset">Rate Setting</a> -->
+  <!-- <a href="#corridor">Corridor</a> -->
+  <!-- <a href="#tools">Instruments</a> -->
+  <a href="#committee">Committee</a>
+  <!-- <a href="#impact">Impact</a> -->
+  <!-- <a href="#forecast">Forecast</a> -->
+  <!-- <a href="#population">Public</a> -->
+  <!-- <a href="#factors">Factors</a> -->
+</nav>
+
+<!-- 01 Summary -->
+<div id="summary" class="instrument-card card--blue">
+  <div class="instrument-card__header"><h2>Monetary Policy (Summary)</h2></div>
+  <div class="instrument-card__body">
+    <table class="styled-table kv-table">
+      <thead>
+      <tr>
+          <th></th>
+          <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td><strong>Primary Objective of the National Bank of Tajikistan</strong></td>
+          <td>Achieving and maintaining a stable level of domestic prices over the long term</td>
+      </tr>
+      <tr>
+          <td><strong>Monetary Policy</strong></td>
+          <td>Inflation Targeting Regime</td>
+      </tr>
+      <tr>
+          <td><strong>Inflation Target</strong></td>
+          <td>5% ±2 p.p. (for 2026)</td>
+      </tr>
+          <tr>
+          <td><strong>How do we keep inflation within the target?</strong></td>
+          <td>Through the use of instruments and the transmission mechanism of monetary policy, specifically by setting:
+      <ul>
+<li>the refinancing rate (key interest rate);</li>
+<li>standing facilities;</li>
+<li>open market operations;</li>
+<li>required reserve ratio;</li>
+<li>lending to financial credit organisations;</li>
+<li>foreign exchange regulation and operations;</li>
+<li>other instruments as provided by regulatory legal acts.</li>
+
+</ul>
+      </td></tr>
+      <tr>
+          <td><strong>Transmission Mechanism</strong></td>
+          <td>Through four channels:
+      <ul>
+<li>interest rates ( rates on loans and deposits in short term and investment rates in long term — influences);</li>
+<li>credit (influences credit availability and aggregate demand);</li>
+<li>exchange rate (influences the cost of imported goods and total imports/exports);</li>
+<li>expectations (influences consumer and producer behaviour)</li>
+
+
+</ul>
+      </td></tr>
+      <tr>
+          <td><strong>Refinancing Rate</strong></td>
+          <td>7.00% (effective 02 February 2026)</td>
+      </tr>
+      <tr>
+          <td><strong>Interest Rate Corridor (overnight lending and deposit rates)</strong></td>
+          <td>
+<p>Upper bound (refinancing rate +3 p.p.): 10.00% </p>
+<p>Centre (refinancing rate): 7.00%</p>
+<p>Lower bound (refinancing rate −3 p.p.): 4.00%</p>
+
+          </td>
+      </tr>
+
+      <tr>
+          <td><strong>Who makes monetary policy decisions?</strong></td>
+          <td><p>Decisions are made by the Monetary Policy Committee of the National Bank of Tajikistan, meeting at least 4 times per year.</p>
+<p>The Committee reports quarterly to the Board of the National Bank.</p>
+</td>
+      </tr>
+
+
+          <tr>
+          <td><strong>How are monetary policy decisions communicated?</strong></td>
+          <td>Relevant information is published after each Committee meeting, also in monthly and quarterly reports and in the  "Main Directions of Monetary Policy of RT", submitted to Parliament annually by 1 November</td>
+      </tr>
+
+          <tr>
+          <td><strong>Legal Basis</strong></td>
+          <td>Law of the Republic of Tajikistan  <u>"On the National Bank of Tajikistan" and other regulatory legal acts"</u></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 02 Objective -->
+<div id="goal" class="instrument-card card--slate">
+  <div class="instrument-card__header"><h2>Primary Objective of the National Bank of Tajikistan</h2></div>
+  <div class="instrument-card__body">
+    <p>Under Article 5 of the Law "On the National Bank of Tajikistan", the primary objective of the National Bank of Tajikistan is achieving and maintaining a stable level of domestic prices (inflation) in the long term.</p>
+    <p>The additional objectives of the National Bank of Tajikistan, pursued in consideration of the priority of the primary objective:</p>
+    <ul>
+        <li>ensuring stability of the state banking system;</li>
+        <li>promoting effective and smooth functioning of the payment system.</li>
+    </ul>
+    <p>The Law also stipulates that earning profit is not an objective of the National Bank of Tajikistan </p>
+  </div>
+</div>
+
+<!-- 03 Inflation -->
+<div id="inflation" class="instrument-card card--indigo">
+  <div class="instrument-card__header"><h2>Moderate Inflation — the Primary Goal of Most Central (National) Banks</h2></div>
+  <div class="instrument-card__body">
+    <p><u>Inflation</u> is the rise in the general level of prices.</p>
+    <p>Moderate inflation means that prices in the economy are stable, within the established target (5% ±2 p.p.). </p>
+    <p><strong>When the inflation level is stable:</strong></p>
+    <ul>
+        <li><strong>You can plan your expenses</strong> - you approximately know how much you will spend on goods and services in the coming month or year.</li>
+        <li><strong>Your savings are preserved</strong> - money saved in credit organisations or at home retains its purchasing power and generates real income.</li>
+        <li><strong>Loans become cheaper </strong> — when inflation is low or moderate, credit organisations offer loans at lower rates.  </li>
+        <li><strong>More investment </strong> — with growing confidence, businesses attract more investment, creating new jobs and increasing domestic output.</li>
+        <li><strong>Growing trust in the national currency (somoni) </strong> —  the public increasingly uses and holds the national currency,reducing dollarisation and improving monetary policy effectiveness.</li>
+        <li><strong>Economic growth and public welfare </strong> — cheaper credit and more investment support sustainable growth and a better standard of living.</li>
+    </ul>
+    <p>Price stability is considered crucial for the sustainable economic development of any country, especially the Republic of Tajikistan. This is because a large share of household income is spent on food purchases, the majority of which are imported products. A sudden increase in food or import prices would directly have a negative impact on the daily living standards and confidence of the population.</p>
+    <p>At present, the experience of central (national) banks and the analyses and research of scholars worldwide have shown that the conduct of monetary policy affects the inflation rate only in the long term, and that maintaining price stability is the only way to have a positive impact on other macroeconomic indicators.</p>
+    <p>For this reason, most central (national) banks, which have the exclusive right to issue cash and are responsible for developing and implementing monetary policy, have made maintaining price stability (inflation) their primary objective.</p>
+    <p>To maintain price stability, the National Bank of Tajikistan uses a set of instruments and measures which is referred to as the conduct of <b style="color: #5b9bd5;">monetary policy.</b></p>
+  </div>
+</div>
+
+<!-- 04 Monetary Policy -->
+<div id="policy" class="instrument-card card--green">
+  <div class="instrument-card__header"><h2>Monetary Policy</h2></div>
+  <div class="instrument-card__body">
+    <p>Monetary policy is one of the main components of a country's macroeconomic policy. Its primary goal is to ensure long-term price stability, which is achieved through the use of monetary policy instruments (monetary levers).</p>
+    <p>Monetary policy consists of a set of measures and actions of the central (national) bank aimed at influencing the country's economy through the management of the money supply, interest rates, and credit accessibility.</p>
+    <p>The primary objective of the National Bank of Tajikistan's monetary policy is to maintain the inflation rate within its <b style="color: #5b9bd5;"> established target (5% ±2 p.p).</b></p>
+  </div>
+</div>
+
+<!-- 05 Targeting -->
+<div id="targeting" class="instrument-card card--amber">
+  <div class="instrument-card__header"><h2>Inflation Targeting</h2></div>
+  <div class="instrument-card__body" id="target">
+    <p>In a market economy, inflation targeting is one of the modern approaches to conducting monetary policy aimed at maintaining a stable level of domestic prices (inflation) within a predetermined target.</p>
+    <p>According to economic literature and the experience of central banks, under an inflation-targeting monetary policy regime, central (national) banks announce a numerical inflation target for the medium term (a specific figure, with ranges and intervals) and commit to achieving it through the use of existing monetary policy instruments, particularly short-term interest rates.</p>
+    <p>In other words, inflation targeting is a modern regime of conducting monetary policy under which the National Bank of Tajikistan:</p>
+    <ul>
+        <li><b>Determines and announces the inflation indicator;</b></li>
+        <li><b>Takes all inflation factors into account when conducting monetary policy;</b></li>
+        <li><b>Effectively uses monetary policy instruments (levers), particularly the refinancing rate, </b> adjusting it as needed to maintain inflation within the established target;</li>
+        <li><b>Makes monetary policy decisions based on forecasts of target indicators, especially the inflation rate </b> (forward-looking);</li>
+        <li><b>Implements an adjustable exchange rate policy;</b></li>
+        <li><b>To ensure transparency and communication, regularly publishes its decisions through press releases, explanations, and reports on the Internet.</b></li>
+    </ul>
+    <p>At present, this regime is implemented by most countries in the region and around the world, including New Zealand, Australia, Brazil, Russia, Kazakhstan, Uzbekistan, Ukraine, Armenia, Georgia, and other countries.</p>
+  </div>
+</div>
+
+<!-- 06 Why 5% -->
+<div id="why5" class="instrument-card card--blue">
+  <div class="instrument-card__header"><h2>The Inflation Target is Set at 5% ±2 p.p.</h2></div>
+  <div class="instrument-card__body">
+    <p>It should be noted that despite significant progress and achievements in various sectors, the Republic of Tajikistan, as an integral part of the global economy, remains vulnerable to external factors and risks, particularly to changes in global prices for food and fuel. In this regard, based on analysis and observations, setting the inflation target at 5% ±2 p.p. for the economy of the Republic of Tajikistan is currently considered appropriate. Achieving this target will provide an opportunity to ensure the country's sustainable economic development at the necessary level.</p>
+    <p>This target has been established in accordance with the document "Main Directions of Monetary Policy of the Republic of Tajikistan for 2026 and the Medium-Term Period", approved by the decision of the Majlisi Namoyandagon of the Majlisi Oli of the Republic of Tajikistan (No. 214, dated 27 November 2025).</p>
+    <p>At the beginning of the transition to the inflation-targeting regime, in 2017, the inflation target was set at 7% ±3 p.p. and was gradually reduced to 5% ±2 p.p. In the future, depending on sustainable economic growth, the average financial expansion, and further improvement in the effectiveness of monetary policy instruments, this target will be adjusted.</p>
+    <p>The ±2 p.p. range acknowledges that the inflation rate may temporarily move above or below 5%. This is due to the country's economy still being significantly dependent on the global economic situation, making it impossible to fully prevent negative external factors, particularly import-driven inflation (arising from increases in the prices of imported goods).</p>
+  </div>
+</div>
+
+<!-- 07 Previous Regime -->
+<div id="previous" class="instrument-card card--slate">
+  <div class="instrument-card__header"><h2>The Transition from Monetary Targeting to Inflation Targeting and the Work Done in This Direction</h2></div>
+  <div class="instrument-card__body">
+    <p>Before the transition to the inflation-targeting regime (up to 2025), the National Bank of Tajikistan implemented a monetary targeting regime for its monetary policy by determining the size of the money supply in the economy. It should be noted that the objectives of these programs (monetary and inflation targets) were the same—price stability—while the methods of achieving them were different:</p>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Characteristic</th>
+            <th>Monetary Targeting</th>
+            <th>Inflation Targeting</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>Objective</strong></td>
+            <td>Price stability</td>
+            <td>Maintaining inflation within target</td>
+        </tr>
+        <tr>
+            <td><strong>Primary instrument</strong></td>
+            <td>Reserve money</td>
+            <td>Refinancing rate (interest rate)</td>
+        </tr>
+        <tr>
+            <td><strong>Intermediate target</strong></td>
+            <td>Monetary aggregates</td>
+            <td>Inflation forecast</td>
+        </tr>
+        <tr>
+            <td><strong>Role of inflation expectations</strong></td>
+            <td>Secondary</td>
+            <td>Primary</td>
+        </tr>
+        <tr>
+            <td><strong>Money supply</strong></td>
+            <td>Planned (money supply constraint)</td>
+            <td>Demand-driven</td>
+        </tr>
+        <tr>
+            <td><strong>Exchange rate regime</strong></td>
+            <td>Fixed or managed float</td>
+            <td>Managed float or free float</td>
+        </tr>
+            <tr>
+            <td><strong>Communication with public</strong></td>
+            <td>Not mandatory</td>
+            <td>Mandatory, fully explained.</td>
+        </tr>
+            <tr>
+            <td><strong>Indicator forecasting</strong></td>
+            <td>Secondary importance</td>
+            <td>Mandatory</td>
+        </tr>
+            <tr>
+            <td><strong>Theoretical inflation factors</strong></td>
+            <td>Monetary factor only</td>
+            <td>Monetary, demand and supply factors</td>
+        </tr>
+            <tr>
+            <td><strong>Effectiveness per academic research</strong></td>
+            <td>Low</td>
+            <td>High</td>
+        </tr>
+            <tr>
+            <td><strong>Transparency</strong></td>
+            <td>Low</td>
+            <td>High</td>
+        </tr>
+            <tr>
+            <td><strong>Public understanding</strong></td>
+            <td>Complex (money/aggregates/inflation)</td>
+            <td>Simple (prices/inflation)</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Why did the previous regime lose effectiveness? </strong> Monetary targeting requires a significant relationship between the money supply and the inflation rate. Previously, this relationship in the economy of the Republic of Tajikistan was relatively stable. However, due to economic progress, the development of the financial system, increased investment volumes, and substantial inflows of foreign currency, this relationship has gradually weakened and become less effective. As a result, in the future, controlling the money supply alone will not be sufficient to maintain a stable inflation rate.</p>
+    <p>
+    For this reason, since 2012, the National Bank of Tajikistan has decided to gradually transition, taking into account the implementation of necessary reforms, to an inflation-targeting regime.
+    </p>
+    <p>The National Bank of Tajikistan prepared for the transition to this regime over approximately <strong style="color: #5b9bd5;">14 years</strong> (2012-2025).</p>
+    <div class="timeline">
+
+      <div class="timeline-step">
+        <div class="timeline-year">2012–2015</div>
+        <div class="timeline-body">
+          <strong>Preparation</strong>
+          <p>Based on the Instructions of the Founder of Peace and National Unity — the Leader of the Nation, President of the Republic of Tajikistan, the National Bank of Tajikistan began implementing important reforms across the entire banking system of the country, particularly in the area of monetary policy.</p>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2016–2020</div>
+        <div class="timeline-body">
+          <strong>Implementation of inflation targeting regime principles</strong>
+          <p>Within the framework of the Monetary and Exchange Rate Policy Strategy for 2016–2020, the National Bank of Tajikistan implemented the following measures:</p>
+          <ul>
+            <li>improvement of monetary policy instruments and introduction of standing facilities;</li>
+            <li>strengthening analytical and forecasting capacity; development of macroeconomic and econometric forecasting models;</li>
+            <li>promotion of banking system development and financial intermediation;</li>
+            <li>improvement of communication with the public;</li>
+            <li>improvement of international reserves management;</li>
+            <li>transition to a managed floating exchange rate regime;</li>
+            <li>reduction of the dollarisation level of the economy;</li>
+            <li>increasing trust in the national currency (somoni) and others.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2021–2025</div>
+        <div class="timeline-body">
+          <strong>Final preparations</strong>
+          <p>Within the framework of the <u>Monetary Policy Strategy for 2021–2025</u>, the National Bank of Tajikistan implemented important reforms:</p>
+          <ul>
+            <li>strengthening the monetary policy transmission mechanism;</li>
+            <li>introduction of the required reserve averaging mechanism;</li>
+            <li>continued cooperation with international financial organisations on money market development;</li>
+            <li>development and improvement of regulatory legal acts;</li>
+            <li>gradual reduction of the inflation target to 5% ±2 p.p.;</li>
+            <li>attraction of technical assistance to strengthen analytical capacity;</li>
+            <li>development of the liquidity forecasting mechanism for credit organisations and others.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-step">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-body">
+          <strong>Official transition</strong>
+          <p>The National Bank of Tajikistan officially announced the transition to an inflation-targeting regime and set the inflation target for 2026 at 5% (±2 p.p.).</p>
+        </div>
+      </div>
+
+    </div>
+    <p>The main instrument of the National Bank of Tajikistan's monetary policy under the inflation-targeting regime is the <strong style="color: #5b9bd5;">refinancing rate.</strong></p>
+  </div>
+</div>
+
+<!-- 09 Refinancing Rate -->
+<div id="rate" class="instrument-card card--green">
+  <div class="instrument-card__header"><h2>Refinancing Rate</h2></div>
+  <div class="instrument-card__body">
+    <p>According to the Law of the Republic of Tajikistan "On the National Bank of Tajikistan," the refinancing rate is the minimum interest rate at which the National Bank of Tajikistan lends to credit institutions, or the rate of return at which it provides loans to Islamic credit institutions.</p>
+    <p>The refinancing rate is the primary monetary policy instrument for conducting monetary operations, established on the basis of a comprehensive analysis of target indicators, possible risks and the monetary policy stance.</p>
+    <p>The refinancing rate performs a signalling function, characterising the direction of monetary policy for the future period.</p>
+    <p>Based on the deviation of the refinancing rate from its equilibrium level, the monetary policy stance is determined. The equilibrium level is called the neutral interest rate.</p>
+    <p>The neutral interest rate is the average of the real refinancing rate (refinancing rate minus inflation) over past years plus the inflation forecast.</p>
+    <p>When the refinancing rate equals its neutral level, it indicates balance of supply and demand, sustainable economic growth and inflation stability within the target.</p>
+    <p>If the refinancing rate is above (below) the neutral level, it signals a tight (stimulative) monetary policy stance.</p>
+  </div>
+</div>
+
+<!-- 10 Rate Setting -->
+<div id="rateset" class="instrument-card card--amber">
+  <div class="instrument-card__header"><h2>Setting the Refinancing Rate</h2></div>
+  <div class="instrument-card__body">
+    <p>The refinancing rate is determined at the meetings of the Monetary Policy Committee of the National Bank of Tajikistan based on analytical data and the country's macroeconomic outlook, the economic conditions of the main trading partner countries, trends in global goods and commodity prices, as well as inflation factors and expectations, and is approved by a vote of no less than two-thirds of the Committee members.</p>
+    <p>Under the implementation of the inflation-targeting regime, when the inflation outlook and inflation expectations are above the established target, the refinancing rate is increased; conversely, when they are below the target, it is reduced.</p>
+    <p>For more information on monetary policy instruments, see the page <a href="../eng/fishang_eng.html"><u>"Monetary Policy Instruments"</u></a>.</p>
+    <p>The refinancing rate influences other monetary indicators within the  <strong style="color: #5b9bd5;">interest rate corridor.</strong></p>
+  </div>
+</div>
+
+<!-- 11 Corridor -->
+<div id="corridor" class="instrument-card card--blue">
+  <div class="instrument-card__header"><h2>The Interest Rate Corridor</h2></div>
+  <div class="instrument-card__body">
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Rate</th>
+            <th>Meaning</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Upper bound <strong>(overnight lending rate)</strong></td>
+            <td>refinancing rate + 3 p.p.(10.0%) — rate at which the National Bank of Tajikistan extends  overnight credit to credit organisations.</td>
+        </tr>
+         <tr>
+            <td><strong>Centre (refinancing rate)</strong></td>
+            <td>7.0% — key monetary policy rate.</td>
+        </tr>
+         <tr>
+            <td><strong>Lower bound (overnight deposit rate)</strong></td>
+            <td>refinancing rate − 3 p.p. (4.0%) — rate at which the National Bank of Tajikistan pays credit organisations for overnight deposits.</td>
+        </tr>
+         <tr>
+            <td><strong>Short-term interbank rate</strong></td>
+            <td>Operational target of the inflation targeting regime; maintained within the corridor close to the refinancing rate.</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Under the inflation-targeting regime, the short-term interbank interest rate serves as the operational target for implementing monetary policy. That is, the National Bank of Tajikistan uses monetary policy instruments, including standing monetary tools (overnight loans at the refinancing rate + 3.0 p.p. and overnight deposit absorption at −3.0 p.p.) and open market operations, to keep the short-term interbank interest rate close to the refinancing rate.</p>
+  </div>
+</div>
+
+<!-- 12 Instruments -->
+<div id="tools" class="instrument-card card--slate">
+  <div class="instrument-card__header"><h2>Use of Monetary Policy Instruments by the National Bank of Tajikistan</h2></div>
+  <div class="instrument-card__body">
+    <p>The National Bank of Tajikistan uses the following monetary policy instruments:</p>
+    <ul>
+        <li>the refinancing rate (key interest rate);</li>
+        <li>standing facilities;</li>
+        <li>open market operations;</li>
+        <li>required reserve ratio;</li>
+        <li>lending to financial credit organisations;</li>
+        <li>foreign exchange regulation and operations;</li>
+        <li>other instruments as provided by regulatory legal acts.</li>
+    </ul>
+    <p>For more information see the page <a href="../eng/fishang_eng.html"><u>"Monetary Policy Instruments"</u></a>.</p>
+  </div>
+</div>
+
+<!-- 13 Committee -->
+<div id="committee" class="instrument-card card--indigo">
+  <div class="instrument-card__header"><h2>Decision-Making on the Conduct and Stance of Monetary Policy</h2></div>
+  <div class="instrument-card__body">
+    <p>At the National Bank of Tajikistan, the responsibility for determining the stance of monetary policy and for using monetary policy instruments is assigned to the Monetary Policy Committee of the National Bank of Tajikistan.</p>
+    <p>The Monetary Policy Committee is an independent, permanent advisory body that operates in accordance with the Law of the Republic of Tajikistan "On the National Bank of Tajikistan," the Main Directions of Monetary Policy of the Republic of Tajikistan, other regulatory legal acts of the National Bank of Tajikistan, and its own Charter.</p>
+    <p>The Charter, including the composition, functions, and procedures of the Committee, is approved by the Board of the National Bank of Tajikistan. The Chairman of the National Bank of Tajikistan serves as the Chair of the Monetary Policy Committee.</p>
+    <p>For more information see the page  <a href="../eng/kumita_bmt_eng.html"><u>"Monetary Policy Committee of the NBT"</u></a>.</p>
+  </div>
+</div>
+
+<!-- 14 Impact -->
+<div id="impact" class="instrument-card card--green">
+  <div class="instrument-card__header"><h2>Impact of Changes in the Refinancing Rate on the Economy</h2></div>
+  <div class="instrument-card__body">
+    <p>When the National Bank of Tajikistan changes the refinancing rate, its effect on price levels occurs over a certain period. Adjustments to the refinancing rate gradually influence financial and economic indicators, particularly the inflation rate. In economic literature, this process is referred to as the transmission mechanism or the monetary policy transmission mechanism.</p>
+    <p>The monetary policy transmission mechanism operates through the following channels:</p>
+    <figure class="img-figure">
+      <div class="img-figure__label">Monetary Policy Transmission Mechanism</div>
+      <div class="tm-diagram">
+        <svg viewBox="0 0 862 415" xmlns="http://www.w3.org/2000/svg"
+             style="font-family:Inter,'Helvetica Neue',Arial,sans-serif">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8.5" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1.5 9,5 0,8.5" fill="#475569"/>
+            </marker>
+            <marker id="arr2" viewBox="0 0 10 10" refX="5" refY="5"
+                    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1.5 9,5 0,8.5" fill="#475569"/>
+            </marker>
+            <linearGradient id="gOr" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#e2e8f0"/>
+            </linearGradient>
+            <linearGradient id="gBl" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0f5ff"/><stop offset="100%" stop-color="#dbeafe"/>
+            </linearGradient>
+            <linearGradient id="gSk" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f0f9ff"/><stop offset="100%" stop-color="#e0f2fe"/>
+            </linearGradient>
+            <linearGradient id="gIn" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f5f3ff"/><stop offset="100%" stop-color="#ede9fe"/>
+            </linearGradient>
+            <linearGradient id="gPu" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff1f2"/><stop offset="100%" stop-color="#ffe4e6"/>
+            </linearGradient>
+            <filter id="sh" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0000001c"/>
+            </filter>
+          </defs>
+
+          <rect width="862" height="415" fill="#f8fafc"/>
+
+          <g stroke="#475569" stroke-width="2" fill="none">
+            <path d="M 81,210 L 100,53"  marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 102,163" marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 102,263" marker-end="url(#arr2)"/>
+            <path d="M 81,210 L 100,368" marker-end="url(#arr2)"/>
+
+            <line x1="182" y1="92"  x2="182" y2="124" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="182" y1="202" x2="182" y2="224" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="182" y1="302" x2="182" y2="329" marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+
+            <path d="M 257,368 L 290,368 L 290,52" />
+            <line x1="257" y1="53" x2="290" y2="53"/>
+
+            <line x1="257" y1="163" x2="299" y2="163"/>
+            <line x1="257" y1="263" x2="299" y2="263"/>
+
+            <line x1="300" y1="53"  x2="490" y2="53"  marker-start="url(#arr2)" marker-end="url(#arr2)"/>
+            <line x1="250" y1="390" x2="490" y2="390" marker-end="url(#arr2)"/>
+
+            <line x1="456" y1="163" x2="490" y2="163" marker-end="url(#arr2)"/>
+            <line x1="456" y1="245" x2="490" y2="245" marker-end="url(#arr2)"/>
+
+            <line x1="580" y1="147" x2="580" y2="95"  marker-end="url(#arr2)"/>
+            <line x1="662" y1="207" x2="705" y2="207" marker-end="url(#arr2)"/>
+
+            <path d="M 662,53  L 730,53  L 810,132" marker-end="url(#arr2)"/>
+            <path d="M 662,368 L 730,368 L 810,294" marker-end="url(#arr2)"/>
+          </g>
+
+          <rect x="10"  y="25"  width="71"  height="370" rx="6" fill="url(#gOr)" stroke="#94a3b8" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="20"  width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="130" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="230" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="108" y="335" width="149" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="300" y="130" width="156" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="300" y="212" width="156" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="20"  width="164" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="148" width="164" height="118" rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="498" y="335" width="164" height="66"  rx="6" fill="url(#gBl)" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
+          <rect x="715" y="138" width="133" height="150" rx="6" fill="url(#gPu)" stroke="#fda4af" stroke-width="1.5" filter="url(#sh)"/>
+
+          <text transform="rotate(-90,45.5,210)" x="45.5" y="210"
+                text-anchor="middle" dominant-baseline="middle"
+                font-size="15" font-weight="700" fill="#334155">Refinancing Rate</text>
+
+          <text x="182.5" y="53"  text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Interbank Rate</text>
+          <text x="182.5" y="163" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Credit Channel</text>
+          <text x="182.5" y="263" text-anchor="middle" dominant-baseline="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">Expectations Channel</text>
+          <text text-anchor="middle" font-size="12.5" font-weight="600" fill="#1e3a5f">
+            <tspan x="182.5" y="358">Exchange Rate</tspan><tspan x="182.5" dy="17">Channel</tspan>
+          </text>
+
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="378" y="154">Aggregate</tspan><tspan x="378" dy="17">Domestic Demand</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="378" y="237">Aggregate</tspan><tspan x="378" dy="17">External Demand</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="580" y="363">Import</tspan><tspan x="580" dy="16">Prices</tspan>
+          </text>
+          <text text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a5f">
+            <tspan x="580" y="48">Inflation</tspan><tspan x="580" dy="16">Expectations</tspan>
+          </text>
+          <text text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a5f">
+            <tspan x="580" y="202">Aggregate</tspan><tspan x="580" dy="18">Demand (GDP)</tspan>
+          </text>
+          <text text-anchor="middle" font-size="15" font-weight="700" fill="#9f1239">
+            <tspan x="781.5" y="204">Inflation</tspan><tspan x="781.5" dy="22">Level</tspan>
+          </text>
+        </svg>
+      </div>
+    </figure>
+    <p><strong>For reference: </strong> In the Republic of Tajikistan, as in the experience of other countries in the region, the full effect of changes in interest rates on price levels typically occurs over several upcoming quarters. Therefore, the National Bank of Tajikistan makes monetary policy decisions by taking into account the inflation forecast for the<strong style="color: #5b9bd5;"> medium-term</strong>.</p>
+  </div>
+</div>
+
+<!-- 15 Forecast -->
+<div id="forecast" class="instrument-card card--amber">
+  <div class="instrument-card__header"><h2>Determining the Inflation Forecast</h2></div>
+  <div class="instrument-card__body">
+    <p>At the National Bank of Tajikistan, the inflation outlook is determined using various econometric and macro-structural models (hereinafter – models), developed in cooperation with reputable international financial organizations.</p>
+    <p>A model is a set of simplified relationships used with modern econometric software to analyze economic processes, assess the impact of factors, and develop forecasts.</p>
+    <p>The inflation outlook takes into account all potential internal and external factors affecting the country, including the macroeconomic situation, inflation expectations, analysis of all monetary and macroeconomic indicators, the economic conditions of the main trading partner countries, trends in global goods and commodity prices, dynamics of monetary and macroeconomic statistics, as well as other potential risks.</p>
+    <p>In other words, the future stance of <strong style="color: #5b9bd5;">monetary policy</strong> is determined based on the inflation outlook.</p>
+  </div>
+</div>
+
+<!-- 16 Public -->
+<div id="population" class="instrument-card card--blue">
+  <div class="instrument-card__header"><h2>Impact of Monetary Policy on the Public</h2></div>
+  <div class="instrument-card__body">
+    <p>Monetary policy can affect the daily lives of the population in the following ways:</p>
+    <ul>
+        <li><strong>Your savings</strong>: When the National Bank of Tajikistan keeps inflation low and stable, the value of your savings and income is protected, maintaining its purchasing power.</li>
+        <li><strong>Your loans and borrowing costs</strong>: Changes in the refinancing rate affect the interest rates that credit institutions apply to loans and deposits. When the refinancing rate is lowered, borrowing becomes cheaper, and when it is raised, saving becomes more attractive.</li>
+        <li><strong>Price stability</strong>: The National Bank of Tajikistan strives to keep the general price level within the established target (5% ±2 p.p.), thereby preserving your purchasing power.</li>
+        <li><strong>Purchasing power of the national currency (somoni)</strong>: The effective implementation of monetary policy gradually strengthens confidence in the national currency, stabilizes the somoni's position relative to other foreign currencies, and helps maintain its purchasing power.</li>
+        <li><strong>Jobs and economic growth</strong>: Price stability plays a key role in promoting investment, creating new jobs, improving economic activity, ensuring a good standard of living, and supporting sustainable economic development.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 17 Factors -->
+<div id="factors" class="instrument-card card--slate">
+  <div class="instrument-card__header"><h2>Inflationary factors that cannot be eliminated independently:</h2></div>
+  <div class="instrument-card__body">
+    <p>Not all inflationary factors originates from monetary policy. There are factors for which  the National Bank of Tajikistan takes measures jointly with relevant ministries:</p>
+    <ul>
+      <li>changes in world prices;</li>
+      <li>environmental changes;</li>
+      <li>geopolitical situation;</li>
+      <li>investment climate;</li>
+      <li>import dependence;</li>
+      <li>administrative factors;</li>
+      <li>seasonal factors;</li>
+      <li>fiscal policy changes;</li>
+      <li>structural factors;</li>
+      <li>global financial and economic situation.</li>
+    </ul>
+  </div>
+</div>
+
+</div></div>
+
+<script src="../js/common.js"></script>
+
+<script src="../js/detail-shared.js"></script>
+</body>
+</html>
