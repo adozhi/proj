@@ -1,4 +1,5 @@
 .statistic.has-back { position: relative; overflow: hidden; }
+.card-flip, .card-back__close { -webkit-tap-highlight-color: transparent; }
 .statistic.has-back .statistic-body { position: relative; }
 .card-flip {
   position: absolute; right: 12px; top: 10px; z-index: 2;
@@ -7,15 +8,18 @@
   font: inherit; font-size: 0.74rem; font-weight: 700; color: var(--navy-3, #1e40af); cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.3s;
 }
-.card-flip:hover { background: #1e3a5f; border-color: #1e3a5f; color: #fff; }
-.card-flip:hover svg { transform: rotate(180deg); }
+@media (hover: hover) {
+  .card-flip:hover { background: #1e3a5f; border-color: #1e3a5f; color: #fff; }
+  .card-flip:hover svg { transform: rotate(180deg); }
+  .card-back__close:hover { background: rgba(255,255,255,0.2); }
+}
 .card-flip svg { transition: transform 0.4s ease; }
 .card-flip:focus-visible { outline: 2px solid var(--blue, #2563eb); outline-offset: 2px; }
 
 .card-back {
   position: absolute; inset: 0; z-index: 5; overflow-y: auto;
   display: flex; flex-direction: column; gap: 8px; padding: 18px 20px 16px;
-  color: #fff; background: linear-gradient(150deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%);
+  color: #fff; background: linear-gradient(150deg, #0b1730 0%, #122a4c 60%, #1a3a66 100%);
   clip-path: circle(0 at var(--ox, 90%) var(--oy, 20%)); transition: clip-path 0.42s cubic-bezier(.4, 0, .2, 1);
 }
 .statistic.is-open .card-back { clip-path: circle(150% at var(--ox, 90%) var(--oy, 20%)); }
@@ -29,7 +33,6 @@
   position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; z-index: 1;
   border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); color: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer;
 }
-.card-back__close:hover { background: rgba(255,255,255,0.2); }
 .card-back__close:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
 .card-back__title { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
 .card-back__link { margin-top: auto; align-self: flex-start; font-size: 0.8rem; font-weight: 700; color: #bfdbfe; text-decoration: none; }
@@ -48,6 +51,8 @@
 .cb-decisions { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .cb-decisions li { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; font-size: 0.7rem; color: rgba(255,255,255,0.65); font-variant-numeric: tabular-nums; }
 .cb-decisions .cb-chip { white-space: nowrap; }
+.cb-decisions li { min-width: 0; }
+@media (max-width: 480px) { .cb-decisions .cb-chip { font-size: 0.64rem; padding: 1px 6px; white-space: normal; max-width: 100%; } }
 .cb-chip { display: inline-flex; padding: 1px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; background: rgba(255,255,255,0.12); color: #fff; }
 .cb-chip--cut { background: rgba(134,239,172,0.2); color: #bbf7d0; } .cb-chip--raise { background: rgba(192,80,77,0.3); color: #f2b8b5; }
 
@@ -57,7 +62,7 @@
 .cb-groups b.is-out { color: #f2b8b5; }
 .cb-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 4px; }
 .cb-row > div { display: flex; flex-direction: column; gap: 2px; }
-.cb-big { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.cb-big { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: proportional-nums; }
 .cb-status { font-size: 0.74rem; font-weight: 700; }
 .cb-status.is-in { color: #86efac; } .cb-status.is-out { color: #f2b8b5; }
 
@@ -68,6 +73,7 @@
   .card-flip { position: static; align-self: center; margin-top: 2px; }
   .statistic.is-open .statistic-body, .statistic.is-open .statistic-footer, .statistic.is-open > .block-header + .statistic-body { display: none; }
   .card-back { position: relative; inset: auto; overflow: visible; min-height: 260px; }
+  .statistic.is-open > .block-header { display: none; }
 }
 .card-back[hidden] { display: none !important; }
 @media (max-width: 700px) {
@@ -93,7 +99,7 @@
 @media (pointer: coarse) { .view-switch button { min-width: 38px; height: 34px; } }
 
 .view-2 .kpi-card {
-  background: linear-gradient(150deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%); border-color: transparent; color: #fff;
+  background: linear-gradient(150deg, #0b1730 0%, #122a4c 60%, #1a3a66 100%); border-color: transparent; color: #fff;
   box-shadow: 0 14px 30px rgba(15,23,42,0.22);
 }
 .view-2 .kpi-card::before {

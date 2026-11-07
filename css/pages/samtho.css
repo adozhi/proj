@@ -7,7 +7,7 @@
 .sh-cover {
   position: relative; display: flex; flex-direction: column; aspect-ratio: 3 / 4; padding: 22px 18px; overflow: hidden;
   border-radius: 4px 12px 12px 4px; color: #fff; text-decoration: none;
-  background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%);
+  background: linear-gradient(160deg, #0b1730 0%, #122a4c 60%, #1a3a66 100%);
   box-shadow: -7px 0 0 -2px #0b1222 inset, 0 22px 40px rgba(15,23,42,0.30);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

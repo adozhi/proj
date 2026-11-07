@@ -41,12 +41,12 @@
     btn.setAttribute('aria-controls', back.id);
     card.querySelector('.statistic-body').appendChild(btn);
     card.appendChild(back);
-    btn.addEventListener('click', () => open(card, true));
+    btn.addEventListener('click', e => open(card, true, e.detail === 0));
     back.addEventListener('click', e => { if (e.target.closest('.card-back__close')) open(card, false); });
     card.addEventListener('keydown', e => { if (e.key === 'Escape' && card.classList.contains('is-open')) { open(card, false); btn.focus(); } });
   }
 
-  function open(card, on) {
+  function open(card, on, byKey) {
     const back = card.querySelector('.card-back'), btn = card.querySelector('.card-flip');
     btn.setAttribute('aria-expanded', String(on));
     if (on) {
@@ -55,7 +55,8 @@
       card.style.setProperty('--oy', (b.top + b.height / 2 - c.top) + 'px');
       back.hidden = false;
       requestAnimationFrame(() => card.classList.add('is-open'));
-      back.querySelector('.card-back__close').focus({ preventScroll: true });
+      if (byKey) back.querySelector('.card-back__close').focus({ preventScroll: true });
+      else btn.blur();
     } else {
       card.classList.remove('is-open');
       setTimeout(() => { if (!card.classList.contains('is-open')) back.hidden = true; }, reduce ? 0 : 420);

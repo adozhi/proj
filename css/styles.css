@@ -12,7 +12,7 @@
 
   --surface:     #ffffff;
   --surface-alt: #f8fafc;
-  --bg:          #f1f5f9;
+  --bg:          #ffffff;
 
   --border:      #e2e8f0;
   --border-dark: #cbd5e1;
@@ -56,7 +56,7 @@ body {
 a { color: inherit; text-decoration: none; }
 
 .site-header {
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #1e40af 100%);
+  background: linear-gradient(135deg, #0b1730 0%, #122a4c 55%, #1a3a66 100%);
   color: #fff;
   height: var(--header-h);
   position: sticky;
@@ -505,7 +505,7 @@ a.block-header:hover .header-link-icon {
   color: #1e40af;
   line-height: 1;
   letter-spacing: -0.04em;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: proportional-nums;
   white-space: nowrap;
 }
 

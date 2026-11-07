@@ -1,4 +1,5 @@
 .nbt-mp .statistic.has-back{ position: relative; overflow: hidden; }
+.nbt-mp .card-flip, .nbt-mp .card-back__close{ -webkit-tap-highlight-color: transparent; }
 .nbt-mp .statistic.has-back .statistic-body{ position: relative; }
 .nbt-mp .card-flip{
   position: absolute; right: 12px; top: 10px; z-index: 2;
@@ -7,14 +8,18 @@
   font: inherit; font-size: 0.74rem; font-weight: 700; color: var(--navy-3, #1e40af); cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.3s;
 }
+@media (hover: hover){
 .nbt-mp .card-flip:hover{ background: #1e3a5f; border-color: #1e3a5f; color: #fff; }
 .nbt-mp .card-flip:hover svg{ transform: rotate(180deg); }
+.nbt-mp .card-back__close:hover{ background: rgba(255,255,255,0.2); }
+
+}
 .nbt-mp .card-flip svg{ transition: transform 0.4s ease; }
 .nbt-mp .card-flip:focus-visible{ outline: 2px solid var(--blue, #2563eb); outline-offset: 2px; }
 .nbt-mp .card-back{
   position: absolute; inset: 0; z-index: 5; overflow-y: auto;
   display: flex; flex-direction: column; gap: 8px; padding: 18px 20px 16px;
-  color: #fff; background: linear-gradient(150deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%);
+  color: #fff; background: linear-gradient(150deg, #0b1730 0%, #122a4c 60%, #1a3a66 100%);
   clip-path: circle(0 at var(--ox, 90%) var(--oy, 20%)); transition: clip-path 0.42s cubic-bezier(.4, 0, .2, 1);
 }
 .nbt-mp .statistic.is-open .card-back{ clip-path: circle(150% at var(--ox, 90%) var(--oy, 20%)); }
@@ -30,7 +35,6 @@
   position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; z-index: 1;
   border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); color: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer;
 }
-.nbt-mp .card-back__close:hover{ background: rgba(255,255,255,0.2); }
 .nbt-mp .card-back__close:focus-visible{ outline: 2px solid #93c5fd; outline-offset: 2px; }
 .nbt-mp .card-back__title{ font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
 .nbt-mp .card-back__link{ margin-top: auto; align-self: flex-start; font-size: 0.8rem; font-weight: 700; color: #bfdbfe; text-decoration: none; }
@@ -48,6 +52,10 @@
 .nbt-mp .cb-decisions{ list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .nbt-mp .cb-decisions li{ display: flex; flex-direction: column; align-items: flex-start; gap: 3px; font-size: 0.7rem; color: rgba(255,255,255,0.65); font-variant-numeric: tabular-nums; }
 .nbt-mp .cb-decisions .cb-chip{ white-space: nowrap; }
+.nbt-mp .cb-decisions li{ min-width: 0; }
+@media (max-width: 480px){
+.nbt-mp .cb-decisions .cb-chip{ font-size: 0.64rem; padding: 1px 6px; white-space: normal; max-width: 100%; }
+ }
 .nbt-mp .cb-chip{ display: inline-flex; padding: 1px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; background: rgba(255,255,255,0.12); color: #fff; }
 .nbt-mp .cb-chip--cut{ background: rgba(134,239,172,0.2); color: #bbf7d0; }
 .nbt-mp .cb-chip--raise{ background: rgba(192,80,77,0.3); color: #f2b8b5; }
@@ -57,7 +65,7 @@
 .nbt-mp .cb-groups b.is-out{ color: #f2b8b5; }
 .nbt-mp .cb-row{ display: flex; gap: 24px; flex-wrap: wrap; margin-top: 4px; }
 .nbt-mp .cb-row > div{ display: flex; flex-direction: column; gap: 2px; }
-.nbt-mp .cb-big{ font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.nbt-mp .cb-big{ font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: proportional-nums; }
 .nbt-mp .cb-status{ font-size: 0.74rem; font-weight: 700; }
 .nbt-mp .cb-status.is-in{ color: #86efac; }
 .nbt-mp .cb-status.is-out{ color: #f2b8b5; }
@@ -72,6 +80,7 @@
 .nbt-mp .card-flip{ position: static; align-self: center; margin-top: 2px; }
 .nbt-mp .statistic.is-open .statistic-body, .nbt-mp .statistic.is-open .statistic-footer, .nbt-mp .statistic.is-open > .block-header + .statistic-body{ display: none; }
 .nbt-mp .card-back{ position: relative; inset: auto; overflow: visible; min-height: 260px; }
+.nbt-mp .statistic.is-open > .block-header{ display: none; }
 
 }
 .nbt-mp .card-back[hidden]{ display: none !important; }
@@ -98,7 +107,7 @@
 .nbt-mp .view-switch button{ min-width: 38px; height: 34px; }
  }
 .nbt-mp .view-2 .kpi-card{
-  background: linear-gradient(150deg, #0f172a 0%, #1e3a5f 60%, #1e40af 100%); border-color: transparent; color: #fff;
+  background: linear-gradient(150deg, #0b1730 0%, #122a4c 60%, #1a3a66 100%); border-color: transparent; color: #fff;
   box-shadow: 0 14px 30px rgba(15,23,42,0.22);
 }
 .nbt-mp .view-2 .kpi-card::before{
