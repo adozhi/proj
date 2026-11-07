@@ -5,40 +5,38 @@ let inflationChart;
 let originalData = null;
 let currentMode = "yearly";
 
+const tn = v => { const x = Number.isInteger(+v) ? String(+v) : (+v).toFixed(1); return LANG === 'en' ? x : x.replace('.', ','); };
 const I18N = {
   tj: {
+    chPp: 'б.ф.', chVs: 'нисбат ба моҳи гузашта', chSame: 'Бетағйир нисбат ба моҳи гузашта',
     months:    ['Январ','Феврал','Март','Апрел','Май','Июн','Июл','Август','Сентябр','Октябр','Ноябр','Декабр'],
     monthsGen: ['январи','феврали','марти','апрели','майи','июни','июли','августи','сентябри','октябри','ноябри','декабри'],
     annual:    'Таварруми солона',
     monthly:   'Таварруми моҳона',
     inflation: 'Таваррум',
-    onTarget:  () => '✓ Дар доираи ҳадаф',
-    offTarget: '✗ Берун аз ҳадаф',
-    target:    (c, b) => `Ҳадаф — ${c}% (±${b} б.ф.)`,
+    target:    (c, b) => `Ҳадаф — ${tn(c)}% (±${tn(b)} б.ф.)`,
     error:     'Хато:',
     dateCol:   'Сана',
   },
   ru: {
+    chPp: 'п.п.', chVs: 'к прошлому месяцу', chSame: 'Без изменений к прошлому месяцу',
     months:    ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
     monthsGen: ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],
     annual:    'Годовая инфляция',
     monthly:   'Ежемесячная инфляция',
     inflation: 'Инфляция',
-    onTarget:  () => '✓ В рамках цели',
-    offTarget: '✗ Вне цели',
-    target:    (c, b) => `Цель — ${c}% (±${b} п.п.)`,
+    target:    (c, b) => `Цель — ${tn(c)}% (±${tn(b)} п.п.)`,
     error:     'Ошибка:',
     dateCol:   'Дата',
   },
   en: {
+    chPp: 'pp', chVs: 'vs. previous month', chSame: 'Unchanged vs. previous month',
     months:    ['January','February','March','April','May','June','July','August','September','October','November','December'],
     monthsGen: ['January','February','March','April','May','June','July','August','September','October','November','December'],
     annual:    'Annual Inflation',
     monthly:   'Monthly Inflation',
     inflation: 'Inflation',
-    onTarget:  () => '✓ On target',
-    offTarget: '✗ Off target',
-    target:    (c, b) => `Target — ${c}% (±${b} pp)`,
+    target:    (c, b) => `Target — ${tn(c)}% (±${tn(b)} pp)`,
     error:     'Error:',
     dateCol:   'Date',
   },
@@ -89,24 +87,28 @@ function updateInflationCard(values_yearly, dates) {
   const lastDate = dates[n-1];
   const titleEl = document.getElementById('inflation-title');
   const valEl = document.getElementById('val-inflation-detail');
-  const badgeEl = document.getElementById('badge-inflation-detail');
   if (titleEl && lastDate) {
     titleEl.textContent = `${I18N.annual} — ${I18N.months[lastDate.month-1]} ${lastDate.year}`;
   }
   if (valEl) valEl.textContent = num(current, 1);
-  if (badgeEl) {
-    const tg = (lastDate && getTarget(`${lastDate.year}-${String(lastDate.month).padStart(2, '0')}`)) || { center: 5, band: 2 };
-    const inTarget = Math.abs(current - tg.center) <= tg.band;
-    const cb = document.getElementById('btn-corridor');
-    if (cb && cb.lastChild && cb.lastChild.nodeType === 3) cb.lastChild.textContent = ' ' + I18N.target(tg.center, tg.band) + ' ';
-    if (inTarget) {
-      badgeEl.textContent = I18N.onTarget(tg.center, tg.band);
-      badgeEl.style.cssText = 'background:rgba(34,197,94,0.18);color:#86efac;border:1px solid rgba(34,197,94,0.25);';
+  const chEl = document.getElementById('infl-change');
+  const prev = n > 1 ? values_yearly[n - 2] : null;
+  if (chEl && prev != null && current != null) {
+    const d = +(current - prev).toFixed(1);
+    chEl.hidden = false;
+    if (d === 0) {
+      chEl.textContent = '= ' + I18N.chSame;
+      chEl.style.cssText = 'background:rgba(251,191,36,0.22);color:#fbbf24;border:1px solid rgba(251,191,36,0.35);';
     } else {
-      badgeEl.textContent = I18N.offTarget;
-      badgeEl.style.cssText = 'background:rgba(192,80,77,0.3);color:#f2b8b5;border:1px solid rgba(192,80,77,0.55);';
+      chEl.textContent = `${d > 0 ? '↑ +' : '↓ −'}${num(Math.abs(d), 1)} ${I18N.chPp} ${I18N.chVs}`;
+      chEl.style.cssText = d > 0
+        ? 'background:rgba(192,80,77,0.3);color:#f2b8b5;border:1px solid rgba(192,80,77,0.55);'
+        : 'background:rgba(34,197,94,0.18);color:#86efac;border:1px solid rgba(34,197,94,0.25);';
     }
   }
+  const tg = (lastDate && getTarget(`${lastDate.year}-${String(lastDate.month).padStart(2, '0')}`)) || { center: 5, band: 2 };
+  const cb = document.getElementById('btn-corridor');
+  if (cb && cb.lastChild && cb.lastChild.nodeType === 3) cb.lastChild.textContent = ' ' + I18N.target(tg.center, tg.band) + ' ';
   const gaugeEl = document.getElementById('inflGauge');
   if (gaugeEl && window.nbtGauge && lastDate) {
     const ym = `${lastDate.year}-${String(lastDate.month).padStart(2, '0')}`;

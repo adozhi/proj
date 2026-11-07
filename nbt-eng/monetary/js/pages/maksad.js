@@ -1,14 +1,15 @@
 const LANG = nbtPageLang();
 
 const I18N = {
-  tj: { label: 'Ҳадафи таваррум', pp: 'б.ф.', now: (m, y) => `Таварруми солона, ${m} ${y}`, inBand: 'дар доираи ҳадаф', outBand: 'берун аз ҳадаф', band: 'ҳадаф',
+  tj: { label: 'Ҳадафи таваррум', pp: 'б.ф.', band: 'ҳадаф', now: (m, y) => `Таварруми солона, ${m} ${y}`,
         months: ['январ','феврал','март','апрел','май','июн','июл','август','сентябр','октябр','ноябр','декабр'] },
-  ru: { label: 'Цель по инфляции', pp: 'п.п.', now: (m, y) => `Годовая инфляция, ${m} ${y}`, inBand: 'в пределах цели', outBand: 'вне цели', band: 'цель',
+  ru: { label: 'Цель по инфляции', pp: 'п.п.', band: 'цель', now: (m, y) => `Годовая инфляция, ${m} ${y}`,
         months: ['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'] },
-  en: { label: 'Inflation target', pp: 'pp', now: (m, y) => `Annual inflation, ${m} ${y}`, inBand: 'within target', outBand: 'outside target', band: 'target',
+  en: { label: 'Inflation target', pp: 'pp', band: 'target', now: (m, y) => `Annual inflation, ${m} ${y}`,
         months: ['January','February','March','April','May','June','July','August','September','October','November','December'] },
 }[LANG];
 
+const tn = v => Number.isInteger(+v) ? String(+v) : num(+v, 1);
 const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', ',');
 
 (function () {
@@ -19,17 +20,15 @@ const num = (v, d) => LANG === 'en' ? v.toFixed(d) : v.toFixed(d).replace('.', '
 
   function render(last) {
     const t = nbtTargetFor(last ? last.date : '9999-12') || window.NBT_INFLATION_TARGETS.slice(-1)[0];
-    const [y, m] = last ? last.date.split('-').map(Number) : [null, null];
     const v = last ? +last.inflation_y : null;
-    const inside = v != null && Math.abs(v - t.center) <= t.band;
     hero.innerHTML = `
       <div class="x-hero__main">
         <span class="x-hero__label">${I18N.label}</span>
-        <span class="x-hero__big">${t.center}<small>%</small></span>
-        <span class="x-hero__band">± ${t.band} ${I18N.pp}</span>
+        <span class="x-hero__big">${tn(t.center)}<small>%</small></span>
+        <span class="x-hero__band">± ${tn(t.band)} ${I18N.pp}</span>
       </div>
       <div class="x-hero__side">
-        ${last ? `<span class="x-hero__label">${I18N.now(I18N.months[m - 1], y)} — <b class="${inside ? 'is-in' : 'is-out'}">${num(v, 1)}%, ${inside ? I18N.inBand : I18N.outBand}</b></span>` : ''}
+        ${last ? `<span class="x-hero__label">${I18N.now(I18N.months[+last.date.slice(5, 7) - 1], last.date.slice(0, 4))}</span>` : ''}
         <div class="x-hero__gauge"></div>
       </div>
       ${lead ? `<p class="x-hero__lead">${lead}</p>` : ''}`;

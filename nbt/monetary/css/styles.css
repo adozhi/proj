@@ -762,6 +762,9 @@
 .nbt-mp *{font-family:inherit;transition:none}
 .nbt-mp header{background:transparent !important;box-shadow:none;z-index:auto;width:auto}
 .nbt-mp .x-story .x-block__head{background:var(--bg,#f1f5f9) !important;z-index:20}
+.nbt-mp.nbt-mp--page{font-size:16px}
+.nbt-mp :is(h1,h2,h3,h4,h5,h6){line-height:1.65}
+.nbt-mp button{line-height:normal}
 
 .nbt-mp.nbt-mp--home{background:transparent;min-height:0;display:block;font-size:16px}
 .nbt-mp.nbt-mp--home .container{max-width:none;padding:0}

@@ -45,12 +45,20 @@
       if (!(k in values)) return;
       if (el.dataset.fallback == null) el.dataset.fallback = el.textContent;
       const val = values[k];
-      const text = typeof val === 'function' ? val() : k === 'year' ? String(val) : fmt(val, decOf(el));
+      const text = typeof val === 'function' ? val() : k === 'year' ? String(val)
+        : k.startsWith('target') ? fmt(val, Number.isInteger(+val) ? 0 : 1) : fmt(val, decOf(el));
       if (el.textContent !== text) el.textContent = text;
     });
   }
+  function syncToc() {
+    document.querySelectorAll('nav[data-toc="auto"] a[href^="#"]').forEach(a => {
+      const h = document.querySelector(a.getAttribute('href') + ' .x-block__head h2');
+      if (h) { const t = h.textContent.trim().replace(/:$/, ''); if (a.textContent !== t) a.textContent = t; }
+    });
+  }
 
-  nbtLoadRows().then(rows => { values = compute(rows); fill(); }).catch(() => {});
+
+  nbtLoadRows().then(rows => { values = compute(rows); fill(); syncToc(); }).catch(() => {});
 
   if (window.MutationObserver) new MutationObserver(fill).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   window.nbtFillLiveValues = fill;

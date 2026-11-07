@@ -1,14 +1,11 @@
 const LANG = nbtPageLang();
 
 const I18N = {
-  tj: { title: 'Меъёрҳои фишангҳо', note: 'Ҳамаи фишангҳо аз меъёри бозтамвил ҳисоб карда мешаванд. Чап — БМТ пулро аз бонкҳо ҷалб мекунад, рост — ба бонкҳо пешниҳод мекунад',
-        absorb: 'Ҷалби пардохтпазирӣ', provide: 'Пешниҳоди пардохтпазирӣ', rate: 'Меъёри бозтамвил', corridor: 'Долони меъёри фоизӣ',
+  tj: { title: 'Меъёрҳои фишангҳо', absorb: 'Ҷалби пардохтпазирӣ', provide: 'Пешниҳоди пардохтпазирӣ', rate: 'Меъёри бозтамвил', corridor: 'Долони меъёри фоизӣ',
         upTo: 'то', from: 'аз', free: 'бе фоиз', more: 'Муфассал', table: 'Дар ҷадвал', now: 'Ҳоло', give: 'БМТ медиҳад', take: 'БМТ ҷалб мекунад' },
-  ru: { title: 'Ставки инструментов', note: 'Все инструменты привязаны к ставке рефинансирования. Слева — НБТ забирает деньги у банков, справа — предоставляет банкам',
-        absorb: 'Абсорбирование ликвидности', provide: 'Предоставление ликвидности', rate: 'Ставка рефинансирования', corridor: 'Процентный коридор',
+  ru: { title: 'Ставки инструментов', absorb: 'Абсорбирование ликвидности', provide: 'Предоставление ликвидности', rate: 'Ставка рефинансирования', corridor: 'Процентный коридор',
         upTo: 'до', from: 'от', free: 'без процентов', more: 'Подробнее', table: 'В таблице', now: 'Сейчас', give: 'НБТ предоставляет', take: 'НБТ забирает' },
-  en: { title: 'Instrument rates', note: 'All instruments are tied to the refinancing rate. Left — the NBT absorbs money from banks, right — provides it to banks',
-        absorb: 'Liquidity absorption', provide: 'Liquidity provision', rate: 'Refinancing rate', corridor: 'Interest rate corridor',
+  en: { title: 'Instrument rates', absorb: 'Liquidity absorption', provide: 'Liquidity provision', rate: 'Refinancing rate', corridor: 'Interest rate corridor',
         upTo: 'up to', from: 'from', free: 'interest-free', more: 'Details', table: 'In the table', now: 'Now', give: 'NBT provides', take: 'NBT absorbs' },
 }[LANG];
 
@@ -43,17 +40,17 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
     const lanes = {};
     ['absorb', 'provide'].forEach(side => {
-      const ends = [];
+      const placed = [];
       ITEMS.filter(i => i.side === side).sort((a, b) => val(a) - val(b)).forEach(it => {
         const x = (val(it) - lo) / (hi - lo);
-        let lane = ends.findIndex(e => x - e > 0.26);
-        if (lane < 0) { lane = ends.length; ends.push(x); } else ends[lane] = x;
-        it.lane = lane;
+        const near = placed.filter(p => x - p.x < 0.2);
+        it.lane = near.length ? Math.max(...near.map(p => p.lane)) + 1 : 0;
+        placed.push({ x, lane: it.lane });
       });
-      lanes[side] = Math.max(1, ends.length);
+      lanes[side] = Math.max(1, ...placed.map(p => p.lane + 1));
     });
     const mark = it => `
-      <a class="rs-mark rs-mark--${it.side} rs-mark--${it.kind}" style="--x:${pos(val(it))};--lane:${it.lane}" href="${it.href || '#'}" title="${esc(I18N.more)}">
+      <a class="rs-mark rs-mark--${it.side} rs-mark--${it.kind}${(val(it) - lo) / (hi - lo) > 0.25 ? ' rs-mark--end' : ''}" style="--x:${pos(val(it))};--lane:${it.lane}" href="${it.href || '#'}" title="${esc(I18N.more)}">
         <span class="rs-mark__value">${esc(valueText(it))}</span>
         <span class="rs-mark__name">${esc(it.label)}</span>
       </a>`;
@@ -61,12 +58,13 @@ const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
       .map(i => `<span class="rs-tick" style="--x:${pos(i)}">${i}%</span>`).join('');
 
     host.innerHTML = `
-      <div class="rs-head"><h2>${esc(I18N.title)}</h2><p>${esc(I18N.note)}</p></div>
+      <div class="rs-head"><h2>${esc(I18N.title)}</h2>
+        <ul class="rs-legend"><li><i class="rs-legend__rate"></i>${esc(I18N.rate)} · ${num(rate, 2)}%</li><li><i class="rs-legend__corridor"></i>${esc(I18N.corridor)} · ${num(rate - 3, 2)}–${num(rate + 3, 2)}%</li></ul></div>
       <div class="rs">
         <div class="rs-side rs-side--provide" style="--lanes:${lanes.provide}"><span class="rs-side__label">↑ ${esc(I18N.provide)}</span>${ITEMS.filter(i => i.side === 'provide').map(mark).join('')}</div>
         <div class="rs-axis">
-          <span class="rs-corridor" style="--a:${pos(rate - 3)};--b:${pos(rate + 3)}"><em>${esc(I18N.corridor)}</em></span>
-          <span class="rs-policy" style="--x:${pos(rate)}"><b>${num(rate, 2)}%</b><small>${esc(I18N.rate)}</small></span>
+          <span class="rs-corridor" style="--a:${pos(rate - 3)};--b:${pos(rate + 3)}"></span>
+          <span class="rs-policy" style="--x:${pos(rate)}"><b>${num(rate, 2)}%</b></span>
           ${ticks}
         </div>
         <div class="rs-side rs-side--absorb" style="--lanes:${lanes.absorb}"><span class="rs-side__label">↓ ${esc(I18N.absorb)}</span>${ITEMS.filter(i => i.side === 'absorb').map(mark).join('')}</div>
