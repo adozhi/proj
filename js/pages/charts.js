@@ -346,7 +346,7 @@ const SECTIONS = [
 const EXPLAIN = {
   tj: {
     _btn: 'Шарҳи мухтасар',
-    inflation: 'Таварруми солона нишон медиҳад, ки нархҳо нисбат ба ҳамон моҳи соли гузашта чанд фоиз боло рафтаанд. Минтақаи сабз — ҳадафи Бонки миллӣ: агар хат дар дохили минтақа бошад, таваррум дар доираи ҳадаф аст. Тугмаи «Моҳона» афзоиши нархҳоро дар як моҳ нишон медиҳад.',
+    inflation: 'Таварруми солона нишон медиҳад, ки нархҳо нисбат ба ҳамон моҳи соли гузашта чанд фоиз боло рафтаанд. Тугмаи «Моҳона» афзоиши нархҳоро дар як моҳ нишон медиҳад.',
     groups: 'Таварруми солона алоҳида аз рӯи се гурӯҳи сабади истеъмолӣ: маҳсулоти хӯрокворӣ, молҳои ғайрихӯрокворӣ ва хизматрасониҳои пулӣ. Ба ин васила маълум мешавад, ки кадом гурӯҳ айни замон нархҳоро бештар боло мебарад.',
     groupsm: 'Ҳамон гурӯҳҳо, вале афзоиши нархҳо дар як моҳ. Қиматҳои аз сифр поён маънои онро доранд, ки нархҳо дар гурӯҳ дар давоми моҳ паст шудаанд — одатан дар тобистон ва тирамоҳ дар маҳсулоти хӯрокворӣ.',
     sahm: 'Саҳми гурӯҳҳо дар таварруми умумӣ, бо банди фоизӣ. Саҳм на танҳо аз афзоиши нархҳо дар гурӯҳ, балки аз вазни он дар сабад низ вобаста аст; ҷамъи саҳмҳо ба таварруми умумии солона баробар аст.',
@@ -371,7 +371,7 @@ const EXPLAIN = {
   },
   ru: {
     _btn: 'Краткое пояснение',
-    inflation: 'Годовая инфляция показывает, на сколько процентов цены выросли по сравнению с тем же месяцем прошлого года. Зелёная полоса — цель Национального банка: если линия внутри полосы, инфляция в пределах цели. Кнопка «Ежемесячная» показывает рост цен за один месяц.',
+    inflation: 'Годовая инфляция показывает, на сколько процентов цены выросли по сравнению с тем же месяцем прошлого года. Кнопка «Ежемесячная» показывает рост цен за один месяц.',
     groups: 'Годовая инфляция отдельно по трём группам потребительской корзины: продовольственные товары, непродовольственные товары и платные услуги. Так видно, какая группа сейчас сильнее всего толкает цены вверх.',
     groupsm: 'Те же группы, но рост цен за один месяц. Значения ниже нуля значат, что цены в группе за месяц снизились — обычно летом и осенью у продовольствия.',
     sahm: 'Вклад групп в общую инфляцию, в процентных пунктах. Вклад зависит не только от роста цен в группе, но и от её веса в корзине; сумма вкладов равна общей годовой инфляции.',
@@ -396,7 +396,7 @@ const EXPLAIN = {
   },
   en: {
     _btn: 'Short explanation',
-    inflation: 'Annual inflation shows by how many percent prices rose compared with the same month a year earlier. The green band is the National Bank’s target: when the line is inside the band, inflation is on target. The “Monthly” button shows the price change over one month.',
+    inflation: 'Annual inflation shows by how many percent prices rose compared with the same month a year earlier. The “Monthly” button shows the price change over one month.',
     groups: 'Annual inflation for each of the three groups of the consumer basket: food, non-food goods and paid services. It shows which group is pushing prices up the most right now.',
     groupsm: 'The same groups, but the price change over one month. Values below zero mean prices in the group fell during the month — usually food in summer and autumn.',
     sahm: 'Contribution of each group to overall inflation, in percentage points. It depends both on price growth in the group and on its weight in the basket; the contributions add up to overall annual inflation.',
@@ -425,7 +425,7 @@ const explainBlock = id => EXPLAIN[id]
 
 const datasets = [
 
-  { id:"inflation", sec:'sec-inflation', title:I18N.tInflation, note:I18N.nInflation, targetBand:true, color:COLORS.inflation, mode:"yearly", source:I18N.srcStat },
+  { id:"inflation", sec:'sec-inflation', title:I18N.tInflation, note:I18N.nInflation, color:COLORS.inflation, mode:"yearly", source:I18N.srcStat },
   { id:"groups", sec:'sec-inflation', title:I18N.tGroups, note:I18N.nGroups, combined:true, from:'2010-01', demo:I18N.demoFromApr, source:I18N.srcStat,
     lines:[
       { id:"infl_y_f",  label:I18N.food,     color:COLORS.food, tension:0.3 },

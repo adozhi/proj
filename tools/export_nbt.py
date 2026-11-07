@@ -116,7 +116,7 @@ def copy_tree(name):
         return
     if dst.exists():
         shutil.rmtree(dst)
-    shutil.copytree(src, dst, ignore=shutil.ignore_patterns('.DS_Store'))
+    shutil.copytree(src, dst, ignore=shutil.ignore_patterns('.DS_Store', '~$*', 'placeholders.txt', '.gitkeep'))
 
 def write_scoped_css():
     (OUT / 'css' / 'pages').mkdir(parents=True, exist_ok=True)
@@ -207,7 +207,7 @@ def cards_html():
     return '<div class="nbt-mp nbt-mp--home" data-nbt-mp="cards"><div class="nbt-home view-3">\n' + block + '\n</div></div>'
 
 def home_assets():
-    return f"""<link rel="stylesheet" href="monetary/fonts/inter.css" data-nbt-mp="asset">\n<link rel="stylesheet" href="monetary/css/styles.css" data-nbt-mp="asset">\n<link rel="stylesheet" href="monetary/css/home.css" data-nbt-mp="asset">\n<script data-nbt-mp="asset">window.NBT_EMBED = {{ lang: '{LANG}', base: 'monetary/', root: '.nbt-mp--home', view: '3' }};</script>\n""" + ''.join((f'<script src="monetary/{p}" data-nbt-mp="asset"></script>\n' for p in ('js/chart.umd.min.js', 'js/chart-style.js', 'js/palette.js', 'js/data.js', 'js/site-nav.js', 'data/meetings.js', 'data/calendar.js', 'data/targets.js', 'js/script.js', 'js/home.js')))
+    return f"""<link rel="stylesheet" href="monetary/fonts/inter.css" data-nbt-mp="asset">\n<link rel="stylesheet" href="monetary/css/styles.css" data-nbt-mp="asset">\n<link rel="stylesheet" href="monetary/css/home.css" data-nbt-mp="asset">\n<script data-nbt-mp="asset">window.NBT_EMBED = {{ lang: '{LANG}', base: 'monetary/', root: '.nbt-mp--home', view: '3' }};</script>\n""" + ''.join((f'<script src="monetary/{p}" data-nbt-mp="asset"></script>\n' for p in ('js/chart.umd.min.js', 'js/chart-style.js', 'js/palette.js', 'js/data.js', 'js/site-nav.js', 'data/meetings.js', 'data/targets.js', 'js/script.js', 'js/home.js')))
 REL = re.compile('(\\b(?:src|href)=")(?!https?:|//|/|#|data:|mailto:|tel:|javascript:|\\.\\./\\.\\./)([^"]+")')
 
 def stamp(text, prefix):
