@@ -349,9 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
     Object.values(window.NBT_MEETINGS || {}).forEach(year => year.forEach(m => {
       if (m.iso >= today) events.push({ date: m.iso, type: 'meeting', name: meetingName[lang], href: pagePath('kumita_bmt', lang) + '#meeting' });
     }));
-    (window.NBT_CALENDAR || []).forEach(e => {
-      if (e.date >= today) events.push({ date: e.date, type: 'publication', name: e.label[lang] || e.label.tj, href: pagePath(e.page, lang) });
-    });
     events.sort((a, b) => a.date < b.date ? -1 : 1);
     const shown = events.slice(0, 3);
     list.closest('.events-wrap').hidden = !shown.length;
