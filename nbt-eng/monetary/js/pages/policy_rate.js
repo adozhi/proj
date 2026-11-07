@@ -166,7 +166,7 @@ function updateRateCard(rates, dates) {
   if (valEl) valEl.textContent = num(state.currentValue, 2);
   if (state.sinceDate) {
     const mn = I18N.monthsGen[state.sinceDate.month - 1];
-    const day = state.sinceDate.day ? (state.sinceDate.day < 10 ? '0' + state.sinceDate.day : '' + state.sinceDate.day) + ' ' : '';
+    const day = state.sinceDate.day ? state.sinceDate.day + ' ' : '';
     if (subtitleEl) subtitleEl.textContent = I18N.since(day, mn, state.sinceDate.year);
     if (badgeEl) {
       if (state.direction === 0) {
