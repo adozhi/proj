@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monetary Review</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/detail.css">
+<link rel="stylesheet" href="../fonts/inter.css?v=340e69f1">
+<link rel="stylesheet" href="../css/detail.css?v=8907a131">
 </head>
 <body>
 <div id="readProgress" class="read-progress"></div>
@@ -19,9 +18,9 @@
     <a href="../index.html" class="back-btn">Home</a>
     <span class="page-header__title">Monetary Review</span>
     <div class="lang-switcher">
-      <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
-      <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
-      <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+      <button onclick="setLang('tj')" id="btn-tj">ТҶ</button>
+      <button onclick="setLang('ru')" id="btn-ru">РУ</button>
+      <button onclick="setLang('en')" id="btn-en">EN</button>
     </div>
   </div>
 </header>
@@ -36,235 +35,10 @@
   </div>
 </div>
 
-<script>
-(function () {
-
-  var DATA = [
-    { year: 2025, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2024, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2023, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2022, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2021, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2020, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2019, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2018, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2017, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2016, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2015, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2014, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2013, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2012, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2011, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2010, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2009, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2008, periods: [
-      { label: "January", slug: "01"    },
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–Jun", slug: "01-06" },
-      { label: "Jan–Sep", slug: "01-09" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2007, periods: [
-      { label: "Jan–Mar", slug: "01-03" },
-      { label: "Jan–May", slug: "01-05" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]},
-    { year: 2006, periods: [
-      { label: "January", slug: "01"    },
-      { label: "Jan–Apr", slug: "01-04" },
-      { label: "Jan–May", slug: "01-05" },
-      { label: "Jan–Jul", slug: "01-07" },
-      { label: "Jan–Nov", slug: "01-11" },
-      { label: "Jan–Dec", slug: "01-12" }
-    ]}
-  ];
-
-  var pdfIcon = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
-
-  var nav  = document.getElementById('year-nav');
-  var list = document.getElementById('reports-list');
-
-  DATA.forEach(function (entry, idx) {
-    var year   = entry.year;
-    var isOpen = (idx === 0);
-
-    var jump = document.createElement('button');
-    jump.className = 'year-jump' + (isOpen ? ' current' : '');
-    jump.textContent = year;
-    jump.dataset.year = year;
-    nav.appendChild(jump);
-
-    var section = document.createElement('div');
-    section.className = 'year-section';
-    section.id = 'year-' + year;
-
-    var btn = document.createElement('button');
-    btn.className = 'year-acc-btn' + (isOpen ? '' : ' collapsed');
-    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    btn.innerHTML = '<span class="year-acc-pill"><span>' + year + '</span><span class="year-acc-icon">▾</span></span>';
-
-    var wrap = document.createElement('div');
-    wrap.className = 'periods-wrap';
-    wrap.style.maxHeight = isOpen ? '2000px' : '0';
-
-    var grid = document.createElement('div');
-    grid.className = 'periods';
-
-    entry.periods.forEach(function (p) {
-      var card = document.createElement('div');
-      card.className = 'period-card';
-      card.innerHTML =
-        '<div class="period-label">' + p.label + '</div>' +
-        '<div class="file-btns">' + '<a href="files/' + year + '-' + p.slug + '.pdf" class="file-btn pdf" target="_blank" rel="noopener noreferrer">' + pdfIcon + ' PDF</a>' + '</div>';
-      grid.appendChild(card);
-    });
-
-    wrap.appendChild(grid);
-    section.appendChild(btn);
-    section.appendChild(wrap);
-    list.appendChild(section);
-
-    (function (b, w) {
-      b.addEventListener('click', function () {
-        var open = !b.classList.contains('collapsed');
-        if (open) {
-          b.classList.add('collapsed');
-          b.setAttribute('aria-expanded', 'false');
-          w.style.maxHeight = '0';
-        } else {
-          b.classList.remove('collapsed');
-          b.setAttribute('aria-expanded', 'true');
-          w.style.maxHeight = '2000px';
-        }
-      });
-    })(btn, wrap);
-  });
-
-  nav.addEventListener('click', function (e) {
-    var pill = e.target.closest('.year-jump');
-    if (!pill) return;
-    var section = document.getElementById('year-' + pill.dataset.year);
-    if (!section) return;
-    var accBtn = section.querySelector('.year-acc-btn');
-    var wrap   = section.querySelector('.periods-wrap');
-    if (accBtn && wrap && accBtn.classList.contains('collapsed')) {
-      accBtn.classList.remove('collapsed');
-      accBtn.setAttribute('aria-expanded', 'true');
-      wrap.style.maxHeight = '2000px';
-    }
-    setTimeout(function () {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
-  });
-
-})();
-</script>
-
-<script>
-(function () {
-  var bar = document.getElementById('readProgress');
-  if (bar) {
-    function updateBar() {
-      var doc = document.documentElement;
-      bar.style.width = Math.min(doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100, 100) + '%';
-    }
-    window.addEventListener('scroll', updateBar, { passive: true });
-  }
-  var btt = document.getElementById('backToTop');
-  if (btt) {
-    window.addEventListener('scroll', function () {
-      btt.classList.toggle('visible', window.scrollY > 320);
-    }, { passive: true });
-    btt.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-})();
-</script>
-<script src="../js/common.js"></script>
+<script src="../js/common.js?v=8c7b3d8a"></script>
+<script src="../js/site-nav.js?v=f73c7ce0"></script>
+<script src="../js/reports.js?v=913a60e3"></script>
+<script src="../js/pages/sharhi_monetary.js?v=79349725"></script>
+<script src="../js/detail-shared.js?v=402b480c"></script>
 </body>
 </html>

@@ -1,0 +1,57 @@
+.nbt-mp .section{
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.nbt-mp .section p{ margin-bottom: 0.75em; color: #475569; font-size: 0.92rem; line-height: 1.65; }
+.nbt-mp .section p:last-child{ margin-bottom: 0; }
+.nbt-mp .stats-card{
+  background: var(--brand);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin: 0 0 28px;
+  box-shadow: 0 8px 32px rgba(30,64,175,0.28);
+  position: relative;
+  overflow: hidden;
+}
+.nbt-mp .stats-card::after{
+  content: '';
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+.nbt-mp .stats-card h3{ font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.90); text-transform: uppercase; letter-spacing: 0.10em; margin: 0 0 3px; }
+.nbt-mp .stats-card h4{ font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.80); margin: 0 0 14px; }
+.nbt-mp .stats-value{ font-size: 4.2rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.nbt-mp .stats-badge{ display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(34,197,94,0.18); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
+.nbt-mp .styled-table{ width: 100%; border-collapse: collapse; font-size: 0.90rem; margin: 16px 0 0; border-radius: 8px; overflow: hidden; }
+.nbt-mp .styled-table thead tr{ background-color: #3b82f6; color: #fff; font-weight: 600; text-align: left; }
+.nbt-mp .styled-table th{ padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); vertical-align: top; }
+.nbt-mp .styled-table th:last-child{ border-right: none; }
+.nbt-mp .styled-table td{ padding: 11px 14px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; vertical-align: top; }
+.nbt-mp .styled-table td:last-child{ border-right: none; }
+.nbt-mp .styled-table th:first-child, .nbt-mp .styled-table td:first-child{ width: 40%; }
+.nbt-mp .styled-table tbody tr:nth-child(even){ background-color: #f8fafc; }
+.nbt-mp .styled-table tbody tr:hover{ background-color: #e0f2fe; }
+@media (max-width: 768px){
+.nbt-mp .section{ padding: 18px 16px; }
+ }
+.nbt-mp .btn-chart--active{ background:#fff7ed !important; border-color:#f59e0b !important; color:#f59e0b !important; }
+.nbt-mp .date-range-wrap{ position:relative; }
+.nbt-mp .date-range-btn{ display:flex; align-items:center; gap:6px; padding:5px 12px; border:1px solid #e2e8f0; background:#fff; border-radius:6px; font-size:0.8rem; color:#475569; cursor:pointer; white-space:nowrap; font-family:inherit; transition:border-color 0.15s,background 0.15s; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+.nbt-mp .date-range-btn:hover{ border-color:#94a3b8; background:#f8fafc; }
+.nbt-mp .date-range-btn svg{ flex-shrink:0; stroke:#94a3b8; }
+.nbt-mp .date-range-dropdown{ display:none; position:absolute; top:calc(100% + 6px); left:0; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:12px; box-shadow:0 8px 24px rgba(0,0,0,0.1); z-index:200; flex-direction:column; gap:6px; min-width:172px; }
+.nbt-mp .date-range-dropdown.open{ display:flex; }
+.nbt-mp .date-range-dropdown input[type="month"]{ width:100%; padding:5px 8px; border:1px solid #e2e8f0; border-radius:6px; font-size:0.8rem; font-family:inherit; color:#1e293b; background:#fff; cursor:pointer; outline:none; transition:border-color 0.15s; }
+.nbt-mp .date-range-dropdown input[type="month"]:focus{ border-color:#64748b; }
+.nbt-mp .date-range-dropdown .btn-chart--apply{ width:100%; justify-content:center; margin-top:2px; padding:6px 0; border-radius:6px; font-size:0.78rem; background:#1e293b; border-color:#1e293b; color:#fff; }
+.nbt-mp .date-range-dropdown .btn-chart--apply:hover{ background:#0f172a; border-color:#0f172a; }
+.nbt-mp .chart-source{ font-size:0.72rem; color:#94a3b8; padding:5px 0 0; }
+

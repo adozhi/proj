@@ -4,272 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Фишангҳои сиёсати пулию қарзӣ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-  .page-title { margin-bottom: 0.6rem; }
-    .page-lead {
-      font-size: 1rem;
-      color: var(--text-2);
-      margin-bottom: 1.75rem;
-      line-height: 1.7;
-    }
-
-    /* Info box */
-    .info-box {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 10px;
-      padding: 14px 18px;
-      margin: 1.1rem 0;
-      font-size: 0.9rem;
-      line-height: 1.65;
-      color: #1e3a5f;
-    }
-    .info-box strong { color: #1d4ed8; }
-
-    /* Sub-cards */
-    .sub-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 1.1rem 0;
-    }
-    .sub-card {
-      background: var(--surface-alt);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
-    }
-    .sub-card__label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 5px;
-    }
-    .sub-card__title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--navy);
-      margin-bottom: 6px;
-    }
-    .sub-card p {
-      font-size: 0.83rem;
-      color: var(--text-2);
-      margin: 0;
-      line-height: 1.55;
-    }
-
-    /* Document link pills */
-    .doc-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 1.1rem;
-    }
-    .doc-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 13px;
-      border-radius: 20px;
-      background: var(--surface-alt);
-      border: 1.5px solid var(--border);
-      color: var(--text-2);
-      font-size: 0.78rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .doc-link:hover {
-      background: #eff6ff;
-      border-color: #3b82f6;
-      color: #2563eb;
-    }
-    .doc-link svg {
-      width: 13px; height: 13px;
-      stroke: currentColor; fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-      flex-shrink: 0;
-    }
-    .sub-card .doc-links { margin-top: 10px; }
-
-    /* Figure */
-    .figure-card {
-      margin: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-    }
-    .figure-card img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .figure-card figcaption {
-      padding: 10px 16px;
-      font-size: 0.8rem;
-      color: var(--text-3);
-      background: var(--surface-alt);
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .img-figure { margin: 1.4rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-    .img-figure__label { background: var(--brand); color: #fff; padding: 10px 16px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; }
-    .img-figure img { display: block; width: 100%; border-radius: 0; margin: 0; }
-
-    @media (max-width: 640px) {
-      }
-
-    /* Monetary Operations Cards */
-    .moc-section-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin: 1.75rem 0 1rem;
-    }
-    .moc-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 1.75rem;
-    }
-    @media (max-width: 900px) { .moc-grid { grid-template-columns: 1fr; } }
-
-    .moc-block {
-      background: var(--surface);
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      border-top: 5px solid;
-    }
-    .moc-block.absorb { border-top-color: #1a365d; }
-    .moc-block.provide { border-top-color: #1c4532; }
-
-    .moc-block__header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface-alt);
-    }
-    .moc-block__title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin: 0 0 3px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .moc-block.absorb .moc-block__title { color: #1a365d; }
-    .moc-block.provide .moc-block__title { color: #1c4532; }
-    .moc-block__sub { font-size: 0.75rem; color: var(--text-2); font-weight: 400; }
-
-    .moc-block__body { padding: 14px; }
-
-    .moc-row {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 13px 15px;
-      margin-bottom: 10px;
-      background: var(--surface);
-      transition: border-color 0.15s, box-shadow 0.15s;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 3px;
-    }
-    .moc-row:last-child { margin-bottom: 0; }
-    .moc-row:hover { border-color: #cbd5e0; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .moc-row > * { width: 100%; }
-
-    .moc-row__name {
-      font-weight: 700;
-      font-size: 0.97rem;
-      color: var(--navy);
-      margin: 2px 0 4px;
-    }
-    .moc-badge {
-      font-size: 0.62rem;
-      font-weight: 600;
-      padding: 2px 9px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      width: fit-content !important;
-      flex-shrink: 0;
-    }
-    .moc-badge--deposit { background: #f1f5f9; color: #475569; }
-    .moc-badge--omo    { background: #d1fae5; color: #065f46; }
-    .moc-badge--credit { background: #fee2e2; color: #991b1b; }
-
-    .moc-initiator { font-size: 0.73rem; color: var(--text-2); margin-bottom: 6px; }
-
-    .moc-params {
-      display: grid;
-      grid-template-columns: 78px 1fr;
-      gap: 5px 12px;
-      font-size: 0.79rem;
-      background: var(--surface-alt);
-      padding: 10px 12px;
-      border-radius: 6px;
-    }
-    .moc-params__label { color: var(--text-2); font-weight: 500; padding-top: 1px; }
-    .moc-params__value { font-weight: 600; color: var(--navy); }
-    .moc-params__value.collateral { font-weight: 400; font-size: 0.75rem; color: #276749; }
-    .moc-params__value.empty { font-weight: 400; color: var(--text-2); }
-    .moc-params__value.regular { font-weight: 400; }
-    .moc-params__value.free { color: #2563eb; font-weight: 700; }
-
-    .moc-note {
-      margin-top: 9px;
-      padding: 9px 12px;
-      background: var(--surface-alt);
-      border-left: 3px solid #3b82f6;
-      font-size: 0.73rem;
-      color: var(--text-2);
-      border-radius: 0 5px 5px 0;
-      line-height: 1.5;
-      transition: border-left-width 0.2s, border-left-color 0.2s,
-                  background 0.2s, box-shadow 0.2s, padding-left 0.2s;
-    }
-    .moc-note:hover {
-      border-left-width: 5px;
-      border-left-color: #6366f1;
-      background: linear-gradient(90deg, #eff6ff 0%, var(--surface-alt) 100%);
-      box-shadow: 0 2px 12px rgba(99,102,241,0.13);
-      padding-left: 15px;
-    }
-    .moc-note a {
-      color: inherit;
-      text-decoration: none;
-      display: block;
-    }
-    .moc-note a:hover { color: #4f46e5; text-decoration: none; }
-
-    /* 2×2 grid for overnight sub-cards */
-    .sub-cards--grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 640px) {
-      .sub-cards--grid { grid-template-columns: 1fr; }
-    }
-
-    /* Zebra rows in moc-params */
-    .moc-params > div:nth-child(4n+3),
-    .moc-params > div:nth-child(4n+4) {
-      background: rgba(255,255,255,0.55); border-radius: 3px;
-    }
-    /* Row separators in moc-params */
-    .moc-params > div:nth-child(n+3) {
-      border-top: 1px solid rgba(0,0,0,0.07);
-      padding-top: 4px;
-    }
-
-  </style>
-  <link rel="stylesheet" href="../css/detail.css">
+  <link rel="stylesheet" href="../fonts/inter.css?v=340e69f1">
+  <link rel="stylesheet" href="../css/pages/fishang.css?v=934eb598">
+  <link rel="stylesheet" href="../css/detail.css?v=8907a131">
 </head>
 <body>
 <div id="readProgress" class="read-progress"></div>
@@ -281,9 +18,9 @@
     <a href="../index.html" class="back-btn">Асосӣ</a>
     <span class="page-header__title">Фишангҳои сиёсати пулию қарзӣ</span>
     <div class="lang-switcher">
-      <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
-      <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
-      <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
+      <button onclick="setLang('tj')" id="btn-tj">ТҶ</button>
+      <button onclick="setLang('ru')" id="btn-ru">РУ</button>
+      <button onclick="setLang('en')" id="btn-en">EN</button>
     </div>
   </div>
 </header>
@@ -293,21 +30,20 @@
   <h1 class="page-title">Фишангҳои сиёсати пулию қарзӣ</h1>
   <p class="page-lead">Бонки миллии Тоҷикистон барои иҷрои вазифа ва мақсади худ дар соҳаи сиёсати пулию қарзӣ фишангҳои (воситаҳои) зеринро истифода мебарад:</p>
 
-  <nav class="instrument-nav">
+  <div id="rateScale" class="rate-scale" aria-live="polite"></div>
+  <div class="x-story">
+  <nav class="instrument-nav x-index">
     <a href="#rate">Меъёри бозтамвил</a>
     <a href="#omo">Бозори озод</a>
     <a href="#overnight">Овернайт</a>
     <a href="#reserve">Захираҳои ҳатмӣ</a>
     <a href="#forex">Асъори хориҷӣ</a>
+    <a href="#table-main">Сохтори фишангҳо</a>
   </nav>
 
-  <!-- 01 Refinancing Rate -->
-  <div class="instrument-card card--blue" id="rate">
-    <div class="instrument-card__header">
-      <span class="instrument-num"></span>
-      <h2>Меъёри бозтамвил</h2>
-    </div>
-    <div class="instrument-card__body">
+  <section id="rate" class="x-block">
+  <header class="x-block__head"><h2>Меъёри бозтамвил</h2></header>
+  <div class="x-block__body">
       <p>Тибқи Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон" меъёри бозтамвил меъёри ҳадди ақалли фоизест, ки аз рӯйи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзӣ қарз медиҳад ё меъёри даромадест, ки тибқи он Бонки миллии Тоҷикистон ба ташкилотҳои қарзии исломӣ қарз медиҳад.</p>
       <p>Ҳамзамон, меъёри бозтамвил фишанги асосии сиёсати пулию қарзӣ барои анҷом додани амалиётҳои монетарӣ маҳсуб ёфта, дар асоси таҳлилҳои ҳамаҷонибаи нишондиҳандаҳои мақсаднок, хавфҳои эҳтимолии дохилию берунӣ ва мавқеи сиёсати пулию қарзӣ муқаррар карда мешавад.</p>
       <p>Меъёри бозтамвил нақши иттилоотӣ ва ишоратиро (сигналиро) доро буда, самт ва мавқеи сиёсати пулию қарзиро барои давраи оянда (миёнамуҳлат ё дарозмуддат) тавсиф менамояд.</p>
@@ -322,15 +58,11 @@
 
       <p>Агар меъёри бозтамвил аз сатҳи нейтралӣ баланд (паст) бошад, аз қатъӣ будани ҳавасмандии мавқеи сиёсати пулию қарзӣ дарак медиҳад.</p>
     </div>
-  </div>
+</section>
 
-  <!-- 02 Open Market Operations -->
-  <div class="instrument-card card--slate" id="omo">
-    <div class="instrument-card__header">
-      <span class="instrument-num"></span>
-      <h2>Амалиёт дар бозори озод</h2>
-    </div>
-    <div class="instrument-card__body">
+  <section id="omo" class="x-block">
+  <header class="x-block__head"><h2>Амалиёт дар бозори озод</h2></header>
+  <div class="x-block__body">
       <p>Амалиёт дар бозори озод яке аз фишангҳои фаъол ва самараноки сиёсати пулию қарзӣ ба ҳисоб рафта, ҷалби пардохтпазирӣ (маблағҳои озоди пулӣ дар суратҳисобҳои ташкилоти қарзӣ дар Бонки миллии Тоҷикистон) ё пешниҳоди пардохтпазириро ба низоми бонкӣ тавассути баргузор намудани музоядаҳо дар бар мегирад. Хусусияти муҳимми фишанги мазкур дар он аст, ки ба Бонки миллии Тоҷикистон имкон медиҳад дар раванди таъсиррасонӣ ба вазъи пардохтпазирӣ ва фоизҳои кӯтоҳмуддати бозор ташаббус дошта бошад.</p>
 
       <p style="font-style: italic;">Амалиёти Бонки миллии Тоҷикистон дар бозори озод, дар умум, тибқи таҷрибаи муосири байналмилалӣ ба ду гурӯҳ ҷудо мешавад:</p>
@@ -338,7 +70,7 @@
       <div class="sub-cards">
         <div class="sub-card">
           <div class="sub-card__title">Музоядаҳои коғазҳои қиматнок</div>
-          <p>Барориши коғазҳои қиматнок яке аз фишангҳои асосӣ ва ғайримустақими сиёсати пулию қарзӣ ба ҳисоб рафта, ба Бонки миллии Тоҷикистон имкон медиҳад, ки тариқи барпо намудани музоядаҳои коғазҳои қиматнок пардохтпазирии барзиёди низоми бонкиро ҷалб ва ҳаҷми пулро ба танзим дарорад. Музоядаҳои коғазҳои қиматноки Бонки миллии Тоҷикистон тибқи <span style="color: #1d4ed8;">нақша</span> мунтазам тавассути низоми электронии савдо дар реҷаи вақти воқеӣ (online) баргузор карда мешаванд. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" style="color: #1d4ed8;">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти зикргардидаро <span style="color: #1d4ed8;">Дастурамали №189 “Дар бораи коғазҳои қиматноки Бонки миллии Тоҷикистон" </span>ба танзим медарорад.</p>
+          <p>Барориши коғазҳои қиматнок яке аз фишангҳои асосӣ ва ғайримустақими сиёсати пулию қарзӣ ба ҳисоб рафта, ба Бонки миллии Тоҷикистон имкон медиҳад, ки тариқи барпо намудани музоядаҳои коғазҳои қиматнок пардохтпазирии барзиёди низоми бонкиро ҷалб ва ҳаҷми пулро ба танзим дарорад. Музоядаҳои коғазҳои қиматноки Бонки миллии Тоҷикистон тибқи <span class="text-accent">нақша</span> мунтазам тавассути низоми электронии савдо дар реҷаи вақти воқеӣ (online) баргузор карда мешаванд. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" class="text-accent">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти зикргардидаро <span class="text-accent">Дастурамали №189 “Дар бораи коғазҳои қиматноки Бонки миллии Тоҷикистон" </span>ба танзим медарорад.</p>
           <div class="doc-links">
             <a href="../docs/securities.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -352,7 +84,7 @@
         </div>
         <div class="sub-card">
           <div class="sub-card__title">Музоядаҳои қарзӣ</div>
-          <p>Музоядаи қарзӣ пешниҳоди қарзҳои кӯтоҳмуҳлат мебошад, ки ташкилотҳои қарзӣ барои дастрасӣ ба пардохтпазирии кӯтоҳмуддат аз Бонки миллии Тоҷикистон дархост менамоянд. Музоядаҳои қарзии Бонки миллии Тоҷикистон тибқи <span style="color: #1d4ed8;">нақша</span> гузаронида мешаванд. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" style="color: #1d4ed8;">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои баргузор намудани музоядаи қарзиро <span style="color: #1d4ed8;">Дастурамали №220 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
+          <p>Музоядаи қарзӣ пешниҳоди қарзҳои кӯтоҳмуҳлат мебошад, ки ташкилотҳои қарзӣ барои дастрасӣ ба пардохтпазирии кӯтоҳмуддат аз Бонки миллии Тоҷикистон дархост менамоянд. Музоядаҳои қарзии Бонки миллии Тоҷикистон тибқи <span class="text-accent">нақша</span> гузаронида мешаванд. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" class="text-accent">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои баргузор намудани музоядаи қарзиро <span class="text-accent">Дастурамали №220 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
           <div class="doc-links">
             <a href="../docs/shd.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -367,21 +99,17 @@
       </div>
 
       <div class="doc-links">
-        <a href="../img/set.png" target="_blank" class="doc-link" rel="noopener noreferrer">
+        <a href="../img/set.webp" target="_blank" class="doc-link" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           Сохтори фишангҳои монетарии БМТ
         </a>
       </div>
     </div>
-  </div>
+</section>
 
-  <!-- 03 Overnight -->
-  <div class="instrument-card card--indigo" id="overnight">
-    <div class="instrument-card__header">
-      <span class="instrument-num"></span>
-      <h2>Воситаҳои доимоамалкунандаи шабонарӯзӣ (овернайт)</h2>
-    </div>
-    <div class="instrument-card__body">
+  <section id="overnight" class="x-block">
+  <header class="x-block__head"><h2>Воситаҳои доимоамалкунандаи шабонарӯзӣ (овернайт)</h2></header>
+  <div class="x-block__body">
       <p>Фишангҳои доимоамалкунандаи шабонарӯзӣ (овернайт) тавассути ҷалб ё пешниҳоди пардохтпазирӣ ба муҳлати як шабонарӯз ҷиҳати батанзимдарории меъёрҳои фоизи шабонарӯзии бозори байнибонкӣ, вусъатдиҳии бозори пул, таъмини самаранокии сиёсати пулию қарзӣ, инчунин барои мусоидат ба фаъолияти самаранок ва мунтазами низоми пардохтҳо аз ҷониби Бонки миллии Тоҷикистон истифода мегарданд.</p>
 
       <p>Бонки миллии Тоҷикистон якчанд фишанги доимоамалкунандаи шабонарӯзиро (овернайт) ба ташкилотҳои қарзӣ пешниҳод менамояд:</p>
@@ -389,7 +117,7 @@
       <div class="sub-cards sub-cards--grid">
         <div class="sub-card">
           <div class="sub-card__title">Қарзи шабонарӯзӣ (овернайт)</div>
-          <p>Қарзе, ки ба ташкилоти қарзӣ таҳти гарав бо меъёри фоизии муқарраргардида дар давоми рӯзи амалиётӣ бо шарти на дертар аз рӯзи ояндаи корӣ пардохт кардани он пешниҳод мегардад. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" style="color: #1d4ed8;">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти қарзии зикргардидаро <span style="color: #1d4ed8;">Дастурамали №220 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
+          <p>Қарзе, ки ба ташкилоти қарзӣ таҳти гарав бо меъёри фоизии муқарраргардида дар давоми рӯзи амалиётӣ бо шарти на дертар аз рӯзи ояндаи корӣ пардохт кардани он пешниҳод мегардад. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" class="text-accent">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти қарзии зикргардидаро <span class="text-accent">Дастурамали №220 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
           <div class="doc-links">
             <a href="../docs/Dasturamal_ 220.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -399,7 +127,7 @@
         </div>
         <div class="sub-card">
           <div class="sub-card__title">Қарзи рӯзона (интрадей)</div>
-          <p>Қарзе, ки ба ташкилоти қарзӣ таҳти гарав дар давоми рӯзи амалиётӣ бо шарти пардохт кардани он дар охири рӯзи корӣ пешниҳод мегардад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти қарзии зикргардидаро <span style="color: #1d4ed8;">Дастурамали №220 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
+          <p>Қарзе, ки ба ташкилоти қарзӣ таҳти гарав дар давоми рӯзи амалиётӣ бо шарти пардохт кардани он дар охири рӯзи корӣ пешниҳод мегардад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти қарзии зикргардидаро <span class="text-accent">Дастурамали №220 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
           <div class="doc-links">
             <a href="../docs/Dasturamal_ 220.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -409,7 +137,7 @@
         </div>
         <div class="sub-card">
           <div class="sub-card__title">Амонати шабонарӯзӣ (овернайт)</div>
-          <p>Амонати шабонарӯзӣ (овернайт) амалиёти кӯтоҳмуҳлати амонатие мебошад, ки тибқи он маблағ бо пули миллӣ аз ҷониби ташкилоти қарзӣ бо шарти бозгардонии он дар рӯзи ояндаи корӣ ба Бонки миллии Тоҷикистон гузаронида мешавад. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" style="color: #1d4ed8;">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти зикргардидаро <span style="color: #1d4ed8;">Дастурамали №226 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
+          <p>Амонати шабонарӯзӣ (овернайт) амалиёти кӯтоҳмуҳлати амонатие мебошад, ки тибқи он маблағ бо пули миллӣ аз ҷониби ташкилоти қарзӣ бо шарти бозгардонии он дар рӯзи ояндаи корӣ ба Бонки миллии Тоҷикистон гузаронида мешавад. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон <a href="#table-main" class="text-accent">(сохтори фишангҳои монетарии Бонки Миллии Тоҷикистон)</a> муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти зикргардидаро <span class="text-accent">Дастурамали №226 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
           <div class="doc-links">
             <a href="../docs/Dasturamal_ 226.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -419,7 +147,7 @@
         </div>
         <div class="sub-card">
           <div class="sub-card__title">Музоядаҳои амонатӣ</div>
-          <p>Музоядае, ки Бонки миллии Тоҷикистон маблағҳои ташкилотҳои қарзиро бо пули миллӣ бо шарти бозгардонӣ, пардохти фоиз ва муҳлатнокӣ қабул менамояд. Музоядаҳои амонатии Бонки миллии Тоҷикистон тибқи нақша гузаронида мешавад. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти зикргардидаро <span style="color: #1d4ed8;">Дастурамали №226 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
+          <p>Музоядае, ки Бонки миллии Тоҷикистон маблағҳои ташкилотҳои қарзиро бо пули миллӣ бо шарти бозгардонӣ, пардохти фоиз ва муҳлатнокӣ қабул менамояд. Музоядаҳои амонатии Бонки миллии Тоҷикистон тибқи нақша гузаронида мешавад. Меъёри фоизӣ барои дархостҳои ташкилотҳои қарзӣ аз ҷониби Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон муқаррар карда мешавад. Заминаи меъёрии ҳуқуқӣ, тартиб ва шартҳои анҷом додани амалиёти зикргардидаро <span class="text-accent">Дастурамали №226 “Дар бораи амалиёти кӯтоҳмуҳлати бозтамвил”</span> ба танзим медарорад.</p>
           <div class="doc-links">
             <a href="../docs/Dasturamal_ 226.pdf" target="_blank" class="doc-link" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -430,21 +158,17 @@
       </div>
 
       <div class="doc-links">
-        <a href="../img/set.png" target="_blank" class="doc-link" rel="noopener noreferrer">
+        <a href="../img/set.webp" target="_blank" class="doc-link" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           Сохтори фишангҳои монетарии БМТ
         </a>
       </div>
     </div>
-  </div>
+</section>
 
-  <!-- 04 Required Reserves -->
-  <div class="instrument-card card--green" id="reserve">
-    <div class="instrument-card__header">
-      <span class="instrument-num"></span>
-      <h2>Меъёри захираҳои ҳатмӣ</h2>
-    </div>
-    <div class="instrument-card__body">
+  <section id="reserve" class="x-block">
+  <header class="x-block__head"><h2>Меъёри захираҳои ҳатмӣ</h2></header>
+  <div class="x-block__body">
       <p>Захираҳои ҳатмӣ яке аз фишангҳои татбиқи сиёсати пулию қарзии Бонки миллии Тоҷикистон ба ҳисоб рафта, механизми танзими пардохтпазирии умумии низоми бонкиро ифода мекунанд.</p>
 
       <div class="info-box">
@@ -464,16 +188,11 @@
       </a>
     </div>
     </div>
+</section>
 
-  </div>
-
-  <!-- 05 Foreign Currency Operations -->
-  <div class="instrument-card card--amber" id="forex">
-    <div class="instrument-card__header">
-      <span class="instrument-num"></span>
-      <h2>Амалиёт бо асъори хориҷӣ</h2>
-    </div>
-    <div class="instrument-card__body">
+  <section id="forex" class="x-block">
+  <header class="x-block__head"><h2>Амалиёт бо асъори хориҷӣ</h2></header>
+  <div class="x-block__body">
       <p>Амалиёт бо асъори хориҷӣ — харид ё фурӯши асъори хориҷиро дар бозорҳои асъор дар бар мегирад. Амалиётҳо дар бозори асъори хориҷӣ дар доираи сиёсати қурбии Бонки миллии Тоҷикистон ба роҳ монда мешаванд ва дар маҷмуъ ду мақсади асосӣ доранд:</p>
 
       <div class="sub-cards">
@@ -486,14 +205,13 @@
       </div>
       <p>Амалиёт дар бозори байнибонкии асъор бо роҳи гузаронидани музоядаҳои асъори хориҷӣ, қарордодҳои спот, амалиёти своп/форвард тариқи низоми электронии савдо анҷом дода мешавад.</p>
     </div>
-  </div>
+</section>
 
-  <!-- Monetary Operations Structure Cards -->
-  <p class="moc-section-title" id="table-main">Сохтори фишангҳои амалиётҳои монетарии Бонки миллии Тоҷикистон</p>
+  <section id="table-main" class="x-block moc-section">
+  <header class="x-block__head"><h2>Сохтори фишангҳои амалиётҳои монетарии Бонки миллии Тоҷикистон</h2></header>
 
   <div class="moc-grid">
 
-    <!-- ── ABSORB ── -->
     <div class="moc-block absorb">
       <div class="moc-block__header">
         <div class="moc-block__title">
@@ -508,7 +226,7 @@
           <h3 class="moc-row__name">Амонати шабонарӯзӣ (овернайт)</h3>
           <div class="moc-params">
             <div class="moc-params__label">Муҳлат:</div><div class="moc-params__value">1 рӯз</div>
-            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри бозтамвил − 3.0 б.ф.</div>
+            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри бозтамвил − 3,0 б.ф.</div>
             <div class="moc-params__label">Гарав:</div><div class="moc-params__value empty">-</div>
             <div class="moc-params__label">Тартиб:</div><div class="moc-params__value regular">Бо дархости ташкилотҳои қарзӣ, дилхоҳ рӯзи амалиётӣ</div>
           </div>
@@ -521,7 +239,7 @@
           <h3 class="moc-row__name">Музоядаҳои амонатӣ</h3>
           <div class="moc-params">
             <div class="moc-params__label">Муҳлат:</div><div class="moc-params__value">365 рӯз</div>
-            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри ниҳоӣ = меъёри бозтамвил + 2.0 б.ф.</div>
+            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри ниҳоӣ = меъёри бозтамвил + 2,0 б.ф.</div>
             <div class="moc-params__label">Гарав:</div><div class="moc-params__value empty">-</div>
             <div class="moc-params__label">Тартиб:</div><div class="moc-params__value regular">Тибқи нақшаи музоядаҳои амонатии Бонки миллии Тоҷикистон</div>
           </div>
@@ -536,8 +254,8 @@
             <div class="moc-params__label">Муҳлат / Фоиз (%):</div>
             <div class="moc-params__value" style="font-weight:400;font-size:0.77rem;line-height:1.6">
               <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">7 рӯз</span> — Меъёри ниҳоӣ = меъёри бозтамвил<br>
-              <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">91 рӯз</span> — Меъёри ниҳоӣ = меъёри бозтамвил + 0.5 б.ф.<br>
-              <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">182 рӯз</span> — Тариқи музояда 
+              <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">91 рӯз</span> — Меъёри ниҳоӣ = меъёри бозтамвил + 0,5 б.ф.<br>
+              <span style="font-family:ui-monospace,monospace;font-size:0.71rem;color:var(--text-2)">182 рӯз</span> — Тариқи музояда
             </div>
             <div class="moc-params__label">Гарав:</div><div class="moc-params__value empty">-</div>
             <div class="moc-params__label">Тартиб:</div><div class="moc-params__value regular">Тибқи нақшаи барориши коғазҳои қиматнок, тариқи музояда муайян мегардад</div>
@@ -548,7 +266,6 @@
       </div>
     </div>
 
-    <!-- ── PROVIDE ── -->
     <div class="moc-block provide">
       <div class="moc-block__header">
         <div class="moc-block__title">
@@ -576,7 +293,7 @@
           <h3 class="moc-row__name">Қарзи шабонарӯзӣ (овернайт)</h3>
           <div class="moc-params">
             <div class="moc-params__label">Муҳлат:</div><div class="moc-params__value">1 рӯз</div>
-            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри бозтамвил + 3.0 б.ф.</div>
+            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри бозтамвил + 3,0 б.ф.</div>
             <div class="moc-params__label">Гарав:</div><div class="moc-params__value collateral">Коғазҳои қиматноки давлатӣ, коғазҳои қиматноки БМТ, асъори хориҷӣ ва амонатҳо дар БМТ</div>
             <div class="moc-params__label">Тартиб:</div><div class="moc-params__value regular">Бо дархости ташкилотҳои қарзӣ, дилхоҳ рӯзи амалиётӣ</div>
           </div>
@@ -589,7 +306,7 @@
           <h3 class="moc-row__name">Музоядаҳои қарзӣ</h3>
           <div class="moc-params">
             <div class="moc-params__label">Муҳлат:</div><div class="moc-params__value">14 / 28 рӯз</div>
-            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри ибтидоӣ = Меъёри бозтамвил</div>
+            <div class="moc-params__label">Фоиз (%):</div><div class="moc-params__value">Меъёри ҳадди ақал = меъёри бозтамвил</div>
             <div class="moc-params__label">Гарав:</div><div class="moc-params__value collateral">Коғазҳои қиматноки давлатӣ, коғазҳои қиматноки БМТ, асъори хориҷӣ ва амонатҳо дар БМТ</div>
             <div class="moc-params__label">Тартиб:</div><div class="moc-params__value regular">Тибқи нақшаи музоядаҳои қарзӣ, тариқи музояда муайян мегардад</div>
           </div>
@@ -600,11 +317,15 @@
     </div>
 
   </div>
+</section>
+</div>
 
+</div></div>
+<script src="../js/data.js?v=3a44e24b"></script>
+<script src="../js/common.js?v=8c7b3d8a"></script>
+<script src="../js/site-nav.js?v=f73c7ce0"></script>
 
-</div></div><!-- /.page-wrap -->
-<script src="../js/common.js"></script>
-
-<script src="../js/detail-shared.js"></script>
+<script src="../js/pages/fishang.js?v=af5a46f0"></script>
+<script src="../js/detail-shared.js?v=402b480c"></script>
 </body>
 </html>
