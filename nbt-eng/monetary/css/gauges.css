@@ -1,0 +1,17 @@
+.nbt-mp .gauge{ --ink: var(--navy, #0f172a); --muted: var(--text-muted, #94a3b8); --track: #e2e8f0; --band: rgba(5,150,105,0.18); --band-line: #059669; --mark: #1e40af;
+  position: relative; padding: 34px 0 0; }
+.nbt-mp .gauge--dark{ --ink: #fff; --muted: rgba(255,255,255,0.55); --track: rgba(255,255,255,0.22); --band: rgba(134,239,172,0.22); --band-line: #86efac; --mark: #fff; }
+.nbt-mp .gauge__track{ position: relative; height: 10px; border-radius: 5px; background: var(--track); }
+.nbt-mp .gauge__band{ position: absolute; top: 0; bottom: 0; left: var(--a); width: calc(var(--b) - var(--a)); background: var(--band); border-left: 2px solid var(--band-line); border-right: 2px solid var(--band-line); }
+.nbt-mp .gauge__band em{ position: absolute; top: 16px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--band-line); white-space: nowrap; }
+.nbt-mp .gauge__center{ position: absolute; top: -4px; bottom: -4px; left: var(--x); width: 2px; margin-left: -1px; background: var(--band-line); }
+.nbt-mp .gauge__marker{ position: absolute; top: 50%; left: var(--x); width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--mark); box-shadow: 0 0 0 4px rgba(59,130,246,0.35); }
+.nbt-mp .gauge--out .gauge__marker{ background: #c0504d; box-shadow: 0 0 0 4px rgba(192,80,77,0.45); }
+.nbt-mp .gauge--out .gauge__marker b, .nbt-mp .gauge--out:not(.gauge--dark) .gauge__marker b{ background: #c0504d; color: #fff; }
+.nbt-mp .gauge__marker b{ position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); padding: 3px 10px; border-radius: 14px; background: var(--mark); color: var(--navy, #0f172a);
+  font-size: 0.85rem; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.nbt-mp .gauge:not(.gauge--dark) .gauge__marker b{ color: #fff; }
+.nbt-mp .gauge__ticks{ position: relative; height: 34px; }
+.nbt-mp .gauge__tick{ position: absolute; top: 22px; left: var(--x); transform: translateX(-50%); font-size: 0.66rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nbt-mp .gauge__tick::before{ content: ''; position: absolute; top: -10px; left: 50%; width: 1px; height: 5px; background: var(--muted); }
+
