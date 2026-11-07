@@ -1,4 +1,7 @@
+// shared utilities: language switch, chart export, date filter, Excel loader
 (function () {
+
+  // helpers
 
   function getBaseName() {
     const file = location.pathname.split('/').pop();
@@ -12,42 +15,102 @@
       ru: `../ru/${base}_ru.html`,
       en: `../eng/${base}_eng.html`,
     };
-    return (map[lang] || map.tj) + location.hash;
+    return map[lang] || map.tj;
   }
+
+  // language switcher
 
   window.setLang = function (lang) {
     document.body.style.opacity = '0.4';
     setTimeout(() => {
-      try { localStorage.setItem('lang', lang); } catch (e) {}
+      localStorage.setItem('lang', lang);
       window.location.href = buildUrl(lang);
     }, 150);
   };
 
-  function pageLang() {
-    const dir = location.pathname.split('/').slice(-2, -1)[0];
-    return dir === 'ru' ? 'ru' : dir === 'eng' ? 'en' : 'tj';
-  }
-  window.nbtPageLang = pageLang;
-
-  window.nbtMonthTick = function (months) {
-    return function (v) {
-      const l = this.getLabelForValue(v);
-      if (!/^\d{4}-\d{2}$/.test(l)) return l;
-      const [y, m] = l.split('-').map(Number);
-      return months[m - 1].slice(0, 3).toLowerCase() + ' ' + String(y).slice(2);
-    };
-  };
-  window.nbtTicks = () => (window.innerWidth < 640 ? 5 : 12);
-
   function initLangButtons() {
-    const lang = pageLang();
-    try { localStorage.setItem('lang', lang); } catch (e) {}
+    const saved = localStorage.getItem('lang') || 'tj';
     document.querySelectorAll('.lang-switcher button').forEach(btn => {
       const m = btn.getAttribute('onclick')?.match(/'([a-z]+)'/);
-      btn.classList.toggle('active', m?.[1] === lang);
+      btn.classList.toggle('active', m?.[1] === saved);
     });
   }
 
+  // chart export
+
+  window.exportChartPNG = function (chart, name) {
+    const a = document.createElement('a');
+    a.href = chart.toBase64Image();
+    a.download = (name || 'chart') + '.png';
+    a.click();
+  };
+
+  window.exportChartCSV = function (chart, name, col) {
+    const labels = chart.data.labels;
+    const vals   = chart.data.datasets[0].data;
+    let csv = `Date,${col || 'Value'}\n`;
+    labels.forEach((l, i) => { csv += `${l},${vals[i]}\n`; });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = (name || 'chart') + '.csv';
+    a.click();
+  };
+
+  // date filter
+  window.filterChart = function (chart, allLabels, allValues, startId, endId) {
+    const start = document.getElementById(startId)?.value?.slice(0, 7) || '';
+    const end   = document.getElementById(endId)?.value?.slice(0, 7) || '';
+
+    let s = start ? allLabels.findIndex(l => l >= start) : 0;
+    let e = end   ? allLabels.findIndex(l => l >  end)   : -1;
+    if (s < 0) s = 0;
+    if (e < 0) e = allLabels.length;
+
+    chart.data.labels             = allLabels.slice(s, e);
+    chart.data.datasets[0].data   = allValues.slice(s, e);
+    chart.update();
+  };
+  window.resetChartRange = function (chart, allLabels, allValues, startId, endId) {
+    chart.data.labels           = allLabels;
+    chart.data.datasets[0].data = allValues;
+    chart.update();
+
+    const s = document.getElementById(startId);
+    const e = document.getElementById(endId);
+    if (s) s.value = allLabels[0];
+    if (e) e.value = allLabels[allLabels.length - 1];
+  };
+
+  // Excel loader
+  window.loadExcel = async function (url, columns) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Cannot fetch ${url}`);
+    const wb    = XLSX.read(await res.arrayBuffer(), { type: 'array' });
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const json  = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+    const out = { labels: [] };
+    columns.forEach(c => { if (c !== 'date') out[c] = []; });
+
+    json.forEach(row => {
+      const date = row.date;
+      if (!date) return;
+
+      const vals = columns.filter(c => c !== 'date').map(c => {
+        const v = parseFloat(String(row[c] ?? '').replace(',', '.'));
+        return isNaN(v) ? 0 : v;
+      });
+
+      if (vals.every(v => v === 0)) return;
+
+      out.labels.push(String(date).slice(0, 7));
+      columns.filter(c => c !== 'date').forEach((c, i) => out[c].push(vals[i]));
+    });
+
+    return out;
+  };
+
+  // init
   document.addEventListener('DOMContentLoaded', initLangButtons);
 
 })();

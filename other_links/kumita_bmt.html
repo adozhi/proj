@@ -4,9 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</title>
-  <link rel="stylesheet" href="../fonts/inter.css?v=340e69f1">
-  <link rel="stylesheet" href="../css/detail.css?v=f4b73f8a">
-  <link rel="stylesheet" href="../css/pages/kumita_bmt.css?v=1a17d013">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/detail.css">
+  <style>
+    .year-section {
+      margin-top: 2.5rem; padding: 20px 24px;
+      background: var(--surface-alt); border-radius: 12px; border: 1px solid var(--border);
+    }
+    .year-section h3 { margin: 0 0 12px; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  </style>
 </head>
 <body>
 <div id="readProgress" class="read-progress"></div>
@@ -19,9 +26,9 @@
     <a href="../index.html" class="back-btn">Асосӣ</a>
     <span class="page-header__title">Кумитаи сиёсати пулию қарзии БМТ</span>
     <div class="lang-switcher">
-      <button onclick="setLang('tj')" id="btn-tj">ТҶ</button>
-      <button onclick="setLang('ru')" id="btn-ru">РУ</button>
-      <button onclick="setLang('en')" id="btn-en">EN</button>
+      <button onclick="setLang('tj')" id="btn-tj">🇹🇯 ТҶ</button>
+      <button onclick="setLang('ru')" id="btn-ru">🇷🇺 РУ</button>
+      <button onclick="setLang('en')" id="btn-en">🇬🇧 EN</button>
     </div>
   </div>
 </header>
@@ -30,124 +37,463 @@
 
 <h1 class="page-title">Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h1>
 
-<div id="mpcDocNames" hidden data-summary="Шарҳи мухтасар" data-presentation="Муаррифӣ" data-resolution="Қарори кумита"></div>
+<nav class="instrument-nav">
+  <a href="#meeting">Нақша</a>
+  <a href="#regulation">Низомнома</a>
+  <a href="#about">Кумита</a>
+  <a href="#members">Ҳайат</a>
+</nav>
 
-<section class="mpc-hero" id="meeting" aria-live="polite">
-  <div class="mpc-hero__next" id="mpcNext"></div>
-  <div class="mpc-hero__rate" id="mpcRate"></div>
-</section>
-
-<section class="mpc-block" aria-labelledby="mpc-h-schedule">
-  <header class="mpc-block__head">
-    <span class="mpc-block__num">01</span>
-    <h2 id="mpc-h-schedule">Нақша</h2>
-    <div class="mpc-year" id="mpcYear"></div>
-  </header>
-  <ol class="mpc-rail" id="mpcRail"></ol>
-</section>
-
-<section class="mpc-block" id="members" aria-labelledby="mpc-h-members">
-  <header class="mpc-block__head">
-    <span class="mpc-block__num">02</span>
-    <h2 id="mpc-h-members">Ҳайат</h2>
-  </header>
-  <div class="mpc-roster">
-    <div class="mpc-roster__count"><b>9</b><span id="mpcCountLabel"></span></div>
-    <ul class="mpc-roster__lead">
-      <li class="mpc-member mpc-member--lead">
-        <span class="mpc-member__role">Раиси Кумита - раиси Бонки миллии Тоҷикистон</span>
-        <span class="mpc-member__name">Толибзода Фирдавс Назримад</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003201">+(992 44) 600-32-01</a></span>
-      </li>
-      <li class="mpc-member mpc-member--lead">
-        <span class="mpc-member__role">Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</span>
-        <span class="mpc-member__name">Шарифзода Фируз Ҳомиддин</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003203">+(992 44) 600-32-03</a></span>
-      </li>
-    </ul>
-    <ul class="mpc-roster__list">
-      <li class="mpc-member">
-        <span class="mpc-member__role">Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</span>
-        <span class="mpc-member__name">Убайдуллоев Диловар Шамолиддинович</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003146">+(992 44) 600-31-46</a></span>
-      </li>
-      <li class="mpc-member">
-        <span class="mpc-member__role">Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</span>
-        <span class="mpc-member__name">Абдулқайси Саидҷаббор</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003183">+(992 44) 600-31-83</a></span>
-      </li>
-      <li class="mpc-member">
-        <span class="mpc-member__role">Директори пажуҳишгоҳи илмӣ-тадқиқотӣ</span>
-        <span class="mpc-member__name">Мамадалиев Фарухруз Сайфиддинович</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003106">+(992 44) 600-31-06</a></span>
-      </li>
-      <li class="mpc-member">
-        <span class="mpc-member__role">Директори департаменти омор ва тавозуни пардохт</span>
-        <span class="mpc-member__name">Баҳридинов Бахтиёр Амридинович</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003149">+(992 44) 600-31-49</a></span>
-      </li>
-      <li class="mpc-member">
-        <span class="mpc-member__role">Сардори идораи суботи молиявӣ</span>
-        <span class="mpc-member__name">Қурбоналиева Нигина Мардоновна</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003166">+(992 44) 600-31-66</a></span>
-      </li>
-      <li class="mpc-member">
-        <span class="mpc-member__role">Сардори идораи бозори молиявӣ</span>
-        <span class="mpc-member__name">Сатторзода Умеда Саймумин</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003162">+(992 44) 600-31-62</a></span>
-      </li>
-      <li class="mpc-member">
-        <span class="mpc-member__role">Сардори шуъбаи таҳлили хавфҳо</span>
-        <span class="mpc-member__name">Навҷуанова Муниса Навҷуановна</span>
-        <span class="mpc-member__phone"><a href="tel:+992446003299">+(992 44) 600-32-99</a></span>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<section class="mpc-block" id="about" aria-labelledby="mpc-h-about">
-  <header class="mpc-block__head">
-    <span class="mpc-block__num">03</span>
-    <h2 id="mpc-h-about">Кумита</h2>
-  </header>
-  <div class="mpc-about">
-    <p class="mpc-about__lead">Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ҳамчун мақоми мустақили доимоамалкунандаи машваратӣ мутобиқи Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон", Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ва дигар санадҳои меъёрии ҳуқуқии Бонки миллии Тоҷикистон таъсис ёфтааст.</p>
-    <div class="mpc-about__text">
-      <p>Фаъолияти Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон (минбаъд Кумита) бо мақсади қабули қарор марбут ба таҳия ва татбиқи сиёсати пулию қарзии кишвар баҳри нигоҳдории муътадилии сатҳи нархҳо дар давраи дарозмуҳлат, муайяннамоии параметрҳо ва афзалиятҳои он ҷиҳати танзими меъёри фоизӣ ва нигоҳдории мувозинати бозори пул ба роҳ монда шудааст.</p>
-      <p>Ҳайати Кумита бо қарори Раёсати Бонки миллии Тоҷикистон бо шумораи тоқ тасдиқ карда мешавад.</p>
-      <p>Раиси Бонки миллии Тоҷикистон раиси Кумита мебошад.</p>
-      <p>Кумита ҳар семоҳа аз натиҷаи фаъолияти худ ба Раёсати Бонки миллии Тоҷикистон ҳисобот пешниҳод менамояд.</p>
+<!-- 01 Schedule -->
+<div id="meeting" class="instrument-card card--green">
+  <div class="instrument-card__header"><h2>Нақшаи баргузории ҷаласаҳои Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон барои соли 2026</h2></div>
+  <div class="instrument-card__body">
+    <div class="table-wrap">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
+          <th>Шарҳи мухтасар</th>
+          <th>Муаррифӣ</th>
+          <th colspan="2">Қарори кумита</th>
+        </tr>
+      </thead>
+      <tbody id="scheduleBody"></tbody>
+    </table>
     </div>
-    <h3 class="mpc-about__tasks-title">Вазифаҳои асосии Кумита:</h3>
-    <ol class="mpc-tasks">
+    <div class="year-section">
+      <h3>Ҷаласаҳои пешина</h3>
+      <div class="year-buttons" id="yearButtons"></div>
+      <div class="table-wrap" id="historyTable" style="display:none; margin-top:1.2rem;">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Санаи вохӯрӣ<br><small>(аз рӯи нақша)</small></th>
+            <th>Шарҳи мухтасар</th>
+            <th>Муаррифӣ</th>
+            <th colspan="2">Қарори кумита</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 Regulation -->
+<div id="regulation" class="instrument-card card--indigo">
+  <div class="instrument-card__header"><h2>Низомнома</h2></div>
+  <div class="instrument-card__body">
+    <a href="../docs/Nizomnomai_kumita_2025.pdf" class="pdf-link" target="_blank" rel="noopener noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон
+    </a>
+  </div>
+</div>
+
+<!-- 03 About -->
+<div id="about" class="instrument-card card--blue">
+  <div class="instrument-card__header"><h2>Дар бораи Кумита</h2></div>
+  <div class="instrument-card__body">
+    <p>Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ҳамчун мақоми мустақили доимоамалкунандаи машваратӣ мутобиқи Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон", Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон ва дигар санадҳои меъёрии ҳуқуқии Бонки миллии Тоҷикистон таъсис ёфтааст.</p>
+    <p>Фаъолияти Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон (минбаъд Кумита) бо мақсади қабули қарор марбут ба таҳия ва татбиқи сиёсати пулию қарзии кишвар баҳри нигоҳдории муътадилии сатҳи нархҳо дар давраи дарозмуҳлат, муайяннамоии параметрҳо ва афзалиятҳои он ҷиҳати танзими меъёри фоизӣ ва нигоҳдории мувозинати бозори пул ба роҳ монда шудааст.</p>
+    <p>Ҳайати Кумита бо қарори Раёсати Бонки миллии Тоҷикистон бо шумораи тоқ тасдиқ карда мешавад.</p>
+    <p>Раиси Бонки миллии Тоҷикистон раиси Кумита мебошад.</p>
+    <p>Кумита ҳар семоҳа аз натиҷаи фаъолияти худ ба Раёсати Бонки миллии Тоҷикистон ҳисобот пешниҳод менамояд.</p>
+    <h3>Вазифаҳои асосии Кумита:</h3>
+    <ul>
       <li>қабули қарор оид ба самтҳои асосии сиёсати пулию қарзӣ бо мақсади таҳия ва татбиқи самараноки сиёсати пулию қарзӣ, ноилгардӣ ва нигоҳдории сатҳи муътадили нархҳои дохилӣ дар давраи дарозмуҳлат;</li>
       <li>баррасии нишондиҳандаҳои таҳлилии вазъи макроиқтисодӣ, монетарию қурбӣ, муайян кардани вазифа ва нишондиҳандаҳои назоратии татбиқи сиёсати пулию қарзӣ дар давраҳои кӯтоҳмуҳлат ва миёнамуҳлат;</li>
       <li>вобаста ба вазъи ҷории макроиқтисодӣ, вазъи иқтисоди хориҷӣ, омилҳо ва хавфҳои таваррумӣ, инчунин дурнамои нишондиҳандаҳои асосии монетарию макроиқтисодӣ баррасӣ ва қабул кардани қарор оид ба пешбурди ин ё он шакли сиёсати пулию қарзӣ (қатъӣ, муътадил, ҳавасмандона), роҳу усул ва фишангҳои (воситаҳои) татбиқи он;</li>
       <li>тибқи моддаи 15 Қонуни Ҷумҳурии Тоҷикистон "Дар бораи Бонки миллии Тоҷикистон" муайян кардани афзалият, зарурат ва тартиби истифодаи фишангҳои сиёсати пулию қарзӣ бо мақсади пешгирӣ ва бартараф намудани фишорҳои қурбии таваррумӣ, идоракунии нишондиҳандаҳои асосии пулӣ, меъёрҳои фоизӣ, нигоҳдории мувозинат дар бозорҳои пулу асъор ва вазифагузорӣ намудани дигар воҳидҳои сохтории дахлдори Бонки миллии Тоҷикистон ҷиҳати татбиқи онҳо;</li>
       <li>ҳамоҳангсозии фаъолияти воҳидҳои сохторӣ ва дар асоси тартиби муқарраршуда риоя кардани қоидаҳо ҷиҳати осон ва шаффоф гардонидани раванди татбиқи сиёсати пулию қарзӣ ва асъорӣ, тасмим гирифтан ва расидан ба мақсади асосии Бонки миллии Тоҷикистон.</li>
-    </ol>
+    </ul>
   </div>
-</section>
+</div>
 
-<section class="mpc-block" id="regulation" aria-labelledby="mpc-h-regulation">
-  <header class="mpc-block__head">
-    <span class="mpc-block__num">04</span>
-    <h2 id="mpc-h-regulation">Низомнома</h2>
-  </header>
-  <a href="../docs/Nizomnomai_kumita_2025.pdf" class="mpc-doc doc-link" target="_blank" rel="noopener noreferrer">
-    <span class="mpc-doc__sheet" aria-hidden="true"><span>PDF</span></span>
-    <span class="mpc-doc__title">Низомномаи Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</span>
-  </a>
-</section>
+<!-- 04 Members -->
+<div id="members" class="instrument-card card--slate">
+  <div class="instrument-card__header"><h2>Ҳайати Кумитаи сиёсати пулию қарзии Бонки миллии Тоҷикистон</h2></div>
+  <div class="instrument-card__body">
+    <div class="table-wrap">
+    <table class="members-table">
+      <thead>
+        <tr><th class="">№</th><th>Ному насаб</th><th>Вазифа</th><th>Тамос</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">1</td><td>Толибзода Фирдавс Назримад</td><td>Раиси Кумита - раиси Бонки миллии Тоҷикистон</td><td class="phone"><a href="tel:+992446003201">+(992 44) 600-32-01</a></td></tr>
+        <tr><td class="num">2</td><td>Шарифзода Фируз Ҳомиддин</td><td>Муовини раиси Кумита – муовини якуми раиси Бонки миллии Тоҷикистон</td><td class="phone"><a href="tel:+992446003203">+(992 44) 600-32-03</a></td></tr>
+        <tr><td class="num">3</td><td>Убайдуллоев Диловар Шамолиддинович</td><td>Директори департаменти сиёсати монетарӣ, тадқиқотӣ ва рушд</td><td class="phone"><a href="tel:+992446003146">+(992 44) 600-31-46</a></td></tr>
+        <tr><td class="num">4</td><td>Бояков Зиёратшо Ғуломович</td><td>Директори департаменти идораи захираҳои байналмилалӣ ва сиёсати қурби асъор</td><td class="phone"><a href="tel:+992446003183">+(992 44) 600-31-83</a></td></tr>
+        <tr><td class="num">5</td><td>Мамадалиев Фарухруз Сайфиддинович</td><td>Директори пажуҳишгоҳи илмӣ-тадқиқотӣ</td><td class="phone"><a href="tel:+992446003106">+(992 44) 600-31-06</a></td></tr>
+        <tr><td class="num">6</td><td>Баҳридинов Бахтиёр Амридинович</td><td>Директори департаменти омор ва тавозуни пардохт</td><td class="phone"><a href="tel:+992446003149">+(992 44) 600-31-49</a></td></tr>
+        <tr><td class="num">7</td><td>Қурбоналиева Нигина Мардоновна</td><td>Сардори идораи суботи молиявӣ</td><td class="phone"><a href="tel:+992446003166">+(992 44) 600-31-66</a></td></tr>
+        <tr><td class="num">8</td><td>Сатторзода Умеда Саймумин</td><td>Сардори идораи бозори молиявӣ</td><td class="phone"><a href="tel:+992446003162">+(992 44) 600-31-62</a></td></tr>
+        <tr><td class="num">9</td><td>Навҷуанова Муниса Навҷуановна</td><td>Сардори шуъбаи таҳлили хавфҳо</td><td class="phone"><a href="tel:+992446003299">+(992 44) 600-32-99</a></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
 
 </div></div>
 
-<script src="../js/data.js?v=3a44e24b"></script>
-<script src="../data/meetings.js?v=055735d2"></script>
+<script>
+// render helpers
+function renderDoc(doc) {
+  if (!doc) return '';
+  return 'Санаи нашр:<br>' + doc.label;
+}
+function renderRes(doc) {
+  if (!doc) return '';
+  return doc.label;
+}
 
-<script src="../js/common.js?v=8c7b3d8a"></script>
-<script src="../js/site-nav.js?v=f73c7ce0"></script>
-<script src="../js/pages/kumita_bmt.js?v=2dfcacb8"></script>
-<script src="../js/detail-shared.js?v=402b480c"></script>
+// meeting data
+const MEETINGS = {
+
+  "2026": [
+    { iso:"2026-01-29", date:"29 январи с.2026",
+      summary:      { href:"/files/monetary_policy/2026/Кумита/Резаахбор%2046.pdf",  label:"29 январи с.2026" },
+      presentation: { href:"/files/monetary_policy/2026/Кумита/Runamo_46.pdf",        label:"29 январи с.2026" },
+      resolution:   { href:"/files/monetary_policy/2026/Кумита/Qaror%2046_somona.pdf",label:"Қарори №46" } },
+
+    { iso:"2026-04-30", date:"30 апрел с.2026",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Резаахбор%2047.pdf",         label:"30 апрел с.2026" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2026/Runamo_47_taj.pdf",     label:"30 апрел с.2026" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2026/Qaror%2047_somona.pdf", label:"Қарори №47" } },
+
+    { iso:"2026-07-30", date:"30 июл с.2026",
+      summary:      { href:null, label:"30 июл с.2026" },
+      presentation: { href:null, label:"30 июл с.2026" },
+      resolution:   { href:null, label:"Қарори №" } },
+
+    { iso:"2026-10-29", date:"29 октябр с.2026",
+      summary:      { href:null, label:"29 октябр с.2026" },
+      presentation: { href:null, label:"29 октябр с.2026" },
+      resolution:   { href:null, label:"Қарори №" } },
+  ],
+
+  "2025": [
+    { iso:"2025-02-06", date:"06 феврал с.2025",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_40.pdf",  label:"06 феврал с.2025" },
+      presentation: { href:"/files/normative/MPC_NBT_№40_taj.pdf",               label:"06 феврал с.2025" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror_40.pdf",       label:"Қарори №40" } },
+
+    { iso:"2025-04-30", date:"30 апрел с.2025",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Резаахбор%2041.pdf",      label:"30 апрел с.2025" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/MPC_NBT_№41_somona.pdf", label:"30 апрел с.2025" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2025/Qaror_41.pdf",       label:"Қарори №41" } },
+
+    { iso:"2025-05-28", date:"28 майи с.2025", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/2025/Резаахбор%2042.pdf",                   label:"28 май с.2025" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/MPC_NBT_%E2%84%9641_somona.pdf", label:"28 май с.2025" },
+      resolution:   { href:"/files/monetary_policy/2025/Qaror%20somona.pdf",                   label:"Қарори №42" } },
+
+    { iso:"2025-07-31", date:"31 июл с.2025",
+      summary:      { href:"/files/Omor/2025/Резаахбор%2043.pdf",        label:"31 июли с.2025" },
+      presentation: { href:"/files/Omor/2025/MPC_NBT_№43_somona.pdf",   label:"31 июли с.2025" },
+      resolution:   { href:"/files/Omor/2025/Qaror%2043.pdf",            label:"Қарори №43" } },
+
+    { iso:"2025-10-29", date:"29 октябр с.2025",
+      summary:      { href:"/files/Omor/kredit/Резаахбор%2044.pdf",        label:"29 октябр с.2025" },
+      presentation: { href:"/files/Omor/kredit/MPC_NBT_№44_somona.pdf",   label:"29 октябр с.2025" },
+      resolution:   { href:"/files/Omor/kredit/Қарори%2044.pdf",           label:"Қарори №44" } },
+  ],
+
+  "2024": [
+    { iso:"2024-02-09", date:"09 феврал с.2024",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_36.pdf", label:"09 феврал с.2024" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Runamo_36.pdf",     label:"09 феврал с.2024" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qarori_36.pdf",     label:"Қарори №36" } },
+
+    { iso:"2024-04-26", date:"26 апрел с.2024",
+      summary:      { href:"/files/monetary_policy/kumita/Резаахбор%2037.pdf",                   label:"26 апрел с.2024" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/MPC_NBT_№37%20(2024-04)%20сомона.pdf", label:"26 апрел с.2024" },
+      resolution:   { href:"/files/monetary_policy/kumita/Қарор%2037%20сомона.pdf",              label:"Қарори №37" } },
+
+    { iso:"2024-07-31", date:"31 июл с.2024",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_38.pdf", label:"31 июли с.2024" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Muarrifi_38.pdf",   label:"31 июли с.2024" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror_38.pdf",       label:"Қарори №38" } },
+
+    { iso:"2024-10-25", date:"25 октябр с.2024",
+      summary:      { href:"/files/monetary_policy/COMMEETEE/Rezaakhbor39.pdf", label:"25 октябр с.2024" },
+      presentation: { href:"/files/monetary_policy/COMMEETEE/Runamo39.pdf",     label:"25 октябр с.2024" },
+      resolution:   { href:"/files/monetary_policy/COMMEETEE/Qaror39.pdf",      label:"Қарори №39" } },
+  ],
+
+  "2023": [
+    { iso:"2023-02-03", date:"03 феврал с.2023",
+      summary:      { href:"/tj/monetary_policy/Rezaakhbor32.pdf", label:"03 феврал с.2023" },
+      presentation: { href:"/tj/monetary_policy/Runamo32.pdf",     label:"03 феврал с.2023" },
+      resolution:   { href:"/tj/monetary_policy/Qaror32.pdf",      label:"Қарори №32" } },
+
+    { iso:"2023-04-28", date:"28 апрел с.2023",
+      summary:      { href:"/files/monetary_policy/Rezaakhbor33.pdf", label:"28 апрел с.2023" },
+      presentation: { href:"/files/monetary_policy/Runamo33.pdf",     label:"28 апрел с.2023" },
+      resolution:   { href:"/files/monetary_policy/Qaror33.pdf",      label:"Қарори №33" } },
+
+    { iso:"2023-07-28", date:"28 июл с.2023",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor_34.pdf", label:"28 июли с.2023" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Runamo_34.pdf",     label:"28 июли с.2023" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror_34.pdf",      label:"Қарори №34" } },
+
+    { iso:"2023-10-27", date:"27 октябр с.2023",
+      summary:      { href:"/files/monetary_policy/kumita/tj/Rezaakhbor35.pdf", label:"27 октябр с.2023" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/Runamo35.pdf",     label:"27 октябр с.2023" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/Qaror35.pdf",      label:"Қарори №35" } },
+  ],
+
+  "2022": [
+    { iso:"2022-02-11", date:"11 феврал с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Rezaakhbor_28.pdf",        label:"11 феврал с.2022" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2022/11_02_2022_Muarrifi_Kumita.pdf", label:"11 феврал с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Qaror_28.pdf",             label:"Қарори №28" } },
+
+    { iso:"2022-05-13", date:"13 май с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Резаахбор_29_2.pdf",          label:"13 май с.2022" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2022/MPC_NBT_№29_(2022-05)_02.pdf",label:"13 май с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Қарор_29.pdf",                label:"Қарори №29" } },
+
+    { iso:"2022-08-19", date:"19 август с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Резаахбор_30.pdf", label:"19 август с.2022" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2022/Muarrifi.pdf",     label:"19 август с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Qaror30.pdf",      label:"Қарори №30" } },
+
+    { iso:"2022-10-25", date:"25 октябр с.2022",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2022/Rezaakhbor31.pdf", label:"25 октябр с.2022" },
+      presentation: { href:"/files/statistics/Muarrifi31.pdf",                       label:"25 октябр с.2022" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2022/Qaror31.pdf",      label:"Қарори №31" } },
+  ],
+
+  "2021": [
+    { iso:"2021-01-28", date:"28 январи с.2021", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/Rezaahbor_2021_28_01.pdf", label:"28 январи с.2021" },
+      presentation: null,
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/Karor_№23.pdf",            label:"Қарори №23" } },
+
+    { iso:"2021-02-05", date:"5 феврали с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/Rezaakhbor_24.pdf",        label:"5 феврали с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/Runamo_muarrifi.pdf",      label:"5 феврали с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/06_02_21_qaror_24.pdf",    label:"Қарори №24" } },
+
+    { iso:"2021-04-27", date:"27 апрели с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/Rezaakhbor_25.pdf",           label:"27 апрели с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/MPC_NBT_№25_2021_04_27.pdf", label:"27 апрели с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/Qaror_25.pdf",                label:"Қарори №25" } },
+
+    { iso:"2021-07-27", date:"27 июли с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/27_07_2021_Rezaakhbor_26_pdf.pdf", label:"27 июли с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/27_07_2021_Muarrifi_Kumita.pdf",   label:"27 июли с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/27_07_2021_Qaror_№26.pdf",         label:"Қарори №26" } },
+
+    { iso:"2021-10-22", date:"22 октябри с.2021",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2021/22_10_2021_Rezaakhbor_27_pdf.pdf", label:"22 октябри с.2021" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2021/22_10_2021_Muarrifi_Kumita.pdf",   label:"22 октябри с.2021" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2021/Qaror_27.pdf",                     label:"Қарори №27" } },
+  ],
+
+  "2020": [
+    { iso:"2020-01-28", date:"28 январи с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/03.02.2020%20Резаахбор%2018.pdf",         label:"28 январи с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/12_02_2020_kumita_muarrifi_2020_03_.pdf", label:"28 январи с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/04_02_2020_Qaror_18_2020.pdf",            label:"Қарори №18" } },
+
+    { iso:"2020-04-01", date:"01 апрели с.2020", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/08.04.2020%20Резаахбор%2019%20%20ОХИРОН.pdf", label:"01 апрели с.2020" },
+      presentation: null,
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/08.04.2020%20Қарор%20№19.pdf",              label:"Қарори №19" } },
+
+    { iso:"2020-04-27", date:"27 апрели с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/Резаахбор%2020.pdf",                         label:"27 апрели с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/29.04.2020%20Комитети%20нав_03%20барои%20сайт_01.pdf", label:"27 апрели с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/Қарори%2020.pdf",                            label:"Қарори №20" } },
+
+    { iso:"2020-07-27", date:"27 июли с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/Резаахбор%2021.pdf",        label:"27 июли с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/28.07.2020_Комитет.pdf",    label:"27 июли с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/Қарор%20№21.pdf",           label:"Қарори №21" } },
+
+    { iso:"2020-10-29", date:"29 октябри с.2020",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2020/Резаахбор_22_10_2020_охирин.pdf",     label:"29 октябри с.2020" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2020/Рунамои%20комитет_02%20-барои%20сайт.pdf", label:"29 октябри с.2020" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2020/Карори%20Кумита_22_10_2020.pdf",      label:"Қарори №22" } },
+  ],
+
+  "2019": [
+    { iso:"2019-01-30", date:"30 январи с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/presreliz_kumita_2019.pdf", label:"30 январи с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/MPC_13_2019.pdf",           label:"30 январи с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/qaror_13.pdf",              label:"Қарори №13" } },
+
+    { iso:"2019-04-18", date:"18 апрели с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/Барои%20сайт%20МPС14.pdf",                   label:"18 апрели с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Кумитаи%20сиёсати%20монетари%202019_04_30.pdf", label:"18 апрели с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/Қарор14.pdf",                                label:"Қарори №14" } },
+
+    { iso:"2019-05-31", date:"31 майи с.2019", extra:"ғайринақшавӣ",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/Барои%20сайд%20МPС15%20(002).pdf",               label:"31 майи с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Кумитаи%20сиёсати%20монетари%202019_04_30%20матбуот.pdf", label:"31 майи с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/Қарор15.pdf",                                    label:"Қарори №15" } },
+
+    { iso:"2019-07-25", date:"25 июли с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/30_07_2019_Baroi_sait_MPC_13_tj.pdf", label:"25 июли с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Kumitai_puli_25_07_2019.pdf",         label:"25 июли с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/qaror_16.pdf",                        label:"Қарори №16" } },
+
+    { iso:"2019-11-28", date:"28 ноябри с.2019",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2019/Rezaakhbor_28_11_2019.pdf", label:"28 ноябри с.2019" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2019/Kumita_28_11_2019_tj.pdf",  label:"28 ноябри с.2019" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2019/Karor_17_2.pdf",            label:"Қарори №17" } },
+  ],
+
+  "2018": [
+    { iso:"2018-01-23", date:"23 январи с.2018", extra:"ғайринақшавӣ",
+      summary:      { href:"/tj/news/461555/",                                        label:"23 январи с.2018" },
+      presentation: { href:null,                                                       label:"23 январи с.2018" },
+      resolution:   { href:"/files/monetary_policy/files/2018/01/karor_tj_№6.pdf",   label:"Қарори № 6" } },
+
+    { iso:"2018-01-31", date:"31 январи с.2018",
+      summary:      { href:null, label:"31 январи с.2018" },
+      presentation: { href:null, label:"31 январи с.2018" },
+      resolution:   null },
+
+    { iso:"2018-03-14", date:"14 марти с.2018",
+      summary:      { href:"/tj/news/463578/",                                         label:"20 марти с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018v3.pdf",    label:"20 марти с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/november_2017.pdf", label:"Қарори № 7" } },
+
+    { iso:"2018-05-02", date:"02 майи с.2018",
+      summary:      { href:"/tj/news/466722/",                                                   label:"21 майи с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018v3TJ%20-05.2018.pdf", label:"21 майи с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/Karor_8.pdf",                  label:"Қарори № 8" } },
+
+    { iso:"2018-07-25", date:"25 июли с.2018",
+      summary:      { href:"/tj/news/470629/",                                           label:"27 июли с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC9_2018v3.pdf",     label:"27 июли с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/karor_9.pdf",          label:"Қарори №9" } },
+
+    { iso:"2018-09-05", date:"05 сентябри с.2018",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2018/meyor_boztamvil_tj.pdf", label:"10 сентябри с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018-09.2018.pdf",   label:"10 сентябри с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/qaror_10_tj.pdf",         label:"Қарори № 10" } },
+
+    { iso:"2018-10-24", date:"24 октябри с.2018",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2018/Шарҳи%20мухтасар_24.10.2018.pdf", label:"24 октябри с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MPC_2018-11%202018.pdf",           label:"24 октябри с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/qaror_11_tj.pdf",                   label:"Қарори № 11" } },
+
+    { iso:"2018-12-15", date:"15 декабри с.2018",
+      summary:      { href:"/files/monetary_policy/kumita/tj/2018/Резаахбор.pdf",        label:"15 декабри с.2018" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/2018/MRC_2018_12_18_tj.pdf", label:"15 декабри с.2018" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/2018/karor_12_tj.pdf",       label:"Қарори № 12" } },
+  ],
+
+  "2017": [
+    { iso:"2017-01-31", date:"31 январи с.2017", extra:"ғайринақшавӣ",
+      summary:      { href:"/tj/news/445427/",                              label:"31 янв. с.2017" },
+      presentation: null,
+      resolution:   { href:"/files/monetary_policy/files/07.02.2017/kumita.pdf", label:"Қарори № 1" } },
+
+    { iso:"2017-03-17", date:"17 марти с.2017",
+      summary:      { href:"/tj/news/447634/",                                            label:"20 Марти с.2017" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/29.03.2017/2017_03.pdf",    label:"28 Марти с.2017" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/29.03.2017/karori_N2_TJ.pdf", label:"Қарори №2" } },
+
+    { iso:"2017-05-17", date:"17 майи с.2017",
+      summary:      { href:"/tj/news/450284/",                                              label:"26 Майи с.2017" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/29.03.2017/2017_05_03_TJ.pdf", label:"26 Май с.2017" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/qaror_3_1.pdf",               label:"Қарори №3" } },
+
+    { iso:"2017-07-18", date:"18 июли с.2017",
+      summary:      { href:"/tj/news/453212/",                                             label:"2 Августи с.2017" },
+      presentation: { href:"/upload/iblock/b53/2017_08(MPC_N04_2017).pdf",                label:"2 Августи с.2017" },
+      resolution:   { href:"/upload/iblock/829/Karori_4_tj.pdf",                           label:"Қарори №4" } },
+
+    { iso:"2017-09-19", date:"19 сентябри с.2017",
+      summary:      { href:"/tj/news/457332/",                                                      label:"2 ноябри с.2017" },
+      presentation: { href:"/files/monetary_policy/kumita/tj/5/2017_07(MPC_N05_2017)_TJ.pdf",      label:"2 ноябри с.2017" },
+      resolution:   { href:"/files/monetary_policy/kumita/tj/5/Карори_кумита№5.pdf",               label:"Қарори №5" } },
+
+    { iso:"2017-12-21", date:"21 декабри с.2017",
+      summary:      { href:null, label:"21 Декабри с.2017" },
+      presentation: { href:null, label:"21 Декабри с.2017" },
+      resolution:   null },
+  ],
+
+};
+
+// table logic
+const today = new Date(); today.setHours(0,0,0,0);
+
+function buildRows(year, tbody, autoNext) {
+  const rows = MEETINGS[year] || [];
+  tbody.innerHTML = '';
+  let nextIdx = -1;
+  if (autoNext) {
+    for (let i = 0; i < rows.length; i++) {
+      const d = new Date(rows[i].iso); d.setHours(0,0,0,0);
+      if (d >= today) { nextIdx = i; break; }
+    }
+  }
+  const labels = { done:'Гузашт', next:'Навбатӣ', future:'Нақша' };
+  rows.forEach((m, i) => {
+    const d = new Date(m.iso); d.setHours(0,0,0,0);
+    const status = i === nextIdx ? 'next' : d < today ? 'done' : 'future';
+    const tr = document.createElement('tr');
+    tr.className = 'row-' + status;
+
+    // Col 1 — date + badge
+    const td0 = document.createElement('td');
+    const extra = m.extra ? '<br><small style="color:var(--text-3)">(' + m.extra + ')</small>' : '';
+    td0.innerHTML = m.date + extra + '<br><span class="status-badge status-badge--' + status + '">' + labels[status] + '</span>';
+    tr.appendChild(td0);
+
+    // Col 2 — summary (Резаахбор)
+    const td1 = document.createElement('td');
+    td1.innerHTML = renderDoc(m.summary);
+    tr.appendChild(td1);
+
+    // Col 3 — presentation (Муаррифӣ); если нет — берём summary
+    const td2 = document.createElement('td');
+    td2.innerHTML = renderDoc(m.presentation || m.summary);
+    tr.appendChild(td2);
+
+    // Col 4 — resolution (Қарор); если нет — показываем «Қарори №»
+    const td3 = document.createElement('td');
+    td3.colSpan = 2;
+    td3.innerHTML = m.resolution ? renderRes(m.resolution) : 'Қарори №';
+    tr.appendChild(td3);
+
+    tbody.appendChild(tr);
+  });
+}
+
+buildRows('2026', document.getElementById('scheduleBody'), true);
+
+const historyYears = Object.keys(MEETINGS).filter(y => y !== '2026').sort((a,b) => b - a);
+let activeYear = null;
+historyYears.forEach(year => {
+  const btn = document.createElement('button');
+  btn.className = 'year-btn';
+  btn.textContent = year;
+  btn.addEventListener('click', () => {
+    if (activeYear === year) {
+      activeYear = null; btn.classList.remove('active');
+      document.getElementById('historyTable').style.display = 'none'; return;
+    }
+    document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active'); activeYear = year;
+    buildRows(year, document.getElementById('historyBody'), false);
+    document.getElementById('historyTable').style.display = '';
+  });
+  document.getElementById('yearButtons').appendChild(btn);
+});
+</script>
+
+<script src="../js/common.js"></script>
+<script src="../js/detail-shared.js"></script>
 </body>
 </html>

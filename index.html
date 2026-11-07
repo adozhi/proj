@@ -1,50 +1,76 @@
 <!DOCTYPE html>
-<html lang="tg">
+<html lang="tj">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Бонки Миллии Тоҷикистон — Нишондиҳандаҳои монетарӣ</title>
-  <meta name="description" content="Меъёри бозтамвил, таварруми солона ва нишондиҳандаҳои асосии монетарии Бонки миллии Тоҷикистон.">
 
-  <link rel="stylesheet" href="fonts/inter.css?v=340e69f1">
-  <link rel="stylesheet" href="css/styles.css?v=a1bb85f6">
-  <link rel="stylesheet" href="css/home.css?v=6b003d2e">
-  <script defer src="js/chart.umd.min.js?v=3a1612b2"></script>
-  <script defer src="js/chart-style.js?v=2a8e96f0"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/chart.umd.min.js"></script>
+  <script defer src="js/xlsx.full.min.js"></script>
 </head>
 <body>
 
+  <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="container site-header__inner">
       <div class="lang-switcher">
-        <button type="button" onclick="setLang('tj')" data-lang="tj" lang="tg">ТҶ</button>
-        <button type="button" onclick="setLang('ru')" data-lang="ru" lang="ru">РУ</button>
-        <button type="button" onclick="setLang('en')" data-lang="en" lang="en">EN</button>
+        <button onclick="setLang('tj')" data-lang="tj">🇹🇯 ТҶ</button>
+        <button onclick="setLang('ru')" data-lang="ru">🇷🇺 РУ</button>
+        <button onclick="setLang('en')" data-lang="en">🇬🇧 EN</button>
       </div>
     </div>
   </header>
 
+  <!-- ===== NAVBAR ===== -->
   <nav class="navbar">
     <div class="container">
-      <ul class="menu"></ul>
+      <ul class="menu">
+        <li class="menu-item dropdown">
+          <a href="#" data-i18n="menu_policy">Сиёсати пулӣ</a>
+          <ul class="dropdown-menu">
+            <li><a href="other_links/maksad.html"     data-i18n="menu_goal"      class="nav-link">Мақсад ва вазифаҳо</a></li>
+            <li><a href="other_links/fishang.html"    data-i18n="menu_tools"     class="nav-link">Фишангҳои сиёсати пулӣ</a></li>
+            <li><a href="other_links/kumita_bmt.html" data-i18n="menu_committee" class="nav-link">Кумитаи сиёсати пулию қарзӣ</a></li>
+            <li><a href="other_links/samtho.html"     data-i18n="menu_strategy"  class="nav-link">Самтҳои асосии сиёсати пулию қарзӣ</a></li>
+
+            <li class="dropdown-sub">
+              <a href="#" data-i18n="menu_reports">Шарҳ ва интишорот</a>
+              <ul class="dropdown-menu">
+                <li><a href="other_links/sharhi_mohonai_tavarrum.html" data-i18n="menu_report_monthly_inflation" class="nav-link">Шарҳи моҳонаи таваррум</a></li>
+                <li><a href="other_links/sharhi_monetary.html"         data-i18n="menu_report_monetary"          class="nav-link">Шарҳи монетарӣ</a></li>
+                <li><a href="other_links/shahri-tav.html"              data-i18n="menu_report_inflation"         class="nav-link">Шарҳи таваррум</a></li>
+                <li><a href="other_links/macroeconomic.html"           data-i18n="menu_report_macro"             class="nav-link">Шарҳи макроиқтисодӣ</a></li>
+                
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </nav>
 
+  <!-- ===== MAIN ===== -->
   <main>
 
+    <!-- Section intro bar -->
     <div class="page-intro">
       <div class="container">
         <div class="page-intro__inner">
           <h1 class="section-heading" data-i18n="section_heading">Нишондиҳандаҳои монетарӣ</h1>
-          <span class="section-period" data-i18n="section_period">Сентябр 2026</span>
+          <span class="section-period" data-i18n="section_period">Март 2026</span>
         </div>
       </div>
     </div>
 
+    <!-- Stats cards -->
     <div class="stats-wrap">
       <div class="container">
         <div class="stats">
 
+          <!-- Card 1: Refinancing Rate -->
           <article class="statistic kpi-card rate-card">
             <a href="other_links/policy_rate.html" class="block-header nav-link">
               <span class="header-card-icon hci--rate">
@@ -58,13 +84,12 @@
             </a>
             <div class="statistic-body">
               <div class="kpi-row">
-                <div id="stat-rate-icon" class="kpi-icon kpi-icon--down" aria-hidden="true">
+                <div id="stat-rate-icon" class="kpi-icon kpi-icon--down">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="18 14 12 20 6 14"/></svg>
                 </div>
                 <div class="statistic-value"><span id="val-rate">7,00</span><span class="unit">%</span></div>
               </div>
               <div id="badge-rate" class="trend-badge trend-down">↓ −0,50 б.ф.</div>
-              <a id="last-decision" class="kpi-link" href="other_links/kumita_bmt.html#meeting" hidden></a>
             </div>
             <div class="statistic-footer">
               <a href="other_links/kumita_bmt.html#meeting" class="footer-zone nav-link">
@@ -73,13 +98,14 @@
                 </span>
                 <span class="fz-text">
                   <span class="fz-label" data-i18n="meeting_label">Ҷаласаи навбатии Кумита</span>
-                  <span class="fz-value" id="next-meeting">29.10.2026</span>
+                  <span class="fz-value">30.07.2026</span>
                 </span>
                 <svg class="fz-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
               </a>
             </div>
           </article>
 
+          <!-- Card 2: Annual Inflation -->
           <article class="statistic kpi-card inflation-card">
             <a href="other_links/inflation.html" class="block-header nav-link">
               <span class="header-card-icon hci--inflation">
@@ -87,18 +113,18 @@
               </span>
               <div class="block-header__left">
                 <span class="text-hover-effect-1" data-i18n="inflation_title">Таварруми солона</span>
-                <span class="subtitle" data-i18n="inflation_month">Сентябр 2026</span>
+                <span class="subtitle" data-i18n="inflation_month">Март 2026</span>
               </div>
               <svg class="header-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
             <div class="statistic-body">
               <div class="kpi-row">
-                <div id="stat-inflation-icon" class="kpi-icon kpi-icon--flat" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/></svg>
+                <div id="stat-inflation-icon" class="kpi-icon kpi-icon--up">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="4"/><polyline points="6 10 12 4 18 10"/></svg>
                 </div>
-                <div class="statistic-value"><span id="val-inflation">4,1</span><span class="unit">%</span></div>
+                <div class="statistic-value"><span id="val-inflation">3,4</span><span class="unit">%</span></div>
               </div>
-              <div id="badge-inflation" class="trend-badge trend-flat">Бетағйир нисбат ба моҳи гузашта</div>
+              <div id="badge-inflation" class="trend-badge trend-flat">= Дар ҳадаф</div>
             </div>
             <div class="statistic-footer">
               <a href="other_links/maksad.html#target" class="footer-zone nav-link">
@@ -114,6 +140,7 @@
             </div>
           </article>
 
+          <!-- Card 3: Chart -->
           <article class="statistic chart-card">
             <a href="other_links/charts.html" class="block-header nav-link">
               <span class="header-card-icon hci--chart">
@@ -126,37 +153,43 @@
               <svg class="header-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
             <div class="chart-content">
-              <canvas id="chartCanvas" role="img" aria-label="Тағйирёбии сатҳи таваррум"></canvas>
+              <canvas id="chartCanvas"></canvas>
             </div>
-            <div class="chart-tabs" role="tablist">
-              <button type="button" role="tab" aria-selected="true" aria-controls="chartCanvas" class="chart-tab active" data-index="0" style="--tab-color:var(--c-inflation)"><span class="chart-tab__dot"></span><span data-i18n="dot_inflation">Таваррум</span></button>
-              <button type="button" role="tab" aria-selected="false" aria-controls="chartCanvas" tabindex="-1" class="chart-tab" data-index="1" style="--tab-color:var(--c-rate)"><span class="chart-tab__dot"></span><span data-i18n="dot_rate">Меъёри бозтамвил</span></button>
-              <button type="button" role="tab" aria-selected="false" aria-controls="chartCanvas" tabindex="-1" class="chart-tab" data-index="2" style="--tab-color:var(--c-bonds)"><span class="chart-tab__dot"></span><span data-i18n="dot_bonds">Қоғазҳои қиматнок</span></button>
-              <button type="button" role="tab" aria-selected="false" aria-controls="chartCanvas" tabindex="-1" class="chart-tab" data-index="3" style="--tab-color:var(--c-interbank)"><span class="chart-tab__dot"></span><span data-i18n="dot_interbank">Байнибонкӣ</span></button>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-index="0" style="--tab-color:#3b82f6"><span class="chart-tab__dot"></span><span data-i18n="dot_inflation">Таваррум</span></button>
+              <button class="chart-tab" data-index="1" style="--tab-color:#1e40af"><span class="chart-tab__dot"></span><span data-i18n="dot_rate">Меъёри бозтамвил</span></button>
+              <button class="chart-tab" data-index="2" style="--tab-color:#22c55e"><span class="chart-tab__dot"></span><span data-i18n="dot_bonds">Қоғазҳои қиматнок</span></button>
+              <button class="chart-tab" data-index="3" style="--tab-color:#f59e0b"><span class="chart-tab__dot"></span><span data-i18n="dot_interbank">Байнибонкӣ</span></button>
 
             </div>
           </article>
 
-        </div>
-      </div>
-    </div>
+        </div><!-- .stats -->
+      </div><!-- .container -->
+    </div><!-- .stats-wrap -->
 
   </main>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span data-i18n="footer_copy">© 2026 Бонки Миллии Тоҷикистон. Ҳамаи ҳуқуқҳо ҳифз шудаанд.</span>
+      <span>© 2026 Бонки Миллии Тоҷикистон</span>
       <a href="https://nbt.tj" target="_blank" rel="noopener">nbt.tj</a>
     </div>
   </footer>
 
-  <script src="js/palette.js?v=a0f5aafd"></script>
-  <script src="js/data.js?v=3a44e24b"></script>
-  <script src="js/site-nav.js?v=f73c7ce0"></script>
-  <script src="data/meetings.js?v=055735d2"></script>
-  <script src="data/targets.js?v=259f5b20"></script>
-  <script src="js/script.js?v=4270acb1"></script>
-  <script src="js/home.js?v=4ed53366"></script>
+  <script src="js/script.js"></script>
+
+  <style>
+    /* Accent stripe + icon tint vars (default: colorful) */
+    .hci--rate,
+    .hci--inflation,
+    .hci--chart            { background: #dbeafe !important; color: #1e40af !important; }
+
+    /* fz-label */
+    .fz-label { font-size:.64rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+  </style>
+
 
 </body>
 </html>
