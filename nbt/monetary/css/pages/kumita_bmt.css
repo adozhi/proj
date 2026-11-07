@@ -204,4 +204,5 @@
 .nbt-mp .mpc-roster .mpc-member__role{ align-self: end; }
 
 }
+.nbt-mp .mpc-chip--empty{ visibility: hidden; }
 
