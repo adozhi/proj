@@ -6,7 +6,7 @@ import subprocess
 import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TOOLS = ROOT / 'tools'
-LAG_OK = {'date': 99, 'rate_date': 99, 'm0': 1, 'm1': 1, 'm2': 1, 'm4': 1}
+LAG_OK = {'date': 99, 'rate_date': 99}
 MAX_LAG = 1
 
 def step(title):

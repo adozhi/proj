@@ -1079,22 +1079,9 @@
   color: var(--text-3);
   max-width: 560px;
 }
-.nbt-mp .charts-toolbar{ display: flex; justify-content: flex-end; margin: 0 0 14px; }
 .nbt-mp .btn-chart--done{ color: #16a34a !important; border-color: #16a34a !important; }
 .nbt-mp .btn-chart:disabled{ opacity: 0.6; cursor: progress; }
 .nbt-mp .chart-card{ scroll-margin-top: 70px; }
-.nbt-mp .charts-toolbar{ justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-.nbt-mp .charts-toc{ display: flex; gap: 6px; flex-wrap: wrap; }
-.nbt-mp .charts-toc a{
-  font-size: 0.8rem; font-weight: 600; color: var(--text-2); text-decoration: none;
-  padding: 6px 12px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface);
-}
-.nbt-mp .charts-toc a:hover{ border-color: var(--blue); color: var(--blue); }
-.nbt-mp .charts-section{
-  font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 26px 0 12px;
-  padding-bottom: 6px; border-bottom: 2px solid var(--blue); scroll-margin-top: 70px;
-}
-.nbt-mp .charts-section:first-of-type{ margin-top: 6px; }
 .nbt-mp .demo-badge{
   display: inline-block; align-self: flex-start; margin-top: 4px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.02em;
@@ -1171,7 +1158,7 @@
 .nbt-mp .chart-error button{ margin-top: 12px; }
 .nbt-mp .doc-size{ font-size: 0.72rem; font-weight: 500; color: var(--text-muted); margin-left: 6px; white-space: nowrap; }
 @media print{
-.nbt-mp .page-header, .nbt-mp .section-nav, .nbt-mp .back-to-top, .nbt-mp .read-progress, .nbt-mp .lang-switcher, .nbt-mp .instrument-nav, .nbt-mp .cards-actions, .nbt-mp .card-toggle, .nbt-mp .chart-toolbar, .nbt-mp .charts-toolbar, .nbt-mp .date-range-wrap{ display: none !important; }
+.nbt-mp .page-header, .nbt-mp .section-nav, .nbt-mp .back-to-top, .nbt-mp .read-progress, .nbt-mp .lang-switcher, .nbt-mp .instrument-nav, .nbt-mp .cards-actions, .nbt-mp .card-toggle, .nbt-mp .chart-toolbar, .nbt-mp .date-range-wrap{ display: none !important; }
 .nbt-mp{ background: #fff; }
 .nbt-mp .instrument-card--collapsed .instrument-card__body{ display: block !important; height: auto !important; }
 .nbt-mp .instrument-card, .nbt-mp .chart-card{ break-inside: avoid; box-shadow: none !important; border: 1px solid #cbd5e1; }

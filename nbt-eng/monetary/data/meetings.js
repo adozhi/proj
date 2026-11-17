@@ -1,5 +1,28 @@
 window.NBT_MEETINGS = {
 
+  "2027": [
+    { iso: "2027-02-11",
+      tj: { date: "11 феврал с.2027" },
+      ru: { date: "11 февраля г.2027" },
+      en: { date: "11 February 2027" },
+    },
+    { iso: "2027-05-13",
+      tj: { date: "13 майи с.2027" },
+      ru: { date: "13 мая г.2027" },
+      en: { date: "13 May 2027" },
+    },
+    { iso: "2027-08-05",
+      tj: { date: "05 август с.2027" },
+      ru: { date: "05 августа г.2027" },
+      en: { date: "05 August 2027" },
+    },
+    { iso: "2027-10-21",
+      tj: { date: "21 октябр с.2027" },
+      ru: { date: "21 октября г.2027" },
+      en: { date: "21 October 2027" },
+    },
+  ],
+
   "2026": [
     { iso: "2026-01-29", effective: "2026-02-02",
       tj: { date: "29 январи с.2026",
@@ -43,7 +66,7 @@ window.NBT_MEETINGS = {
         presentation: { href: "", label: "30 July 2026" },
         resolution:   { href: "", label: "Decision №48" } },
     },
-    { iso: "2026-10-29",
+    { iso: "2026-10-29", effective: "2026-10-29",
       tj: { date: "29 октябр с.2026",
         summary:      { href: "", label: "29 октябр с.2026" },
         presentation: { href: "", label: "29 октябр с.2026" },
@@ -55,7 +78,7 @@ window.NBT_MEETINGS = {
       en: { date: "29 October 2026",
         summary:      { href: "", label: "29 October 2026" },
         presentation: { href: "", label: "29 October 2026" },
-        resolution:   { href: "", label: "Decision №" } },
+        resolution:   { href: "", label: "Decision №49" } },
     },
   ],
 
