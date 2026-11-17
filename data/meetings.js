@@ -757,7 +757,7 @@ window.NBT_MEETINGS = {
 window.nbtMeetings = function (lang) {
   const out = {};
   Object.keys(window.NBT_MEETINGS).forEach(y => {
-    out[y] = window.NBT_MEETINGS[y].map(m => Object.assign({ iso: m.iso }, m[lang] || m.tj));
+    out[y] = window.NBT_MEETINGS[y].map(m => Object.assign({ iso: m.iso, effective: m.effective }, m[lang] || m.tj));
   });
   return out;
 };
