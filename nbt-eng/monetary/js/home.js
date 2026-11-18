@@ -144,7 +144,7 @@
     setView();
     nbtLoadRows().then(rows => { ROWS = rows; renderBacks(); renderFooter(); renderTarget(); }).catch(() => {});
 
-    new MutationObserver(() => { renderBacks(); renderFooter(); renderTarget(); labelViews(); })
+    new MutationObserver(() => { renderBacks(); renderFooter(); renderTarget(); })
       .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   });
 })();
