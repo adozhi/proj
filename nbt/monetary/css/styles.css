@@ -68,62 +68,6 @@
   justify-content: space-between;
   gap: 16px;
 }
-.nbt-mp .header-brand{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-  min-width: 0;
-}
-.nbt-mp .header-emblem{
-  height: 46px;
-  width: auto;
-  min-width: 46px;
-  background: rgba(255,255,255,0.96);
-  border-radius: 8px;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-.nbt-mp .header-logo{
-  height: 100%;
-  width: auto;
-  max-width: 64px;
-  object-fit: contain;
-  display: block;
-}
-.nbt-mp .header-logo-fallback{
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: var(--navy);
-}
-.nbt-mp .header-text{
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-.nbt-mp .header-name{
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.nbt-mp .header-divider{
-  width: 1px;
-  height: 20px;
-  background: rgba(201,168,76,0.35);
-  flex-shrink: 0;
-}
-.nbt-mp .header-tagline{ display: none; }
 .nbt-mp .lang-switcher{
   display: flex;
   gap: 3px;
@@ -260,7 +204,6 @@
   padding: 14px 0;
   flex-wrap: wrap;
 }
-.nbt-mp .page-intro__left{ display: flex; flex-direction: column; gap: 2px; }
 .nbt-mp .section-heading{
   font-size: 1.1rem;
   font-weight: 700;
@@ -270,12 +213,6 @@
   font-size: 0.76rem;
   color: var(--text-muted);
   font-weight: 400;
-}
-.nbt-mp .page-intro__right{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
 }
 .nbt-mp .section-period{
   font-size: 0.78rem;
@@ -389,16 +326,6 @@
   width: fit-content;
 }
 .nbt-mp .block-header .subtitle:empty{ display: none; }
-.nbt-mp .block-header__badge{
-  padding: 2px 7px;
-  border-radius: 10px;
-  font-size: 0.65rem;
-  font-weight: 600;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.nbt-mp .badge-stable{ background: #dbeafe; color: #1d4ed8; }
-.nbt-mp .badge-down{ background: #d1fae5; color: #065f46; }
 .nbt-mp .statistic-body{
   flex: 1;
   display: flex;
@@ -428,7 +355,6 @@
 }
 .nbt-mp .kpi-icon--down{ background: #dcfce7; color: #15803d; }
 .nbt-mp .kpi-icon--up{ background: #f7e4e3; color: #c0504d; }
-.nbt-mp .kpi-icon--stable{ background: #eff6ff; color: #2563eb; }
 .nbt-mp .kpi-icon--flat{ background: #f1f5f9; color: #64748b; }
 .nbt-mp .statistic-value{
   font-size: 4rem;
@@ -576,36 +502,6 @@
   border-color: var(--border-dark);
   color: var(--text-2);
 }
-.nbt-mp .target-bar-wrap{
-  margin-bottom: 0;
-}
-.nbt-mp .target-bar-label{
-  font-size: 0.7rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-bottom: 5px;
-}
-.nbt-mp .target-bar{
-  height: 6px;
-  background: var(--border);
-  border-radius: 3px;
-  position: relative;
-  overflow: visible;
-}
-.nbt-mp .target-bar__fill{
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #16a34a, #3b82f6);
-}
-.nbt-mp .target-bar__needle{
-  position: absolute;
-  top: -3px;
-  width: 2px;
-  height: 12px;
-  background: var(--navy);
-  border-radius: 1px;
-  transform: translateX(-50%);
-}
 .nbt-mp .site-footer{
   background: #0f172a;
   color: rgba(255,255,255,0.40);
@@ -631,11 +527,6 @@
 
 }
 @media (max-width: 700px){
-.nbt-mp .header-tagline{ display: none; }
-.nbt-mp .header-divider{ display: none; }
-.nbt-mp .header-name{ font-size: 0.84rem; }
-.nbt-mp .header-emblem{ height: 36px; padding: 4px; }
-.nbt-mp .header-logo{ max-width: 52px; }
 .nbt-mp .stats{ grid-template-columns: 1fr; }
 .nbt-mp .statistic.chart-card{ grid-column: auto; }
 .nbt-mp .statistic-value{ font-size: 3.2rem; }
@@ -677,72 +568,6 @@
 
 }
 .nbt-mp{ --c-inflation: #3b82f6; --c-rate: #1e40af; --c-bonds: #22c55e; --c-interbank: #f59e0b; }
-.nbt-mp .kpi-link{
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: var(--text-3);
-  text-decoration: none;
-}
-.nbt-mp .kpi-link:hover{ color: var(--blue); text-decoration: underline; }
-.nbt-mp .kpi-link::after{ content: ' →'; }
-.nbt-mp .events-wrap{ padding: 0 0 28px; }
-.nbt-mp .events{
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-xs);
-  padding: 14px 18px 16px;
-}
-.nbt-mp .events__title{
-  font-size: 0.74rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-  margin: 0 0 10px;
-}
-.nbt-mp .events__list{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.nbt-mp .events__item a{
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 10px;
-  border-radius: var(--r-md);
-  text-decoration: none;
-  color: var(--text);
-  transition: background var(--transition);
-}
-.nbt-mp .events__item a:hover{ background: var(--blue-light); }
-.nbt-mp .events__item a:focus-visible{ outline: 2px solid var(--blue); outline-offset: -2px; }
-.nbt-mp .events__date{
-  flex-shrink: 0;
-  width: 48px;
-  text-align: center;
-  border-radius: var(--r-sm);
-  background: #dbeafe;
-  color: var(--navy-3);
-  padding: 4px 0 5px;
-  line-height: 1.1;
-}
-.nbt-mp .events__day{ display: block; font-size: 1.15rem; font-weight: 800; }
-.nbt-mp .events__month{ display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
-.nbt-mp .events__item--meeting .events__date{ background: var(--navy-3); color: #fff; }
-.nbt-mp .events__text{ display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.nbt-mp .events__type{ font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
-.nbt-mp .events__name{ font-size: 0.84rem; font-weight: 600; color: var(--text-2); line-height: 1.3; }
-@media (max-width: 1100px){
-.nbt-mp .events__list{ grid-template-columns: 1fr 1fr; }
- }
-@media (max-width: 700px){
-.nbt-mp .events__list{ grid-template-columns: 1fr; }
- }
 .nbt-mp .fz-label{ font-size: max(0.64rem, 11px); }
 .nbt-mp .block-header .subtitle{ font-size: max(0.63rem, 11px); }
 @media (pointer: coarse){
@@ -750,7 +575,7 @@
 
 }
 @media print{
-.nbt-mp .site-header, .nbt-mp .navbar, .nbt-mp .chart-tabs, .nbt-mp .events-wrap{ display: none !important; }
+.nbt-mp .site-header, .nbt-mp .navbar, .nbt-mp .chart-tabs{ display: none !important; }
 .nbt-mp .statistic{ box-shadow: none !important; break-inside: avoid; }
 
 }

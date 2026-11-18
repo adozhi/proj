@@ -4,17 +4,17 @@
           interbank: 'Байнибонкӣ', decisions: 'Қарорҳои охирин', hold: 'бетағйир', pp: 'б.ф.', toCommittee: 'Кумита →', toRate: 'Меъёри бозтамвил →',
           groups: 'Таварруми солона аз рӯи гурӯҳҳо', food: 'Хӯрокворӣ', nonfood: 'Ғайрихӯрокворӣ', services: 'Хизматрасонӣ',
           monthly: 'Таваррум дар моҳ', target: 'Ҳадаф', toInflation: 'Таваррум →',
-          band: 'ҳадаф', corr: 'долон', last: 'Қарори охирини Кумита', views: ['Классикӣ', 'Тира', 'Хат'], view: 'Намуд' },
+          band: 'ҳадаф', corr: 'долон', last: 'Қарори охирини Кумита' },
     ru: { more: 'Подробнее', close: 'Закрыть', corridor: 'Процентный коридор', credit: 'Кредит овернайт', rate: 'Ставка рефинансирования', deposit: 'Депозит овернайт',
           interbank: 'Межбанк', decisions: 'Последние решения', hold: 'без изменений', pp: 'п.п.', toCommittee: 'Комитет →', toRate: 'Ставка рефинансирования →',
           groups: 'Годовая инфляция по группам', food: 'Продовольственные', nonfood: 'Непродовольственные', services: 'Услуги',
           monthly: 'Инфляция за месяц', target: 'Цель', toInflation: 'Инфляция →',
-          band: 'цель', corr: 'коридор', last: 'Последнее решение Комитета', views: ['Классический', 'Тёмный', 'Лента'], view: 'Вид' },
+          band: 'цель', corr: 'коридор', last: 'Последнее решение Комитета' },
     en: { more: 'Details', close: 'Close', corridor: 'Interest rate corridor', credit: 'Overnight loan', rate: 'Refinancing rate', deposit: 'Overnight deposit',
           interbank: 'Interbank', decisions: 'Latest decisions', hold: 'unchanged', pp: 'pp', toCommittee: 'Committee →', toRate: 'Refinancing rate →',
           groups: 'Annual inflation by group', food: 'Food', nonfood: 'Non-food', services: 'Services',
           monthly: 'Monthly inflation', target: 'Target', toInflation: 'Inflation →',
-          band: 'target', corr: 'corridor', last: 'Latest Committee decision', views: ['Classic', 'Dark', 'Strip'], view: 'View' },
+          band: 'target', corr: 'corridor', last: 'Latest Committee decision' },
   };
   const EMBED = window.NBT_EMBED || null;
   const tnum = v => { const x = Number.isInteger(+v) ? String(+v) : (+v).toFixed(1); return lang() === 'en' ? x : x.replace('.', ','); };
@@ -131,18 +131,9 @@
 
   window.nbtHomeFooter = () => renderFooter();
 
-  function setView(v) {
-
+  function setView() {
     const host = (EMBED && document.querySelector((EMBED.root || '') + ' .nbt-home')) || document.body;
-    host.classList.remove('view-1', 'view-2', 'view-3');
-    host.classList.add('view-' + v);
-    document.querySelectorAll('#viewSwitch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === String(v))));
-  }
-  function labelViews() {
-    const t = L(), sw = document.getElementById('viewSwitch');
-    if (!sw) return;
-    sw.setAttribute('aria-label', t.view);
-    sw.querySelectorAll('button').forEach((b, i) => { b.title = `${t.view}: ${t.views[i]}`; b.setAttribute('aria-label', b.title); });
+    host.classList.add('view-3');
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -150,12 +141,7 @@
     if (rateCard) setupCard(rateCard, 'rate');
     if (inflCard) setupCard(inflCard, 'inflation');
     renderBacks();
-    labelViews();
-    let v = '3';
-    if (EMBED && EMBED.view) v = String(EMBED.view);
-    setView(v);
-    const sw = document.getElementById('viewSwitch');
-    if (sw) sw.addEventListener('click', e => { const b = e.target.closest('button[data-view]'); if (b) setView(b.dataset.view); });
+    setView();
     nbtLoadRows().then(rows => { ROWS = rows; renderBacks(); renderFooter(); renderTarget(); }).catch(() => {});
 
     new MutationObserver(() => { renderBacks(); renderFooter(); renderTarget(); labelViews(); })

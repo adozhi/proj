@@ -12,26 +12,6 @@
 .nbt-mp .section li{ margin-bottom: 0.45em; color: #475569; font-size: 0.92rem; line-height: 1.65; }
 .nbt-mp .section li:last-child{ margin-bottom: 0; }
 .nbt-mp .expandable-content h2{ font-size: 1rem; font-weight: 700; color: #1e293b; margin: 1em 0 0.6em; padding-bottom: 0.5em; border-bottom: 2px solid #3b82f6; }
-.nbt-mp .stats-card{
-  background: var(--brand);
-  border-radius: 16px;
-  padding: 28px 32px;
-  margin: 0 0 28px;
-  box-shadow: 0 8px 32px rgba(30,64,175,0.28);
-  position: relative;
-  overflow: hidden;
-}
-.nbt-mp .stats-card::after{
-  content: '';
-  position: absolute;
-  top: -50px; right: -50px;
-  width: 180px; height: 180px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-  pointer-events: none;
-}
-.nbt-mp .stats-card h3{ font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.90); text-transform: uppercase; letter-spacing: 0.10em; margin: 0 0 14px; }
-.nbt-mp .stats-card h4{ font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.80); margin: 0 0 14px; }
 .nbt-mp .stats-value{ font-size: 4.2rem; font-weight: 800; color: #fff; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: proportional-nums; }
 .nbt-mp .stats-badge{ display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(34,197,94,0.18); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
 .nbt-mp .show-more{

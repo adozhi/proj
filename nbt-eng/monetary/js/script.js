@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
       meeting_label:         'Ҷаласаи навбатии Кумита',
       target_label:          'Ҳадафи таваррум',
       target_value:          '5% (±2 б.ф.)',
-      events_title:          'Рӯйдодҳои наздик',
     },
     ru: {
       header_name:    'Национальный банк Таджикистана',
@@ -75,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
       meeting_label:         'Следующее заседание',
       target_label:          'Цель по инфляции',
       target_value:          '5% (±2 п.п.)',
-      events_title:          'Ближайшие события',
     },
     en: {
       header_name:    'National Bank of Tajikistan',
@@ -105,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
       meeting_label:         'Next meeting',
       target_label:          'Inflation target',
       target_value:          '5% (±2 pp)',
-      events_title:          'Upcoming events',
     },
   };
 
@@ -317,48 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function todayISO() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  }
-
-  const fmtISO = iso => iso.split('-').reverse().join('.');
-
-  function renderLastDecision(lang) {
-    const el = document.getElementById('last-decision');
-    if (!el || !window.NBT_MEETINGS) return;
-    const today = todayISO();
-    const past  = [].concat(...Object.values(window.NBT_MEETINGS)).filter(m => m.iso < today).sort((a, b) => a.iso < b.iso ? 1 : -1);
-    if (!past.length) { el.hidden = true; return; }
-    const m   = past[0];
-    const doc = (m[lang] || m.tj);
-    const href = doc.summary?.href || doc.resolution?.href;
-    const label = lang === 'en' ? 'Latest decision' : lang === 'ru' ? 'Последнее решение' : 'Қарори охирин';
-    el.textContent = `${label}: ${fmtISO(m.iso)}`;
-    el.href = href || pagePath('kumita_bmt', lang) + '#meeting';
-    el.hidden = false;
-  }
-
-  function renderEvents(lang) {
-    const list = document.getElementById('events-list');
-    if (!list) return;
-    const today = todayISO();
-    const meetingName = { tj: 'Ҷаласаи Кумитаи сиёсати пулию қарзӣ', ru: 'Заседание Комитета по денежно-кредитной политике', en: 'Monetary Policy Committee meeting' };
-    const typeName = {
-      meeting:     { tj: 'Ҷаласа',  ru: 'Заседание',  en: 'Meeting' },
-      publication: { tj: 'Интишор', ru: 'Публикация', en: 'Publication' },
-    };
-    const events = [];
-    Object.values(window.NBT_MEETINGS || {}).forEach(year => year.forEach(m => {
-      if (m.iso >= today) events.push({ date: m.iso, type: 'meeting', name: meetingName[lang], href: pagePath('kumita_bmt', lang) + '#meeting' });
-    }));
-    events.sort((a, b) => a.date < b.date ? -1 : 1);
-    const shown = events.slice(0, 3);
-    list.closest('.events-wrap').hidden = !shown.length;
-    list.innerHTML = shown.map(e => {
-      const [y, mo, d] = e.date.split('-').map(Number);
-      return `<li class="events__item events__item--${e.type}"><a href="${e.href}">
-          <span class="events__date"><span class="events__day">${d}</span><span class="events__month">${MONTH_NAMES[lang][mo - 1]} ${String(y).slice(2)}</span></span>
-          <span class="events__text"><span class="events__type">${typeName[e.type][lang]}</span><span class="events__name">${e.name}</span></span>
-        </a></li>`;
-    }).join('');
   }
 
   function renderMeeting(lang) {
@@ -715,8 +670,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.nbtRenderMainMenu) window.nbtRenderMainMenu(menuEl, lang);
     renderCards(lang);
     renderMeeting(lang);
-    renderLastDecision(lang);
-    renderEvents(lang);
     updateChart(currentSlide);
   }
 

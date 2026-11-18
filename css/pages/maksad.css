@@ -14,8 +14,6 @@
   .styled-table tbody tr:nth-child(even) { background: var(--surface-alt); }
   .styled-table tbody tr:hover { background: #eff6ff; }
 
-  img.content-img { width: 100%; border-radius: 10px; margin: 1.2rem 0; }
-
   .img-figure { margin: 1.4rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
   .img-figure__label { background: var(--brand); color: #fff; padding: 10px 16px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em; }
   .img-figure img { display: block; width: 100%; border-radius: 0; margin: 0; }
@@ -95,42 +93,7 @@
     .timeline-step::before { left: -29px; width: 13px; height: 13px; top: 9px; }
   }
 
-  .corridor-visual {
-    display: flex; flex-direction: column;
-    max-width: 520px;
-    border-radius: 12px; overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 1.4rem;
-  }
-  .corridor-level {
-    display: flex; align-items: center;
-    padding: 14px 20px; gap: 16px;
-  }
-  .corridor-level--upper  { background: #fbf1f0; border-bottom: 2px solid #e2a9a6; }
-  .corridor-level--center { background: #eff6ff; border-bottom: 2px solid #93c5fd; }
-  .corridor-level--lower  { background: #f0fdf4; }
-  .corridor-level__rate {
-    font-size: 1.65rem; font-weight: 800;
-    font-variant-numeric: tabular-nums;
-    min-width: 68px; line-height: 1;
-  }
-  .corridor-level--upper  .corridor-level__rate { color: #c0504d; }
-  .corridor-level--center .corridor-level__rate { color: #2563eb; }
-  .corridor-level--lower  .corridor-level__rate { color: #16a34a; }
-  .corridor-level__info { flex: 1; font-size: 0.81rem; color: var(--text-2); line-height: 1.45; }
-  .corridor-level__info strong { display: block; color: var(--text-1,#1e293b); font-size: 0.84rem; }
-  .corridor-level__delta {
-    font-size: 0.8rem; font-weight: 700;
-    padding: 3px 8px; border-radius: 6px;
-    white-space: nowrap;
-  }
-  .corridor-level--upper  .corridor-level__delta { background: #f7e4e3; color: #c0504d; }
-  .corridor-level--center .corridor-level__delta { background: #dbeafe; color: #2563eb; }
-  .corridor-level--lower  .corridor-level__delta { background: #dcfce7; color: #16a34a; }
-
 .info-box { background: var(--blue-light, #eff6ff); border: 1px solid var(--blue, #2563eb); border-radius: 10px; padding: 16px 20px; margin: 1.2rem 0; }
-.highlight { color: var(--blue, #2563eb); font-weight: 600; }
 
 .img-figure:has(.tm-diagram) { border: 0; box-shadow: none; border-radius: 0; background: transparent; overflow: visible; }
 .img-figure:has(.tm-diagram) .img-figure__label { background: none; color: var(--navy); padding: 0 0 12px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
